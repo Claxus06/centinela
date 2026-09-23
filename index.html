@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070b16">
+<meta name="description" content="Centinela — suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, geolocaliza IPs y genera planes de acción.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Centinela">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>Centinela — Suite de Ciberseguridad de Dominios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070b16; --bg-grad1:#0d1430; --bg-grad2:#070a13;
+    --card:rgba(23,31,58,.72); --card-solid:#151d3b; --card2:#1b2547;
+    --line:rgba(80,98,160,.28); --line2:#26315e;
+    --txt:#eef1ff; --muted:#9aa7cf; --muted2:#6b78a3;
+    --accent:#5b8cff; --accent2:#8ab0ff; --accent-glow:rgba(91,140,255,.45);
+    --ok:#2fd27a; --okbg:rgba(20,64,42,.5); --okbd:#1e6b45;
+    --warn:#f2b134; --warnbg:rgba(64,50,12,.5); --warnbd:#7a5f15;
+    --fail:#ff5b52; --failbg:rgba(64,20,18,.5); --failbd:#8a2f29;
+    --info:#3fc4e6; --infobg:rgba(14,52,66,.5); --infobd:#1d5a70;
+    --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    --radius:16px; --shadow:0 10px 40px rgba(0,0,0,.35);
+  }
+  html[data-theme="light"]{
+    --bg:#eef2fb; --bg-grad1:#dfe7fb; --bg-grad2:#eef2fb;
+    --card:rgba(255,255,255,.82); --card-solid:#ffffff; --card2:#f1f4fd;
+    --line:rgba(90,110,170,.25); --line2:#dbe2f5;
+    --txt:#141b32; --muted:#5a6690; --muted2:#8a94b8;
+    --okbg:#e4f8ee; --warnbg:#fdf3dd; --failbg:#fde4e2; --infobg:#e2f5fb;
+    --shadow:0 10px 30px rgba(40,60,120,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 600px at 82% -8%,var(--bg-grad1),transparent 60%),
+      radial-gradient(900px 500px at 0% 8%,rgba(120,80,220,.16),transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--txt);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;
+  }
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1120px;margin:0 auto;padding:26px 16px 90px}
+
+  /* Header */
+  header.top{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+  .logo{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#6f9bff,#7a5bff);display:grid;place-items:center;font-size:26px;box-shadow:0 8px 26px var(--accent-glow);flex:0 0 auto}
+  .htext h1{font-size:23px;margin:0;letter-spacing:.2px;font-weight:800}
+  .htext p{color:var(--muted);font-size:13px;margin:2px 0 0}
+  .htext .grad{background:linear-gradient(90deg,#8ab0ff,#b79bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .themebtn{margin-left:auto;background:var(--card);border:1px solid var(--line);color:var(--txt);width:42px;height:42px;border-radius:12px;cursor:pointer;font-size:18px;display:grid;place-items:center;backdrop-filter:blur(8px)}
+  .themebtn:hover{border-color:var(--accent)}
+
+  .glass{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+
+  /* Search panel */
+  .search{padding:20px}
+  .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.grow{flex:1 1 300px}
+  .field.res{flex:0 1 230px}
+  label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+  .inputwrap{position:relative}
+  .inputwrap .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:16px}
+  input[type=text],select{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:13px 14px;font-size:15px;font-family:var(--sans);outline:none;width:100%;transition:.15s}
+  .inputwrap input{padding-left:38px}
+  input[type=text]:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+  select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239aa7cf' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+  .btn{background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;color:#fff;font-weight:700;font-size:15px;padding:13px 26px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:.15s;box-shadow:0 6px 20px var(--accent-glow);display:inline-flex;align-items:center;gap:8px}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+  .btn.ghost{background:var(--card2);border:1px solid var(--line);color:var(--txt);box-shadow:none;font-weight:600;padding:10px 16px;font-size:13.5px}
+  .btn.ghost:hover{border-color:var(--accent);filter:none}
+  .advtoggle{margin-top:12px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px}
+  .advtoggle:hover{color:var(--txt)}
+  .adv{display:none;margin-top:12px;gap:12px;flex-wrap:wrap}
+  .adv.open{display:flex}
+  .hint{font-size:11.5px;color:var(--muted2)}
+  .examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted);align-items:center}
+  .chip{background:var(--card2);border:1px solid var(--line);padding:5px 12px;border-radius:20px;cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--accent);color:var(--txt)}
+
+  /* progress */
+  #status{margin-top:16px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px}
+  .spinner{width:16px;height:16px;border:2.5px solid var(--accent-glow);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .barwrap{height:6px;background:var(--card2);border-radius:6px;overflow:hidden;margin-top:10px;display:none}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#5b8cff,#8ab0ff,#b79bff);transition:width .3s;box-shadow:0 0 12px var(--accent-glow)}
+
+  /* Mode switch */
+  .modeswitch{display:flex;flex-wrap:wrap;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;margin-bottom:16px;backdrop-filter:blur(10px)}
+  .modebtn{flex:1 1 auto}
+  .modebtn{flex:1;background:transparent;border:none;color:var(--muted);font-family:var(--sans);font-weight:700;font-size:13.5px;padding:11px 14px;border-radius:10px;cursor:pointer;transition:.15s}
+  .modebtn:hover{color:var(--txt)}
+  .modebtn.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;box-shadow:0 4px 14px var(--accent-glow)}
+  /* Phishing risk card */
+  .phishcard{padding:22px;margin-top:20px}
+  .phrow{display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center}
+  @media(max-width:680px){.phrow{grid-template-columns:1fr;text-align:center}}
+  .gauge{position:relative;width:160px;height:160px;margin:0 auto}
+  .gauge .num{position:absolute;inset:0;display:grid;place-items:center}
+  .gauge .num b{font-size:44px;font-weight:800;line-height:1}
+  .gauge .num small{font-size:11px;color:var(--muted);display:block}
+  .phverdict{font-size:20px;font-weight:800;margin-bottom:3px}
+  .phurl{font-family:var(--mono);font-size:12.5px;color:var(--muted);word-break:break-all;margin-bottom:12px}
+  .repcard{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card2);transition:.15s;text-decoration:none;color:var(--txt)}
+  .repcard:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+  .repcard .ri{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:17px;background:var(--card);flex:0 0 auto}
+  .repcard b{font-size:14px;display:block}
+  .repcard span{font-size:11.5px;color:var(--muted)}
+  .repgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  @media(max-width:640px){.repgrid{grid-template-columns:1fr}}
+  .reptext{background:var(--bg-grad2);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--mono);font-size:12px;color:var(--txt);white-space:pre-wrap;word-break:break-word;position:relative;margin-top:6px}
+  html[data-theme="light"] .reptext{background:#f4f7ff}
+  /* Action plan */
+  #actionPlan{margin-top:16px}
+  .applist{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+  .apitem{background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:13px 15px}
+  .apitem.fail{border-left-color:var(--fail)}.apitem.warn{border-left-color:var(--warn)}.apitem.info{border-left-color:var(--info)}
+  .aphead{display:flex;align-items:flex-start;gap:11px}
+  .apnum{width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;flex:0 0 auto}
+  .apitem.fail .apnum{background:var(--fail)}.apitem.warn .apnum{background:var(--warn)}.apitem.info .apnum{background:var(--info)}
+  .apmeta{font-size:12px;color:var(--muted);margin:8px 0 4px}
+  .apmeta code{background:var(--bg-grad2);padding:1px 6px;border-radius:5px;font-family:var(--mono);font-size:11.5px}
+  /* Geolocation module */
+  .geocard{padding:0;margin-top:20px;overflow:hidden}
+  .geomap{width:100%;height:340px;border:0;display:block;background:var(--card2)}
+  .geohead{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .geoflag{font-size:42px;line-height:1;flex:0 0 auto}
+  .geohead .gh b{font-size:20px;font-weight:800;display:block}
+  .geohead .gh span{color:var(--muted);font-size:13px;font-family:var(--mono)}
+  .geobody{padding:18px 20px}
+  .geogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:8px}
+  .geotile{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .geotile .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted2);font-weight:700;margin-bottom:3px}
+  .geotile .val{font-size:14.5px;font-weight:600;word-break:break-word}
+  .geotile .val small{font-weight:400;color:var(--muted);font-size:12px}
+  .lookgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;margin-top:8px}
+  /* Blacklist alert banner */
+  #blAlert{display:none;margin-top:20px}
+  .blalert{border-radius:14px;background:linear-gradient(135deg,rgba(255,91,82,.18),rgba(255,91,82,.08));border:1px solid var(--failbd);box-shadow:0 8px 30px rgba(255,91,82,.2);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 8px 30px rgba(255,91,82,.16)}50%{box-shadow:0 8px 38px rgba(255,91,82,.34)}}
+  .blalert-in{display:flex;align-items:center;gap:14px;padding:16px 18px}
+  .blbig{font-size:34px;flex:0 0 auto}
+  .blalert-in b{display:block;font-size:16px;color:#ff9d97;margin-bottom:2px}
+  .blalert-in span{font-size:13px;color:var(--txt)}
+  /* Dashboard */
+  #dash{display:none;margin-top:20px}
+  .dashgrid{display:grid;grid-template-columns:230px 1fr;gap:20px;padding:22px}
+  @media(max-width:680px){.dashgrid{grid-template-columns:1fr;text-align:center}}
+  .ring{position:relative;width:190px;height:190px;margin:0 auto}
+  .ring svg{transform:rotate(-90deg);filter:drop-shadow(0 0 10px var(--accent-glow))}
+  .ring .num{position:absolute;inset:0;display:grid;place-items:center}
+  .ring .num b{font-size:52px;line-height:1;font-weight:800}
+  .ring .num small{font-size:12px;color:var(--muted);display:block;margin-top:2px}
+  .ring .num .grade{font-size:13px;font-weight:700;margin-top:6px;letter-spacing:1px}
+  .verdict{font-size:19px;font-weight:800;margin-bottom:3px}
+  .vdom{color:var(--muted);font-size:13.5px;margin-bottom:14px;font-family:var(--mono)}
+  .kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .kpi{flex:1 1 90px;min-width:88px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 12px;text-align:center}
+  .kpi b{font-size:24px;display:block;line-height:1}
+  .kpi span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .kpi.ok b{color:var(--ok)}.kpi.warn b{color:var(--warn)}.kpi.fail b{color:var(--fail)}.kpi.neut b{color:var(--muted)}
+  .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted2);justify-content:flex-start}
+  @media(max-width:680px){.meta{justify-content:center}}
+  .meta b{color:var(--muted)}
+  .dashbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:flex-end}
+  @media(max-width:680px){.dashbtns{justify-content:center}}
+
+  /* Filter tabs */
+  .tabs{display:none;gap:8px;flex-wrap:wrap;margin:20px 0 4px}
+  .tab{background:var(--card);border:1px solid var(--line);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.15s;backdrop-filter:blur(8px);display:inline-flex;align-items:center;gap:7px}
+  .tab:hover{color:var(--txt);border-color:var(--accent)}
+  .tab.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 4px 14px var(--accent-glow)}
+  .tab .cnt{background:rgba(255,255,255,.18);border-radius:10px;padding:0 7px;font-size:11px}
+  .tab:not(.active) .cnt{background:var(--card2)}
+
+  /* Result sections */
+  #results{margin-top:14px;display:flex;flex-direction:column;gap:13px}
+  .section{border-radius:14px;overflow:hidden;transition:.2s;animation:pop .35s ease both}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .section.hide{display:none}
+  .shead{display:flex;align-items:center;gap:13px;padding:15px 17px;cursor:pointer;user-select:none;transition:.15s}
+  .shead:hover{background:var(--card2)}
+  .sicon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:var(--card2);border:1px solid var(--line);flex:0 0 auto}
+  .stitle{display:flex;flex-direction:column;min-width:0}
+  .stitle b{font-size:15.5px;font-weight:700}
+  .stitle small{color:var(--muted);font-size:12.5px}
+  .sledge{margin-left:auto;display:flex;align-items:center;gap:11px}
+  .badge{font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:20px;letter-spacing:.4px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .badge .dot{width:7px;height:7px;border-radius:50%}
+  .b-ok{background:var(--okbg);color:#7ff0b0;border:1px solid var(--okbd)}.b-ok .dot{background:var(--ok)}
+  .b-warn{background:var(--warnbg);color:#ffd97a;border:1px solid var(--warnbd)}.b-warn .dot{background:var(--warn)}
+  .b-fail{background:var(--failbg);color:#ff9d97;border:1px solid var(--failbd)}.b-fail .dot{background:var(--fail)}
+  .b-info{background:var(--infobg);color:#8fe1f5;border:1px solid var(--infobd)}.b-info .dot{background:var(--info)}
+  .b-neutral{background:var(--card2);color:var(--muted);border:1px solid var(--line)}.b-neutral .dot{background:var(--muted2)}
+  .chev{color:var(--muted2);transition:.25s;font-size:12px}
+  .section.open .chev{transform:rotate(180deg)}
+  .sbody{max-height:0;overflow:hidden;transition:max-height .3s ease;border-top:1px solid transparent}
+  .section.open .sbody{max-height:4000px;border-top-color:var(--line)}
+  .sbodyin{padding:14px 17px 18px}
+  .findings{list-style:none;padding:0;margin:0}
+  .findings li{display:flex;gap:10px;padding:8px 0;font-size:13.6px;align-items:flex-start;border-bottom:1px dashed var(--line)}
+  .findings li:last-child{border-bottom:none}
+  .findings .ic{flex:0 0 20px;height:20px;font-size:12px;display:grid;place-items:center;border-radius:6px;margin-top:1px}
+  .f-ok .ic{color:var(--ok);background:var(--okbg)}.f-warn .ic{color:var(--warn);background:var(--warnbg)}
+  .f-fail .ic{color:var(--fail);background:var(--failbg)}.f-info .ic{color:var(--info);background:var(--infobg)}
+  .findings b{color:var(--txt);font-weight:600}
+  .findings .why{color:var(--muted);display:block;font-size:12.6px;margin-top:2px;line-height:1.55}
+  .subh{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted2);font-weight:800;margin:16px 0 6px}
+  .kv{width:100%;border-collapse:collapse;font-size:13.4px}
+  .kv td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  .kv td:first-child{color:var(--muted);white-space:nowrap;width:180px;font-weight:600}
+  .kv tr:last-child td{border-bottom:none}
+  .raw{background:var(--bg-grad2);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-family:var(--mono);font-size:12.3px;color:var(--accent2);white-space:pre-wrap;word-break:break-all;position:relative;margin-top:4px}
+  html[data-theme="light"] .raw{color:#3350a8;background:#f4f7ff}
+  .raw .copy{position:absolute;top:7px;right:7px;font-size:10.5px;padding:3px 9px;background:var(--card2);border:1px solid var(--line);border-radius:7px;color:var(--muted);cursor:pointer;font-family:var(--sans)}
+  .raw .copy:hover{color:var(--txt);border-color:var(--accent)}
+  .lookup-tree{font-family:var(--mono);font-size:12.2px;color:var(--muted);background:var(--bg-grad2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;white-space:pre-wrap;line-height:1.75;margin-top:4px}
+  html[data-theme="light"] .lookup-tree{background:#f4f7ff}
+  .tag{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:7px;padding:2px 8px;font-family:var(--mono);font-size:11.6px;margin:2px 4px 2px 0}
+  .tag.g{border-color:var(--okbd);color:#7ff0b0}.tag.r{border-color:var(--failbd);color:#ff9d97}.tag.y{border-color:var(--warnbd);color:#ffd97a}
+  .mini{width:100%;border-collapse:collapse;font-size:12.8px;margin-top:4px}
+  .mini td,.mini th{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left}
+  .mini th{color:var(--muted2);font-size:11px;text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+  .st-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+  footer{margin-top:30px;color:var(--muted2);font-size:11.5px;text-align:center;line-height:1.8}
+
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  .modebtn:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,.chip:focus-visible,.repcard:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+  #printHead{border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:16px}
+  #printHead b{font-size:16px} #printHead span{color:#555;font-size:12px}
+  @media print{
+    body{background:#fff;color:#111}
+    .search,.tabs,.dashbtns,#status,.barwrap,.chev,.raw .copy,.themebtn,.advtoggle,.adv,.modeswitch,#settings,#histWrap,.examples{display:none!important}
+    .glass,.section{border-color:#ccc;background:#fff;box-shadow:none;backdrop-filter:none}
+    .sbody{max-height:none!important} .shead{cursor:default}
+    .section.hide{display:block!important}
+    #printHead{display:block!important}
+    .geomap{height:260px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="printHead" style="display:none"></div>
+  <header class="top">
+    <div class="logo">🛡️</div>
+    <div class="htext">
+      <h1><span class="grad">Centinela</span></h1>
+      <p>Suite de ciberseguridad · Dominios &amp; correo · Phishing · Geolocalización IP · en tiempo real</p>
+    </div>
+    <button class="themebtn" id="setBtn" title="Ajustes" style="margin-left:auto">⚙️</button>
+    <button class="themebtn" id="themeBtn" title="Cambiar tema" style="margin-left:0">🌙</button>
+    <button class="themebtn" id="langBtn" title="Idioma / Language" style="margin-left:0;font-size:13px;font-weight:800">ES</button>
+    <button class="themebtn" id="installBtn" title="Instalar app" style="margin-left:0;display:none">⬇️</button>
+  </header>
+
+  <div class="glass" id="settings" style="display:none;padding:16px;margin-bottom:16px">
+    <div class="controls">
+      <div class="field grow">
+        <label for="setOrg">Membrete / entidad (aparece en la denuncia e impresión)</label>
+        <input type="text" id="setOrg" placeholder="p.ej. Ministerio de Educación Nacional — Grupo de Ciberseguridad" autocomplete="off">
+      </div>
+      <div class="field grow">
+        <label for="setGsb">Clave API Google Safe Browsing <span style="text-transform:none;font-weight:400">(opcional, para verificación automática)</span></label>
+        <input type="text" id="setGsb" placeholder="AIza… (se guarda solo en tu navegador)" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field grow">
+        <label for="setBackend">URL del backend (Cloudflare Worker) <span style="text-transform:none;font-weight:400">(opcional)</span></label>
+        <input type="text" id="setBackend" placeholder="https://centinela.tucuenta.workers.dev" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field" style="flex:0 0 auto"><label>&nbsp;</label><button class="btn ghost" id="setSave">💾 Guardar</button></div>
+    </div>
+    <p class="hint" style="margin-top:8px">Tus datos se guardan solo en este navegador (localStorage), nunca se envían a servidores propios. Si configuras un backend (Worker), la verificación automática (VirusTotal / Safe Browsing) se hace a través de él sin límites de CORS y sin exponer claves.</p>
+  </div>
+
+  <div class="modeswitch">
+    <button class="modebtn active" id="mbDomain" data-mode="domain">🛡️ Dominio &amp; correo</button>
+    <button class="modebtn" id="mbPhish" data-mode="phish">🎣 Phishing</button>
+    <button class="modebtn" id="mbGeo" data-mode="geo">🌍 Geolocalización IP</button>
+    <button class="modebtn" id="mbCmp" data-mode="cmp">⚖️ Comparar</button>
+    <button class="modebtn" id="mbTypo" data-mode="typo">🎯 Typosquatting</button>
+    <button class="modebtn" id="mbEml" data-mode="eml">📧 Analizar correo</button>
+    <button class="modebtn" id="mbMon" data-mode="mon">📡 Monitoreo</button>
+  </div>
+
+  <div id="modeDomainWrap">
+  <div class="glass search">
+    <div class="controls">
+      <div class="field grow">
+        <label for="domain">Dominio</label>
+        <div class="inputwrap"><span class="ic">🌐</span>
+          <input type="text" id="domain" placeholder="ejemplo.com" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="field res">
+        <label for="resolver">Resolutor DNS</label>
+        <select id="resolver">
+          <option value="auto">Automático (respaldo múltiple)</option>
+          <option value="google">Google · 8.8.8.8</option>
+          <option value="cloudflare">Cloudflare · 1.1.1.1</option>
+          <option value="quad9">Quad9 · 9.9.9.9</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn" id="go">🔍 Validar dominio</button>
+      </div>
+    </div>
+    <span class="advtoggle" id="advToggle">⚙️ Opciones avanzadas</span>
+    <div class="adv" id="adv">
+      <div class="field grow">
+        <label for="selectors">Selectores DKIM adicionales (coma)</label>
+        <input type="text" id="selectors" placeholder="p.ej. mailchimp, sendgrid, s1024" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field res">
+        <label for="rbltoggle">Chequeo de listas negras</label>
+        <select id="rbltoggle"><option value="1">Activado</option><option value="0">Desactivado</option></select>
+      </div>
+    </div>
+    <div class="examples">
+      <span>Ejemplos:</span>
+      <span class="chip" data-d="mineducacion.gov.co">mineducacion.gov.co</span>
+      <span class="chip" data-d="gmail.com">gmail.com</span>
+      <span class="chip" data-d="microsoft.com">microsoft.com</span>
+      <span class="chip" data-d="paypal.com">paypal.com</span>
+    </div>
+    <div id="status"><span class="spinner"></span><span id="statusTxt">Consultando…</span></div>
+    <div class="barwrap" id="barwrap"><div class="bar" id="bar"></div></div>
+  </div>
+
+  <div id="blAlert"></div>
+  <div class="glass" id="dash">
+    <div class="dashgrid">
+      <div class="ring">
+        <svg width="190" height="190" viewBox="0 0 190 190">
+          <circle cx="95" cy="95" r="80" fill="none" stroke="var(--line2)" stroke-width="13"/>
+          <circle id="ringArc" cx="95" cy="95" r="80" fill="none" stroke="var(--accent)" stroke-width="13"
+                  stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="502" style="transition:stroke-dashoffset 1s ease,stroke .4s"/>
+        </svg>
+        <div class="num"><div style="text-align:center"><b id="scoreNum">0</b><small>de 100</small><div class="grade" id="scoreGrade"></div></div></div>
+      </div>
+      <div>
+        <div class="verdict" id="verdict"></div>
+        <div class="vdom" id="vdom"></div>
+        <div class="kpis" id="kpis"></div>
+        <div class="meta" id="meta"></div>
+        <div class="dashbtns">
+          <button class="btn ghost" id="btnPrint">🖨️ Imprimir / PDF</button>
+          <button class="btn ghost" id="btnJson">⤓ JSON</button>
+          <button class="btn ghost" id="btnCopy">⧉ Copiar resumen</button>
+          <button class="btn ghost" id="btnShare">🔗 Enlace</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="actionPlan"></div>
+  <div class="tabs" id="tabs"></div>
+  <div id="results"></div>
+  <div id="histWrap"></div>
+  </div><!-- /modeDomainWrap -->
+
+  <div id="modePhishWrap" style="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="phishUrl">URL o dominio sospechoso</label>
+          <div class="inputwrap"><span class="ic">🎣</span>
+            <input type="text" id="phishUrl" placeholder="https://portal-seguro-banco.co/login" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field res">
+          <label for="phishBrand">Marca / dominio real suplantado <span style="text-transform:none;font-weight:400">(opcional)</span></label>
+          <div class="inputwrap"><span class="ic">🏦</span>
+            <input type="text" id="phishBrand" placeholder="p.ej. mineducacion.gov.co" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="goPhish">🔎 Analizar y reportar</button>
+        </div>
+      </div>
+      <div class="examples">
+        <span>Sirve para:</span>
+        <span class="chip">Sitios que copian tu página real</span>
+        <span class="chip">Correos/enlaces de phishing</span>
+        <span class="chip">Dominios parecidos al tuyo</span>
+      </div>
+      <div id="phishStatus" style="margin-top:14px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="phishStatusTxt">Analizando…</span></div>
+    </div>
+    <div id="phishOut"></div>
+  </div>
+
+  <div id="modeGeoWrap" style="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="geoInput">IP o dominio a geolocalizar</label>
+          <div class="inputwrap"><span class="ic">📍</span>
+            <input type="text" id="geoInput" placeholder="8.8.8.8  ó  ejemplo.com" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="goGeo">🌍 Localizar</button>
+        </div>
+      </div>
+      <div class="examples">
+        <span>Ejemplos:</span>
+        <span class="chip" data-geo="8.8.8.8">8.8.8.8</span>
+        <span class="chip" data-geo="1.1.1.1">1.1.1.1</span>
+        <span class="chip" data-geo="mineducacion.gov.co">mineducacion.gov.co</span>
+        <span class="chip" data-geo="mi-ip">📶 Mi IP pública</span>
+      </div>
+      <div id="geoStatus" style="margin-top:14px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="geoStatusTxt">Localizando…</span></div>
+    </div>
+    <div id="geoOut"></div>
+  </div>
+
+  <div id="modeCmpWrap" style="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="cmpA">Dominio A</label>
+          <div class="inputwrap"><span class="ic">🅰️</span><input type="text" id="cmpA" placeholder="dominio-uno.com" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field grow">
+          <label for="cmpB">Dominio B</label>
+          <div class="inputwrap"><span class="ic">🅱️</span><input type="text" id="cmpB" placeholder="dominio-dos.com" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goCmp">⚖️ Comparar</button></div>
+      </div>
+      <div id="cmpStatus" style="margin-top:14px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="cmpStatusTxt">Comparando…</span></div>
+    </div>
+    <div id="cmpOut"></div>
+  </div>
+
+  <div id="modeTypoWrap" style="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="typoInput">Tu dominio (buscaremos dominios que lo suplantan)</label>
+          <div class="inputwrap"><span class="ic">🎯</span><input type="text" id="typoInput" placeholder="mineducacion.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goTypo">🎯 Buscar imitadores</button></div>
+      </div>
+      <p class="hint" style="margin-top:10px">Genera variantes (homóglifos, guiones, TLDs alternos) y verifica cuáles están registradas y activas. Útil para detectar suplantadores antes de que ataquen.</p>
+      <div id="typoStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="typoStatusTxt">Buscando…</span></div>
+      <div class="barwrap" id="typoBarwrap" style="display:none"><div class="bar" id="typoBar"></div></div>
+    </div>
+    <div id="typoOut"></div>
+  </div>
+
+  <div id="modeEmlWrap" style="display:none">
+    <div class="glass search">
+      <div class="field">
+        <label for="emlInput">Pega el correo completo (con encabezados / código fuente)</label>
+        <textarea id="emlInput" rows="9" placeholder="Pega aquí el correo. En Gmail: ⋮ → 'Mostrar original'. En Outlook: Archivo → Propiedades → Encabezados de Internet." style="background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px 14px;font-family:var(--mono);font-size:12.5px;width:100%;outline:none;resize:vertical"></textarea>
+      </div>
+      <div class="dashbtns" style="justify-content:flex-start;margin-top:10px"><button class="btn" id="goEml">📧 Analizar correo</button></div>
+    </div>
+    <div id="emlOut"></div>
+  </div>
+
+  <div id="modeMonWrap" style="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="monInput">Agregar dominio a monitorear</label>
+          <div class="inputwrap"><span class="ic">📡</span><input type="text" id="monInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monAdd">➕ Agregar</button></div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="monRun">🔄 Revisar ahora</button></div>
+      </div>
+      <div class="controls" style="margin-top:10px;align-items:center">
+        <div class="field res">
+          <label for="monEvery">Auto-revisión</label>
+          <select id="monEvery"><option value="0">Desactivada</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monNotif">🔔 Activar notificaciones</button></div>
+      </div>
+      <p class="hint" style="margin-top:10px">Vigila listas negras y cambios en SPF/DMARC/MX/NS. Te notifica en el escritorio si algo cambia. ⚠️ Solo funciona mientras esta pestaña esté abierta; para alertas 24/7 aunque esté cerrada se necesita un pequeño servidor (te puedo guiar).</p>
+      <div id="monStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="monStatusTxt">Revisando…</span></div>
+    </div>
+    <div id="monOut"></div>
+  </div>
+
+  <footer>
+    <b>Centinela</b> — suite gratuita de ciberseguridad · Consultas vía DNS-over-HTTPS (Google, Cloudflare, Quad9), RDAP y geo-IP, ejecutadas desde tu navegador. Ningún dato se envía a servidores propios.<br>
+    Los resultados de listas negras consultadas a través de resolutores públicos pueden ser limitados por los operadores de RBL; úsalos como orientación.
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   DNS Guardian — 100% client-side · DNS-over-HTTPS + RDAP
+   ============================================================ */
+const TYPES={A:1,NS:2,CNAME:5,SOA:6,PTR:12,MX:15,TXT:16,AAAA:28,DS:43,DNSKEY:48,TLSA:52,CAA:257};
+const cache=new Map();
+const RESOLVERS={
+  google:{name:'Google',u:(n,t)=>`https://dns.google/resolve?name=${encodeURIComponent(n)}&type=${t}&do=1`},
+  cloudflare:{name:'Cloudflare',u:(n,t)=>`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(n)}&type=${t}&do=1`},
+  quad9:{name:'Quad9',u:(n,t)=>`https://dns.quad9.net:5053/dns-query?name=${encodeURIComponent(n)}&type=${t}&do=1`},
+};
+let RESOLVER='auto', USED_RESOLVERS=new Set();
+
+async function doh(key,name,type){
+  const r=await fetch(RESOLVERS[key].u(name,type),{headers:{'Accept':'application/dns-json'}});
+  if(!r.ok) throw new Error(RESOLVERS[key].name+' '+r.status);
+  USED_RESOLVERS.add(RESOLVERS[key].name);
+  return r.json();
+}
+async function rawQuery(name,type){
+  if(RESOLVER!=='auto') return doh(RESOLVER,name,type);
+  const chain=['google','cloudflare','quad9'];
+  let lastErr;
+  for(const k of chain){ try{ return await doh(k,name,type); }catch(e){ lastErr=e; } }
+  throw lastErr||new Error('todos los resolutores fallaron');
+}
+async function query(name,typeName){
+  const key=typeName+':'+name.toLowerCase();
+  if(cache.has(key)) return cache.get(key);
+  const type=TYPES[typeName]; let res;
+  try{
+    const j=await rawQuery(name,type);
+    const ans=j.Answer||[];
+    const answers=ans.filter(a=>a.type===type).map(a=>({data:clean(a.data,type),ttl:a.TTL}));
+    const cnames=ans.filter(a=>a.type===TYPES.CNAME).map(a=>a.data.replace(/\.$/,''));
+    res={status:j.Status,ad:!!j.AD,answers,cnames,ok:true,name};
+  }catch(err){ res={status:-1,ad:false,answers:[],cnames:[],ok:false,error:String(err.message||err),name}; }
+  cache.set(key,res); return res;
+}
+function clean(data,type){
+  if(type===TYPES.TXT||type===TYPES.CAA){
+    let s=data.trim(); if(s.includes('" "'))s=s.replace(/" "/g,''); return s.replace(/^"|"$/g,'');
+  }
+  return data.replace(/\.$/,'');
+}
+const E=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const F=(sev,title,why)=>({sev,title,why});
+const tag=(t,c)=>`<span class="tag ${c||''}">${esc(t)}</span>`;
+function raw(txt){return `<div class="raw"><span class="copy" data-copy="${esc(txt)}">copiar</span>${esc(txt)}</div>`;}
+
+let ITEMS=[], REPORT={};
+function finalize(name,status,icon,subtitle,cat,findings,kv,record,noScore){
+  const it={name,status,icon,subtitle,cat,findings,kv,record,noScore};
+  ITEMS.push(it);
+  REPORT[name]={status,record,findings:findings.map(f=>({sev:f.sev,title:f.title}))};
+  return it;
+}
+function deriveStatus(findings,fallback){
+  if(findings.some(f=>f.sev==='fail'))return'fail';
+  if(findings.some(f=>f.sev==='warn'))return'warn';
+  if(findings.some(f=>f.sev==='ok'))return'ok';
+  return fallback||'neutral';
+}
+
+/* ============================================================ SPF */
+async function checkSPF(d){
+  const q=await query(d,'TXT');
+  const recs=q.answers.map(a=>a.data).filter(x=>/^v=spf1\b/i.test(x));
+  const f=[];
+  if(!recs.length){f.push(F('fail','No se encontró registro SPF','Sin SPF cualquier servidor puede enviar correo en nombre del dominio.'));return finalize('SPF','fail','✉️','Marco de políticas de envío (RFC 7208)','correo',f,{},null);}
+  if(recs.length>1)f.push(F('fail','Hay '+recs.length+' registros SPF','El estándar permite solo uno; con varios se produce PermError.'));
+  const rec=recs[0], mechs=rec.trim().split(/\s+/).slice(1);
+  const allM=mechs.find(m=>/all$/i.test(m))||'', qual=allM.charAt(0);
+  const map={'-':['ok','-all (hardfail): el correo no autorizado se rechaza. Óptimo.'],'~':['warn','~all (softfail): se marca pero puede entregarse. Endurece a -all.'],'?':['warn','?all (neutral): no ofrece protección real.'],'+':['fail','+all: autoriza a CUALQUIER servidor. Elimínalo de inmediato.']};
+  if(allM){const[s,m]=map[qual]||map['+'];f.push(F(s,'Mecanismo final: '+allM,m));}
+  else f.push(F('warn','Falta el mecanismo "all"','Añade -all o ~all al final del registro.'));
+  const tree=[],seen=new Set(),acc={n:0,void:0};
+  await countLk(d,rec,0,tree,seen,acc);
+  if(acc.n>10)f.push(F('fail','Consultas DNS: '+acc.n+' de 10 (LÍMITE EXCEDIDO)','Supera el máximo del RFC → PermError → el SPF se ignora. Reduce includes o aplana IPs.'));
+  else if(acc.n>=8)f.push(F('warn','Consultas DNS: '+acc.n+' de 10','Cerca del límite; considera aplanar registros.'));
+  else f.push(F('ok','Consultas DNS: '+acc.n+' de 10','Dentro del límite permitido.'));
+  if(acc.void>=1)f.push(F('warn','Void lookups: '+acc.void,'Includes que no resuelven; más de 2 provoca PermError.'));
+  if(mechs.some(m=>/^ptr(:|$)/i.test(m)))f.push(F('warn','Uso de "ptr"','Mecanismo obsoleto y lento (RFC 7208 §5.5); elimínalo.'));
+  const incs=mechs.filter(m=>/^include:/i.test(m)).map(m=>m.slice(8));
+  const ips=mechs.filter(m=>/^ip[46]:/i.test(m));
+  const status=deriveStatus(f);
+  const kv={'Registro SPF':raw(rec),'Mecanismo final':allM?tag(allM,qual==='-'?'g':(qual==='+'?'r':'y')):tag('(ninguno)','r'),
+    'Consultas DNS':`<b>${acc.n}</b> / 10${acc.void?` · ${tag(acc.void+' void','y')}`:''}`,
+    ['Includes ('+incs.length+')']:incs.length?incs.map(i=>tag(i)).join(''):'—',
+    'Rangos IP directos':(ips.length||0)+' entradas ip4/ip6',
+    'Árbol de resolución':`<div class="lookup-tree">${esc(tree.join('\n'))}</div>`};
+  return finalize('SPF',status,'✉️','Marco de políticas de envío (RFC 7208)','correo',f,kv,rec);
+}
+async function countLk(d,rec,depth,tree,seen,acc){
+  if(depth>10)return;
+  for(const m of rec.trim().split(/\s+/)){
+    const l=m.toLowerCase();let tgt=null,kind=null;
+    if(l.startsWith('include:')){kind='include';tgt=m.slice(8);}
+    else if(l.startsWith('redirect=')){kind='redirect';tgt=m.slice(9);}
+    else if(l==='a'||l.startsWith('a:')||l==='mx'||l.startsWith('mx:')||l.startsWith('ptr')||l.startsWith('exists:')){acc.n++;tree.push('  '.repeat(depth)+'• '+l.split(/[:=]/)[0]+(m.includes(':')?' '+m.split(':')[1]:'')+'  (+1)');continue;}
+    else continue;
+    if(tgt){acc.n++;const ind='  '.repeat(depth);
+      if(seen.has(tgt.toLowerCase())){tree.push(ind+'• '+kind+':'+tgt+'  (+1, ya visto)');continue;}
+      seen.add(tgt.toLowerCase());
+      const q=await query(tgt,'TXT');const sub=q.answers.map(a=>a.data).find(x=>/^v=spf1/i.test(x));
+      if(!sub){acc.void++;tree.push(ind+'• '+kind+':'+tgt+'  (+1) ⚠ sin SPF');}
+      else{tree.push(ind+'• '+kind+':'+tgt+'  (+1)');await countLk(tgt,sub,depth+1,tree,seen,acc);}
+    }
+  }
+}
+
+/* ============================================================ DKIM */
+const DKSEL=['selector1','selector2','google','default','k1','k2','k3','s1','s2','s1024','dkim','mail','smtp','mandrill','mailjet','mxvault','zoho','zohomail','everlytickey1','everlytickey2','protonmail','protonmail2','protonmail3','sig1','scph0819','scph1018','scph1220','fm1','fm2','fm3','pic','key1','key2','cm','dkim1','sm1','sm2','ctct1','ctct2','sib','sendgrid','sendinblue','turbo-smtp','hs1','hs2','amazonses','200608','20230601','mesmtp','em','sel1','sel2'];
+async function checkDKIM(d,extra){
+  const sels=[...new Set([...DKSEL,...extra])];const found=[],f=[];const B=8;
+  for(let i=0;i<sels.length;i+=B){
+    const sl=sels.slice(i,i+B);
+    const res=await Promise.all(sl.map(async s=>{
+      const nm=s+'._domainkey.'+d;let q=await query(nm,'TXT');let via=null;
+      if(!q.answers.length&&q.cnames.length){via=q.cnames[0];const q2=await query(via,'TXT');if(q2.answers.length)q={...q2,cnames:q.cnames};}
+      const rec=q.answers.map(a=>a.data).find(x=>/(^|;)\s*(v=DKIM1|k=|p=)/i.test(x));
+      return rec?{selector:s,record:rec,via}:null;
+    }));
+    res.forEach(r=>r&&found.push(r));
+    setStatus(`Escaneando selectores DKIM… (${Math.min(i+B,sels.length)}/${sels.length}) — ${found.length} hallados`);
+  }
+  if(!found.length){f.push(F('fail','No se encontró ninguna clave DKIM','Se probaron '+sels.length+' selectores. Puede usar un selector personalizado; agrégalo en opciones avanzadas.'));return finalize('DKIM','fail','🔑','Firma criptográfica del correo (RFC 6376)','correo',f,{},null);}
+  const kv={};f.push(F('ok',found.length+' selector(es) DKIM activos','El dominio firma criptográficamente su correo saliente.'));
+  found.forEach(x=>{
+    const p=parseDKIM(x.record),b=p.bits;let sev='ok',note='';
+    if(p.revoked){sev='warn';note='clave vacía (revocada)';}
+    else if(p.keytype==='rsa'&&b&&b<1024){sev='fail';note=b+' bits — inseguro';}
+    else if(p.keytype==='rsa'&&b&&b<2048){sev='warn';note=b+' bits — débil, rota a 2048';}
+    else if(p.keytype==='rsa'&&b>=2048){note=b+' bits — fuerte';}
+    else if(p.keytype==='ed25519')note='Ed25519 — moderno';
+    f.push(F(sev,'Selector "'+x.selector+'"'+(x.via?' (CNAME delegado)':''),
+      p.keytype==='rsa'?(b>=2048?`Clave RSA de ${b} bits — cumple recomendación.`:b>=1024?`Clave RSA de ${b} bits — funcional pero rota a 2048.`:`Clave RSA de ${b} bits — insegura.`):p.keytype==='ed25519'?'Clave Ed25519 moderna.':p.revoked?'Clave publicada pero vacía.':'Clave DKIM publicada.'));
+    kv[`Selector ${x.selector}${x.via?' <span class="hint">(→'+esc(x.via)+')</span>':''}`]=tag(p.keytype||'?',b&&b<2048?'y':'g')+(b?tag(b+' bits',b>=2048?'g':(b>=1024?'y':'r')):'')+(note?` <span class="hint">${esc(note)}</span>`:'')+raw(x.record);
+  });
+  return finalize('DKIM',deriveStatus(f),'🔑','Firma criptográfica del correo (RFC 6376)','correo',f,kv,found.map(x=>x.selector+': '+x.record).join('\n\n'));
+}
+function parseDKIM(rec){const o={keytype:'rsa',bits:null,revoked:false};rec.split(';').forEach(p=>{const[k,...v]=p.split('=');if(k)o[k.trim().toLowerCase()==='k'?'keytype':k.trim().toLowerCase()]=v.join('=').trim();});const p=(o.p||'').replace(/\s+/g,'');if(o.k)o.keytype=o.k.toLowerCase();if(!p){o.revoked=true;return o;}if(o.keytype==='rsa'){try{o.bits=rsaBits(p);}catch(e){o.bits=estBits(p);}}return o;}
+function rsaBits(b64){const der=b64b(b64);let i=0;function len(){let l=der[i++];if(l&0x80){let n=l&0x7f;l=0;while(n--)l=(l<<8)|der[i++];}return l;}if(der[i++]!==0x30)throw 0;len();if(der[i++]!==0x30)throw 0;const a=len();i+=a;if(der[i++]!==0x03)throw 0;len();i++;if(der[i++]!==0x30)throw 0;len();if(der[i++]!==0x02)throw 0;let m=len();if(der[i]===0x00){m--;i++;}return m*8;}
+function estBits(b64){const n=Math.floor(b64.replace(/=+$/,'').length*3/4);return n<200?1024:n<400?2048:n<700?4096:null;}
+function b64b(b64){const s=atob(b64),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a;}
+
+/* ============================================================ DMARC */
+async function checkDMARC(d){
+  const q=await query('_dmarc.'+d,'TXT');const recs=q.answers.map(a=>a.data).filter(x=>/^v=DMARC1\b/i.test(x));const f=[];
+  if(!recs.length){f.push(F('fail','No hay registro DMARC','Sin DMARC no defines qué hacer con el correo que falla SPF/DKIM ni recibes reportes.'));return finalize('DMARC','fail','🛂','Política y alineación (RFC 7489)','correo',f,{},null);}
+  if(recs.length>1)f.push(F('fail','Hay '+recs.length+' registros DMARC','Solo se permite uno.'));
+  const rec=recs[0],t={};rec.split(';').forEach(p=>{const[k,...v]=p.split('=');if(k&&k.trim())t[k.trim().toLowerCase()]=v.join('=').trim();});
+  const p=(t.p||'').toLowerCase();
+  const map={reject:['ok','p=reject — máxima protección: el correo suplantado se rechaza.'],quarantine:['warn','p=quarantine — el correo que falla va a spam. Buen paso; el objetivo es reject.'],none:['fail','p=none — solo monitoreo. NO protege contra suplantación. Es lo más importante a corregir.']};
+  if(map[p]){const[s,m]=map[p];f.push(F(s,'Política: p='+p,m));}else f.push(F('fail','Política ausente o inválida','El tag p= debe ser none, quarantine o reject.'));
+  const pct=t.pct?parseInt(t.pct):100;
+  if(t.pct&&pct<100)f.push(F('warn','pct='+pct,'Solo se aplica al '+pct+'% del correo; súbelo a 100 tras el despliegue.'));
+  if(t.rua)f.push(F('ok','Reportes agregados (rua) configurados','Recibirás informes de quién envía como tu dominio.'));else f.push(F('warn','Sin rua','Sin reportes no sabrás quién suplanta tu dominio.'));
+  if(t.ruf)f.push(F('info','Reportes forenses (ruf) configurados','Muestras de correos que fallan; pocos proveedores los envían.'));
+  const adk=(t.adkim||'r').toLowerCase(),asp=(t.aspf||'r').toLowerCase();
+  f.push(F('info','Alineación DKIM '+(adk==='s'?'estricta':'relajada')+' · SPF '+(asp==='s'?'estricta':'relajada'),'La relajada permite subdominios; la estricta exige coincidencia exacta.'));
+  if(!t.sp&&(p==='reject'||p==='quarantine'))f.push(F('info','Sin sp explícito','Los subdominios heredan p='+p+'. Añade sp=reject para blindarlos.'));
+  const kv={'Registro DMARC':raw(rec),'Política (p)':tag('p='+(p||'?'),p==='reject'?'g':(p==='quarantine'?'y':'r')),'Subdominios (sp)':t.sp?tag('sp='+t.sp,t.sp==='reject'?'g':'y'):'<span class="hint">hereda p</span>','Cobertura (pct)':tag(pct+'%',pct===100?'g':'y'),'Alineación':tag('adkim='+adk)+tag('aspf='+asp),'rua':t.rua?esc(t.rua):tag('no','y'),'ruf':t.ruf?esc(t.ruf):'—','fo':t.fo?esc(t.fo):'0'};
+  return finalize('DMARC',deriveStatus(f),'🛂','Política y alineación (RFC 7489)','correo',f,kv,rec);
+}
+
+/* ============================================================ MX + provider */
+const MXP=[[/google|googlemail|aspmx/i,'Google Workspace'],[/outlook|protection\.outlook|office365/i,'Microsoft 365'],[/iphmx|ironport|cisco/i,'Cisco IronPort'],[/proofpoint|pphosted/i,'Proofpoint'],[/mimecast/i,'Mimecast'],[/zoho/i,'Zoho Mail'],[/amazonaws|amazonses/i,'Amazon SES/WorkMail'],[/protonmail|proton\.me/i,'Proton Mail'],[/mailgun/i,'Mailgun'],[/barracuda|cudasvc/i,'Barracuda'],[/messagelabs|symantec/i,'Symantec'],[/secureserver|godaddy/i,'GoDaddy'],[/yandex/i,'Yandex'],[/email-messaging|netcore/i,'Netcore'],[/hostinger/i,'Hostinger']];
+let MX_IPS=[], SITE_IPS=[], BL_LISTED=[];
+function flagOf(cc){if(!cc||cc.length!==2)return'';try{return String.fromCodePoint(...[...cc.toUpperCase()].map(c=>127397+c.charCodeAt(0)));}catch(e){return'';}}
+async function geoLookup(ip){
+  try{const r=await fetch('https://ipwho.is/'+ip);if(r.ok){const j=await r.json();if(j.success!==false)return{ip:j.ip,country:j.country,cc:j.country_code,flag:j.flag&&j.flag.emoji,region:j.region,city:j.city,lat:j.latitude,lon:j.longitude,asn:j.connection&&j.connection.asn?('AS'+j.connection.asn):'',org:j.connection&&(j.connection.org||j.connection.isp),isp:j.connection&&j.connection.isp,tz:j.timezone&&j.timezone.id,type:j.type,postal:j.postal};}}catch(e){}
+  try{const r=await fetch('https://ipapi.co/'+ip+'/json/');if(r.ok){const j=await r.json();if(!j.error)return{ip:j.ip,country:j.country_name,cc:j.country_code,flag:flagOf(j.country_code),region:j.region,city:j.city,lat:j.latitude,lon:j.longitude,asn:j.asn,org:j.org,isp:j.org,tz:j.timezone,type:j.version,postal:j.postal};}}catch(e){}
+  return null;
+}
+async function checkMX(d){
+  const q=await query(d,'MX');const f=[];
+  if(!q.answers.length){f.push(F('warn','Sin registros MX','El dominio no recibe correo.'));return finalize('MX','warn','📬','Servidores de correo entrante','correo',f,{},null);}
+  const rows=q.answers.map(a=>{const[pr,...h]=a.data.split(' ');return{prio:parseInt(pr),host:h.join(' ').replace(/\.$/,'')};}).sort((a,b)=>a.prio-b.prio);
+  const prov=new Set();rows.forEach(r=>{for(const[re,n]of MXP){if(re.test(r.host)){prov.add(n);break;}}});
+  // resolve IPs of top MX hosts (for blacklist + PTR)
+  for(const r of rows.slice(0,3)){const a=await query(r.host,'A');a.answers.forEach(x=>MX_IPS.push({ip:x.data,host:r.host}));}
+  f.push(F('ok',rows.length+' registro(s) MX','El correo entrante se enruta correctamente.'));
+  if(prov.size)f.push(F('info','Proveedor: '+[...prov].join(', '),'Identificado por los hosts MX.'));
+  const kv={'Servidores MX':'<table class="mini"><tr><th>Prio</th><th>Host</th><th>IP</th></tr>'+rows.map(r=>{const ip=MX_IPS.find(x=>x.host===r.host);return `<tr><td>${r.prio}</td><td>${esc(r.host)}</td><td>${ip?esc(ip.ip):'—'}</td></tr>`;}).join('')+'</table>','Proveedor':prov.size?[...prov].map(p=>tag(p,'g')).join(''):'<span class="hint">no identificado</span>'};
+  return finalize('MX','ok','📬','Servidores de correo entrante','correo',f,kv,rows.map(r=>r.prio+' '+r.host).join('\n'));
+}
+
+/* ============================================================ Blacklist / RBL */
+const RBLS=['zen.spamhaus.org','b.barracudacentral.org','bl.spamcop.net','dnsbl.sorbs.net','cbl.abuseat.org','psbl.surriel.com','dnsbl-1.uceprotect.net','all.s5h.net'];
+async function checkRBL(d){
+  const f=[];
+  if(!MX_IPS.length){f.push(F('info','No hay IPs de MX para verificar','Sin registros MX resolubles no se puede consultar listas negras.'));return finalize('Listas negras','neutral','🚫','Reputación IP (DNSBL / RBL)','seguridad',f,{},null);}
+  const ips=[...new Map(MX_IPS.map(x=>[x.ip,x])).values()].filter(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x.ip)).slice(0,3);
+  const rows=[];let listed=0,indet=0,checked=0;
+  for(const {ip,host} of ips){
+    const rev=ip.split('.').reverse().join('.');
+    const res=await Promise.all(RBLS.map(async bl=>{
+      const q=await query(rev+'.'+bl,'A');checked++;
+      if(q.status===3)return{bl,st:'clean'};
+      if(q.answers.length){const code=q.answers[0].data;if(/^127\.255\.255\./.test(code))return{bl,st:'indet',code};return{bl,st:'listed',code};}
+      return{bl,st:'indet'};
+    }));
+    res.forEach(r=>{if(r.st==='listed')listed++;if(r.st==='indet')indet++;rows.push({ip,host,...r});});
+  }
+  const listedRows=rows.filter(r=>r.st==='listed');
+  BL_LISTED=listedRows.map(r=>({ip:r.ip,host:r.host,bl:r.bl,code:r.code}));
+  const kv={};
+  if(listed>0){
+    const byIp={};listedRows.forEach(r=>{(byIp[r.ip]=byIp[r.ip]||[]).push(r.bl);});
+    const listNames=[...new Set(listedRows.map(r=>r.bl))];
+    f.push(F('fail','⛔ REPORTADA en '+listNames.length+' lista(s) negra(s)','El dominio SÍ está reportado. Listas: '+listNames.join(', ')+'. Esto bloquea o degrada gravemente la entrega de tu correo; solicita el delisting en cada operador.'));
+    // prominent detail block per affected IP
+    kv['⛔ IPs reportadas']='<table class="mini"><tr><th>IP</th><th>Host MX</th><th>Reportada en</th></tr>'+
+      Object.entries(byIp).map(([ip,bls])=>{const host=(listedRows.find(r=>r.ip===ip)||{}).host||'';return `<tr><td style="color:var(--fail);font-weight:700">${esc(ip)}</td><td>${esc(host)}</td><td>${bls.map(b=>`<span class="tag r">${esc(b)}</span>`).join('')}</td></tr>`;}).join('')+'</table>';
+  }
+  else f.push(F('ok','✔ NO reportada — ninguna IP en listas negras','Las IPs verificadas de tus servidores de correo tienen buena reputación.'));
+  if(indet>0)f.push(F('info',indet+' consulta(s) no concluyentes','Algunos operadores de RBL (p. ej. Spamhaus) limitan las consultas desde resolutores públicos; ese resultado no significa que esté listada.'));
+  const dot=s=>`<span class="st-dot" style="background:${s==='listed'?'var(--fail)':s==='clean'?'var(--ok)':'var(--muted2)'}"></span>`;
+  ips.forEach(({ip,host})=>{
+    const st=rows.filter(r=>r.ip===ip).some(r=>r.st==='listed')?'⛔ ':'';
+    kv[`${st}IP ${ip} <span class="hint">(${esc(host)})</span>`]='<table class="mini">'+rows.filter(r=>r.ip===ip).map(r=>`<tr><td>${dot(r.st)}${esc(r.bl)}</td><td>${r.st==='listed'?'<span style="color:var(--fail);font-weight:700">⛔ LISTADA'+(r.code?' ('+esc(r.code)+')':'')+'</span>':r.st==='clean'?'<span style="color:var(--ok)">limpia</span>':'<span style="color:var(--muted)">no concluyente</span>'}</td></tr>`).join('')+'</table>';
+  });
+  return finalize('Listas negras',deriveStatus(f,'ok'),'🚫','Reputación IP · '+ips.length+' IP × '+RBLS.length+' listas','seguridad',f,kv,null);
+}
+
+/* ============================================================ WHOIS / RDAP */
+async function checkRDAP(d){
+  const f=[];let data=null;
+  try{
+    const r=await fetch('https://rdap.org/domain/'+encodeURIComponent(d),{headers:{'Accept':'application/rdap+json'}});
+    if(r.ok)data=await r.json();
+  }catch(e){}
+  if(!data){f.push(F('info','WHOIS/RDAP no disponible','No se obtuvo información de registro (el TLD puede no ofrecer RDAP público, p. ej. algunos .gov.co, o CORS restringido).'));return finalize('WHOIS / RDAP','neutral','📖','Datos de registro del dominio','dominio',f,{},null);}
+  const ev={};(data.events||[]).forEach(e=>ev[e.eventAction]=e.eventDate);
+  const reg=(data.entities||[]).find(e=>(e.roles||[]).includes('registrar'));
+  let regName='—';if(reg){const vc=reg.vcardArray?.[1];const fn=vc?.find(x=>x[0]==='fn');regName=fn?fn[3]:(reg.handle||'—');}
+  const created=ev.registration,expires=ev.expiration,updated=ev.lastChanged||ev['last changed'];
+  const status=(data.status||[]).join(', ');
+  const ns=(data.nameservers||[]).map(n=>n.ldhName).filter(Boolean);
+  f.push(F('ok','Dominio registrado','Información de registro obtenida vía RDAP.'));
+  if(regName!=='—')f.push(F('info','Registrador: '+regName,'Entidad donde está registrado el dominio.'));
+  if(expires){const days=Math.round((new Date(expires)-new Date())/864e5);
+    if(days<0)f.push(F('fail','Dominio EXPIRADO','La fecha de expiración ya pasó ('+expires.slice(0,10)+'). Renuévalo con urgencia.'));
+    else if(days<30)f.push(F('warn','Expira en '+days+' días','El dominio vence pronto ('+expires.slice(0,10)+'); renuévalo para evitar caída de servicios.'));
+    else f.push(F('ok','Vigente — expira en '+days+' días','Fecha de expiración: '+expires.slice(0,10)+'.'));}
+  if(/clienttransferprohibited|clientdeleteprohibited/i.test(status))f.push(F('ok','Bloqueos de protección activos','El dominio tiene locks contra transferencias/borrados no autorizados.'));
+  const kv={'Registrador':esc(regName),'Creado':created?esc(created.slice(0,10)):'—','Última modificación':updated?esc(updated.slice(0,10)):'—','Expira':expires?esc(expires.slice(0,10)):'—','Estado (EPP)':status?esc(status):'—','Nameservers':ns.length?ns.map(n=>tag(n)).join(''):'—'};
+  return finalize('WHOIS / RDAP',deriveStatus(f,'ok'),'📖','Datos de registro del dominio','dominio',f,kv,null);
+}
+
+/* ============================================================ CAA */
+async function checkCAA(d){
+  const q=await query(d,'CAA');const f=[];
+  if(!q.answers.length){f.push(F('warn','Sin registros CAA','Sin CAA, cualquier autoridad certificadora puede emitir certificados TLS para tu dominio. Añade registros CAA para limitarlo a tus CAs autorizadas.'));return finalize('CAA','warn','📜','Autorización de emisión de certificados','seguridad',f,{},null);}
+  const issuers=new Set();q.answers.forEach(a=>{const m=a.data.match(/issue"?\s*"?([^"]+)"?/i);if(m)issuers.add(m[1].trim());});
+  f.push(F('ok',q.answers.length+' registro(s) CAA','Solo las CAs autorizadas pueden emitir certificados para este dominio, reduciendo el riesgo de emisión fraudulenta.'));
+  if(q.answers.some(a=>/iodef/i.test(a.data)))f.push(F('ok','Contacto iodef configurado','Recibirás aviso de intentos de emisión no autorizados.'));
+  const kv={'Registros CAA':raw(q.answers.map(a=>a.data).join('\n')),'CAs autorizadas':[...issuers].map(i=>tag(i,'g')).join('')||'—'};
+  return finalize('CAA',deriveStatus(f,'ok'),'📜','Autorización de emisión de certificados (RFC 8659)','seguridad',f,kv,q.answers.map(a=>a.data).join('\n'));
+}
+
+/* ============================================================ MTA-STS / TLS-RPT / BIMI */
+async function checkMTASTS(d){
+  const q=await query('_mta-sts.'+d,'TXT');const rec=q.answers.map(a=>a.data).find(x=>/^v=STSv1/i.test(x));const f=[];
+  if(!rec){f.push(F('warn','MTA-STS no configurado','Sin MTA-STS un atacante podría degradar el cifrado TLS del correo entrante (downgrade). Muy recomendado.'));return finalize('MTA-STS','warn','🔒','Cifrado TLS obligatorio (RFC 8461)','correo',f,{},null);}
+  const host='mta-sts.'+d,a=await query(host,'A');
+  f.push(F('ok','Registro _mta-sts publicado','El dominio anuncia política MTA-STS.'));
+  f.push(a.answers.length?F('ok','Host de política resuelve','Debe servir https://'+host+'/.well-known/mta-sts.txt.'):F('warn','El host '+host+' no resuelve','La política no será accesible.'));
+  return finalize('MTA-STS',deriveStatus(f,'ok'),'🔒','Cifrado TLS obligatorio (RFC 8461)','correo',f,{'Registro TXT':raw(rec),'Política':`<a href="https://${host}/.well-known/mta-sts.txt" target="_blank" rel="noopener">ver archivo ↗</a>`},rec);
+}
+async function checkTLSRPT(d){
+  const q=await query('_smtp._tls.'+d,'TXT');const rec=q.answers.map(a=>a.data).find(x=>/^v=TLSRPTv1/i.test(x));const f=[];
+  if(!rec){f.push(F('info','TLS-RPT no configurado','Complementa a MTA-STS enviando reportes de fallos de cifrado. Opcional.'));return finalize('TLS-RPT','neutral','📈','Reportes de cifrado TLS (RFC 8460)','correo',f,{},null);}
+  f.push(F('ok','TLS-RPT publicado','Recibirás reportes de problemas de cifrado en la entrega.'));
+  return finalize('TLS-RPT','ok','📈','Reportes de cifrado TLS (RFC 8460)','correo',f,{'Registro':raw(rec)},rec);
+}
+async function checkBIMI(d){
+  const q=await query('default._bimi.'+d,'TXT');const rec=q.answers.map(a=>a.data).find(x=>/^v=BIMI1/i.test(x));const f=[];
+  if(!rec){f.push(F('info','BIMI no configurado','Muestra tu logo verificado junto al correo (requiere DMARC en quarantine/reject). Opcional.'));return finalize('BIMI','neutral','🖼️','Logo verificado de marca','correo',f,{},null);}
+  const t={};rec.split(';').forEach(p=>{const[k,...v]=p.split('=');if(k&&k.trim())t[k.trim().toLowerCase()]=v.join('=').trim();});
+  f.push(F('ok','BIMI publicado','El dominio anuncia un logo de marca.'));
+  f.push(t.a?F('ok','Certificado VMC presente','El logo se mostrará en más clientes (Gmail).'):F('warn','Sin VMC (a=)','Sin certificado VMC, Gmail no mostrará el logo.'));
+  return finalize('BIMI',deriveStatus(f,'ok'),'🖼️','Logo verificado de marca','correo',f,{'Registro':raw(rec),'Logo':t.l?esc(t.l):'—','VMC':t.a?esc(t.a):'—'},rec);
+}
+
+/* ============================================================ DNSSEC */
+async function checkDNSSEC(d){
+  const [ds,dk]=await Promise.all([query(d,'DS'),query(d,'DNSKEY')]);const f=[];
+  if(ds.answers.length){
+    f.push(F('ok','DNSSEC habilitado (registro DS)','La zona está firmada criptográficamente; protege contra envenenamiento de caché y respuestas falsificadas.'));
+    if(dk.answers.length)f.push(F('ok',dk.answers.length+' clave(s) DNSKEY publicadas','Claves de firma de zona presentes.'));
+    if(ds.ad)f.push(F('ok','Cadena de validación correcta (AD=1)','El resolutor validó la firma de extremo a extremo.'));
+    return finalize('DNSSEC',deriveStatus(f,'ok'),'🔐','Firmado de la zona DNS','seguridad',f,{'Registros DS':raw(ds.answers.map(a=>a.data).join('\n')),'DNSKEY':dk.answers.length+' clave(s)'},ds.answers.map(a=>a.data).join('\n'));
+  }
+  f.push(F('warn','DNSSEC no habilitado','Sin registro DS la zona no está firmada; un atacante podría falsificar respuestas DNS (incluidos tus propios SPF/DMARC). Recomendado para gobierno/banca.'));
+  return finalize('DNSSEC','warn','🔐','Firmado de la zona DNS','seguridad',f,{},null);
+}
+
+/* ============================================================ PTR inverso */
+async function checkPTR(d){
+  const f=[];
+  if(!MX_IPS.length){f.push(F('info','Sin IPs de MX','No hay servidores de correo para verificar el DNS inverso.'));return finalize('DNS inverso (PTR)','neutral','↩️','Resolución inversa de los MX','dominio',f,{},null);}
+  const ips=[...new Map(MX_IPS.map(x=>[x.ip,x])).values()].filter(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x.ip)).slice(0,4);
+  const kv={};let missing=0;
+  for(const {ip,host} of ips){
+    const rev=ip.split('.').reverse().join('.')+'.in-addr.arpa';
+    const q=await query(rev,'PTR');
+    const ptr=q.answers.map(a=>a.data)[0];
+    if(!ptr)missing++;
+    kv[`${ip} <span class="hint">(${esc(host)})</span>`]=ptr?tag(ptr,'g'):tag('sin PTR','y');
+  }
+  f.push(missing?F('warn',missing+' IP(s) sin PTR','La falta de DNS inverso (PTR) en un servidor de correo hace que muchos receptores rechacen o marquen como spam sus envíos.'):F('ok','Todas las IPs tienen PTR','El DNS inverso está configurado, requisito básico para buena entregabilidad.'));
+  return finalize('DNS inverso (PTR)',deriveStatus(f,'ok'),'↩️','Resolución inversa de los MX','dominio',f,kv,null);
+}
+
+/* ============================================================ TXT catalog */
+async function checkTXT(d){
+  const q=await query(d,'TXT');const f=[];const rows=q.answers.map(a=>a.data);
+  if(!rows.length){f.push(F('info','Sin registros TXT','El dominio no publica registros TXT.'));return finalize('Registros TXT','neutral','📝','Verificaciones y otros TXT','dominio',f,{},null);}
+  const known=[[/^v=spf1/i,'SPF'],[/google-site-verification/i,'Google Search Console'],[/^MS=/i,'Microsoft 365'],[/facebook-domain-verification/i,'Meta/Facebook'],[/^apple-domain-verification/i,'Apple'],[/^atlassian-/i,'Atlassian'],[/^stripe-verification/i,'Stripe'],[/^adobe-idp-site-verification/i,'Adobe'],[/^docusign=/i,'DocuSign'],[/^zoom-/i,'Zoom'],[/sendinblue|brevo/i,'Brevo/Sendinblue'],[/^amazonses:/i,'Amazon SES'],[/^onetrust-/i,'OneTrust']];
+  const cat=[];rows.forEach(r=>{const m=known.find(k=>k[0].test(r));cat.push({r,svc:m?m[1]:'genérico/otro'});});
+  const svcs=[...new Set(cat.filter(c=>c.svc!=='genérico/otro').map(c=>c.svc))];
+  f.push(F('ok',rows.length+' registro(s) TXT','Incluyen SPF y verificaciones de servicios de terceros.'));
+  if(svcs.length)f.push(F('info','Servicios verificados: '+svcs.join(', '),'Detectados por el patrón del registro TXT.'));
+  const kv={'Registros TXT':'<table class="mini"><tr><th>Servicio</th><th>Registro</th></tr>'+cat.map(c=>`<tr><td>${esc(c.svc)}</td><td style="font-family:var(--mono);font-size:11.5px;word-break:break-all">${esc(c.r.length>90?c.r.slice(0,90)+'…':c.r)}</td></tr>`).join('')+'</table>'};
+  return finalize('Registros TXT','ok','📝','Verificaciones y otros TXT','dominio',f,kv,null);
+}
+
+/* ============================================================ Certificate Transparency (crt.sh) */
+async function checkCT(d){
+  const f=[];let data=null;
+  try{const r=await fetch('https://crt.sh/?q='+encodeURIComponent(d)+'&output=json&exclude=expired');if(r.ok)data=await r.json();}catch(e){}
+  if(!data){try{const r=await fetch('https://crt.sh/?q='+encodeURIComponent(d)+'&output=json');if(r.ok)data=await r.json();}catch(e){}}
+  if(!data||!Array.isArray(data)){
+    f.push(F('info','Certificate Transparency no disponible','No se pudo consultar crt.sh (puede estar limitado por CORS o el servicio saturado). Ábrelo manualmente para ver los certificados emitidos.'));
+    return finalize('Certificados TLS (CT)','neutral','📄','Transparencia de certificados · crt.sh','seguridad',f,{'Consulta manual':`<a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh/?q=${esc(d)} ↗</a>`},null);
+  }
+  const names=new Set(),issuers={};let latest=null;
+  data.slice(0,600).forEach(c=>{
+    (c.name_value||'').split(/\n/).forEach(n=>{n=n.trim().toLowerCase();if(n)names.add(n);});
+    const iss=(c.issuer_name||'').match(/O="?([^",]+)"?/);const io=iss?iss[1]:'otro';issuers[io]=(issuers[io]||0)+1;
+    if(c.not_before&&(!latest||c.not_before>latest))latest=c.not_before;
+  });
+  const subs=[...names].filter(n=>!n.startsWith('*')).filter(n=>n.endsWith(d)).sort();
+  const wild=[...names].filter(n=>n.startsWith('*'));
+  f.push(F('ok',data.length+' certificado(s) en registros CT','Los certificados TLS emitidos para tu dominio son públicos (Certificate Transparency). Revísalos para detectar emisiones no autorizadas.'));
+  f.push(F('info',subs.length+' subdominio(s) expuestos en certificados','Cada certificado revela nombres de host; atacantes los usan para reconocimiento. Verifica que todos sean tuyos.'));
+  if(latest)f.push(F('info','Último certificado emitido: '+latest.slice(0,10),'Fecha del certificado más reciente registrado.'));
+  const topIss=Object.entries(issuers).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const kv={
+    'Autoridades emisoras':topIss.map(([k,v])=>tag(k+' ('+v+')','g')).join('')||'—',
+    ['Subdominios detectados ('+subs.length+')']:subs.length?('<div class="lookup-tree">'+subs.slice(0,60).map(esc).join('\n')+(subs.length>60?'\n… +'+(subs.length-60)+' más':'')+'</div>'):'—',
+    'Comodines (wildcard)':wild.length?wild.map(esc).map(w=>tag(w)).join(''):'—',
+    'Ver todo':`<a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh ↗</a>`
+  };
+  return finalize('Certificados TLS (CT)','ok','📄','Transparencia de certificados · crt.sh','seguridad',f,kv,null);
+}
+
+/* ============================================================ Geolocalización & ASN */
+async function checkGeo(d){
+  const f=[];let targets=[];
+  SITE_IPS.slice(0,2).forEach(ip=>targets.push({ip,label:'Sitio web (A)'}));
+  const seen=new Set(targets.map(t=>t.ip));
+  MX_IPS.forEach(x=>{if(!seen.has(x.ip)&&/^\d+\.\d+\.\d+\.\d+$/.test(x.ip)){seen.add(x.ip);targets.push({ip:x.ip,label:'MX '+x.host});}});
+  targets=targets.slice(0,6);
+  if(!targets.length){f.push(F('info','Sin IPs para geolocalizar','No se resolvieron IPs del sitio ni de los MX.'));return finalize('Geolocalización & ASN','neutral','🌍','Ubicación e infraestructura de las IPs','infra',f,{},null);}
+  const kv={};const countries=new Set(),asns=new Set();let okc=0;
+  for(const t of targets){
+    setStatus('Geolocalizando '+t.ip+'…');
+    const g=await geoLookup(t.ip);
+    if(!g){kv[`${t.label} — ${t.ip}`]=tag('geolocalización no disponible','y');continue;}
+    okc++;const flag=g.flag||flagOf(g.cc)||'';
+    if(g.country)countries.add((flag?flag+' ':'')+g.country);
+    if(g.asn)asns.add(g.asn+(g.org?' · '+g.org:''));
+    const mapl=g.lat?`<a href="https://www.openstreetmap.org/?mlat=${g.lat}&mlon=${g.lon}#map=9/${g.lat}/${g.lon}" target="_blank" rel="noopener">ver mapa ↗</a>`:'';
+    kv[`${t.label} — ${esc(t.ip)}`]=`<table class="mini">`+
+      `<tr><td>País</td><td>${flag} ${esc(g.country||'—')} ${g.cc?'('+esc(g.cc)+')':''}</td></tr>`+
+      `<tr><td>Ciudad / Región</td><td>${esc([g.city,g.region].filter(Boolean).join(', ')||'—')}${g.postal?' · CP '+esc(g.postal):''}</td></tr>`+
+      `<tr><td>ASN / Red</td><td>${g.asn?tag(g.asn,'g'):'—'}</td></tr>`+
+      `<tr><td>Organización / ISP</td><td>${esc(g.org||g.isp||'—')}</td></tr>`+
+      `<tr><td>Zona horaria</td><td>${esc(g.tz||'—')}</td></tr>`+
+      `<tr><td>Coordenadas</td><td>${g.lat?esc(g.lat+', '+g.lon):'—'} ${mapl}</td></tr>`+
+    `</table>`;
+  }
+  if(okc)f.push(F('ok',okc+' IP(s) geolocalizada(s)','Ubicación física aproximada, red (ASN) y proveedor de hosting de la infraestructura del dominio.'));
+  else f.push(F('warn','Geolocalización no disponible','No se pudo obtener la ubicación (el proveedor de geo-IP puede estar limitado o bloqueado por CORS).'));
+  if(countries.size)f.push(F('info','País(es) de alojamiento: '+[...countries].join('  ·  '),'Dónde están físicamente los servidores.'));
+  if(asns.size)f.push(F('info','Red(es) / ASN: '+[...asns].join('  ·  '),'Sistema autónomo y proveedor de conectividad.'));
+  return finalize('Geolocalización & ASN',okc?'ok':'neutral','🌍','Ubicación e infraestructura de las IPs','infra',f,kv,null);
+}
+
+/* ============================================================ DANE / TLSA */
+async function checkDANE(d){
+  const f=[];const mx=[...new Map(MX_IPS.map(x=>[x.host,x])).values()].slice(0,3);
+  if(!mx.length){f.push(F('info','Sin MX para verificar DANE','No hay servidores de correo.'));return finalize('DANE / TLSA','neutral','🔗','Anclaje de certificados TLS del correo','seguridad',f,{},null);}
+  const kv={};let has=0;
+  for(const m of mx){const q=await query('_25._tcp.'+m.host,'TLSA');if(q.answers.length){has++;kv[esc(m.host)]=raw(q.answers.map(a=>a.data).join('\n'));}else kv[esc(m.host)]=tag('sin TLSA','y');}
+  f.push(has?F('ok',has+' host(s) MX con DANE/TLSA','Los servidores anclan su certificado TLS vía DNSSEC, impidiendo la suplantación del certificado en la entrega de correo.'):F('info','DANE/TLSA no configurado','Registro avanzado que ata el certificado TLS del correo a DNSSEC. Opcional; requiere DNSSEC activo.'));
+  return finalize('DANE / TLSA',deriveStatus(f,'neutral'),'🔗','Anclaje de certificados TLS del correo (RFC 7672)','seguridad',f,kv,null);
+}
+
+/* ============================================================ Riesgo de suplantación (síntesis) */
+function checkSpoof(){
+  const f=[];const spf=REPORT['SPF'],dkim=REPORT['DKIM'],dmarc=REPORT['DMARC'];
+  const p=((dmarc&&dmarc.record||'').match(/p=(\w+)/i)||[])[1];const pl=p?p.toLowerCase():'';
+  const spfHard=!!(spf&&spf.record&&/-all\b/.test(spf.record));
+  const spfSoft=!!(spf&&spf.record&&/~all\b/.test(spf.record));
+  const dkimOk=!!(dkim&&dkim.status!=='fail');
+  let level,sev,msg;
+  if(pl==='reject'&&(spfHard||spfSoft)&&dkimOk){level='ALTA';sev='ok';msg='Con DMARC en reject más SPF y DKIM activos, un tercero no puede suplantar tu dominio: los receptores rechazan el correo falsificado.';}
+  else if(pl==='quarantine'){level='MEDIA';sev='warn';msg='DMARC en quarantine desvía el correo suplantado a spam pero no lo rechaza. Sube a p=reject para protección total.';}
+  else if(pl==='none'||!pl){level='BAJA';sev='fail';msg='Sin DMARC en enforcement (quarantine/reject), cualquiera puede enviar correo falsificando tu dominio y llegará a la bandeja de entrada. Es el riesgo más crítico.';}
+  else{level='MEDIA';sev='warn';msg='Configuración parcial; revisa SPF, DKIM y DMARC.';}
+  f.push(F(sev,'Protección anti-suplantación: '+level,msg));
+  f.push(F(spfHard?'ok':spfSoft?'warn':'fail','SPF: '+(spfHard?'hardfail (-all)':spfSoft?'softfail (~all)':'ausente o permisivo'),''));
+  f.push(F(dkimOk?'ok':'fail','DKIM: '+(dkimOk?'firma activa':'ausente'),''));
+  f.push(F(pl==='reject'?'ok':pl==='quarantine'?'warn':'fail','DMARC: '+(pl?'p='+pl:'ausente'),''));
+  const kv={'Nivel de protección':tag(level,level==='ALTA'?'g':level==='MEDIA'?'y':'r'),'SPF':spfHard?tag('-all','g'):spfSoft?tag('~all','y'):tag('débil','r'),'DKIM':dkimOk?tag('activo','g'):tag('ausente','r'),'DMARC':pl?tag('p='+pl,pl==='reject'?'g':pl==='quarantine'?'y':'r'):tag('ausente','r')};
+  return finalize('Riesgo de suplantación',sev,'🎭','Síntesis de protección del correo','seguridad',f,kv,null);
+}
+
+/* ============================================================ DNS base */
+async function checkBase(d){
+  const [a,aaaa,ns,soa]=await Promise.all([query(d,'A'),query(d,'AAAA'),query(d,'NS'),query(d,'SOA')]);const f=[];
+  SITE_IPS=a.answers.map(x=>x.data).filter(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x));
+  if(soa.status===3){f.push(F('fail','El dominio no existe (NXDOMAIN)','No hay zona DNS. Verifica la ortografía y el registro.'));return finalize('DNS base','fail','🌐','Registros fundamentales','dominio',f,{},null,true);}
+  f.push(F('ok','Dominio activo con zona DNS','SOA y nameservers resueltos.'));
+  if(a.answers.length)f.push(F('info','A (IPv4): '+a.answers.map(x=>x.data).join(', '),'Direcciones del sitio web.'));
+  f.push(aaaa.answers.length?F('ok','AAAA (IPv6) presente','Accesible por IPv6.'):F('info','Sin AAAA (IPv6)','El sitio no publica IPv6. No es un error.'));
+  const kv={'Nameservers':ns.answers.length?ns.answers.map(x=>tag(x.data)).join(''):'—','A (IPv4)':a.answers.length?a.answers.map(x=>x.data).join(', '):'—','AAAA (IPv6)':aaaa.answers.length?aaaa.answers.map(x=>x.data).join(', '):tag('ninguno','y'),'SOA':soa.answers.length?raw(soa.answers[0].data):'—'};
+  return finalize('DNS base','ok','🌐','Registros fundamentales','dominio',f,kv,null,true);
+}
+
+/* ============================================================ Orchestration */
+const $=s=>document.querySelector(s);
+const setStatus=t=>{$('#statusTxt').textContent=t;};
+const setBar=p=>{$('#bar').style.width=p+'%';};
+const ORDER=['Riesgo de suplantación','SPF','DKIM','DMARC','MX','MTA-STS','TLS-RPT','BIMI','Listas negras','DNSSEC','DANE / TLSA','CAA','Certificados TLS (CT)','DNS inverso (PTR)','Geolocalización & ASN','WHOIS / RDAP','Registros TXT','DNS base'];
+
+async function run(){
+  let d=$('#domain').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido, p. ej. ejemplo.com');return;}
+  RESOLVER=$('#resolver').value;
+  const extra=$('#selectors').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const doRBL=$('#rbltoggle').value==='1';
+  cache.clear();ITEMS=[];REPORT={};MX_IPS=[];SITE_IPS=[];BL_LISTED=[];USED_RESOLVERS=new Set();
+  $('#results').innerHTML='';$('#dash').style.display='none';$('#tabs').style.display='none';const _ba=$('#blAlert');if(_ba){_ba.style.display='none';_ba.innerHTML='';}const _ap=$('#actionPlan');if(_ap)_ap.innerHTML='';
+  $('#status').style.display='flex';$('#barwrap').style.display='block';setBar(3);$('#go').disabled=true;
+  const t0=performance.now();
+  try{
+    setStatus('Consultando registros base…');
+    const base=await checkBase(d);setBar(10);
+    if(base.status==='fail'){renderAll(d,(performance.now()-t0)/1000);finishUI();return;}
+    const steps=[
+      ['Analizando SPF…',()=>checkSPF(d),18],
+      ['Escaneando selectores DKIM…',()=>checkDKIM(d,extra),42],
+      ['Evaluando DMARC…',()=>checkDMARC(d),50],
+      ['Consultando servidores MX…',()=>checkMX(d),58],
+      ...(doRBL?[['Verificando listas negras (RBL)…',()=>checkRBL(d),68]]:[]),
+      ['Verificando MTA-STS…',()=>checkMTASTS(d),72],
+      ['Verificando TLS-RPT…',()=>checkTLSRPT(d),75],
+      ['Verificando BIMI…',()=>checkBIMI(d),78],
+      ['Comprobando DNSSEC…',()=>checkDNSSEC(d),80],
+      ['Comprobando DANE/TLSA…',()=>checkDANE(d),83],
+      ['Comprobando CAA…',()=>checkCAA(d),84],
+      ['Consultando certificados (crt.sh)…',()=>checkCT(d),86],
+      ['Resolviendo DNS inverso (PTR)…',()=>checkPTR(d),88],
+      ['Geolocalizando IPs…',()=>checkGeo(d),91],
+      ['Consultando WHOIS / RDAP…',()=>checkRDAP(d),95],
+      ['Catalogando registros TXT…',()=>checkTXT(d),97],
+      ['Evaluando riesgo de suplantación…',()=>Promise.resolve(checkSpoof()),99],
+    ];
+    for(const [msg,fn,pct] of steps){setStatus(msg);await fn();setBar(pct);}
+    renderAll(d,(performance.now()-t0)/1000);setBar(100);
+  }catch(err){
+    alert('Error consultando DNS: '+err.message+'\n\nSi abriste el archivo con file:// y falla, súbelo a un hosting estático (GitHub Pages, Netlify) o ábrelo con un servidor local.');
+    console.error(err);
+  }finally{finishUI();}
+}
+function finishUI(){$('#go').disabled=false;setTimeout(()=>{$('#status').style.display='none';$('#barwrap').style.display='none';},700);}
+
+const BADGE={ok:['b-ok','CORRECTO'],warn:['b-warn','ATENCIÓN'],fail:['b-fail','CRÍTICO'],info:['b-info','INFO'],neutral:['b-neutral','N/D']};
+const WEIGHTS={SPF:18,DKIM:18,DMARC:24,MX:6,'MTA-STS':4,DNSSEC:5,CAA:3,'Listas negras':7,'DANE / TLSA':1,'WHOIS / RDAP':1,'DNS inverso (PTR)':4,BIMI:1,'TLS-RPT':2,'Certificados TLS (CT)':2};
+const SCOREVAL={ok:1,info:1,warn:0.5,neutral:0.65,fail:0};
+
+function renderAll(d,secs){
+  ITEMS.sort((a,b)=>ORDER.indexOf(a.name)-ORDER.indexOf(b.name));
+  // sections
+  $('#results').innerHTML='';
+  ITEMS.forEach(it=>$('#results').appendChild(renderSection(it,['SPF','DKIM','DMARC'].includes(it.name))));
+  // score
+  let total=0,max=0,c={ok:0,warn:0,fail:0,neut:0};
+  ITEMS.forEach(it=>{const w=WEIGHTS[it.name]||0;if(w){max+=w;total+=w*(SCOREVAL[it.status]??0);}
+    if(it.status==='ok'||it.status==='info')c.ok++;else if(it.status==='warn')c.warn++;else if(it.status==='fail')c.fail++;else c.neut++;});
+  const score=max?Math.round(total/max*100):0;
+  animateScore(score);
+  const grade=score>=90?'A':score>=80?'B':score>=65?'C':score>=45?'D':'F';
+  $('#scoreGrade').textContent='NOTA '+grade;
+  const col=score>=85?'var(--ok)':score>=60?'var(--warn)':'var(--fail)';
+  $('#scoreGrade').style.color=col;
+  $('#verdict').textContent=score>=90?'Excelente — configuración robusta':score>=75?'Buena — con mejoras recomendadas':score>=55?'Regular — hay riesgos importantes':score>=30?'Deficiente — expuesto a suplantación':'Crítico — sin protección efectiva';
+  $('#vdom').textContent=d;
+  $('#kpis').innerHTML=`<div class="kpi ok"><b>${c.ok}</b><span>Correctos</span></div><div class="kpi warn"><b>${c.warn}</b><span>Atención</span></div><div class="kpi fail"><b>${c.fail}</b><span>Críticos</span></div><div class="kpi neut"><b>${c.neut}</b><span>N/D</span></div>`;
+  $('#meta').innerHTML=`<span><b>Analizado:</b> ${new Date().toLocaleString('es-CO')}</span><span><b>Resolutor:</b> ${[...USED_RESOLVERS].join(', ')||RESOLVER}</span><span><b>Tiempo:</b> ${secs.toFixed(1)}s</span><span><b>Pruebas:</b> ${ITEMS.length}</span>`;
+  // Blacklist alert banner
+  const ba=$('#blAlert');
+  if(BL_LISTED.length){
+    const lists=[...new Set(BL_LISTED.map(x=>x.bl))];
+    const ipsL=[...new Set(BL_LISTED.map(x=>x.ip))];
+    ba.className='blalert';
+    ba.innerHTML=`<div class="blalert-in"><span class="blbig">⛔</span><div><b>Dominio REPORTADO en listas negras</b><span>IP(s) afectada(s): ${ipsL.map(i=>esc(i)).join(', ')} · Listas: ${lists.map(l=>esc(l)).join(', ')}. Afecta gravemente la entrega de tu correo — solicita el delisting.</span></div></div>`;
+    ba.style.display='block';
+  } else { ba.style.display='none'; ba.innerHTML=''; }
+  $('#dash').style.display='block';
+  renderActionPlan(d);
+  saveHistory(d,score);
+  renderTabs();
+  $('#dash').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function animateScore(target){
+  const el=$('#scoreNum'),arc=$('#ringArc'),circ=2*Math.PI*80;
+  const col=target>=85?'var(--ok)':target>=60?'var(--warn)':'var(--fail)';
+  arc.style.stroke=col;el.style.color=col;
+  arc.setAttribute('stroke-dasharray',circ.toFixed(0));
+  requestAnimationFrame(()=>arc.setAttribute('stroke-dashoffset',(circ*(1-target/100)).toFixed(0)));
+  let cur=0;const step=Math.max(1,Math.round(target/40));
+  const iv=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(iv);}el.textContent=cur;},22);
+}
+/* ============================================================ Plan de acción / remediación */
+function buildActionPlan(d){
+  const A=[];const rec=n=>(REPORT[n]&&REPORT[n].record)||'';const st=n=>(REPORT[n]&&REPORT[n].status)||'neutral';
+  const spf=rec('SPF');
+  if(st('SPF')==='fail'&&!spf)A.push({sev:'fail',title:'Publicar registro SPF',why:'No existe SPF; cualquiera puede enviar correo en nombre del dominio.',impact:'Alto',effort:'Bajo',host:d,record:'v=spf1 include:_spf.google.com -all',note:'Reemplaza el include por los de tus proveedores reales de correo.'});
+  else if(spf&&/[~?]all/.test(spf))A.push({sev:'warn',title:'Endurecer SPF a -all',why:'Tu SPF termina en softfail/neutral; el correo no autorizado no se rechaza.',impact:'Medio',effort:'Bajo',host:d,record:spf.replace(/[~?]all/,'-all'),note:'Confirma primero que todos tus emisores legítimos estén incluidos.'});
+  const dm=rec('DMARC');const p=(dm.match(/p=(\w+)/i)||[])[1];const pl=p?p.toLowerCase():'';
+  if(st('DMARC')==='fail'&&!dm)A.push({sev:'fail',title:'Publicar DMARC (fase de monitoreo)',why:'Sin DMARC no controlas la suplantación ni recibes reportes.',impact:'Alto',effort:'Bajo',host:'_dmarc.'+d,record:'v=DMARC1; p=none; rua=mailto:dmarc@'+d+'; ruf=mailto:dmarc@'+d+'; fo=1; adkim=r; aspf=r',note:'Tras 2–4 semanas revisando reportes, sube a p=quarantine y luego a p=reject.'});
+  else if(pl==='none')A.push({sev:'fail',title:'Subir DMARC a quarantine → reject',why:'p=none solo monitorea; no protege contra suplantación.',impact:'Alto',effort:'Medio',host:'_dmarc.'+d,record:dm.replace(/p=none/i,'p=quarantine'),note:'Fase 1: p=quarantine con pct=25, sube a 100; Fase 2: p=reject.'});
+  else if(pl==='quarantine')A.push({sev:'warn',title:'Elevar DMARC a reject',why:'quarantine desvía a spam pero no rechaza el correo falso.',impact:'Medio',effort:'Bajo',host:'_dmarc.'+d,record:dm.replace(/p=quarantine/i,'p=reject')});
+  if(st('DKIM')==='fail')A.push({sev:'fail',title:'Activar firma DKIM (2048 bits)',why:'Sin DKIM el correo no puede verificarse criptográficamente.',impact:'Alto',effort:'Medio',note:'Actívalo en tu proveedor (Microsoft 365 / Google Workspace) y publica los CNAME/TXT que indique. Usa claves de 2048 bits.'});
+  if(st('MTA-STS')!=='ok')A.push({sev:'warn',title:'Implementar MTA-STS',why:'Evita la degradación del cifrado TLS del correo entrante (downgrade).',impact:'Medio',effort:'Medio',host:'_mta-sts.'+d,record:'v=STSv1; id='+new Date().toISOString().slice(0,10).replace(/-/g,'')+'01',note:'Publica ese TXT y sirve https://mta-sts.'+d+'/.well-known/mta-sts.txt con: version: STSv1 · mode: enforce · mx: <tus MX> · max_age: 604800'});
+  if(st('TLS-RPT')!=='ok')A.push({sev:'info',title:'Añadir TLS-RPT',why:'Recibe reportes de fallos de cifrado en la entrega.',impact:'Bajo',effort:'Bajo',host:'_smtp._tls.'+d,record:'v=TLSRPTv1; rua=mailto:tlsrpt@'+d});
+  if(st('CAA')!=='ok')A.push({sev:'warn',title:'Publicar registros CAA',why:'Limita qué autoridades pueden emitir certificados TLS para tu dominio.',impact:'Medio',effort:'Bajo',host:d,record:'0 issue "letsencrypt.org"\n0 issue "digicert.com"\n0 iodef "mailto:security@'+d+'"',note:'Ajusta las CAs a las que realmente utilizas.'});
+  if(st('DNSSEC')!=='ok')A.push({sev:'warn',title:'Habilitar DNSSEC',why:'Firma la zona DNS y evita respuestas falsificadas (incluidos tus SPF/DMARC).',impact:'Medio',effort:'Medio',note:'Actívalo en tu proveedor DNS/registrador y publica el registro DS en el TLD.'});
+  if(st('Listas negras')==='fail')A.push({sev:'fail',title:'Solicitar delisting (IP en lista negra)',why:'Una IP de tus MX está reportada; afecta gravemente la entrega.',impact:'Alto',effort:'Medio',note:'Corrige la causa (relay abierto, equipo comprometido, spam saliente) y solicita la remoción en cada operador de RBL.'});
+  if(st('DNS inverso (PTR)')==='warn')A.push({sev:'warn',title:'Configurar DNS inverso (PTR)',why:'Sin PTR muchos receptores rechazan o marcan como spam tu correo.',impact:'Medio',effort:'Bajo',note:'Pide a tu proveedor de hosting configurar el PTR de la IP hacia el hostname del servidor de correo.'});
+  const rank={fail:0,warn:1,info:2};A.sort((a,b)=>rank[a.sev]-rank[b.sev]);
+  return A;
+}
+function planText(d,A){return 'PLAN DE ACCIÓN DE SEGURIDAD — '+d+'\n'+new Date().toLocaleString('es-CO')+'\n'+'═'.repeat(50)+'\n\n'+A.map((a,i)=>`${i+1}. [${a.sev.toUpperCase()}] ${a.title}\n   Motivo: ${a.why}\n   Impacto: ${a.impact} · Esfuerzo: ${a.effort}${a.host?'\n   Publicar en: '+a.host:''}${a.record?'\n   Registro: '+a.record.replace(/\n/g,' | '):''}${a.note?'\n   Nota: '+a.note:''}`).join('\n\n')+'\n\nGenerado con Centinela.';}
+function renderActionPlan(d){
+  const w=$('#actionPlan');if(!w)return;const A=buildActionPlan(d);
+  if(!A.length){w.innerHTML='<div class="glass phishcard"><div class="phverdict" style="color:var(--ok);margin:0">✅ Sin acciones pendientes — la configuración es sólida</div></div>';return;}
+  const chip=s=>s==='fail'?'<span class="badge b-fail"><span class="dot"></span>CRÍTICO</span>':s==='warn'?'<span class="badge b-warn"><span class="dot"></span>IMPORTANTE</span>':'<span class="badge b-info"><span class="dot"></span>OPCIONAL</span>';
+  const items=A.map((a,i)=>`<div class="apitem ${a.sev}"><div class="aphead"><span class="apnum">${i+1}</span><div style="flex:1;min-width:0"><b>${esc(a.title)}</b><div class="hint">${esc(a.why)}</div></div>${chip(a.sev)}</div><div class="apmeta">Impacto: <b>${a.impact}</b> · Esfuerzo: <b>${a.effort}</b>${a.host?' · Publicar en: <code>'+esc(a.host)+'</code>':''}</div>${a.record?`<div class="raw"><span class="copy" data-copy="${esc(a.record)}">copiar</span>${esc(a.record)}</div>`:''}${a.note?`<div class="hint" style="margin-top:6px">💡 ${esc(a.note)}</div>`:''}</div>`).join('');
+  const nF=A.filter(a=>a.sev==='fail').length,nW=A.filter(a=>a.sev==='warn').length;
+  w.innerHTML=`<div class="glass phishcard"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="phverdict" style="margin:0">🛠️ Plan de acción — ${A.length} mejora(s)</div><span class="hint">${nF} crítica(s) · ${nW} importante(s)</span><button class="btn ghost" id="apDl" style="margin-left:auto">⤓ Descargar plan (.txt)</button></div><div class="applist">${items}</div></div>`;
+  const dl=$('#apDl');if(dl)dl.addEventListener('click',()=>{const b=new Blob([planText(d,A)],{type:'text/plain;charset=utf-8'});const el=document.createElement('a');el.href=URL.createObjectURL(b);el.download='plan-accion-'+d+'.txt';el.click();});
+}
+
+function renderSection(it,open){
+  const[bc,bt]=BADGE[it.status]||BADGE.neutral;
+  const sec=E('div','section glass'+(open?' open':''));sec.dataset.cat=it.cat;sec.dataset.status=it.status;
+  const fh=it.findings.map(f=>{const ic={ok:'✓',warn:'!',fail:'✕',info:'i'}[f.sev]||'•';return `<li class="f-${f.sev}"><span class="ic">${ic}</span><div><b>${esc(f.title)}</b>${f.why?`<span class="why">${f.why}</span>`:''}</div></li>`;}).join('');
+  const kvh=it.kv&&Object.keys(it.kv).length?'<div class="subh">Detalle técnico</div><table class="kv">'+Object.entries(it.kv).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')+'</table>':'';
+  sec.innerHTML=`<div class="shead"><div class="sicon">${it.icon}</div><div class="stitle"><b>${esc(it.name)}</b><small>${esc(it.subtitle)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin"><ul class="findings">${fh}</ul>${kvh}</div></div>`;
+  sec.querySelector('.shead').addEventListener('click',()=>sec.classList.toggle('open'));
+  return sec;
+}
+const CATS=[['todo','Todo','📋'],['correo','Correo','✉️'],['seguridad','Seguridad','🛡️'],['infra','Infraestructura','🌍'],['dominio','Dominio & DNS','🌐']];
+function renderTabs(){
+  const tabs=$('#tabs');tabs.innerHTML='';
+  CATS.forEach(([id,label,ic])=>{
+    const n=id==='todo'?ITEMS.length:ITEMS.filter(i=>i.cat===id).length;
+    if(!n&&id!=='todo')return;
+    const t=E('button','tab'+(id==='todo'?' active':''),`${ic} ${label} <span class="cnt">${n}</span>`);
+    t.dataset.cat=id;t.addEventListener('click',()=>filterCat(id,t));tabs.appendChild(t);
+  });
+  tabs.style.display='flex';
+}
+function filterCat(cat,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('hide',cat!=='todo'&&s.dataset.cat!==cat));
+}
+
+/* Export */
+function summaryText(){
+  let o=`DNS GUARDIAN — ${$('#vdom').textContent}\nPuntaje: ${$('#scoreNum').textContent}/100 (${$('#scoreGrade').textContent}) — ${$('#verdict').textContent}\nFecha: ${new Date().toLocaleString('es-CO')}\n\n`;
+  ITEMS.sort((a,b)=>ORDER.indexOf(a.name)-ORDER.indexOf(b.name)).forEach(it=>{
+    o+=`■ ${it.name}: ${(BADGE[it.status]||BADGE.neutral)[1]}\n`;
+    it.findings.forEach(f=>o+=`   ${({ok:'✓',warn:'!',fail:'✕',info:'·'}[f.sev]||'·')} ${f.title}\n`);
+    if(it.record)o+=`   → ${it.record.split('\n')[0].slice(0,120)}\n`;o+='\n';
+  });
+  return o;
+}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('.copy');if(c){navigator.clipboard.writeText(c.dataset.copy);c.textContent='✓';setTimeout(()=>c.textContent='copiar',1000);}
+  const ch=e.target.closest('.chip');if(ch&&ch.dataset.d){$('#domain').value=ch.dataset.d;run();}
+});
+$('#go').addEventListener('click',run);
+$('#domain').addEventListener('keydown',e=>{if(e.key==='Enter')run();});
+$('#advToggle').addEventListener('click',()=>$('#adv').classList.toggle('open'));
+$('#btnPrint').addEventListener('click',()=>window.print());
+$('#btnCopy').addEventListener('click',()=>{navigator.clipboard.writeText(summaryText());$('#btnCopy').textContent='✓ Copiado';setTimeout(()=>$('#btnCopy').textContent='⧉ Copiar resumen',1400);});
+$('#btnShare').addEventListener('click',()=>{const u=location.origin+location.pathname+'?d='+encodeURIComponent($('#vdom').textContent);navigator.clipboard.writeText(u);$('#btnShare').textContent='✓ Copiado';setTimeout(()=>$('#btnShare').textContent='🔗 Enlace',1400);});
+$('#btnJson').addEventListener('click',()=>{const b=new Blob([JSON.stringify({domain:$('#vdom').textContent,score:+$('#scoreNum').textContent,date:new Date().toISOString(),resolvers:[...USED_RESOLVERS],report:REPORT},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='centinela-'+$('#vdom').textContent+'.json';a.click();});
+/* ============================================================
+   Módulo Phishing / Sitios maliciosos
+   ============================================================ */
+const MULTI_SUFFIX=['com.co','gov.co','edu.co','org.co','net.co','mil.co','co.uk','org.uk','gov.uk','com.mx','gob.mx','com.br','com.ar','gob.ar','co.in','com.au','co.jp','com.tr','com.ec','com.pe','com.ve','com.es'];
+function registrable(host){host=host.toLowerCase().replace(/\.$/,'');const p=host.split('.');if(p.length<=2)return host;const l2=p.slice(-2).join('.');return MULTI_SUFFIX.includes(l2)?p.slice(-3).join('.'):p.slice(-2).join('.');}
+function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+function similar(a,b){if(!a||!b)return 0;const L=Math.max(a.length,b.length);return L?1-lev(a,b)/L:0;}
+const SUSP_TLD=['tk','ml','ga','cf','gq','top','xyz','zip','mov','click','link','country','work','support','rest','fit','icu','buzz','live','shop','online','site','host','cam','sbs','cyou','quest','autos'];
+const SUSP_TOK=['login','signin','sign-in','verify','verificar','secure','seguro','account','cuenta','update','actualizar','confirm','confirmar','banco','bank','wallet','clave','password','contrasena','pagar','payment','pago','soporte','webscr','recover','recuperar','unlock','desbloquear','suspend','premio','sorteo','factura'];
+function setPhishStatus(t){const s=$('#phishStatus');if(s){s.style.display='flex';$('#phishStatusTxt').textContent=t;}}
+function hidePhishStatus(){const s=$('#phishStatus');if(s)s.style.display='none';}
+
+async function analyzePhish(){
+  const raw=$('#phishUrl').value.trim();
+  if(!raw){alert('Ingresa la URL o dominio sospechoso');return;}
+  let url;try{url=new URL(/^https?:\/\//i.test(raw)?raw:'http://'+raw);}catch(e){alert('URL inválida. Ejemplo: https://sitio-sospechoso.co/login');return;}
+  const host=url.hostname.toLowerCase();
+  const brandRaw=$('#phishBrand').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'');
+  const brand=brandRaw?registrable(brandRaw):'';
+  const reg=registrable(host);
+  const signals=[];let score=0;
+  const add=(w,sev,title,why)=>{score+=w;signals.push({sev,title,why});};
+  $('#goPhish').disabled=true;$('#phishOut').innerHTML='';
+  try{
+    if(/(^|\.)xn--/.test(host))add(30,'fail','Dominio con punycode/IDN (posibles homógrafos)','El host usa "xn--": letras de otros alfabetos que imitan visualmente una marca (p. ej. а cirílica por a latina).');
+    if(/^\d+\.\d+\.\d+\.\d+$/.test(host))add(25,'fail','El host es una dirección IP','Los sitios legítimos usan nombres de dominio, no IPs directas.');
+    const tld=host.split('.').pop();
+    if(SUSP_TLD.includes(tld))add(15,'warn','TLD de alto riesgo: .'+tld,'Dominio de nivel superior frecuente en campañas de phishing por su bajo costo.');
+    if(url.href.includes('@'))add(20,'fail','La URL contiene "@"','Todo lo anterior a "@" se ignora en el navegador; se usa para ocultar el destino real.');
+    const labels=host.split('.').length;
+    if(labels>=5)add(12,'warn','Muchos subdominios ('+labels+' niveles)','Los atacantes anidan subdominios para incrustar el nombre de la marca.');
+    const hay=(host+url.pathname+url.search).toLowerCase();
+    const toks=[...new Set(SUSP_TOK.filter(t=>hay.includes(t)))];
+    if(toks.length)add(Math.min(18,toks.length*6),'warn','Palabras sensibles en la URL: '+toks.slice(0,5).join(', '),'Términos típicos de páginas que piden credenciales o datos financieros.');
+    if(url.protocol==='http:')add(8,'warn','Sin HTTPS','No cifra la conexión; inusual en sitios legítimos que solicitan datos.');
+    if((reg.match(/-/g)||[]).length>=2)add(8,'warn','Múltiples guiones en el dominio','p. ej. "portal-seguro-banco": patrón frecuente en dominios fraudulentos.');
+    if(brand){
+      const core=brand.split('.')[0], sim=similar(reg.split('.')[0],core);
+      if(reg===brand)add(-45,'ok','Coincide con el dominio real','El dominio es exactamente el legítimo; no es suplantación por nombre.');
+      else if(host.includes(core)&&reg!==brand)add(35,'fail','La marca "'+core+'" aparece pero el dominio NO es el real','El nombre está en un subdominio/ruta, pero el dominio registrable ('+reg+') no es '+brand+'. Suplantación muy probable.');
+      else if(sim>=0.7)add(30,'fail','Dominio muy parecido al real ('+Math.round(sim*100)+'% de similitud)','"'+reg+'" se asemeja a "'+brand+'": typosquatting / lookalike.');
+      else if(sim>=0.5)add(15,'warn','Cierto parecido con el real ('+Math.round(sim*100)+'%)','Podría ser un lookalike; revísalo manualmente.');
+    }
+    // DNS + reputación + geo + edad
+    RESOLVER='auto';cache.clear();USED_RESOLVERS=new Set();
+    let ip=null,geo=null,created=null,ageDays=null,listedOn=[];
+    if(!/^\d+\.\d+\.\d+\.\d+$/.test(host)){
+      setPhishStatus('Resolviendo DNS…');
+      const a=await query(host,'A');ip=a.answers.map(x=>x.data).find(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x));
+      if(!ip)add(10,'warn','El dominio no resuelve a una IP','Puede estar recién creado, dado de baja o mal escrito.');
+    }else ip=host;
+    if(ip){
+      setPhishStatus('Consultando reputación de la IP…');
+      const rev=ip.split('.').reverse().join('.');
+      for(const bl of ['zen.spamhaus.org','bl.spamcop.net','dnsbl.sorbs.net','b.barracudacentral.org']){
+        const q=await query(rev+'.'+bl,'A');
+        if(q.answers.length&&!/^127\.255\.255\./.test(q.answers[0].data))listedOn.push(bl);
+      }
+      if(listedOn.length)add(20,'fail','IP en listas negras: '+listedOn.join(', '),'La IP que aloja el sitio ya está reportada por abuso/spam.');
+      setPhishStatus('Geolocalizando…');geo=await geoLookup(ip);
+    }
+    setPhishStatus('Consultando registro (RDAP)…');
+    let registrar=null,nservers=[],rstatus=[],ptr=null;
+    try{const r=await fetch('https://rdap.org/domain/'+encodeURIComponent(reg),{headers:{'Accept':'application/rdap+json'}});
+      if(r.ok){const j=await r.json();const ev=(j.events||[]).find(e=>e.eventAction==='registration');
+        if(ev){created=ev.eventDate;ageDays=Math.round((Date.now()-new Date(created))/864e5);
+          if(ageDays<30)add(25,'fail','Dominio MUY reciente ('+ageDays+' días)','Los dominios de phishing suelen tener pocos días de creados. Indicador fuerte.');
+          else if(ageDays<180)add(12,'warn','Dominio reciente ('+ageDays+' días)','Antigüedad baja; combínalo con las demás señales.');
+          else add(-5,'ok','Dominio con antigüedad (~'+Math.max(1,Math.round(ageDays/365))+' año/s)','Menos común en campañas de phishing, aunque no lo descarta.');
+        }
+        const rg=(j.entities||[]).find(e=>(e.roles||[]).includes('registrar'));
+        if(rg){const vc=rg.vcardArray&&rg.vcardArray[1];const fn=vc&&vc.find(x=>x[0]==='fn');registrar=fn?fn[3]:(rg.handle||null);}
+        nservers=(j.nameservers||[]).map(n=>n.ldhName).filter(Boolean);
+        rstatus=j.status||[];
+      }}
+    catch(e){}
+    if(ip){try{const rev=ip.split('.').reverse().join('.')+'.in-addr.arpa';const q=await query(rev,'PTR');ptr=q.answers.map(x=>x.data)[0]||null;}catch(e){}}
+    // Verificación automática: backend (Worker) si existe, o Google Safe Browsing con clave local
+    const backend=(function(){try{return localStorage.getItem('ctn-backend')||'';}catch(e){return'';}})();
+    const gsbKey=(function(){try{return localStorage.getItem('ctn-gsb')||'';}catch(e){return'';}})();
+    if(backend){setPhishStatus('Verificando con el backend (VirusTotal / Safe Browsing)…');
+      try{const rr=await fetch(backend+'/verify?url='+encodeURIComponent(url.href));if(rr.ok){const v=await rr.json();
+        if(v.gsb==='listed')add(40,'fail','⛔ CATALOGADO por Google Safe Browsing','El backend confirma que la URL está en la base de amenazas de Google.');
+        else if(v.gsb==='clean')add(0,'ok','Google Safe Browsing: sin coincidencias','No figura (aún) en la base de Google.');
+        if(v.vt&&typeof v.vt.malicious==='number'){if(v.vt.malicious>0)add(Math.min(40,10+v.vt.malicious*5),'fail','⛔ VirusTotal: '+v.vt.malicious+' motor(es) lo marcan como malicioso','Verificación con 70+ motores antivirus vía el backend.');else add(0,'ok','VirusTotal: limpio','Ningún motor lo marca (según VirusTotal).');}
+      }}catch(e){}
+    } else if(gsbKey){setPhishStatus('Consultando Google Safe Browsing…');
+      try{const gr=await safeBrowsingCheck(url.href,gsbKey);
+        if(gr==='listed')add(40,'fail','⛔ CATALOGADO como malicioso por Google Safe Browsing','Verificación automática: Google confirma que esta URL está en su base de amenazas (phishing/malware).');
+        else if(gr==='clean')add(0,'ok','Google Safe Browsing: sin coincidencias','La URL no figura (aún) en la base de Google. No descarta un sitio nuevo.');
+      }catch(e){}
+    }
+    score=Math.max(0,Math.min(100,Math.round(score)));
+    renderPhish({url,host,reg,brand,ip,geo,created,ageDays,listedOn,signals,score,registrar,nservers,rstatus,ptr});
+  }catch(err){alert('Error en el análisis: '+err.message);console.error(err);}
+  finally{$('#goPhish').disabled=false;hidePhishStatus();}
+}
+
+function buildReportText(r){
+  const now=new Date();
+  const refId='CTN-'+now.getFullYear()+(''+(now.getMonth()+1)).padStart(2,'0')+(''+now.getDate()).padStart(2,'0')+'-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  const lvl=r.score>=60?'ALTO':r.score>=30?'MEDIO':'BAJO';
+  const org=(function(){try{return localStorage.getItem('ctn-org')||'';}catch(e){return'';}})();
+  const iocs=r.signals.filter(s=>s.sev!=='ok');
+  const geoStr=r.geo?[r.geo.city,r.geo.region,r.geo.country].filter(Boolean).join(', '):'—';
+  const coord=r.geo&&r.geo.lat!=null?`${r.geo.lat}, ${r.geo.lon}`:'—';
+  const L=[];
+  L.push('═══════════════════════════════════════════════════════════');
+  L.push('  REPORTE TÉCNICO DE SITIO MALICIOSO / SUPLANTACIÓN (PHISHING)');
+  L.push('═══════════════════════════════════════════════════════════');
+  L.push('Referencia: '+refId);
+  L.push('Fecha y hora: '+now.toLocaleString('es-CO')+' (America/Bogota)');
+  if(org) L.push('Entidad que reporta: '+org);
+  L.push('Clasificación del incidente: Suplantación de identidad / Phishing');
+  L.push('Nivel de riesgo (evaluación heurística): '+r.score+'/100 — '+lvl);
+  L.push('');
+  L.push('1. SITIO REPORTADO');
+  L.push('   • URL completa......: '+r.url.href);
+  L.push('   • Esquema/protocolo.: '+r.url.protocol.replace(':','')+(r.url.protocol==='http:'?' (SIN cifrado TLS)':' (TLS)'));
+  L.push('   • Host..............: '+r.host);
+  L.push('   • Dominio registrable: '+r.reg);
+  L.push('   • TLD...............: .'+r.reg.split('.').pop());
+  if(r.brand) L.push('   • Marca/dominio suplantado: '+r.brand);
+  L.push('');
+  L.push('2. INFRAESTRUCTURA (hosting)');
+  L.push('   • Dirección IP......: '+(r.ip||'no resuelve'));
+  L.push('   • DNS inverso (PTR).: '+(r.ptr||'sin PTR'));
+  L.push('   • ASN / Red.........: '+((r.geo&&r.geo.asn)||'—'));
+  L.push('   • Proveedor / ISP...: '+((r.geo&&(r.geo.org||r.geo.isp))||'—'));
+  L.push('   • Ubicación.........: '+geoStr);
+  L.push('   • Coordenadas.......: '+coord);
+  L.push('   • Reputación IP.....: '+(r.listedOn&&r.listedOn.length?('LISTADA en '+r.listedOn.join(', ')):'sin reportes en las RBL consultadas'));
+  L.push('');
+  L.push('3. REGISTRO DEL DOMINIO (WHOIS/RDAP)');
+  L.push('   • Fecha de creación.: '+(r.created?r.created.slice(0,10)+(r.ageDays!=null?' ('+r.ageDays+' días de antigüedad)':''):'desconocida'));
+  L.push('   • Registrador.......: '+(r.registrar||'—'));
+  L.push('   • Nameservers.......: '+((r.nservers&&r.nservers.length)?r.nservers.join(', '):'—'));
+  if(r.rstatus&&r.rstatus.length) L.push('   • Estado (EPP)......: '+r.rstatus.join(', '));
+  L.push('');
+  L.push('4. INDICADORES DE COMPROMISO (IOCs) DETECTADOS');
+  if(iocs.length) iocs.forEach((s,i)=>{L.push('   '+(i+1)+'. ['+(s.sev==='fail'?'ALTO':'MEDIO')+'] '+s.title);if(s.why)L.push('      → '+s.why);});
+  else L.push('   (sin indicadores negativos automáticos; reportado por criterio del usuario)');
+  L.push('');
+  L.push('5. IMPACTO POTENCIAL');
+  L.push('   Captura fraudulenta de credenciales y/o datos personales y financieros');
+  L.push('   de las víctimas mediante la imitación de un sitio legítimo'+(r.brand?' ('+r.brand+')':'')+'.');
+  L.push('');
+  L.push('6. SOLICITUD');
+  L.push('   Se solicita la verificación, bloqueo y/o baja (takedown) del sitio, la');
+  L.push('   inclusión en listas de navegación segura y, si procede, el inicio de las');
+  L.push('   actuaciones legales correspondientes.');
+  L.push('');
+  L.push('7. MARCO LEGAL (Colombia)');
+  L.push('   • Ley 1273 de 2009 — "De la protección de la información y de los datos".');
+  L.push('   • Art. 269G — Suplantación de sitios web para capturar datos personales.');
+  L.push('   • Art. 269A/269F — Acceso abusivo y violación de datos personales.');
+  L.push('   • Ley 1581 de 2012 — Protección de datos personales.');
+  L.push('');
+  L.push('8. RECOMENDACIONES / EVIDENCIA');
+  L.push('   • No ingrese credenciales ni datos en el sitio reportado.');
+  L.push('   • Conserve capturas de pantalla, encabezados de correo y la URL original.');
+  L.push('   • Adjunte este reporte a la denuncia en los canales oficiales.');
+  L.push('');
+  L.push('───────────────────────────────────────────────────────────');
+  L.push('Generado con Centinela · Análisis heurístico automatizado (orientativo,');
+  L.push('no constituye determinación legal ni pericial). Verifique los datos.');
+  return L.join('\n');
+}
+
+function renderPhish(r){
+  const lv=r.score>=60?['ALTO','var(--fail)','⛔','Alta probabilidad de sitio malicioso / suplantación']
+        :r.score>=30?['MEDIO','var(--warn)','⚠️','Señales sospechosas — revísalo con cuidado antes de confiar']
+        :['BAJO','var(--ok)','✅','Pocos indicadores de phishing detectados'];
+  const encU=encodeURIComponent(r.url.href),rt=buildReportText(r),encT=encodeURIComponent(rt);
+  const circ=2*Math.PI*70, off=(circ*(1-r.score/100)).toFixed(0);
+  const sig=r.signals.slice().sort((a,b)=>({fail:0,warn:1,ok:2,info:1}[a.sev]-{fail:0,warn:1,ok:2,info:1}[b.sev]));
+  const sigH=sig.map(s=>{const ic={ok:'✓',warn:'!',fail:'✕',info:'i'}[s.sev]||'•';return `<li class="f-${s.sev}"><span class="ic">${ic}</span><div><b>${esc(s.title)}</b>${s.why?`<span class="why">${esc(s.why)}</span>`:''}</div></li>`;}).join('');
+  const flag=r.geo?(r.geo.flag||flagOf(r.geo.cc)||''):'';
+  const siteKv={
+    'URL':`<span style="font-family:var(--mono);font-size:12px;word-break:break-all">${esc(r.url.href)}</span>`,
+    'Dominio registrable':tag(r.reg,r.score>=60?'r':''),
+    'IP':r.ip?esc(r.ip):tag('no resuelve','y'),
+    'Alojamiento':r.geo?`${flag} ${esc(r.geo.country||'—')} · ${esc(r.geo.org||r.geo.isp||'—')} ${r.geo.asn?tag(r.geo.asn):''}`:'—',
+    'Registrado':r.created?esc(r.created.slice(0,10))+(r.ageDays!=null?` <span class="hint">(${r.ageDays} días)</span>`:''):'—',
+    'Reputación IP':r.listedOn&&r.listedOn.length?`<span style="color:var(--fail)">⛔ ${r.listedOn.map(esc).join(', ')}</span>`:tag('sin reportes','g')
+  };
+  const kvH='<table class="kv">'+Object.entries(siteKv).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')+'</table>';
+  const inv=investigateCards(r.host,r.reg,r.ip,r.url.href);
+  const rep=reportCards(r.host,r.url.href,encT);
+  $('#phishOut').innerHTML=`
+    <div class="glass phishcard">
+      <div class="phrow">
+        <div class="gauge">
+          <svg width="160" height="160" viewBox="0 0 160 160" style="transform:rotate(-90deg)">
+            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--line2)" stroke-width="12"/>
+            <circle cx="80" cy="80" r="70" fill="none" stroke="${lv[1]}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${circ.toFixed(0)}" stroke-dashoffset="${circ.toFixed(0)}" style="transition:stroke-dashoffset 1s ease" id="phArc"/>
+          </svg>
+          <div class="num"><div style="text-align:center"><b style="color:${lv[1]}">${r.score}</b><small>riesgo /100</small><div style="font-weight:800;letter-spacing:1px;color:${lv[1]};margin-top:4px">${lv[2]} ${lv[0]}</div></div></div>
+        </div>
+        <div>
+          <div class="phverdict" style="color:${lv[1]}">${esc(lv[3])}</div>
+          <div class="phurl">${esc(r.url.href)}</div>
+          <ul class="findings">${sigH}</ul>
+        </div>
+      </div>
+      <div class="subh">Datos del sitio</div>${kvH}
+      <div class="subh">🔎 Investigar / analizar (MXToolbox, VirusTotal y más)</div>
+      <div class="repgrid">${inv.map(cardHtml).join('')}</div>
+      <div class="subh">📢 Reportar gratis — canales oficiales</div>
+      <div class="repgrid">${rep.global.map(cardHtml).join('')}</div>
+      <div class="subh">🇨🇴 Colombia</div>
+      <div class="repgrid">${rep.co.map(cardHtml).join('')}</div>
+      <div class="subh">Texto de denuncia técnico (cópialo y pégalo en el formulario o correo)</div>
+      <div class="reptext"><span class="copy" data-copy="${esc(rt)}" style="position:absolute;top:8px;right:8px;font-size:11px;padding:3px 9px;background:var(--card2);border:1px solid var(--line);border-radius:7px;color:var(--muted);cursor:pointer">copiar</span>${esc(rt)}</div>
+      <div class="dashbtns" style="justify-content:flex-start;margin-top:10px">
+        <button class="btn ghost" id="phTxt">⤓ Descargar denuncia (.txt)</button>
+        <button class="btn ghost" id="phPrint">🖨️ Imprimir / PDF</button>
+      </div>
+      <p class="hint" style="margin-top:12px">⚠️ Este análisis es heurístico (orientativo), no una determinación legal ni una prueba definitiva. No ingreses tus credenciales en el sitio sospechoso. Para suplantación de un dominio oficial, reporta también a su administrador de dominio.</p>
+    </div>`;
+  requestAnimationFrame(()=>{const a=document.getElementById('phArc');if(a)a.setAttribute('stroke-dashoffset',off);});
+  const dl=$('#phTxt');if(dl)dl.addEventListener('click',()=>{const bl=new Blob([rt],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='denuncia-'+r.reg+'.txt';a.click();});
+  const pr=$('#phPrint');if(pr)pr.addEventListener('click',()=>window.print());
+  $('#phishOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ---- Shared investigate / report link builders ---- */
+function investigateCards(host,reg,ip,urlHref){
+  const encH=encodeURIComponent(reg||host),encU=urlHref?encodeURIComponent(urlHref):encodeURIComponent('http://'+(reg||host)),encIP=ip?encodeURIComponent(ip):'';
+  return [
+    ['MXToolbox', ip?'Blacklist de la IP':'MX / DNS del dominio','🧰', ip?('https://mxtoolbox.com/SuperTool.aspx?action=blacklist%3a'+encIP+'&run=toolpage'):('https://mxtoolbox.com/SuperTool.aspx?action=mx%3a'+encH+'&run=toolpage')],
+    ['VirusTotal','Reputación (70+ motores)','🦠', ip?('https://www.virustotal.com/gui/ip-address/'+encIP):('https://www.virustotal.com/gui/domain/'+encH)],
+    ['urlscan.io','Escaneo del sitio','🔬','https://urlscan.io/search/#'+encH],
+    ['AbuseIPDB', ip?'Reputación de la IP':'Reputación','📛', ip?('https://www.abuseipdb.com/check/'+encIP):('https://www.abuseipdb.com/check/'+encH)],
+    ['Cisco Talos','Centro de reputación','🛰️','https://talosintelligence.com/reputation_center/lookup?search='+encodeURIComponent(ip||reg||host)],
+    ['Netcraft Site Report','Perfil e infraestructura','📊','https://sitereport.netcraft.com/?url='+encU],
+    ['Sucuri SiteCheck','Malware & listas negras','🧫','https://sitecheck.sucuri.net/results/'+encH],
+    ['Safe Browsing (Google)','Estado de navegación segura','🔍','https://transparencyreport.google.com/safe-browsing/search?url='+encU],
+    ['WHOIS (who.is)','Datos de registro','📖','https://who.is/whois/'+encH],
+  ];
+}
+function reportCards(host,urlHref,encT){
+  const encU=urlHref?encodeURIComponent(urlHref):'';
+  return {global:[
+    ['Google Safe Browsing','Reportar página de phishing','🔍','https://safebrowsing.google.com/safebrowsing/report_phish/?url='+encU],
+    ['Microsoft SmartScreen','Reportar sitio inseguro','🪟','https://www.microsoft.com/wdsi/support/report-unsafe-site'],
+    ['Cloudflare Abuse','Phishing alojado en Cloudflare','☁️','https://abuse.cloudflare.com/phishing'],
+    ['Netcraft','Reportar phishing','🛰️','https://report.netcraft.com/report'],
+    ['APWG','Correo a Anti-Phishing WG','📧','mailto:reportphishing@apwg.org?subject='+encodeURIComponent('Phishing report: '+host)+'&body='+encT],
+    ['PhishTank','Base comunitaria de phishing','🐟','https://phishtank.org/'],
+    ['Spamhaus','Reportar abuso / spam','🚫','https://www.spamhaus.org/report/'],
+  ],co:[
+    ['CAI Virtual — Policía Nacional','Denuncia de delito informático','👮','https://caivirtual.policia.gov.co/'],
+    ['colCERT / CSIRT Gobierno','Incidente en dominios .gov.co','🏛️','https://www.colcert.gov.co/'],
+    ['Fiscalía General','Denuncia virtual','⚖️','https://www.fiscalia.gov.co/colombia/servicios-de-informacion-al-ciudadano/'],
+    ['Te Protejo (MinTIC · Red PaPaz)','Reportar estafa / contenido','🛡️','https://teprotejo.org/'],
+  ]};
+}
+const cardHtml=c=>`<a class="repcard" href="${c[3]}" target="_blank" rel="noopener"><div class="ri">${c[2]}</div><div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div></a>`;
+
+/* ============================================================
+   Módulo Geolocalización IP + mapa
+   ============================================================ */
+function setGeoStatus(t){const s=$('#geoStatus');if(s){s.style.display='flex';$('#geoStatusTxt').textContent=t;}}
+function hideGeoStatus(){const s=$('#geoStatus');if(s)s.style.display='none';}
+async function myPublicIP(){
+  for(const u of ['https://api.ipify.org?format=json','https://ipwho.is/']){
+    try{const r=await fetch(u);if(r.ok){const j=await r.json();if(j.ip)return j.ip;}}catch(e){}
+  }
+  return null;
+}
+async function runGeo(){
+  let inp=$('#geoInput').value.trim();
+  if(!inp){alert('Ingresa una IP o dominio');return;}
+  $('#goGeo').disabled=true;$('#geoOut').innerHTML='';
+  try{
+    RESOLVER='auto';cache.clear();USED_RESOLVERS=new Set();
+    let ip=null,host=null;
+    if(inp==='mi-ip'){setGeoStatus('Obteniendo tu IP pública…');ip=await myPublicIP();if(!ip){alert('No se pudo obtener tu IP pública');return;}}
+    else if(/^\d+\.\d+\.\d+\.\d+$/.test(inp)) ip=inp;
+    else{host=inp.toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'');setGeoStatus('Resolviendo dominio…');const a=await query(host,'A');ip=a.answers.map(x=>x.data).find(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x));if(!ip){alert('El dominio no resuelve a una IP');return;}}
+    setGeoStatus('Geolocalizando IP…');
+    const g=await geoLookup(ip);
+    if(!g){$('#geoOut').innerHTML='<div class="glass phishcard"><p>No se pudo geolocalizar la IP (el proveedor de geo-IP puede estar limitado o bloqueado por CORS). Ábrela desde un navegador o un hosting.</p></div>';return;}
+    setGeoStatus('Consultando DNS inverso y reputación…');
+    let ptr=null;try{const rev=ip.split('.').reverse().join('.')+'.in-addr.arpa';const q=await query(rev,'PTR');ptr=q.answers.map(x=>x.data)[0]||null;}catch(e){}
+    let listedOn=[];for(const bl of ['zen.spamhaus.org','bl.spamcop.net','dnsbl.sorbs.net','b.barracudacentral.org']){const q=await query(ip.split('.').reverse().join('.')+'.'+bl,'A');if(q.answers.length&&!/^127\.255\.255\./.test(q.answers[0].data))listedOn.push(bl);}
+    renderGeo({ip,host,g,ptr,listedOn});
+  }catch(err){alert('Error: '+err.message);console.error(err);}
+  finally{$('#goGeo').disabled=false;hideGeoStatus();}
+}
+function renderGeo(r){
+  const g=r.g, flag=g.flag||flagOf(g.cc)||'🌐';
+  const lat=g.lat,lon=g.lon;
+  let localTime='—';try{if(g.tz)localTime=new Date().toLocaleString('es-CO',{timeZone:g.tz,hour:'2-digit',minute:'2-digit',hour12:false})+' h';}catch(e){}
+  const mapHtml = (lat!=null&&lon!=null) ? (()=>{
+    const d=0.6, bbox=[lon-d,lat-d,lon+d,lat+d].join('%2C');
+    return `<iframe class="geomap" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}"></iframe>`;
+  })() : '<div class="geomap" style="display:grid;place-items:center;color:var(--muted)">Sin coordenadas para el mapa</div>';
+  const tile=(l,v)=>`<div class="geotile"><div class="lbl">${l}</div><div class="val">${v}</div></div>`;
+  const inv=investigateCards(r.host||r.ip, r.host||r.ip, r.ip, r.host?('http://'+r.host):('http://'+r.ip));
+  $('#geoOut').innerHTML=`
+    <div class="glass geocard">
+      ${mapHtml}
+      <div class="geohead">
+        <div class="geoflag">${flag}</div>
+        <div class="gh"><b>${esc([g.city,g.region,g.country].filter(Boolean).join(', ')||g.country||'Ubicación desconocida')}</b>
+          <span>${esc(r.ip)}${r.host?' · '+esc(r.host):''}${g.cc?' · '+esc(g.cc):''}</span></div>
+      </div>
+      <div class="geobody">
+        <div class="geogrid">
+          ${tile('País', (flag)+' '+esc(g.country||'—')+(g.cc?' <small>('+esc(g.cc)+')</small>':''))}
+          ${tile('Ciudad / Región', esc([g.city,g.region].filter(Boolean).join(', ')||'—')+(g.postal?' <small>CP '+esc(g.postal)+'</small>':''))}
+          ${tile('Coordenadas', (lat!=null?esc(lat+', '+lon):'—'))}
+          ${tile('Hora local', esc(localTime)+(g.tz?' <small>'+esc(g.tz)+'</small>':''))}
+          ${tile('ASN / Red', g.asn?tag(g.asn,'g'):'—')}
+          ${tile('Organización / ISP', esc(g.org||g.isp||'—'))}
+          ${tile('DNS inverso (PTR)', r.ptr?tag(r.ptr,'g'):tag('sin PTR','y'))}
+          ${tile('Reputación IP', r.listedOn.length?'<span style="color:var(--fail);font-weight:700">⛔ '+r.listedOn.map(esc).join(', ')+'</span>':tag('sin reportes','g'))}
+        </div>
+        <div class="dashbtns" style="justify-content:flex-start;margin-top:6px">
+          <a class="btn ghost" href="https://www.google.com/maps?q=${lat},${lon}" target="_blank" rel="noopener">🗺️ Google Maps</a>
+          <a class="btn ghost" href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=11/${lat}/${lon}" target="_blank" rel="noopener">🌐 OpenStreetMap</a>
+          <button class="btn ghost" id="geoCopy">⧉ Copiar datos</button>
+        </div>
+        <div class="subh">🔎 Investigar esta IP / dominio</div>
+        <div class="lookgrid">${inv.map(cardHtml).join('')}</div>
+      </div>
+    </div>`;
+  const gc=$('#geoCopy');if(gc)gc.addEventListener('click',()=>{const t=`IP: ${r.ip}\nUbicación: ${[g.city,g.region,g.country].filter(Boolean).join(', ')}\nCoordenadas: ${lat}, ${lon}\nASN: ${g.asn||'-'} (${g.org||g.isp||'-'})\nPTR: ${r.ptr||'-'}\nZona horaria: ${g.tz||'-'}`;navigator.clipboard.writeText(t);gc.textContent='✓ Copiado';setTimeout(()=>gc.textContent='⧉ Copiar datos',1400);});
+  $('#geoOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ============================================================ Comparar dominios */
+async function snapshotChecks(d){
+  d=d.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d))return{domain:d,fail:'inválido'};
+  cache.clear();ITEMS=[];REPORT={};MX_IPS=[];SITE_IPS=[];BL_LISTED=[];
+  const base=await checkBase(d);if(base.status==='fail')return{domain:d,fail:'no existe'};
+  await checkSPF(d);await checkDKIM(d,[]);await checkDMARC(d);await checkMX(d);await checkDNSSEC(d);await checkCAA(d);await checkMTASTS(d);
+  const snap={};ITEMS.forEach(it=>snap[it.name]=it.status);
+  let total=0,max=0;ITEMS.forEach(it=>{const w=WEIGHTS[it.name]||0;if(w){max+=w;total+=w*(SCOREVAL[it.status]??0);}});
+  return{domain:d,score:max?Math.round(total/max*100):0,snap};
+}
+async function runCompare(){
+  const a=$('#cmpA').value.trim(),b=$('#cmpB').value.trim();
+  if(!a||!b){alert('Ingresa los dos dominios a comparar');return;}
+  $('#goCmp').disabled=true;$('#cmpOut').innerHTML='';const st=$('#cmpStatus');st.style.display='flex';
+  try{
+    RESOLVER='auto';
+    $('#cmpStatusTxt').textContent='Analizando '+a+'…';const RA=await snapshotChecks(a);
+    $('#cmpStatusTxt').textContent='Analizando '+b+'…';const RB=await snapshotChecks(b);
+    renderCompare(RA,RB);
+  }catch(err){alert('Error: '+err.message);console.error(err);}
+  finally{$('#goCmp').disabled=false;st.style.display='none';}
+}
+function renderCompare(A,B){
+  const rows=['SPF','DKIM','DMARC','MX','MTA-STS','DNSSEC','CAA'];
+  const bcol=s=>s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='fail'?'var(--fail)':'var(--muted2)';
+  const btxt=s=>({ok:'✓ OK',warn:'! Atención',fail:'✕ Crítico',neutral:'– N/D',info:'✓ OK'}[s]||'–');
+  const cell=s=>`<td style="text-align:center"><span style="color:${bcol(s)};font-weight:700">${btxt(s)}</span></td>`;
+  const scol=s=>s>=85?'var(--ok)':s>=60?'var(--warn)':'var(--fail)';
+  const head=(R)=>R.fail?`<div style="text-align:center"><div style="font-size:13px;color:var(--fail)">${esc(R.domain||'—')}</div><div class="hint">${esc(R.fail)}</div></div>`
+    :`<div style="text-align:center"><div style="font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:4px">${esc(R.domain)}</div><div style="font-size:30px;font-weight:800;color:${scol(R.score)}">${R.score}<span style="font-size:13px;color:var(--muted)">/100</span></div></div>`;
+  const body=(A.fail||B.fail)?'':rows.map(r=>`<tr><td style="font-weight:600">${r}</td>${cell(A.snap[r]||'neutral')}${cell(B.snap[r]||'neutral')}</tr>`).join('');
+  const winner=(!A.fail&&!B.fail)?(A.score===B.score?'Empate técnico':(A.score>B.score?A.domain+' tiene mejor postura':B.domain+' tiene mejor postura')):'';
+  $('#cmpOut').innerHTML=`<div class="glass phishcard">
+    <table class="kv" style="table-layout:fixed"><tr><td style="width:34%"></td><td>${head(A)}</td><td>${head(B)}</td></tr></table>
+    ${winner?`<div style="text-align:center;font-weight:700;margin:6px 0 14px;color:var(--accent2)">🏆 ${esc(winner)}</div>`:''}
+    <table class="mini"><tr><th>Control</th><th style="text-align:center">A</th><th style="text-align:center">B</th></tr>${body}</table>
+    <p class="hint" style="margin-top:12px">Comparativa de controles clave. Para el detalle completo de cada dominio usa el módulo "Dominio & correo".</p>
+  </div>`;
+  $('#cmpOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ============================================================ Radar de Typosquatting */
+const HOMO={o:['0'],'0':['o'],l:['1','i'],i:['1','l'],e:['3'],a:['4'],s:['5'],b:['8'],g:['9'],c:['('],m:['nn'],n:['m']};
+function typoVariants(reg){
+  const parts=reg.split('.');const sld=parts[0];const tld=parts.slice(1).join('.');
+  const V=new Set();
+  for(let i=0;i<sld.length;i++){const su=HOMO[sld[i]];if(su)su.forEach(s=>V.add(sld.slice(0,i)+s+sld.slice(i+1)));}
+  if(sld.includes('m'))V.add(sld.replace('m','rn'));
+  if(sld.includes('rn'))V.add(sld.replace('rn','m'));
+  if(sld.includes('w'))V.add(sld.replace('w','vv'));
+  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld.slice(i+1));            // omisión
+  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld[i]+sld[i]+sld.slice(i+1)); // duplicación
+  for(let i=0;i<sld.length-1;i++)V.add(sld.slice(0,i)+sld[i+1]+sld[i]+sld.slice(i+2)); // intercambio
+  V.add(sld+'-seguro');V.add(sld+'-online');V.add('portal-'+sld);V.add(sld+'oficial');
+  V.delete(sld);
+  const doms=new Set();V.forEach(v=>{if(v&&v.length>1)doms.add(v+'.'+tld);});
+  ['com','net','org','co','info','online','site','top','xyz','app','com.co','gov.co','edu.co'].forEach(t=>{if(t!==tld)doms.add(sld+'.'+t);});
+  doms.delete(reg);
+  return [...doms].slice(0,72);
+}
+let TYPO_BRAND='';
+async function runTypo(){
+  let d=$('#typoInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido');return;}
+  const reg=registrable(d);TYPO_BRAND=reg;
+  const vars=typoVariants(reg);
+  $('#goTypo').disabled=true;$('#typoOut').innerHTML='';
+  const st=$('#typoStatus');st.style.display='flex';$('#typoBarwrap').style.display='block';
+  RESOLVER='auto';cache.clear();
+  const found=[];let done=0;const B=10;
+  try{
+    for(let i=0;i<vars.length;i+=B){
+      const slice=vars.slice(i,i+B);
+      const res=await Promise.all(slice.map(async v=>{
+        const ns=await query(v,'NS');
+        if(ns.answers.length){const a=await query(v,'A');return{dom:v,ip:a.answers.map(x=>x.data)[0]||null,ns:ns.answers.map(x=>x.data.replace(/\.$/,'')).slice(0,2)};}
+        return null;
+      }));
+      res.forEach(r=>r&&found.push(r));
+      done=Math.min(i+B,vars.length);$('#typoStatusTxt').textContent=`Verificando variantes… (${done}/${vars.length}) — ${found.length} registradas`;$('#typoBar').style.width=(done/vars.length*100)+'%';
+    }
+    // enrich found with IP geo/blacklist quickly (only for those with IP)
+    for(const f of found.filter(x=>x.ip).slice(0,12)){
+      const rev=f.ip.split('.').reverse().join('.');const q=await query(rev+'.zen.spamhaus.org','A');f.listed=q.answers.length&&!/^127\.255\.255\./.test(q.answers[0].data);
+    }
+    renderTypo(reg,vars.length,found);
+  }catch(e){alert('Error: '+e.message);}
+  finally{$('#goTypo').disabled=false;st.style.display='none';$('#typoBarwrap').style.display='none';}
+}
+function renderTypo(reg,total,found){
+  const active=found.filter(f=>f.ip);
+  const parked=found.filter(f=>!f.ip);
+  const rows=found.map(f=>`<tr>
+    <td style="font-family:var(--mono);font-weight:600${f.ip?';color:var(--warn)':''}">${esc(f.dom)}</td>
+    <td>${f.ip?esc(f.ip):'<span class="hint">sin A (registrado/parqueado)</span>'}</td>
+    <td>${f.listed?'<span style="color:var(--fail);font-weight:700">⛔ lista negra</span>':(f.ip?tag('activo','y'):tag('registrado',''))}</td>
+    <td><button class="btn ghost typoRep" data-dom="${esc(f.dom)}" style="padding:4px 10px;font-size:12px">Analizar</button></td>
+  </tr>`).join('');
+  const sev=active.length?'fail':(found.length?'warn':'ok');
+  const col=sev==='fail'?'var(--fail)':sev==='warn'?'var(--warn)':'var(--ok)';
+  $('#typoOut').innerHTML=`<div class="glass phishcard">
+    <div class="phverdict" style="color:${col}">${found.length?('⚠️ '+found.length+' dominio(s) imitadores registrados'):'✅ No se encontraron imitadores registrados'}</div>
+    <div class="phurl">Base: ${esc(reg)} · ${total} variantes verificadas · ${active.length} activos con IP</div>
+    ${found.length?`<div class="subh">Dominios similares registrados</div>
+    <table class="mini"><tr><th>Dominio</th><th>IP</th><th>Estado</th><th></th></tr>${rows}</table>
+    <p class="hint" style="margin-top:10px">Los dominios con IP activa son los más peligrosos (pueden alojar una copia de tu sitio). Pulsa "Analizar" para evaluarlos y reportarlos. Nota: un dominio registrado puede ser legítimo (tuyo o de un tercero sin relación); verifica antes de reportar.</p>`
+    :'<p class="hint">Ninguna de las variantes generadas está registrada actualmente. Repite la búsqueda periódicamente.</p>'}
+  </div>`;
+  document.querySelectorAll('.typoRep').forEach(b=>b.addEventListener('click',()=>{setMode('phish');$('#phishUrl').value='http://'+b.dataset.dom;$('#phishBrand').value=TYPO_BRAND;analyzePhish();}));
+  $('#typoOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ============================================================ Analizador de correo (.eml) */
+function analyzeEml(){
+  const raw=$('#emlInput').value;
+  if(!raw.trim()){alert('Pega el contenido del correo');return;}
+  const headerBlock=raw.split(/\r?\n\r?\n/)[0];
+  const H=[];headerBlock.split(/\r?\n/).forEach(l=>{if(/^\s/.test(l)&&H.length)H[H.length-1].v+=' '+l.trim();else{const i=l.indexOf(':');if(i>0)H.push({k:l.slice(0,i).trim(),v:l.slice(i+1).trim()});}});
+  const get=k=>H.filter(x=>x.k.toLowerCase()===k.toLowerCase()).map(x=>x.v);
+  const from=get('From')[0]||'',returnPath=get('Return-Path')[0]||'',replyTo=get('Reply-To')[0]||'',subject=get('Subject')[0]||'',date=get('Date')[0]||'';
+  const authRes=get('Authentication-Results').concat(get('ARC-Authentication-Results')).join('  ;  ');
+  const received=get('Received');
+  const emailDom=s=>{const m=(s||'').match(/@([a-z0-9.-]+\.[a-z]{2,})/i);return m?m[1].toLowerCase().replace(/[>)."']+$/,''):'';};
+  const dispName=s=>{const m=(s||'').match(/^\s*"?([^"<]*?)"?\s*</);return m?m[1].trim():'';};
+  const fromDom=emailDom(from),rpDom=emailDom(returnPath),replyDom=emailDom(replyTo);
+  const spf=(authRes.match(/spf=(\w+)/i)||[])[1];
+  const dkim=(authRes.match(/dkim=(\w+)/i)||[])[1];
+  const dmarc=(authRes.match(/dmarc=(\w+)/i)||[])[1];
+  const ipm=received.join(' ').match(/\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b/g)||[];
+  const pubIp=ipm.filter(ip=>!/^(10\.|127\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.)/.test(ip));
+  const originIp=pubIp[pubIp.length-1]||null;
+  const f=[];let score=0;const add=(w,sev,t,why)=>{score+=w;f.push({sev,t,why});};
+  const pf=(res,name,wFail)=>{if(!res){f.push({sev:'info',t:name+': no informado',why:'El correo no trae resultado de '+name+' en Authentication-Results.'});return;}
+    if(/pass/i.test(res))f.push({sev:'ok',t:name+'=pass',why:name+' verificado correctamente.'});
+    else{add(wFail,'fail',name+'='+res,name+' NO pasó — señal de posible suplantación.');}};
+  pf(spf,'SPF',20);pf(dkim,'DKIM',20);pf(dmarc,'DMARC',30);
+  if(fromDom&&rpDom&&fromDom!==rpDom){add(15,'warn','Return-Path distinto del From','From: @'+fromDom+' vs Return-Path: @'+rpDom+' — común en correos legítimos masivos, pero también en spoofing. Revísalo junto a SPF/DKIM.');}
+  if(fromDom&&replyDom&&replyDom!==fromDom){add(20,'fail','Reply-To apunta a otro dominio','Las respuestas irían a @'+replyDom+' en vez de @'+fromDom+'. Truco frecuente de fraude (BEC).');}
+  const dn=dispName(from);
+  if(dn){const brandInName=dn.toLowerCase().match(/[a-z0-9.-]+\.[a-z]{2,}/);if(brandInName&&fromDom&&!fromDom.includes(brandInName[0].split('.')[0])&&brandInName[0]!==fromDom){add(18,'warn','Nombre visible engañoso','El remitente se muestra como "'+dn+'" pero envía desde @'+fromDom+'.');}}
+  if(dmarc&&/fail/i.test(dmarc)){/*already counted*/}
+  score=Math.min(100,score);
+  renderEml({from,fromDom,returnPath,rpDom,replyTo,replyDom,subject,date,spf,dkim,dmarc,originIp,hops:received.length,findings:f,score});
+}
+async function renderEml(r){
+  const lv=r.score>=50?['ALTO','var(--fail)','⛔']:r.score>=20?['MEDIO','var(--warn)','⚠️']:['BAJO','var(--ok)','✅'];
+  const sigH=r.findings.map(x=>{const ic={ok:'✓',warn:'!',fail:'✕',info:'i'}[x.sev]||'•';return `<li class="f-${x.sev}"><span class="ic">${ic}</span><div><b>${esc(x.t)}</b>${x.why?`<span class="why">${esc(x.why)}</span>`:''}</div></li>`;}).join('');
+  const badge=v=>v?(/pass/i.test(v)?tag(v,'g'):tag(v,'r')):tag('n/d','y');
+  const kv={
+    'Asunto':esc(r.subject||'—'),'Fecha':esc(r.date||'—'),
+    'De (From)':esc(r.from||'—')+(r.fromDom?' <span class="hint">@'+esc(r.fromDom)+'</span>':''),
+    'Return-Path':r.returnPath?esc(r.returnPath):'—','Reply-To':r.replyTo?esc(r.replyTo):'—',
+    'SPF':badge(r.spf),'DKIM':badge(r.dkim),'DMARC':badge(r.dmarc),
+    'Saltos (Received)':r.hops,'IP de origen':r.originIp?esc(r.originIp):'no detectada'
+  };
+  let geoRow='';
+  if(r.originIp){try{const g=await geoLookup(r.originIp);if(g)geoRow=`${g.flag||flagOf(g.cc)||''} ${esc([g.city,g.country].filter(Boolean).join(', '))} · ${esc(g.org||g.isp||'')} ${g.asn?tag(g.asn):''}`;}catch(e){}}
+  if(geoRow)kv['Origen (geo)']=geoRow;
+  $('#emlOut').innerHTML=`<div class="glass phishcard">
+    <div class="phverdict" style="color:${lv[1]}">${lv[2]} Riesgo de suplantación del correo: ${lv[0]} (${r.score}/100)</div>
+    <ul class="findings">${sigH}</ul>
+    <div class="subh">Detalle del correo</div>
+    <table class="kv">${Object.entries(kv).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
+    <p class="hint" style="margin-top:10px">Análisis basado en los encabezados que pegaste. Si SPF/DKIM/DMARC no aparecen, tu proveedor no los añadió: reenvía el correo como adjunto o usa "Mostrar original".</p>
+  </div>`;
+  $('#emlOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ============================================================ Monitoreo + alertas */
+let MON_TIMER=null;
+function monList(){try{return JSON.parse(localStorage.getItem('ctn-watch')||'[]');}catch(e){return[];}}
+function monSave(l){try{localStorage.setItem('ctn-watch',JSON.stringify(l));}catch(e){}}
+function monAddDomain(){let d=$('#monInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Dominio inválido');return;}const l=monList();if(!l.includes(d))l.unshift(d);monSave(l.slice(0,25));$('#monInput').value='';renderMon();}
+async function monCheck(d){
+  RESOLVER='auto';
+  const [txt,dmarc,mx,ns,a]=await Promise.all([query(d,'TXT'),query('_dmarc.'+d,'TXT'),query(d,'MX'),query(d,'NS'),query(d,'A')]);
+  const spf=txt.answers.map(x=>x.data).find(x=>/^v=spf1/i.test(x))||'';
+  const dm=dmarc.answers.map(x=>x.data).find(x=>/^v=DMARC1/i.test(x))||'';
+  const mxs=mx.answers.map(x=>x.data).sort().join(' | ');
+  const nss=ns.answers.map(x=>x.data.replace(/\.$/,'')).sort().join(' | ');
+  let listed=[];const ip=a.answers.map(x=>x.data).find(x=>/^\d+\.\d+\.\d+\.\d+$/.test(x));
+  if(ip){for(const bl of ['zen.spamhaus.org','bl.spamcop.net']){const q=await query(ip.split('.').reverse().join('.')+'.'+bl,'A');if(q.answers.length&&!/^127\.255\.255\./.test(q.answers[0].data))listed.push(bl);}}
+  return {spf,dm,mxs,nss,listed:listed.join(','),ip:ip||''};
+}
+async function monRunAll(silent){
+  const l=monList();if(!l.length){renderMon();return;}
+  const st=$('#monStatus');if(!silent){st.style.display='flex';}
+  const results={};
+  for(const d of l){if(!silent)$('#monStatusTxt').textContent='Revisando '+d+'…';
+    try{const cur=await monCheck(d);const key='ctn-mon-'+d;let prev=null;try{prev=JSON.parse(localStorage.getItem(key)||'null');}catch(e){}
+      const changes=[];
+      if(prev){['spf','dm','mxs','nss'].forEach(f=>{if(prev[f]!==cur[f])changes.push(({spf:'SPF',dm:'DMARC',mxs:'MX',nss:'Nameservers'})[f]);});
+        if(!prev.listed&&cur.listed)changes.push('¡Apareció en LISTA NEGRA!');}
+      cur.changes=changes;cur.first=!prev;results[d]=cur;
+      try{localStorage.setItem(key,JSON.stringify({spf:cur.spf,dm:cur.dm,mxs:cur.mxs,nss:cur.nss,listed:cur.listed}));}catch(e){}
+      if(changes.length&&!cur.first)notifyChange(d,changes);
+    }catch(e){results[d]={error:String(e.message||e)};}
+  }
+  window.__monResults=results;renderMon();if(!silent)st.style.display='none';
+}
+function notifyChange(d,changes){
+  try{if('Notification'in window&&Notification.permission==='granted')new Notification('Centinela — cambio detectado',{body:d+': '+changes.join(', ')});}catch(e){}
+}
+function renderMon(){
+  const l=monList();const R=window.__monResults||{};
+  if(!l.length){$('#monOut').innerHTML='<div class="glass phishcard"><p class="hint">Aún no monitoreas ningún dominio. Agrega uno arriba.</p></div>';return;}
+  const rows=l.map(d=>{const r=R[d];let status='<span class="hint">sin revisar</span>';
+    if(r&&r.error)status='<span style="color:var(--warn)">error</span>';
+    else if(r&&r.listed)status='<span style="color:var(--fail);font-weight:700">⛔ EN LISTA NEGRA</span>';
+    else if(r&&r.changes&&r.changes.length)status='<span style="color:var(--warn);font-weight:700">⚠️ '+esc(r.changes.join(', '))+'</span>';
+    else if(r)status='<span style="color:var(--ok)">✓ sin cambios</span>';
+    return `<tr><td style="font-family:var(--mono);font-weight:600">${esc(d)}</td><td>${status}</td><td>${r&&r.ip?esc(r.ip):'—'}</td><td><button class="btn ghost monDel" data-d="${esc(d)}" style="padding:3px 9px;font-size:12px">quitar</button></td></tr>`;}).join('');
+  $('#monOut').innerHTML=`<div class="glass phishcard"><div class="subh">📡 Dominios monitoreados (${l.length})</div>
+    <table class="mini"><tr><th>Dominio</th><th>Estado</th><th>IP</th><th></th></tr>${rows}</table></div>`;
+  document.querySelectorAll('.monDel').forEach(b=>b.addEventListener('click',()=>{monSave(monList().filter(x=>x!==b.dataset.d));renderMon();}));
+}
+
+function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));['domain','phish','geo','cmp','typo','eml','mon'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();}
+$('#mbDomain').addEventListener('click',()=>setMode('domain'));
+$('#mbPhish').addEventListener('click',()=>setMode('phish'));
+$('#mbGeo').addEventListener('click',()=>setMode('geo'));
+$('#mbCmp').addEventListener('click',()=>setMode('cmp'));
+$('#mbTypo').addEventListener('click',()=>setMode('typo'));
+$('#mbEml').addEventListener('click',()=>setMode('eml'));
+$('#mbMon').addEventListener('click',()=>setMode('mon'));
+$('#goCmp').addEventListener('click',runCompare);
+$('#goTypo').addEventListener('click',runTypo);
+$('#typoInput').addEventListener('keydown',e=>{if(e.key==='Enter')runTypo();});
+$('#goEml').addEventListener('click',analyzeEml);
+$('#monAdd').addEventListener('click',monAddDomain);
+$('#monInput').addEventListener('keydown',e=>{if(e.key==='Enter')monAddDomain();});
+$('#monRun').addEventListener('click',()=>monRunAll(false));
+$('#monNotif').addEventListener('click',()=>{if('Notification'in window)Notification.requestPermission().then(p=>{$('#monNotif').textContent=p==='granted'?'🔔 Notificaciones activas':'🔔 Activar notificaciones';});});
+$('#monEvery').addEventListener('change',()=>{if(MON_TIMER){clearInterval(MON_TIMER);MON_TIMER=null;}const min=parseInt($('#monEvery').value);if(min>0){MON_TIMER=setInterval(()=>monRunAll(true),min*60000);monRunAll(false);}});
+$('#goPhish').addEventListener('click',analyzePhish);
+$('#phishUrl').addEventListener('keydown',e=>{if(e.key==='Enter')analyzePhish();});
+$('#goGeo').addEventListener('click',runGeo);
+$('#geoInput').addEventListener('keydown',e=>{if(e.key==='Enter')runGeo();});
+document.addEventListener('click',e=>{const ch=e.target.closest('.chip');if(ch&&ch.dataset.geo){$('#geoInput').value=ch.dataset.geo;runGeo();}});
+
+/* ---- Historial local ---- */
+function saveHistory(domain,score){
+  try{let h=JSON.parse(localStorage.getItem('ctn-hist')||'[]');h=h.filter(x=>x.domain!==domain);h.unshift({domain,score,date:Date.now()});localStorage.setItem('ctn-hist',JSON.stringify(h.slice(0,20)));}catch(e){}
+  renderHistory();
+}
+function renderHistory(){
+  const w=$('#histWrap');if(!w)return;let h=[];try{h=JSON.parse(localStorage.getItem('ctn-hist')||'[]');}catch(e){}
+  if(!h.length){w.innerHTML='';return;}
+  const col=s=>s>=85?'var(--ok)':s>=60?'var(--warn)':'var(--fail)';
+  w.innerHTML=`<div class="glass" style="padding:14px 16px;margin-top:14px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:9px"><b style="font-size:14px">🕘 Historial reciente</b><button class="btn ghost" id="histClear" style="margin-left:auto;padding:5px 12px;font-size:12px">Limpiar</button></div><div style="display:flex;flex-wrap:wrap;gap:8px">${h.map(x=>`<span class="chip histchip" data-h="${esc(x.domain)}" title="${new Date(x.date).toLocaleString('es-CO')}"><b style="color:${col(x.score)};margin-right:5px">${x.score}</b>${esc(x.domain)}</span>`).join('')}</div></div>`;
+  w.querySelectorAll('.histchip').forEach(c=>c.addEventListener('click',()=>{$('#domain').value=c.dataset.h;run();}));
+  const cl=$('#histClear');if(cl)cl.addEventListener('click',()=>{try{localStorage.removeItem('ctn-hist');}catch(e){}renderHistory();});
+}
+renderHistory();
+
+/* ---- Membrete en impresión ---- */
+window.addEventListener('beforeprint',()=>{try{const org=localStorage.getItem('ctn-org')||'';const ph=$('#printHead');if(ph){ph.innerHTML=(org?'<b>'+esc(org)+'</b><br>':'<b>Centinela — Informe de seguridad</b><br>')+'<span>Generado: '+new Date().toLocaleString('es-CO')+'</span>';}}catch(e){}});
+
+/* ---- Google Safe Browsing (opcional) ---- */
+async function safeBrowsingCheck(u,key){
+  const body={client:{clientId:'centinela',clientVersion:'1.0'},threatInfo:{threatTypes:['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE','POTENTIALLY_HARMFUL_APPLICATION'],platformTypes:['ANY_PLATFORM'],threatEntryTypes:['URL'],threatEntries:[{url:u}]}};
+  const r=await fetch('https://safebrowsing.googleapis.com/v4/threatMatches:find?key='+encodeURIComponent(key),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok)throw new Error('gsb '+r.status);
+  const j=await r.json();
+  return (j.matches&&j.matches.length)?'listed':'clean';
+}
+/* ---- Settings ---- */
+function loadSettings(){try{$('#setOrg').value=localStorage.getItem('ctn-org')||'';$('#setGsb').value=localStorage.getItem('ctn-gsb')||'';$('#setBackend').value=localStorage.getItem('ctn-backend')||'';}catch(e){}}
+$('#setBtn').addEventListener('click',()=>{const s=$('#settings');s.style.display=s.style.display==='none'?'block':'none';loadSettings();});
+$('#setSave').addEventListener('click',()=>{try{localStorage.setItem('ctn-org',$('#setOrg').value.trim());localStorage.setItem('ctn-gsb',$('#setGsb').value.trim());localStorage.setItem('ctn-backend',$('#setBackend').value.trim().replace(/\/$/,''));}catch(e){}$('#setSave').textContent='✓ Guardado';setTimeout(()=>{$('#setSave').textContent='💾 Guardar';$('#settings').style.display='none';},1000);});
+loadSettings();
+
+/* ---- i18n (chrome ES/EN) ---- */
+const I18N={
+  es:{sub:'Suite de ciberseguridad · Dominios & correo · Phishing · Geolocalización IP · en tiempo real',
+    mDomain:'🛡️ Dominio & correo',mPhish:'🎣 Phishing',mGeo:'🌍 Geolocalización IP',
+    lDomain:'Dominio',lResolver:'Resolutor DNS',bValidar:'🔍 Validar dominio',adv:'⚙️ Opciones avanzadas',
+    lPhishUrl:'URL o dominio sospechoso',bPhish:'🔎 Analizar y reportar',
+    lGeo:'IP o dominio a geolocalizar',bGeo:'🌍 Localizar',
+    foot:'<b>Centinela</b> — suite gratuita de ciberseguridad · Consultas vía DNS-over-HTTPS (Google, Cloudflare, Quad9), RDAP y geo-IP, ejecutadas desde tu navegador. Ningún dato se envía a servidores propios.'},
+  en:{sub:'Cybersecurity suite · Domains & email · Phishing · IP geolocation · real-time',
+    mDomain:'🛡️ Domain & email',mPhish:'🎣 Phishing',mGeo:'🌍 IP geolocation',
+    lDomain:'Domain',lResolver:'DNS resolver',bValidar:'🔍 Validate domain',adv:'⚙️ Advanced options',
+    lPhishUrl:'Suspicious URL or domain',bPhish:'🔎 Analyze & report',
+    lGeo:'IP or domain to locate',bGeo:'🌍 Locate',
+    foot:'<b>Centinela</b> — free cybersecurity suite · Queries via DNS-over-HTTPS (Google, Cloudflare, Quad9), RDAP and geo-IP, run from your browser. No data is sent to any server.'}
+};
+function applyLang(l){
+  const t=I18N[l]||I18N.es;
+  const set=(sel,txt)=>{const e=document.querySelector(sel);if(e)e.textContent=txt;};
+  set('.htext p',t.sub);set('#mbDomain',t.mDomain);set('#mbPhish',t.mPhish);set('#mbGeo',t.mGeo);
+  set("label[for='domain']",t.lDomain);set("label[for='resolver']",t.lResolver);set('#go',t.bValidar);set('#advToggle',t.adv);
+  set("label[for='phishUrl']",t.lPhishUrl);set('#goPhish',t.bPhish);
+  set("label[for='geoInput']",t.lGeo);set('#goGeo',t.bGeo);
+  const f=document.querySelector('footer');if(f)f.innerHTML=t.foot+'<br>'+(l==='en'?'Blacklist results queried through public resolvers may be limited by RBL operators; use them as guidance.':'Los resultados de listas negras consultadas a través de resolutores públicos pueden ser limitados por los operadores de RBL; úsalos como orientación.');
+  $('#langBtn').textContent=l.toUpperCase();
+  try{localStorage.setItem('ctn-lang',l);}catch(e){}
+}
+$('#langBtn').addEventListener('click',()=>applyLang((document.documentElement.dataset.lang=(document.documentElement.dataset.lang==='en'?'es':'en'))));
+try{const sl=localStorage.getItem('ctn-lang');if(sl){document.documentElement.dataset.lang=sl;applyLang(sl);}}catch(e){}
+
+// theme
+const themeBtn=$('#themeBtn');
+function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==='dark'?'🌙':'☀️';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
+themeBtn.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+try{const s=localStorage.getItem('dnsg-theme');if(s)setTheme(s);}catch(e){}
+// Service worker (PWA) — solo cuando se sirve por http/https
+try{if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});}catch(e){}
+// PWA (instalable al publicar en un hosting)
+try{const mani={name:'Centinela — Ciberseguridad',short_name:'Centinela',start_url:'.',display:'standalone',background_color:'#070b16',theme_color:'#070b16',description:'Suite de ciberseguridad de dominios y correo',icons:[{src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="26" fill="#3a5bd0"/><text x="64" y="92" font-size="72" text-anchor="middle">🛡️</text></svg>'),sizes:'any',type:'image/svg+xml',purpose:'any'}]};const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(new Blob([JSON.stringify(mani)],{type:'application/manifest+json'}));document.head.appendChild(link);}catch(e){}
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const ib=$('#installBtn');if(ib)ib.style.display='grid';});
+$('#installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();try{await deferredPrompt.userChoice;}catch(e){}deferredPrompt=null;$('#installBtn').style.display='none';}});
+// deep link
+const pm=new URLSearchParams(location.search);
+if(pm.get('report')){setMode('phish');$('#phishUrl').value=pm.get('report');if(pm.get('brand'))$('#phishBrand').value=pm.get('brand');setTimeout(analyzePhish,300);}
+else if(pm.get('d')){$('#domain').value=pm.get('d');setTimeout(run,300);}
+</script>
+</body>
+</html>

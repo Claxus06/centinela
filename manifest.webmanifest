@@ -1,0 +1,16 @@
+{
+  "name": "Centinela — Ciberseguridad",
+  "short_name": "Centinela",
+  "description": "Suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, geolocaliza IPs y genera planes de acción.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#070b16",
+  "theme_color": "#070b16",
+  "lang": "es",
+  "categories": ["security", "utilities", "productivity"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
