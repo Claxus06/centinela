@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#070b12">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'">
+<title>Página no encontrada · Centinela</title>
+<!-- Rutas absolutas: GitHub Pages sirve este archivo para cualquier URL inexistente bajo /centinela/ -->
+<link rel="icon" href="/centinela/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/centinela/assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Geist:wght@400..600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<script>(function(){var t=null;try{t=localStorage.getItem('dnsg-theme');}catch(e){}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t;})();</script>
+<style>
+  :root{--bg:#070b12;--panel:#0e1521;--line:#1b2636;--line2:#243246;--txt:#e6edf5;--muted:#93a0b4;--muted2:#66748c;--accent:#31d9a6;--accent-ink:#03140e;--accent-soft:rgba(49,217,166,.11);--accent-line:rgba(49,217,166,.34);--warn:#f2b13c;--grid:rgba(120,160,200,.055);--T:5.2s;color-scheme:dark}
+  html[data-theme="light"]{--bg:#eef2f6;--panel:#fff;--line:#dde4ee;--line2:#cdd7e4;--txt:#0c1422;--muted:#526076;--muted2:#7f8ca2;--accent:#0e9f75;--accent-ink:#fff;--accent-soft:rgba(14,159,117,.09);--accent-line:rgba(14,159,117,.38);--warn:#c98a0c;--grid:rgba(30,60,100,.06);color-scheme:light}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{min-height:100vh;display:grid;place-items:center;padding:32px 20px;background:var(--bg);color:var(--txt);font:15px/1.6 "Geist",system-ui,sans-serif;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 60% 60% at 50% 40%,#000 20%,transparent 75%)}
+  main{position:relative;max-width:560px;text-align:center}
+  .scope{position:relative;width:220px;height:220px;margin:0 auto 28px;border-radius:50%;
+    background:repeating-radial-gradient(circle,transparent 0 35px,var(--accent-line) 35px 36px);
+    -webkit-mask-image:radial-gradient(circle,#000 62%,transparent 71%);mask-image:radial-gradient(circle,#000 62%,transparent 71%)}
+  .scope::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 280deg,var(--accent-soft) 330deg,var(--accent) 359deg,transparent 360deg);opacity:.55;animation:sweep var(--T) linear infinite}
+  .scope .code{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 64px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-3px;z-index:1}
+  .scope .code span{color:var(--accent)}
+  .scope .blip{position:absolute;left:66%;top:28%;width:9px;height:9px;border-radius:50%;background:var(--warn);opacity:0;animation:blip var(--T) linear infinite;animation-delay:calc(var(--T) * -.12)}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  @keyframes blip{0%{opacity:1;box-shadow:0 0 0 0 var(--warn)}40%{opacity:0;box-shadow:0 0 0 14px transparent}100%{opacity:0}}
+  .eyebrow{font:500 11px "Geist Mono",monospace;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}
+  h1{font:780 clamp(28px,5vw,40px)/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-1.2px;margin:10px 0 12px}
+  p{color:var(--muted);margin:0 auto 26px;max-width:44ch}
+  code{font:500 13px "Geist Mono",monospace;background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:2px 7px;color:var(--txt);word-break:break-all}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);font-weight:650;padding:12px 22px;border-radius:11px;text-decoration:none;transition:transform .15s,filter .15s}
+  .btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  nav{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+  nav .lbl{font:500 10.5px "Geist Mono",monospace;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted2);margin-bottom:12px}
+  nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  nav a{display:inline-block;padding:7px 13px;border:1px solid var(--line2);border-radius:999px;color:var(--txt);text-decoration:none;font-size:13px;background:var(--panel);transition:border-color .15s,color .15s}
+  nav a:hover{border-color:var(--accent);color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+  @media (prefers-reduced-motion: reduce){.scope::after,.scope .blip{animation:none}.scope .blip{opacity:1}}
+</style>
+</head>
+<body>
+<main>
+  <div class="scope" aria-hidden="true"><div class="code">4<span>0</span>4</div><div class="blip"></div></div>
+  <div class="eyebrow">Sin señal</div>
+  <h1>Esta dirección no existe</h1>
+  <p>El radar barrió <code id="path">esta ruta</code> y no encontró nada. Revisa el enlace o vuelve a la suite.</p>
+  <a class="btn" href="/centinela/">← Volver a Centinela</a>
+  <nav aria-label="Módulos">
+    <div class="lbl">O ve directo a un módulo</div>
+    <ul>
+      <li><a href="/centinela/#/domain">Dominio &amp; correo</a></li>
+      <li><a href="/centinela/#/phish">Phishing</a></li>
+      <li><a href="/centinela/#/recon">Reconocimiento OSINT</a></li>
+      <li><a href="/centinela/#/vuln">Vulnerabilidades</a></li>
+      <li><a href="/centinela/#/geo">Geolocalización IP</a></li>
+      <li><a href="/centinela/#/tools">Herramientas</a></li>
+    </ul>
+  </nav>
+</main>
+<script>try{var p=decodeURIComponent(location.pathname);document.getElementById('path').textContent=p.length>60?p.slice(0,57)+'…':p;}catch(e){}</script>
+</body>
+</html>

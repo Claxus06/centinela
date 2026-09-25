@@ -5,9 +5,13 @@
 [[headers]]
   for = "/*"
   [headers.values]
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self' blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://cloudflare-dns.com https://dns.quad9.net https://rdap.org https://ipwho.is https://ipapi.co https://crt.sh https://api.pwnedpasswords.com https://api.ipify.org https://internetdb.shodan.io https://archive.org https://cve.circl.lu https://api.osv.dev https://www.cisa.gov https://safebrowsing.googleapis.com https://*.workers.dev; frame-src https://www.openstreetmap.org; upgrade-insecure-requests"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer"
-    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Cross-Origin-Opener-Policy = "same-origin"
 
 # El manifest y el service worker se sirven con su tipo correcto
 [[headers]]

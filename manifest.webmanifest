@@ -1,16 +1,31 @@
 {
+  "id": "./",
   "name": "Centinela — Ciberseguridad",
   "short_name": "Centinela",
-  "description": "Suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, geolocaliza IPs y genera planes de acción.",
+  "description": "Suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, analiza vulnerabilidades, geolocaliza IPs y genera planes de acción.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0b0d11",
-  "theme_color": "#0b0d11",
+  "background_color": "#070b12",
+  "theme_color": "#070b12",
   "lang": "es",
+  "dir": "ltr",
   "categories": ["security", "utilities", "productivity"],
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "assets/screenshots/escritorio-oscuro.png", "sizes": "1440x1000", "type": "image/png", "form_factor": "wide", "label": "Auditoría de dominio y correo con puntaje y plan de acción" },
+    { "src": "assets/screenshots/movil.png", "sizes": "500x1000", "type": "image/png", "form_factor": "narrow", "label": "Análisis de phishing en el móvil" }
+  ],
+  "shortcuts": [
+    { "name": "Validar dominio", "url": "./#/domain", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Analizar phishing", "url": "./#/phish", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Vulnerabilidades", "url": "./#/vuln", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Reconocimiento OSINT", "url": "./#/recon", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] }
   ]
 }

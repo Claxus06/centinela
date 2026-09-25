@@ -3,8 +3,8 @@
    - La página (HTML) usa "network-first": siempre intenta traer la última versión.
    - Los estáticos usan "stale-while-revalidate": rápidos, pero se actualizan en segundo plano.
    - El nombre de caché lleva versión: al cambiarla se borran las anteriores. */
-const CACHE = 'centinela-v3';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'centinela-v5';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './404.html', './assets/icon-192.png', './assets/icon-180.png'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();
