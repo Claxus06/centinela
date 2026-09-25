@@ -11,6 +11,11 @@
 <link rel="icon" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon.svg">
 <title>Centinela — Suite de Ciberseguridad de Dominios</title>
+<!-- Seguridad: CSP, política de referer y anti-clickjacking (defensa en profundidad, lado cliente) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; manifest-src 'self' blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://dns.google https://cloudflare-dns.com https://dns.quad9.net https://rdap.org https://ipwho.is https://ipapi.co https://crt.sh https://api.pwnedpasswords.com https://api.ipify.org https://internetdb.shodan.io https://archive.org https://cve.circl.lu https://api.osv.dev https://www.cisa.gov https://*.workers.dev; frame-src https://www.openstreetmap.org; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>/* Anti-clickjacking: si la página se carga dentro de un iframe ajeno, romper el marco. frame-ancestors sólo funciona por cabecera HTTP; esto lo cubre en GitHub Pages. */
+(function(){try{if(window.top!==window.self){window.top.location=window.self.location.href;}}catch(e){document.documentElement.style.display='none';}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -263,6 +268,50 @@
     #printHead{display:block!important}
     .geomap{height:260px}
   }
+  /* ===== Ciberinteligencia (recon) ===== */
+  .rcard{position:relative;overflow:hidden}
+  .rcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--muted2)}
+  .rcard.sev-fail::before{background:var(--fail)} .rcard.sev-warn::before{background:var(--warn)} .rcard.sev-ok::before{background:var(--ok)}
+  .rtoolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .rtoolbar .btn{padding:7px 12px;font-size:12.5px}
+  .rsearch{flex:1 1 200px;min-width:160px;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:6px 10px}
+  .rsearch input{background:transparent;border:0;color:var(--txt);outline:none;width:100%;font-size:13px}
+  .rsearch select,.rselect{background:var(--bg2);border:1px solid var(--line2);color:var(--txt);border-radius:10px;padding:7px 10px;font-size:12.5px;outline:none}
+  .pivgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-top:8px}
+  .pivgrid a{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--line2);border-radius:9px;padding:7px 10px;font-size:12px;color:var(--txt);text-decoration:none;transition:border-color .15s,background .15s}
+  .pivgrid a:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+  .pivcat{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:12px 0 2px}
+  .rbadges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .infragrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+  .rminibar{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:3px}
+  .rminibar>span{display:block;height:100%;background:var(--accent)}
+  a.urlopen{color:var(--warn);font-weight:600;text-decoration:none}
+  a.urlopen:hover{text-decoration:underline}
+  /* ===== Análisis de vulnerabilidades ===== */
+  .vgrade{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .vgbadge{width:76px;height:76px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;font-weight:700;color:#061012;flex:0 0 auto}
+  .vsev{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+  .vsev.crit{background:rgba(220,38,38,.18);color:#ff8080;border:1px solid #7a2e2e}
+  .vsev.high{background:rgba(234,88,12,.16);color:#ffb266;border:1px solid #7a4a1e}
+  .vsev.med{background:rgba(234,179,8,.14);color:#f6cd7a;border:1px solid #6b5417}
+  .vsev.low{background:rgba(59,130,246,.14);color:#8fc0f5;border:1px solid #274b7a}
+  .vsev.info{background:var(--panel3);color:var(--muted);border:1px solid var(--line2)}
+  .vfind{border:1px solid var(--line);border-left-width:4px;border-radius:11px;padding:12px 14px;margin-top:10px;background:var(--bg2)}
+  .vfind.crit{border-left-color:#dc2626} .vfind.high{border-left-color:#ea580c} .vfind.med{border-left-color:#eab308} .vfind.low{border-left-color:#3b82f6} .vfind.info{border-left-color:var(--muted2)}
+  .vfind h4{margin:0 0 4px;font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .vfind .vmeta{font-size:12px;color:var(--muted);margin:2px 0}
+  .vfind .vrem{margin-top:7px;font-size:12.5px;background:var(--panel);border:1px dashed var(--line2);border-radius:8px;padding:8px 10px}
+  .vsrc{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:3px 9px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--muted)}
+  .vsrc.on{color:var(--oktx);border-color:var(--okbd);background:var(--okbg)}
+  .vcvss{font-family:var(--mono);font-weight:700;font-size:12px;padding:2px 7px;border-radius:6px;background:var(--panel3)}
+  /* ===== Informe ejecutivo ===== */
+  .rptcover{display:flex;align-items:center;gap:18px;flex-wrap:wrap;border-bottom:2px solid var(--line2);padding-bottom:16px;margin-bottom:4px}
+  .rptcover .vgbadge{width:64px;height:64px;font-size:34px;border-radius:14px}
+  .rptsec{margin-top:16px}
+  .rptsec h3{font-family:var(--display);font-size:17px;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .rptrow{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .rptrow:last-child{border-bottom:0}
+  @media print{ .rptsec,.glass{break-inside:avoid} .rptcover{page-break-after:avoid} }
 </style>
 </head>
 <body>
@@ -326,9 +375,14 @@
     <div class="nav-group">
       <span class="lbl">Amenazas</span>
       <button class="modebtn" id="mbPhish" data-mode="phish"><svg class="ni" viewBox="0 0 24 24"><path d="M16 4v9a5 5 0 1 1-5-5"/><path d="M16 4h3"/><path d="M8 14l-2.2 2.2"/></svg><span>Phishing</span></button>
-      <button class="modebtn" id="mbTypo" data-mode="typo"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.6"/><circle cx="12" cy="12" r=".6" fill="currentColor"/></svg><span>Typosquatting</span></button>
       <button class="modebtn" id="mbEml" data-mode="eml"><svg class="ni" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 5.5L20 7"/></svg><span>Analizar correo</span></button>
       <button class="modebtn" id="mbMon" data-mode="mon"><svg class="ni" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2.2-6H21"/></svg><span>Monitoreo</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Ciberinteligencia</span>
+      <button class="modebtn" id="mbRecon" data-mode="recon"><svg class="ni" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6L20 20"/><path d="M11 7.5v7M7.5 11h7"/></svg><span>Reconocimiento OSINT</span></button>
+      <button class="modebtn" id="mbVuln" data-mode="vuln"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M12 8.3v4.2M12 15.4v.01"/></svg><span>Análisis de vulnerabilidades</span></button>
+      <button class="modebtn" id="mbReport" data-mode="report"><svg class="ni" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5"/></svg><span>Informe ejecutivo</span></button>
     </div>
     <div class="nav-group">
       <span class="lbl">Infraestructura</span>
@@ -494,20 +548,68 @@
     <div id="cmpOut"></div>
   </div>
 
-  <div id="modeTypoWrap" style="display:none">
+  <div id="modeReconWrap" style="display:none">
     <div class="glass search">
+      <div class="subh" style="margin-top:0">🛰️ Reconocimiento de ciberinteligencia — superficie, deep y dark web</div>
       <div class="controls">
         <div class="field grow">
-          <label for="typoInput">Tu dominio (buscaremos dominios que lo suplantan)</label>
-          <div class="inputwrap"><span class="ic">🎯</span><input type="text" id="typoInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <label for="reconInput">Dominio objetivo a proteger / investigar</label>
+          <div class="inputwrap"><span class="ic">🎯</span><input type="text" id="reconInput" placeholder="mineducacion.gov.co" autocomplete="off" spellcheck="false"></div>
         </div>
-        <div class="field"><label>&nbsp;</label><button class="btn" id="goTypo">🎯 Buscar imitadores</button></div>
+        <div class="field res">
+          <label for="reconDepth">Profundidad</label>
+          <select id="reconDepth"><option value="fast">Rápida (typosquatting)</option><option value="deep" selected>Profunda (recomendada)</option><option value="max">Exhaustiva</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goRecon">🛰️ Iniciar reconocimiento</button></div>
       </div>
-      <p class="hint" style="margin-top:10px">Genera variantes (homóglifos, guiones, TLDs alternos) y verifica cuáles están registradas y activas. Útil para detectar suplantadores antes de que ataquen.</p>
-      <div id="typoStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="typoStatusTxt">Buscando…</span></div>
-      <div class="barwrap" id="typoBarwrap" style="display:none"><div class="bar" id="typoBar"></div></div>
+      <p class="hint" style="margin-top:10px">Descubre dominios parecidos o suplantados combinando <b>tres fuentes</b>: (1) generación algorítmica de variantes (homóglifos, typos, combosquatting, TLDs alternos), (2) barrido de <b>Certificate Transparency</b> (crt.sh) que revela dominios <b>realmente registrados</b> que contienen tu marca, y (3) resolución DNS en vivo. De cada hallazgo levanta un <b>expediente</b>: IP(s), geolocalización completa, hosting/ASN, proveedor de correo (MX) y política <b>DMARC</b> (spoofeabilidad), nameservers, registrador (RDAP), contacto abuse, puertos/CVEs (Shodan), historial en <b>Wayback</b>, detección de <b>IDN/homóglifo</b>, similitud con tu marca y reputación. Incluye <b>+40 pivotes OSINT</b> (superficie, deep y dark web), panorama de infraestructura y exportación de IOCs en TXT/CSV/JSON.</p>
+      <div id="reconStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="reconStatusTxt">Buscando…</span></div>
+      <div class="barwrap" id="reconBarwrap" style="display:none"><div class="bar" id="reconBar"></div></div>
     </div>
-    <div id="typoOut"></div>
+    <div id="reconOut"></div>
+  </div>
+
+  <div id="modeVulnWrap" style="display:none">
+    <div class="glass search">
+      <div class="subh" style="margin-top:0">🛡️ Análisis de vulnerabilidades multi-fuente</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="vulnInput">Dominio o IP a auditar</label>
+          <div class="inputwrap"><span class="ic">🎯</span><input type="text" id="vulnInput" placeholder="tudominio.gov.co  ·  o  203.0.113.10" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field res">
+          <label for="vulnDepth">Alcance</label>
+          <select id="vulnDepth"><option value="std" selected>Estándar</option><option value="deep">Profundo (más CVEs)</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goVuln">🛡️ Analizar vulnerabilidades</button></div>
+      </div>
+      <p class="hint" style="margin-top:10px">Evaluación <b>pasiva</b> de la exposición y las debilidades del objetivo, correlacionando <b>varias fuentes</b>: <b>Shodan InternetDB</b> (puertos y servicios expuestos, CVEs por host), <b>CIRCL CVE</b> y <b>NVD</b> (CVSS, descripción y severidad de cada CVE), <b>crt.sh</b> (superficie de ataque: subdominios y certificados), y <b>DNS-over-HTTPS</b> (postura de correo SPF/DKIM/DMARC, DNSSEC, CAA, MTA-STS). Devuelve un <b>puntaje y calificación (A–F)</b>, hallazgos clasificados por <b>criticidad</b> (Crítica/Alta/Media/Baja) con evidencia, referencias y <b>remediación</b> concreta. No realiza pruebas intrusivas ni explotación — es seguro y legal para auditar tu propia infraestructura.</p>
+      <div id="vulnStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="vulnStatusTxt">Analizando…</span></div>
+      <div class="barwrap" id="vulnBarwrap" style="display:none"><div class="bar" id="vulnBar"></div></div>
+    </div>
+    <div id="vulnOut"></div>
+  </div>
+
+  <div id="modeReportWrap" style="display:none">
+    <div class="glass search">
+      <div class="subh" style="margin-top:0">📄 Informe ejecutivo unificado</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="reportInput">Dominio a evaluar</label>
+          <div class="inputwrap"><span class="ic">🎯</span><input type="text" id="reportInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goReport">📄 Generar informe</button></div>
+      </div>
+      <div class="controls" style="margin-top:10px;gap:16px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" id="rptDomain" checked> Dominio &amp; correo</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" id="rptVuln" checked> Vulnerabilidades</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" id="rptRecon" checked> Suplantación (OSINT)</label>
+      </div>
+      <p class="hint" style="margin-top:10px">Ejecuta los módulos seleccionados sobre un mismo dominio y consolida todo en un <b>informe ejecutivo</b> con portada, resumen, calificación de seguridad, vulnerabilidades por criticidad (incl. CISA KEV), postura de correo/DNS y dominios suplantadores. Luego pulsa <b>Guardar como PDF</b> (usa la impresión del navegador → destino «Guardar como PDF»). Sugerencia: pon el nombre de tu organización en ⚙️ Ajustes para que aparezca en la portada.</p>
+      <div id="reportStatus" style="margin-top:12px;font-size:13px;color:var(--muted);display:none;align-items:center;gap:9px"><span class="spinner"></span><span id="reportStatusTxt">Generando…</span></div>
+      <div class="barwrap" id="reportBarwrap" style="display:none"><div class="bar" id="reportBar"></div></div>
+    </div>
+    <div id="reportOut"></div>
   </div>
 
   <div id="modeEmlWrap" style="display:none">
@@ -1640,73 +1742,678 @@ function renderCompare(A,B){
 
 /* ============================================================ Radar de Typosquatting */
 const HOMO={o:['0'],'0':['o'],l:['1','i'],i:['1','l'],e:['3'],a:['4'],s:['5'],b:['8'],g:['9'],c:['('],m:['nn'],n:['m']};
-function typoVariants(reg){
+
+/* ============================================================ Helpers de postura DNS/correo (compartidos por recon y vuln) */
+async function posSPF(dom){const q=await query(dom,'TXT');const rec=q.answers.map(x=>x.data).find(x=>/^v=spf1/i.test(x))||'';const all=(rec.match(/([-~?+])all\b/i)||[])[1]||'';return{present:!!rec,record:rec,all};}
+async function posDMARC(dom){const q=await query('_dmarc.'+dom,'TXT');const rec=q.answers.map(x=>x.data).find(x=>/^v=DMARC1/i.test(x))||'';const p=(rec.match(/\bp=(\w+)/i)||[])[1]||'';return{present:!!rec,record:rec,policy:p};}
+async function posDNSSEC(dom){const q=await query(dom,'DS');return{present:!!q.answers.length};}
+async function posCAA(dom){const q=await query(dom,'CAA');return{present:!!q.answers.length,records:q.answers.map(a=>a.data)};}
+async function posMTASTS(dom){const q=await query('_mta-sts.'+dom,'TXT');return{present:q.answers.some(x=>/v=STSv1/i.test(x.data))};}
+
+/* ============================================================ Ciberinteligencia OSINT (recon) */
+const RECON_TLDS=['com','net','org','co','info','online','site','top','xyz','app','io','me','biz','live','click','link','pro','gov.co','edu.co','com.co','org.co','net.co','com.mx','com.ar','pe','cl','es'];
+const RECON_KW=['seguro','online','portal','oficial','pagos','pago','acceso','soporte','ayuda','login','cuenta','cuentas','verificar','verificacion','tramite','tramites','sistema','virtual','sso','gob','gov','info','app','net'];
+function reconVariants(reg,depth){
   const parts=reg.split('.');const sld=parts[0];const tld=parts.slice(1).join('.');
   const V=new Set();
   for(let i=0;i<sld.length;i++){const su=HOMO[sld[i]];if(su)su.forEach(s=>V.add(sld.slice(0,i)+s+sld.slice(i+1)));}
   if(sld.includes('m'))V.add(sld.replace('m','rn'));
   if(sld.includes('rn'))V.add(sld.replace('rn','m'));
   if(sld.includes('w'))V.add(sld.replace('w','vv'));
-  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld.slice(i+1));            // omisión
-  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld[i]+sld[i]+sld.slice(i+1)); // duplicación
-  for(let i=0;i<sld.length-1;i++)V.add(sld.slice(0,i)+sld[i+1]+sld[i]+sld.slice(i+2)); // intercambio
-  V.add(sld+'-seguro');V.add(sld+'-online');V.add('portal-'+sld);V.add(sld+'oficial');
+  if(sld.includes('cl'))V.add(sld.replace('cl','d'));
+  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld.slice(i+1));                        // omisión
+  for(let i=0;i<sld.length;i++)V.add(sld.slice(0,i)+sld[i]+sld[i]+sld.slice(i+1));           // duplicación
+  for(let i=0;i<sld.length-1;i++)V.add(sld.slice(0,i)+sld[i+1]+sld[i]+sld.slice(i+2));       // transposición
+  if(depth!=='fast'){
+    const KB={a:'qsz',e:'wrd',i:'ou',o:'ip',s:'ad',n:'mb',r:'et',l:'k',c:'xv',m:'n',t:'ry',u:'yi',d:'sf',g:'fh',b:'vn',p:'ol'};
+    for(let i=0;i<sld.length;i++){const adj=KB[sld[i]];if(adj)for(const k of adj){V.add(sld.slice(0,i)+k+sld.slice(i+1));if(depth==='max')V.add(sld.slice(0,i)+sld[i]+k+sld.slice(i+1));}}
+    for(let i=0;i<sld.length;i++)if('aeiou'.includes(sld[i]))for(const v of 'aeiou')if(v!==sld[i])V.add(sld.slice(0,i)+v+sld.slice(i+1)); // permuta vocal
+  }
   V.delete(sld);
-  const doms=new Set();V.forEach(v=>{if(v&&v.length>1)doms.add(v+'.'+tld);});
-  ['com','net','org','co','info','online','site','top','xyz','app','com.co','gov.co','edu.co'].forEach(t=>{if(t!==tld)doms.add(sld+'.'+t);});
+  const doms=new Set();
+  V.forEach(v=>{if(v&&v.length>1)doms.add(v+'.'+tld);});
+  RECON_TLDS.forEach(t=>{if(t!==tld)doms.add(sld+'.'+t);});
+  const combTlds=depth==='max'?['com','co','net','online','site','xyz','top','info','com.co','gov.co']:depth==='deep'?['com','co','net','online','info']:['com','co'];
+  RECON_KW.forEach(kw=>{combTlds.forEach(t=>{doms.add(sld+'-'+kw+'.'+t);doms.add(kw+'-'+sld+'.'+t);if(depth==='max')doms.add(sld+kw+'.'+t);});});
   doms.delete(reg);
-  return [...doms].slice(0,72);
+  const cap=depth==='fast'?60:depth==='deep'?150:280;
+  return [...doms].slice(0,cap);
 }
-let TYPO_BRAND='';
-async function runTypo(){
-  let d=$('#typoInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
-  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido');return;}
-  const reg=registrable(d);TYPO_BRAND=reg;
-  const vars=typoVariants(reg);
-  $('#goTypo').disabled=true;$('#typoOut').innerHTML='';
-  const st=$('#typoStatus');st.style.display='flex';$('#typoBarwrap').style.display='block';
-  RESOLVER='auto';cache.clear();
-  const found=[];let done=0;const B=10;
+async function ctSearch(sld){
+  const out=new Set();
   try{
-    for(let i=0;i<vars.length;i+=B){
-      const slice=vars.slice(i,i+B);
-      const res=await Promise.all(slice.map(async v=>{
-        const ns=await query(v,'NS');
-        if(ns.answers.length){const a=await query(v,'A');return{dom:v,ip:a.answers.map(x=>x.data)[0]||null,ns:ns.answers.map(x=>x.data.replace(/\.$/,'')).slice(0,2)};}
-        return null;
-      }));
-      res.forEach(r=>r&&found.push(r));
-      done=Math.min(i+B,vars.length);$('#typoStatusTxt').textContent=`Verificando variantes… (${done}/${vars.length}) — ${found.length} registradas`;$('#typoBar').style.width=(done/vars.length*100)+'%';
-    }
-    // enrich found with IP geo/blacklist quickly (only for those with IP)
-    for(const f of found.filter(x=>x.ip).slice(0,12)){
-      const rev=f.ip.split('.').reverse().join('.');const q=await query(rev+'.zen.spamhaus.org','A');f.listed=q.answers.length&&!/^127\.255\.255\./.test(q.answers[0].data);
-    }
-    renderTypo(reg,vars.length,found);
-  }catch(e){alert('Error: '+e.message);}
-  finally{$('#goTypo').disabled=false;st.style.display='none';$('#typoBarwrap').style.display='none';}
+    const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),15000);
+    const r=await fetch('https://crt.sh/?q=%25'+encodeURIComponent(sld)+'%25&output=json',{signal:ctrl.signal});
+    clearTimeout(to);
+    if(r.ok){const j=await r.json();(j||[]).forEach(row=>{String(row.name_value||'').split(/\n/).forEach(n=>{n=n.trim().toLowerCase().replace(/^\*\./,'');if(/^[a-z0-9.-]+\.[a-z]{2,}$/.test(n))out.add(registrable(n));});});}
+  }catch(e){}
+  return [...out];
 }
-function renderTypo(reg,total,found){
-  const active=found.filter(f=>f.ip);
-  const parked=found.filter(f=>!f.ip);
-  const rows=found.map(f=>`<tr>
-    <td style="font-family:var(--mono);font-weight:600${f.ip?';color:var(--warn)':''}">${esc(f.dom)}</td>
-    <td>${f.ip?esc(f.ip):'<span class="hint">sin A (registrado/parqueado)</span>'}</td>
-    <td>${f.listed?'<span style="color:var(--fail);font-weight:700">⛔ lista negra</span>':(f.ip?tag('activo','y'):tag('registrado',''))}</td>
-    <td><button class="btn ghost typoRep" data-dom="${esc(f.dom)}" style="padding:4px 10px;font-size:12px">Analizar</button></td>
-  </tr>`).join('');
-  const sev=active.length?'fail':(found.length?'warn':'ok');
-  const col=sev==='fail'?'var(--fail)':sev==='warn'?'var(--warn)':'var(--ok)';
-  $('#typoOut').innerHTML=`<div class="glass phishcard">
-    <div class="phverdict" style="color:${col}">${found.length?('⚠️ '+found.length+' dominio(s) imitadores registrados'):'✅ No se encontraron imitadores registrados'}</div>
-    <div class="phurl">Base: ${esc(reg)} · ${total} variantes verificadas · ${active.length} activos con IP</div>
-    ${found.length?`<div class="subh">Dominios similares registrados</div>
-    <table class="mini"><tr><th>Dominio</th><th>IP</th><th>Estado</th><th></th></tr>${rows}</table>
-    <p class="hint" style="margin-top:10px">Los dominios con IP activa son los más peligrosos (pueden alojar una copia de tu sitio). Pulsa "Analizar" para evaluarlos y reportarlos. Nota: un dominio registrado puede ser legítimo (tuyo o de un tercero sin relación); verifica antes de reportar.</p>`
-    :'<p class="hint">Ninguna de las variantes generadas está registrada actualmente. Repite la búsqueda periódicamente.</p>'}
+async function shodanIDB(ip){
+  try{const r=await fetch('https://internetdb.shodan.io/'+ip);if(r.ok){const j=await r.json();return{ports:j.ports||[],hostnames:j.hostnames||[],cpes:j.cpes||[],vulns:j.vulns||[],tags:j.tags||[]};}}catch(e){}
+  return null;
+}
+async function reconEnrich(dom){
+  const d={dom,ips:[],ns:[],mx:[],mxprov:''};
+  const a=await query(dom,'A');d.ips=a.answers.map(x=>x.data).filter(ip=>/^\d+\.\d+\.\d+\.\d+$/.test(ip));
+  const ns=await query(dom,'NS');d.ns=ns.answers.map(x=>x.data.replace(/\.$/,''));
+  const mx=await query(dom,'MX');d.mx=mx.answers.map(x=>{const p=x.data.split(' ');return p.slice(1).join(' ').replace(/\.$/,'');}).filter(Boolean);
+  for(const h of d.mx){for(const[re,n]of MXP){if(re.test(h)){d.mxprov=n;break;}}if(d.mxprov)break;}
+  const _spf=await posSPF(dom);d.spf=_spf.record;
+  const _dm=await posDMARC(dom);d.dmarc=_dm.record;d.dmarcP=_dm.policy;
+  d.idn=/(^|\.)xn--/i.test(dom);                       // IDN / homóglifo Punycode
+  if(d.ips.length){
+    d.geo=await geoLookup(d.ips[0]);
+    d.shodan=await shodanIDB(d.ips[0]);
+    const rev=d.ips[0].split('.').reverse().join('.');const bl=await query(rev+'.zen.spamhaus.org','A');d.listed=!!(bl.answers.length&&!/^127\.255\.255\./.test(bl.answers[0].data));
+  }
+  try{const r=await fetch('https://archive.org/wayback/available?url='+encodeURIComponent(dom));if(r.ok){const j=await r.json();const s=j&&j.archived_snapshots&&j.archived_snapshots.closest;if(s&&s.available)d.wayback={ts:s.timestamp,url:s.url};}}catch(e){}
+  try{
+    const r=await fetch('https://rdap.org/domain/'+encodeURIComponent(dom),{headers:{'Accept':'application/rdap+json'}});
+    if(r.ok){const j=await r.json();const ev={};(j.events||[]).forEach(e=>ev[e.eventAction]=e.eventDate);
+      d.created=ev.registration;d.expires=ev.expiration;
+      const reg=(j.entities||[]).find(e=>(e.roles||[]).includes('registrar'));
+      if(reg){const vc=reg.vcardArray&&reg.vcardArray[1];const fn=vc&&vc.find(x=>x[0]==='fn');d.registrar=fn?fn[3]:(reg.handle||'');}
+      let abuse='';const scan=en=>{if((en.roles||[]).includes('abuse')){const vc=en.vcardArray&&en.vcardArray[1];const em=vc&&vc.find(x=>x[0]==='email');if(em&&!abuse)abuse=em[3];}};
+      (j.entities||[]).forEach(e=>{scan(e);(e.entities||[]).forEach(scan);});d.abuse=abuse;
+    }
+  }catch(e){}
+  return d;
+}
+function reconScore(d){
+  let s=0;const reasons=[];
+  if(d.ips&&d.ips.length){s+=26;reasons.push('IP activa (aloja contenido)');}
+  if(d.mx.length){s+=20;reasons.push('correo configurado (puede enviar phishing)');}
+  if(d.mx.length&&!d.dmarcP)  {s+=8;reasons.push('correo sin DMARC (spoofeable)');}
+  if(d.spf)s+=3;
+  if(d.idn){s+=15;reasons.push('dominio IDN/Punycode (homóglifo)');}
+  if(typeof d.sim==='number'&&d.sim>=80){s+=10;reasons.push('nombre casi idéntico ('+d.sim+'%)');}
+  if(d.listed){s+=22;reasons.push('en lista negra Spamhaus');}
+  if(d.created){const days=(Date.now()-new Date(d.created).getTime())/864e5;if(days>=0&&days<90){s+=18;reasons.push('registrado hace <90 días');}else if(days<180){s+=9;reasons.push('registrado hace <6 meses');}}
+  if(d.wayback){s+=4;reasons.push('con historial en Wayback');}
+  if(d.shodan&&d.shodan.ports&&d.shodan.ports.some(p=>[80,443,8080,8443].includes(p))){s+=9;reasons.push('servidor web expuesto');}
+  if(d.shodan&&d.shodan.vulns&&d.shodan.vulns.length){s+=8;reasons.push(d.shodan.vulns.length+' CVE(s) reportadas');}
+  return {score:Math.min(100,s),reasons};
+}
+function reconPivots(dom,brand){
+  const q=encodeURIComponent(dom),b=encodeURIComponent(brand);
+  return {
+    surface:[['🔬 urlscan.io','https://urlscan.io/search/#'+q],['🧪 VirusTotal','https://www.virustotal.com/gui/domain/'+q],['📡 Shodan','https://www.shodan.io/search?query='+q],['🛰️ Censys','https://search.censys.io/search?resource=hosts&q='+q],['📜 crt.sh','https://crt.sh/?q='+q],['🚂 SecurityTrails','https://securitytrails.com/domain/'+dom+'/dns'],['🧭 DNSlytics','https://dnslytics.com/domain/'+dom],['🕸️ ViewDNS','https://viewdns.info/whois/?domain='+dom],['🤖 Robtex','https://www.robtex.com/dns-lookup/'+dom],['🏗️ BuiltWith','https://builtwith.com/'+dom],['🕵️ Netcraft','https://sitereport.netcraft.com/?url='+q],['🛡️ Sucuri','https://sitecheck.sucuri.net/results/'+dom],['🐍 Talos','https://talosintelligence.com/reputation_center/lookup?search='+dom],['🧾 who.is','https://who.is/whois/'+dom],['📬 MXToolbox','https://mxtoolbox.com/SuperTool.aspx?action=mx%3a'+dom],['🔎 Google dork','https://www.google.com/search?q='+encodeURIComponent('site:'+dom+' OR "'+brand+'"')],['🔎 Bing','https://www.bing.com/search?q='+q],['🕰️ Wayback','https://web.archive.org/web/*/'+dom+'/*']],
+    deep:[['🧠 Intelligence X','https://intelx.io/?s='+q],['🌫️ GreyNoise','https://viz.greynoise.io/query/?gnql='+q],['💫 Pulsedive','https://pulsedive.com/indicator/?ioc='+q],['👽 AlienVault OTX','https://otx.alienvault.com/indicator/domain/'+dom],['⛏️ ThreatMiner','https://www.threatminer.org/domain.php?q='+dom],['🦊 ThreatFox','https://threatfox.abuse.ch/browse.php?search=ioc%3A'+q],['🦠 MalwareBazaar','https://bazaar.abuse.ch/browse.php?search='+q],['☣️ URLhaus','https://urlhaus.abuse.ch/browse.php?search='+q],['🌌 Maltiverse','https://maltiverse.com/search;query='+q],['💧 LeakIX','https://leakix.net/search?scope=leak&q='+q],['🔭 ZoomEye','https://www.zoomeye.org/searchResult?q='+q],['📇 PublicWWW','https://publicwww.com/websites/'+q+'/'],['💻 grep.app','https://grep.app/search?q='+q],['🎣 PhishTank','https://phishtank.org/'],['🐟 OpenPhish','https://openphish.com/'],['🧫 Hybrid Analysis','https://www.hybrid-analysis.com/search?query='+q],['▶️ ANY.RUN','https://any.run/submissions#filter='+q]],
+    dark:[['🧅 Ahmia (Tor)','https://ahmia.fi/search/?q='+b],['🧠 IntelX (leaks)','https://intelx.io/?s='+b],['🔓 HIBP (dominio)','https://haveibeenpwned.com/DomainSearch'],['🧅 Onionland','https://onionlandsearchengine.net/search?q='+b],['🧅 Tor66','http://tor66sewebgixwhcqfnp5inzp5x5uohhdy3kvtnyfxc2e5mxiuh34iid.onion/'],['💀 Ransomlook','https://www.ransomlook.io/search?query='+b],['📉 RansomWatch','https://ransomwatch.telemetry.ltd/'],['🔑 DeHashed','https://dehashed.com/search?query='+b],['📂 BreachDirectory','https://breachdirectory.org/'],['🚪 Dark.fail','https://dark.fail/']]
+  };
+}
+function ipPivots(ip){
+  const q=encodeURIComponent(ip);
+  return [['📡 Shodan','https://www.shodan.io/host/'+ip],['🛰️ Censys','https://search.censys.io/hosts/'+ip],['🕸️ ViewDNS rev','https://viewdns.info/reverseip/?host='+ip+'&t=1'],['🌫️ GreyNoise','https://viz.greynoise.io/ip/'+ip],['🚫 AbuseIPDB','https://www.abuseipdb.com/check/'+ip],['🧪 VirusTotal','https://www.virustotal.com/gui/ip-address/'+ip],['ℹ️ IPinfo','https://ipinfo.io/'+ip],['🔭 Onyphe','https://www.onyphe.io/search/?q='+q],['🧷 BinaryEdge','https://app.binaryedge.io/services/query?query='+q]];
+}
+let RECON_DATA=null;
+async function runRecon(){
+  let d=$('#reconInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido, p. ej. mineducacion.gov.co');return;}
+  const reg=registrable(d);const sld=reg.split('.')[0];const depth=$('#reconDepth').value;
+  $('#goRecon').disabled=true;$('#reconOut').innerHTML='';
+  const st=$('#reconStatus');st.style.display='flex';$('#reconBarwrap').style.display='block';
+  RESOLVER='auto';cache.clear();
+  const setP=(p,t)=>{$('#reconBar').style.width=p+'%';$('#reconStatusTxt').textContent=t;};
+  try{
+    setP(5,'Generando variantes de suplantación…');
+    const cand=new Set(reconVariants(reg,depth));const gen=cand.size;
+    setP(12,'Barriendo Certificate Transparency (crt.sh)…');
+    const ct=await ctSearch(sld);ct.forEach(c=>{if(c&&c!==reg)cand.add(c);});
+    const list=[...cand];
+    const found=[];let done=0;const B=12;
+    for(let i=0;i<list.length;i+=B){
+      const slice=list.slice(i,i+B);
+      const res=await Promise.all(slice.map(async v=>{const ns=await query(v,'NS');return ns.answers.length?v:null;}));
+      res.forEach(v=>v&&found.push(v));
+      done=Math.min(i+B,list.length);setP(12+Math.round(done/list.length*46),`Verificando registro DNS… (${done}/${list.length}) — ${found.length} registrados`);
+    }
+    const cap=depth==='max'?42:depth==='deep'?26:16;
+    const toEnrich=found.slice(0,cap);const dossiers=[];
+    for(let i=0;i<toEnrich.length;i++){setP(58+Math.round(i/Math.max(1,toEnrich.length)*40),`Levantando expediente… (${i+1}/${toEnrich.length}) ${toEnrich[i]}`);const e=await reconEnrich(toEnrich[i]);e.sim=Math.round(similar(sld,e.dom.split('.')[0])*100);const sc=reconScore(e);e.score=sc.score;e.reasons=sc.reasons;dossiers.push(e);}
+    dossiers.sort((a,b)=>b.score-a.score);
+    RECON_DATA={reg,sld,depth,gen,ctCount:ct.length,scanned:list.length,registered:found,dossiers,when:new Date()};
+    setP(100,'Listo');renderRecon(RECON_DATA);
+  }catch(e){alert('Error: '+e.message);}
+  finally{$('#goRecon').disabled=false;st.style.display='none';$('#reconBarwrap').style.display='none';}
+}
+function reconBadge(s){const c=s>=60?'r':s>=30?'y':'g';const t=s>=60?'ALTO':s>=30?'MEDIO':'BAJO';return `<span class="tag ${c}">Riesgo ${t} · ${s}</span>`;}
+function pivGrid(arr){return `<div class="pivgrid">${arr.map(p=>`<a target="_blank" rel="noopener noreferrer" href="${esc(p[1])}">${esc(p[0])}</a>`).join('')}</div>`;}
+function pivotRow(title,arr){return `<div class="pivcat">${esc(title)}</div>${pivGrid(arr)}`;}
+function pivotBlock(piv,ip){return `${pivotRow('🌐 Superficie',piv.surface)}${pivotRow('🕳️ Deep web / feeds',piv.deep)}${pivotRow('🧅 Dark web',piv.dark)}${ip?pivotRow('🖧 Infraestructura (IP '+esc(ip)+')',ipPivots(ip)):''}`;}
+function reconDossierCard(e,brand){
+  const g=e.geo||{};const sh=e.shodan;
+  const sev=e.score>=60?'fail':e.score>=30?'warn':'ok';
+  const kv=[];
+  kv.push(['URL del sitio',`<a class="urlopen" target="_blank" rel="noopener noreferrer nofollow" href="https://${esc(e.dom)}/">🔗 https://${esc(e.dom)}</a> · <a class="urlopen" target="_blank" rel="noopener noreferrer nofollow" href="http://${esc(e.dom)}/">http</a> · <a target="_blank" rel="noopener noreferrer" href="https://urlscan.io/search/#${encodeURIComponent(e.dom)}">🛡️ vista previa segura</a><div class="hint" style="margin-top:3px">⚠️ Puede ser una página maliciosa que suplanta la tuya. Ábrela solo en un entorno seguro; para verla sin riesgo usa la vista previa (urlscan).</div>`]);
+  kv.push(['IP(s)',e.ips.length?e.ips.map(ip=>esc(ip)).join(', '):'<span class="hint">sin registro A (parqueado)</span>']);
+  if(g.country)kv.push(['Ubicación',`${g.flag||''} ${esc([g.city,g.region,g.country].filter(Boolean).join(', '))}`]);
+  if(g.lat!=null&&g.lon!=null)kv.push(['Coordenadas',`${esc(g.lat)}, ${esc(g.lon)} · <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${encodeURIComponent(g.lat)}&mlon=${encodeURIComponent(g.lon)}#map=13/${encodeURIComponent(g.lat)}/${encodeURIComponent(g.lon)}">ver mapa ↗</a>`]);
+  if(g.asn||g.org)kv.push(['Hosting / ASN',esc([g.asn,g.org||g.isp].filter(Boolean).join(' · '))]);
+  kv.push(['Correo (MX)',e.mx.length?esc(e.mx.join(', '))+(e.mxprov?' '+tag(e.mxprov,'g'):''):'<span class="hint">sin MX</span>']);
+  if(e.mx.length)kv.push(['DMARC',e.dmarcP?tag('p='+e.dmarcP,e.dmarcP==='reject'?'g':e.dmarcP==='quarantine'?'y':'r'):tag('sin DMARC — spoofeable','r')]);
+  if(e.spf)kv.push(['SPF',raw(e.spf)]);
+  kv.push(['Nameservers',e.ns.length?esc(e.ns.slice(0,4).join(', ')):'—']);
+  if(e.registrar)kv.push(['Registrador',esc(e.registrar)]);
+  if(e.created)kv.push(['Registrado',esc((''+e.created).slice(0,10))+(e.expires?' → expira '+esc((''+e.expires).slice(0,10)):'')]);
+  if(e.abuse)kv.push(['Contacto abuse',esc(e.abuse)]);
+  if(e.wayback)kv.push(['Wayback',`archivado ${esc((''+e.wayback.ts).slice(0,8))} · <a target="_blank" rel="noopener" href="${esc(e.wayback.url)}">ver copia ↗</a>`]);
+  if(sh&&(sh.ports.length||sh.vulns.length||sh.tags.length)){
+    if(sh.ports.length)kv.push(['Puertos abiertos (Shodan)',sh.ports.map(p=>tag(String(p))).join('')]);
+    if(sh.hostnames&&sh.hostnames.length)kv.push(['Hostnames',esc(sh.hostnames.slice(0,4).join(', '))]);
+    if(sh.tags&&sh.tags.length)kv.push(['Etiquetas',sh.tags.map(t=>tag(esc(t),'y')).join('')]);
+    if(sh.vulns&&sh.vulns.length)kv.push(['⚠️ CVEs',sh.vulns.slice(0,8).map(v=>tag(esc(v),'r')).join('')]);
+  }
+  if(e.listed)kv.push(['Reputación','<span style="color:var(--fail);font-weight:700">⛔ en lista negra Spamhaus</span>']);
+  const piv=reconPivots(e.dom,brand);
+  const rows=kv.map(([k,v])=>`<tr><td style="white-space:nowrap;color:var(--muted);vertical-align:top">${esc(k)}</td><td>${v}</td></tr>`).join('');
+  const badges=[reconBadge(e.score)];
+  if(typeof e.sim==='number')badges.push(tag('similitud '+e.sim+'%',e.sim>=80?'r':e.sim>=60?'y':''));
+  if(e.idn)badges.push(tag('IDN/Punycode','r'));
+  if(e.ips.length)badges.push(tag('activo','y'));else badges.push(tag('parqueado',''));
+  return `<div class="glass phishcard rcard sev-${sev}" style="margin-top:12px" data-dom="${esc(e.dom)}" data-score="${e.score}" data-sim="${e.sim||0}" data-active="${e.ips.length?1:0}">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <div class="phverdict" style="font-size:16px;margin:0;font-family:var(--mono)">${esc(e.dom)}</div>
+      <div class="rbadges">${badges.join('')}</div>
+    </div>
+    ${e.reasons&&e.reasons.length?`<p class="hint" style="margin:6px 0 4px">Señales: ${e.reasons.map(r=>esc(r)).join(' · ')}</p>`:''}
+    <table class="mini" style="margin-top:8px">${rows}</table>
+    <details style="margin-top:8px"><summary style="cursor:pointer;color:var(--accent);font-size:13px">🔎 Pivotes OSINT para investigar este dominio</summary>
+      ${pivotBlock(piv,e.ips[0])}
+    </details>
+    <div class="dashbtns" style="justify-content:flex-start;margin-top:10px;gap:8px">
+      <button class="btn ghost reconToPhish" data-dom="${esc(e.dom)}" style="padding:5px 12px;font-size:12.5px">🎣 Analizar como phishing</button>
+      <button class="btn ghost reconToDomain" data-dom="${esc(e.dom)}" style="padding:5px 12px;font-size:12.5px">🔬 Validación DNS completa</button>
+    </div>
   </div>`;
-  document.querySelectorAll('.typoRep').forEach(b=>b.addEventListener('click',()=>{setMode('phish');$('#phishUrl').value='http://'+b.dataset.dom;$('#phishBrand').value=TYPO_BRAND;analyzePhish();}));
-  $('#typoOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function reconInfraPanel(D){
+  const act=D.dossiers.filter(e=>e.geo);
+  if(!act.length)return '';
+  const agg=(keyfn)=>{const m={};act.forEach(e=>{const k=keyfn(e)||'—';m[k]=(m[k]||0)+1;});return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,6);};
+  const byCountry=agg(e=>((e.geo.flag||'')+' '+(e.geo.country||'')).trim());
+  const byAsn=agg(e=>(e.geo.org||e.geo.isp||e.geo.asn||''));
+  const byReg=agg(e=>e.registrar||'');
+  const max=arr=>Math.max(1,...arr.map(x=>x[1]));
+  const block=(title,arr)=>arr.length?`<div><div class="pivcat" style="margin-top:0">${title}</div>${arr.map(([k,n])=>`<div style="margin-top:7px"><div style="display:flex;justify-content:space-between;font-size:12.5px"><span>${esc(k)}</span><b>${n}</b></div><div class="rminibar"><span style="width:${Math.round(n/max(arr)*100)}%"></span></div></div>`).join('')}</div>`:'';
+  return `<div class="glass phishcard" style="margin-top:14px"><div class="subh" style="margin-top:0">🗺️ Panorama de infraestructura</div><p class="hint" style="margin-top:0">Concentración de los dominios suplantadores por hosting, país y registrador — útil para detectar campañas montadas sobre la misma infraestructura.</p><div class="infragrid">${block('Por país',byCountry)}${block('Por hosting / ASN',byAsn)}${block('Por registrador',byReg)}</div></div>`;
+}
+function renderRecon(D){
+  const active=D.dossiers.filter(e=>e.ips.length);
+  const withMail=D.dossiers.filter(e=>e.mx.length);
+  const listed=D.dossiers.filter(e=>e.listed);
+  const high=D.dossiers.filter(e=>e.score>=60);
+  const idn=D.dossiers.filter(e=>e.idn);
+  const sev=high.length?'fail':active.length?'warn':'ok';
+  const col=sev==='fail'?'var(--fail)':sev==='warn'?'var(--warn)':'var(--ok)';
+  const gp=reconPivots(D.reg,D.sld);
+  const head=`<div class="glass phishcard">
+    <div class="phverdict" style="color:${col}">${D.registered.length?('⚠️ '+D.registered.length+' dominio(s) parecidos registrados — '+active.length+' activos, '+high.length+' de riesgo alto'):'✅ No se hallaron dominios parecidos registrados'}</div>
+    <div class="phurl">Objetivo: ${esc(D.reg)} · ${D.scanned} candidatos analizados (${D.gen} algorítmicos + ${D.ctCount} vía crt.sh) · ${D.dossiers.length} expedientes levantados</div>
+    <div class="kpis" style="margin-top:12px;margin-bottom:0">
+      <div class="kpi fail"><b>${D.registered.length}</b><span>registrados</span></div>
+      <div class="kpi warn"><b>${active.length}</b><span>con IP activa</span></div>
+      <div class="kpi neut"><b>${withMail.length}</b><span>con correo (MX)</span></div>
+      <div class="kpi fail"><b>${listed.length}</b><span>en lista negra</span></div>
+      <div class="kpi ${idn.length?'fail':'neut'}"><b>${idn.length}</b><span>IDN/homóglifo</span></div>
+      <div class="kpi ${high.length?'fail':'ok'}"><b>${high.length}</b><span>riesgo alto</span></div>
+    </div>
+    <div class="rtoolbar">
+      <button class="btn" id="reconExportBtn">⬇️ Informe (.txt)</button>
+      <button class="btn ghost" id="reconCsvBtn">📊 IOCs (.csv)</button>
+      <button class="btn ghost" id="reconJsonBtn">🧬 IOCs (.json)</button>
+      <button class="btn ghost" id="reconCopyBtn">📋 Copiar IOCs</button>
+    </div>
+    <details style="margin-top:14px" open><summary style="cursor:pointer;color:var(--accent);font-size:13px">🌐 Pivotes OSINT globales de la marca "${esc(D.sld)}"</summary>
+      ${pivotRow('🌐 Superficie',gp.surface)}
+      ${pivotRow('🕳️ Deep web / feeds',gp.deep)}
+      ${pivotRow('🧅 Dark web',gp.dark)}
+      <p class="hint" style="margin-top:8px">⚠️ <b>Sobre la dark web:</b> una app 100% en el navegador no puede rastrear la red Tor (.onion) directamente. Estos son <b>pivotes asistidos</b> hacia buscadores e índices que sí indexan contenido .onion y filtraciones (Ahmia, IntelligenceX, HIBP, Ransomlook). Para un rastreo dark web automatizado 24/7 se requiere el backend (Cloudflare Worker) o un servicio especializado; te puedo guiar para conectarlo.</p>
+    </details>
+  </div>`;
+  const infra=reconInfraPanel(D);
+  const controls=D.dossiers.length?`<div class="glass phishcard" style="margin-top:14px;padding-top:14px;padding-bottom:14px"><div class="rtoolbar" style="margin-top:0">
+      <div class="rsearch"><span>🔎</span><input id="reconFilter" type="text" placeholder="Filtrar por dominio…" autocomplete="off" spellcheck="false"></div>
+      <select class="rselect" id="reconFilterSev"><option value="all">Todos los riesgos</option><option value="fail">Solo riesgo ALTO</option><option value="warn">Medio o superior</option><option value="active">Solo con IP activa</option></select>
+      <select class="rselect" id="reconSort"><option value="score">Ordenar: riesgo</option><option value="sim">Ordenar: similitud</option><option value="dom">Ordenar: alfabético</option></select>
+      <span class="hint" id="reconCount"></span>
+    </div></div>`:'';
+  $('#reconOut').innerHTML=head+infra+(D.dossiers.length?'<div class="subh" style="margin-top:16px">Expedientes de los dominios detectados</div>'+controls+'<div id="reconCards"></div>':'<div class="glass phishcard" style="margin-top:14px"><p class="hint">No se levantaron expedientes detallados. Usa los pivotes OSINT de arriba para investigar manualmente.</p></div>');
+  const bind=(id,fn)=>{const el=$('#'+id);if(el)el.addEventListener('click',fn);};
+  bind('reconExportBtn',reconExport);bind('reconCsvBtn',reconExportCSV);bind('reconJsonBtn',reconExportJSON);bind('reconCopyBtn',reconCopyIOCs);
+  ['reconFilter','reconFilterSev','reconSort'].forEach(id=>{const el=$('#'+id);if(el)el.addEventListener(el.tagName==='SELECT'?'change':'input',reconApplyView);});
+  reconApplyView();
+  $('#reconOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function reconApplyView(){
+  if(!RECON_DATA)return;const D=RECON_DATA;const cont=$('#reconCards');if(!cont)return;
+  const term=(($('#reconFilter')||{}).value||'').toLowerCase().trim();
+  const fsev=(($('#reconFilterSev')||{}).value)||'all';
+  const sort=(($('#reconSort')||{}).value)||'score';
+  let list=D.dossiers.slice();
+  if(term)list=list.filter(e=>e.dom.includes(term));
+  if(fsev==='fail')list=list.filter(e=>e.score>=60);
+  else if(fsev==='warn')list=list.filter(e=>e.score>=30);
+  else if(fsev==='active')list=list.filter(e=>e.ips.length);
+  list.sort((a,b)=>sort==='dom'?a.dom.localeCompare(b.dom):sort==='sim'?(b.sim||0)-(a.sim||0):b.score-a.score);
+  cont.innerHTML=list.length?list.map(e=>reconDossierCard(e,D.sld)).join(''):'<div class="glass phishcard"><p class="hint">Ningún expediente coincide con el filtro.</p></div>';
+  const cc=$('#reconCount');if(cc)cc.textContent=list.length+' de '+D.dossiers.length+' expedientes';
+  cont.querySelectorAll('.reconToPhish').forEach(b=>b.addEventListener('click',()=>{setMode('phish');$('#phishUrl').value='http://'+b.dataset.dom;$('#phishBrand').value=D.reg;analyzePhish();}));
+  cont.querySelectorAll('.reconToDomain').forEach(b=>b.addEventListener('click',()=>{setMode('domain');$('#domain').value=b.dataset.dom;if(typeof run==='function')run();}));
+  cont.querySelectorAll('a.urlopen').forEach(a=>a.addEventListener('click',ev=>{if(!confirm('⚠️ Vas a abrir un sitio potencialmente malicioso que podría suplantar tu página:\n\n'+a.href+'\n\nÁbrelo solo en un entorno seguro. ¿Continuar?')){ev.preventDefault();}}));
+}
+function reconIOCs(){const D=RECON_DATA;const ipset=new Set();D.dossiers.forEach(e=>e.ips.forEach(ip=>ipset.add(ip)));return{domains:D.dossiers.map(e=>e.dom),ips:[...ipset]};}
+function dl(name,text,type){const blob=new Blob([text],{type:(type||'text/plain')+';charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);}
+function reconExportCSV(){
+  if(!RECON_DATA)return;const D=RECON_DATA;
+  const cols=['dominio','url','riesgo','similitud','ips','pais','ciudad','asn_hosting','mx','proveedor_correo','dmarc','registrador','creado','abuse','puertos','cves','listado','idn','wayback'];
+  const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const rows=[cols.join(',')];
+  D.dossiers.forEach(e=>{const g=e.geo||{};const sh=e.shodan||{};rows.push([e.dom,'https://'+e.dom+'/',e.score,(e.sim||'')+'',e.ips.join(' '),g.country||'',g.city||'',[g.asn,g.org||g.isp].filter(Boolean).join(' '),e.mx.join(' '),e.mxprov||'',e.dmarcP||'',e.registrar||'',(''+(e.created||'')).slice(0,10),e.abuse||'',(sh.ports||[]).join(' '),(sh.vulns||[]).join(' '),e.listed?'si':'no',e.idn?'si':'no',e.wayback?(''+e.wayback.ts).slice(0,8):''].map(q).join(','));});
+  dl('centinela-iocs-'+D.reg+'.csv',rows.join('\n'),'text/csv');
+}
+function reconExportJSON(){
+  if(!RECON_DATA)return;const D=RECON_DATA;const io=reconIOCs();
+  const out={tool:'Centinela',type:'cyber-intelligence-recon',target:D.reg,generated:D.when.toISOString(),depth:D.depth,stats:{scanned:D.scanned,generated:D.gen,ct:D.ctCount,registered:D.registered.length},iocs:io,dossiers:D.dossiers.map(e=>({domain:e.dom,url:'https://'+e.dom+'/',risk:e.score,similarity:e.sim,idn:!!e.idn,ips:e.ips,geo:e.geo||null,mx:e.mx,mail_provider:e.mxprov||null,spf:e.spf||null,dmarc:e.dmarcP||null,ns:e.ns,registrar:e.registrar||null,created:e.created||null,expires:e.expires||null,abuse:e.abuse||null,shodan:e.shodan||null,wayback:e.wayback||null,blacklisted:!!e.listed,signals:e.reasons||[]}))};
+  dl('centinela-iocs-'+D.reg+'.json',JSON.stringify(out,null,2),'application/json');
+}
+function reconCopyIOCs(){
+  if(!RECON_DATA)return;const io=reconIOCs();const txt=['# Dominios',...io.domains,'','# IPs',...io.ips].join('\n');
+  const done=()=>{const b=$('#reconCopyBtn');if(b){const o=b.textContent;b.textContent='✓ Copiado';setTimeout(()=>b.textContent=o,1200);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{dl('centinela-iocs.txt',txt);});
+  else dl('centinela-iocs.txt',txt);
+}
+function reconExport(){
+  if(!RECON_DATA)return;const D=RECON_DATA;const L=[];
+  L.push('EXPEDIENTE DE CIBERINTELIGENCIA — CENTINELA');
+  L.push('='.repeat(60));
+  L.push('Objetivo protegido : '+D.reg);
+  L.push('Fecha              : '+D.when.toLocaleString('es-CO'));
+  L.push('Profundidad        : '+D.depth);
+  L.push('Candidatos analizados: '+D.scanned+' ('+D.gen+' algorítmicos + '+D.ctCount+' vía Certificate Transparency)');
+  L.push('Dominios registrados : '+D.registered.length);
+  L.push('Expedientes         : '+D.dossiers.length);
+  L.push('');
+  D.dossiers.forEach((e,i)=>{
+    const g=e.geo||{};
+    L.push('-'.repeat(60));
+    L.push('#'+(i+1)+'  '+e.dom+'   [Riesgo '+(e.score>=60?'ALTO':e.score>=30?'MEDIO':'BAJO')+' · '+e.score+']'+(typeof e.sim==='number'?'  (similitud '+e.sim+'%)':'')+(e.idn?'  [IDN/Punycode]':''));
+    if(e.reasons&&e.reasons.length)L.push('  Señales      : '+e.reasons.join(' · '));
+    L.push('  URL          : https://'+e.dom+'/  (vista previa segura: https://urlscan.io/search/#'+encodeURIComponent(e.dom)+')');
+    L.push('  IP(s)        : '+(e.ips.join(', ')||'sin A (parqueado)'));
+    if(g.country)L.push('  Ubicación    : '+[g.city,g.region,g.country].filter(Boolean).join(', '));
+    if(g.lat!=null)L.push('  Coordenadas  : '+g.lat+', '+g.lon);
+    if(g.asn||g.org)L.push('  Hosting/ASN  : '+[g.asn,g.org||g.isp].filter(Boolean).join(' · '));
+    L.push('  Correo (MX)  : '+(e.mx.join(', ')||'sin MX')+(e.mxprov?' ['+e.mxprov+']':''));
+    if(e.mx.length)L.push('  DMARC        : '+(e.dmarcP?'p='+e.dmarcP:'AUSENTE (spoofeable)'));
+    if(e.spf)L.push('  SPF          : '+e.spf);
+    L.push('  Nameservers  : '+(e.ns.slice(0,4).join(', ')||'—'));
+    if(e.registrar)L.push('  Registrador  : '+e.registrar);
+    if(e.created)L.push('  Registrado   : '+(''+e.created).slice(0,10)+(e.expires?' → expira '+(''+e.expires).slice(0,10):''));
+    if(e.abuse)L.push('  Abuse        : '+e.abuse);
+    if(e.wayback)L.push('  Wayback      : '+(''+e.wayback.ts).slice(0,8)+' '+e.wayback.url);
+    if(e.shodan){if(e.shodan.ports.length)L.push('  Puertos      : '+e.shodan.ports.join(', '));if(e.shodan.vulns&&e.shodan.vulns.length)L.push('  CVEs         : '+e.shodan.vulns.join(', '));if(e.shodan.hostnames&&e.shodan.hostnames.length)L.push('  Hostnames    : '+e.shodan.hostnames.join(', '));}
+    if(e.listed)L.push('  Reputación   : EN LISTA NEGRA (Spamhaus)');
+  });
+  L.push('');L.push('='.repeat(60));
+  L.push('Pivotes OSINT (marca: '+D.sld+'):');
+  const gp=reconPivots(D.reg,D.sld);
+  ['surface','deep','dark'].forEach(k=>{L.push('  ['+(k==='surface'?'SUPERFICIE':k==='deep'?'DEEP WEB':'DARK WEB')+']');gp[k].forEach(p=>L.push('    - '+p[0]+': '+p[1]));});
+  L.push('');L.push('Generado por Centinela — Suite de Ciberseguridad. Uso defensivo y de investigación autorizada.');
+  const blob=new Blob([L.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='centinela-expediente-'+D.reg+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+
+/* ============================================================ Análisis de vulnerabilidades (vuln) */
+const VULN_SEV={crit:{w:25,label:'Crítica',cls:'crit'},high:{w:15,label:'Alta',cls:'high'},med:{w:7,label:'Media',cls:'med'},low:{w:3,label:'Baja',cls:'low'},info:{w:0,label:'Informativa',cls:'info'}};
+function sevFromCvss(s){s=parseFloat(s);if(!(s>=0))return null;if(s>=9)return'crit';if(s>=7)return'high';if(s>=4)return'med';if(s>0)return'low';return'info';}
+const PORT_RISK={
+ 21:['high','FTP','Transferencia de archivos sin cifrar; credenciales viajan en texto plano.'],
+ 23:['crit','Telnet','Acceso remoto SIN cifrar; credenciales expuestas. Debe deshabilitarse.'],
+ 25:['low','SMTP','Servidor de correo; verifica que no sea un open relay.'],
+ 110:['low','POP3','Correo sin cifrar si no usa TLS.'],
+ 143:['low','IMAP','Correo sin cifrar si no usa TLS.'],
+ 135:['high','MSRPC','RPC de Windows expuesto a internet.'],
+ 139:['high','NetBIOS','NetBIOS expuesto — fuga de información/SMB.'],
+ 445:['crit','SMB','Compartición de archivos Windows — vector de EternalBlue y ransomware.'],
+ 1433:['high','MSSQL','Base de datos SQL Server expuesta a internet.'],
+ 1521:['high','Oracle DB','Base de datos Oracle expuesta.'],
+ 3306:['high','MySQL','Base de datos expuesta a internet.'],
+ 5432:['high','PostgreSQL','Base de datos expuesta a internet.'],
+ 27017:['high','MongoDB','Base de datos NoSQL expuesta — históricamente sin autenticación.'],
+ 6379:['crit','Redis','Redis expuesto — con frecuencia sin autenticación → RCE.'],
+ 9200:['high','Elasticsearch','Índice expuesto — fugas masivas de datos son comunes.'],
+ 5601:['med','Kibana','Panel de Kibana expuesto.'],
+ 11211:['high','Memcached','Expuesto — amplificación DDoS y fuga de datos.'],
+ 2375:['crit','Docker API','API de Docker sin TLS — control total del host.'],
+ 6443:['med','Kubernetes API','API de K8s expuesta.'],
+ 3389:['crit','RDP','Escritorio remoto expuesto — objetivo #1 de ransomware y fuerza bruta.'],
+ 5900:['high','VNC','Escritorio remoto — a menudo sin contraseña.'],
+ 161:['med','SNMP','Puede filtrar información de red y credenciales por defecto.'],
+ 22:['low','SSH','Acceso remoto — asegura con llaves, sin root y con fail2ban.'],
+ 80:['info','HTTP','Servicio web sin cifrar; debe redirigir a HTTPS.'],
+ 443:['info','HTTPS','Servicio web cifrado.'],
+ 8080:['low','HTTP-alt','Servicio web alternativo — revisa paneles de administración.'],
+ 8443:['low','HTTPS-alt','Servicio web alternativo cifrado.'],
+ 53:['info','DNS','Servicio DNS.']
+};
+let KEV_MAP=null;
+async function loadKEV(){
+  if(KEV_MAP)return KEV_MAP;KEV_MAP=new Map();
+  try{const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),20000);
+    const r=await fetch('https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json',{signal:ctrl.signal});clearTimeout(to);
+    if(r.ok){const j=await r.json();(j.vulnerabilities||[]).forEach(v=>KEV_MAP.set(v.cveID,{name:v.vulnerabilityName||'',due:v.dueDate||'',ransom:/known/i.test(v.knownRansomwareCampaignUse||'')}));}
+  }catch(e){}
+  return KEV_MAP;
+}
+async function circlCve(id){
+  try{const r=await fetch('https://cve.circl.lu/api/cve/'+encodeURIComponent(id));if(r.ok){const j=await r.json();if(j&&typeof j==='object'){
+    let cvss=(typeof j.cvss==='number')?j.cvss:null;
+    if(cvss==null&&j.cvss3&&j.cvss3.baseScore!=null)cvss=+j.cvss3.baseScore;
+    if(cvss==null&&j.metrics&&j.metrics.cvssMetricV31&&j.metrics.cvssMetricV31[0])cvss=+j.metrics.cvssMetricV31[0].cvssData.baseScore;
+    if(cvss==null&&j.containers&&j.containers.cna&&j.containers.cna.metrics){const m=j.containers.cna.metrics.find(x=>x.cvssV3_1||x.cvssV3_0);if(m){const c=m.cvssV3_1||m.cvssV3_0;if(c&&c.baseScore!=null)cvss=+c.baseScore;}}
+    let summary=j.summary||'';
+    if(!summary&&j.containers&&j.containers.cna&&j.containers.cna.descriptions&&j.containers.cna.descriptions[0])summary=j.containers.cna.descriptions[0].value;
+    if(cvss!=null||summary)return {cvss:cvss!=null?cvss:null,summary:summary,src:'CIRCL'};
+  }}}catch(e){}
+  return null;
+}
+async function ctSubdomains(dom){
+  const out=new Set();
+  try{const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),15000);
+    const r=await fetch('https://crt.sh/?q='+encodeURIComponent(dom)+'&output=json',{signal:ctrl.signal});clearTimeout(to);
+    if(r.ok){const j=await r.json();(j||[]).forEach(row=>String(row.name_value||'').split(/\n/).forEach(n=>{n=n.trim().toLowerCase().replace(/^\*\./,'');if((n===dom||n.endsWith('.'+dom))&&/^[a-z0-9.-]+$/.test(n))out.add(n);}));}
+  }catch(e){}
+  return [...out];
+}
+/* Fingerprints de servicios propensos a subdomain takeover (CNAME colgante) */
+const TAKEOVER_FP=[
+ [/\.github\.io$/,'GitHub Pages','high'],[/\.gitlab\.io$/,'GitLab Pages','high'],[/\.bitbucket\.io$/,'Bitbucket','high'],
+ [/\.herokudns\.com$|\.herokuapp\.com$|\.herokussl\.com$/,'Heroku','high'],
+ [/\.s3[.-][a-z0-9-]*\.amazonaws\.com$|\.s3\.amazonaws\.com$|s3-website/,'AWS S3','high'],
+ [/\.cloudfront\.net$/,'AWS CloudFront','med'],
+ [/\.azurewebsites\.net$|\.cloudapp\.net$|\.cloudapp\.azure\.com$|\.trafficmanager\.net$|\.blob\.core\.windows\.net$|\.azureedge\.net$|\.azurefd\.net$/,'Microsoft Azure','high'],
+ [/\.netlify\.app$|\.netlify\.com$/,'Netlify','high'],[/\.pages\.dev$/,'Cloudflare Pages','med'],
+ [/\.web\.app$|\.firebaseapp\.com$/,'Firebase','med'],[/\.fly\.dev$/,'Fly.io','med'],
+ [/\.ghost\.io$/,'Ghost','high'],[/\.wpengine\.com$/,'WP Engine','high'],[/\.wordpress\.com$/,'WordPress','med'],
+ [/\.pantheonsite\.io$/,'Pantheon','high'],[/\.readthedocs\.io$/,'Read the Docs','high'],[/\.surge\.sh$/,'Surge.sh','high'],
+ [/\.fastly\.net$/,'Fastly','med'],[/\.zendesk\.com$/,'Zendesk','med'],[/\.desk\.com$/,'Desk','high'],
+ [/\.statuspage\.io$/,'Statuspage','med'],[/\.uservoice\.com$/,'UserVoice','high'],[/\.helpscoutdocs\.com$/,'Help Scout','high'],
+ [/\.tumblr\.com$/,'Tumblr','high'],[/\.myshopify\.com$/,'Shopify','med'],[/\.cargocollective\.com$/,'Cargo','high'],
+ [/\.launchrock\.com$/,'LaunchRock','high'],[/\.unbouncepages\.com$/,'Unbounce','high'],[/\.bcvp0rtal\.com$|\.brightcove/,'Brightcove','high']
+];
+async function scanTakeover(subs,cap,setP){
+  const list=subs.filter(s=>s.split('.').length>2).slice(0,cap);
+  const out=[];let done=0;const B=10;
+  for(let i=0;i<list.length;i+=B){
+    const slice=list.slice(i,i+B);
+    const res=await Promise.all(slice.map(async sub=>{
+      const c=await query(sub,'CNAME');
+      const cname=(c.answers&&c.answers[0]&&c.answers[0].data)||(c.cnames&&c.cnames[0])||'';
+      if(!cname)return null;
+      const fp=TAKEOVER_FP.find(f=>f[0].test(cname));
+      if(!fp)return null;
+      const a=await query(sub,'A');
+      const dangling=(a.status===3)||(!a.answers.length&&a.status!==0);
+      const sev=dangling?(fp[2]==='high'?'crit':'high'):'low';
+      return {sub,cname,service:fp[1],sev,dangling,detail:dangling?('El subdominio apunta a '+fp[1]+' pero el recurso NO resuelve — fuerte indicio de recurso liberado y reclamable por un atacante (takeover).'):('El subdominio apunta a un recurso de '+fp[1]+'; verifica que siga reclamado por ti (riesgo si se libera).')};
+    }));
+    res.forEach(r=>r&&out.push(r));
+    done=Math.min(i+B,list.length);if(setP)setP(90+Math.round(done/list.length*8),'Buscando subdomain takeover… ('+done+'/'+list.length+')');
+  }
+  return out;
+}
+let VULN_DATA=null;
+async function runVuln(){
+  let input=$('#vulnInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  const isIP=/^\d{1,3}(\.\d{1,3}){3}$/.test(input);
+  if(!isIP&&!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(input)){alert('Ingresa un dominio o IP válidos');return;}
+  const depth=$('#vulnDepth').value;
+  $('#goVuln').disabled=true;$('#vulnOut').innerHTML='';
+  const st=$('#vulnStatus');st.style.display='flex';$('#vulnBarwrap').style.display='block';
+  RESOLVER='auto';cache.clear();
+  const setP=(p,t)=>{$('#vulnBar').style.width=p+'%';$('#vulnStatusTxt').textContent=t;};
+  const F=[];const sources={shodan:false,circl:false,crtsh:false,doh:false,geo:false};
+  const add=(sev,cat,title,detail,opt)=>{F.push(Object.assign({sev,cat,title,detail},opt||{}));};
+  try{
+    let ips=[];const dom=isIP?null:input;
+    if(isIP)ips=[input];
+    else{setP(6,'Resolviendo DNS…');const a=await query(input,'A');ips=a.answers.map(x=>x.data).filter(ip=>/^\d+\.\d+\.\d+\.\d+$/.test(ip));sources.doh=true;
+      if(!ips.length)add('info','Infraestructura DNS','El dominio no resuelve a una IP (sin registro A)','No hay host público que analizar por puertos/CVEs; se evalúa solo la postura DNS/correo.',{});}
+    let geo=null;if(ips.length){setP(14,'Identificando hosting/ASN…');geo=await geoLookup(ips[0]);if(geo)sources.geo=true;}
+    const allPorts=new Set(),cveSet=new Set(),cpes=new Set(),tags=new Set(),hostnames=new Set();
+    for(let i=0;i<Math.min(ips.length,3);i++){setP(20+i*7,'Consultando Shodan InternetDB… ('+(i+1)+'/'+Math.min(ips.length,3)+')');const sh=await shodanIDB(ips[i]);if(sh){sources.shodan=true;(sh.ports||[]).forEach(p=>allPorts.add(p));(sh.vulns||[]).forEach(v=>cveSet.add(v));(sh.cpes||[]).forEach(c=>cpes.add(c));(sh.tags||[]).forEach(t=>tags.add(t));(sh.hostnames||[]).forEach(h=>hostnames.add(h));}}
+    const ports=[...allPorts].sort((a,b)=>a-b);
+    ports.forEach(p=>{const r=PORT_RISK[p];if(r)add(r[0],'Exposición de servicios','Puerto '+p+' abierto — '+r[1],r[2],{evidence:'Abierto en '+(ips[0]||''),remediation:(r[0]==='crit'||r[0]==='high')?'Restringe el acceso por firewall/VPN, cierra el puerto si no es necesario y exige autenticación fuerte.':'Verifica que el servicio esté actualizado y con acceso restringido.'});else add('info','Exposición de servicios','Puerto '+p+' abierto','Servicio no catalogado; revísalo manualmente.',{});});
+    if(tags.size)add((tags.has('self-signed')||tags.has('expired'))?'med':'info','Configuración TLS/servicio','Señales Shodan: '+[...tags].join(', '),'Etiquetas de configuración detectadas en el host.',{remediation:tags.has('self-signed')?'Sustituye certificados autofirmados por certificados de una CA de confianza.':''});
+    let cves=[...cveSet];cves=depth==='std'?cves.slice(0,25):cves.slice(0,60);
+    const cveDetails=[];
+    let kev=new Map();if(cves.length){setP(38,'Cargando catálogo CISA KEV (explotadas activamente)…');kev=await loadKEV();if(kev.size)sources.kev=true;}
+    for(let i=0;i<cves.length;i++){setP(42+Math.round(i/Math.max(1,cves.length)*33),'Enriqueciendo CVE '+(i+1)+'/'+cves.length+'…');const info=await circlCve(cves[i]);if(info)sources.circl=true;const sev=(info&&info.cvss!=null)?sevFromCvss(info.cvss):'high';cveDetails.push({id:cves[i],cvss:info?info.cvss:null,summary:info?info.summary:'',sev,kev:kev.get(cves[i])||null});}
+    cveDetails.sort((a,b)=>(b.kev?1:0)-(a.kev?1:0)||(b.cvss||0)-(a.cvss||0));
+    let kevCount=0;
+    cveDetails.forEach(c=>{
+      const k=c.kev;let sev=c.sev||'high';
+      let title=c.id+(c.cvss!=null?' · CVSS '+c.cvss:' · CVSS n/d');
+      let detail=c.summary||'Vulnerabilidad reportada en un servicio expuesto (sin descripción disponible en la fuente).';
+      const opt={cvss:c.cvss,cve:c.id,remediation:'Aplica el parche del proveedor para '+c.id+' o actualiza el software afectado a la última versión.',refs:[['NVD','https://nvd.nist.gov/vuln/detail/'+c.id],['CIRCL','https://cve.circl.lu/cve/'+c.id]]};
+      if(k){kevCount++;sev='crit';title='🔴 '+title+' · EXPLOTADA ACTIVAMENTE (CISA KEV)'+(k.ransom?' · RANSOMWARE':'');detail=(k.name?k.name+'. ':'')+detail+' Figura en el catálogo KEV de CISA: se explota activamente en ataques reales'+(k.ransom?', incluidos campañas de ransomware':'')+'. Máxima prioridad de parcheo.';opt.remediation='🚨 PRIORIDAD MÁXIMA: parchea '+c.id+' de inmediato'+(k.due?' (CISA fijó fecha límite '+k.due+')':'')+'. Está siendo explotada activamente.';opt.refs.push(['CISA KEV','https://www.cisa.gov/known-exploited-vulnerabilities-catalog']);}
+      add(sev,'Vulnerabilidades conocidas (CVE)',title,detail,opt);
+    });
+    if(dom){
+      setP(78,'Evaluando postura DNS / correo…');
+      const spf=await posSPF(dom),dmarc=await posDMARC(dom),mx=await query(dom,'MX');
+      if(!spf.present)add('high','Seguridad del correo','Sin registro SPF','El dominio no declara qué servidores pueden enviar en su nombre; facilita la suplantación de correo.',{remediation:'Publica un registro SPF (v=spf1 …) terminando en -all.'});
+      else if(spf.all==='~'||spf.all==='?')add('low','Seguridad del correo','SPF con política débil (~all/?all)','El SPF no aplica una política estricta de rechazo.',{evidence:spf.record,remediation:'Endurece a -all cuando el inventario de remitentes esté completo.'});
+      else if(spf.all==='+')add('high','Seguridad del correo','SPF permite a cualquier servidor (+all)','El SPF autoriza a CUALQUIER servidor a enviar como el dominio.',{evidence:spf.record,remediation:'Elimina +all de inmediato y usa -all.'});
+      if(!dmarc.present)add('high','Seguridad del correo','Sin registro DMARC','Sin DMARC no hay política contra suplantación ni informes de abuso.',{remediation:'Publica _dmarc con v=DMARC1; p=quarantine (luego reject); rua=mailto:…'});
+      else if(dmarc.policy==='none')add('med','Seguridad del correo','DMARC en modo monitor (p=none)','DMARC presente pero no bloquea el correo suplantado.',{evidence:dmarc.record,remediation:'Sube a p=quarantine y después a p=reject.'});
+      if(!(await posDNSSEC(dom)).present)add('low','Infraestructura DNS','DNSSEC no habilitado','El dominio no está firmado; habilita el envenenamiento de caché y el spoofing DNS.',{remediation:'Activa DNSSEC con tu registrador/operador DNS.'});
+      if(!(await posCAA(dom)).present)add('low','TLS / Certificados','Sin registro CAA','Cualquier autoridad certificadora puede emitir certificados para el dominio.',{remediation:'Publica un registro CAA restringiendo las CAs autorizadas.'});
+      if(mx.answers.length&&!(await posMTASTS(dom)).present)add('low','Seguridad del correo','Sin MTA-STS','No se fuerza TLS en la entrega de correo entrante (posible downgrade).',{remediation:'Implementa MTA-STS (política HTTPS + registro _mta-sts).'});
+      setP(85,'Midiendo superficie de ataque (crt.sh)…');
+      const subs=await ctSubdomains(dom);
+      if(subs.length){sources.crtsh=true;const sev=subs.length>80?'med':subs.length>25?'low':'info';add(sev,'Superficie de ataque',subs.length+' subdominios en Certificate Transparency','Cada subdominio/servicio es un punto de entrada potencial; una superficie amplia amplía el riesgo y puede incluir servicios olvidados.',{evidence:subs.slice(0,20).join(', ')+(subs.length>20?' …':''),remediation:'Inventaría y retira subdominios y servicios en desuso; monitoréalos.'});
+        setP(90,'Buscando subdomain takeover…');
+        const tk=await scanTakeover(subs,depth==='deep'?80:40,setP);
+        tk.forEach(t=>add(t.sev,'Subdomain takeover',t.sub+' → '+t.service+(t.dangling?' (destino sin resolver)':''),t.detail,{evidence:'CNAME → '+t.cname,remediation:'Reclama o libera el recurso en '+t.service+', o elimina el registro CNAME colgante de '+t.sub+'. Un atacante podría registrar ese recurso y servir contenido bajo tu subdominio.',refs:[['can-i-take-over-xyz','https://github.com/EdOverflow/can-i-take-over-xyz']]}));
+      }
+    }
+    const counts={crit:0,high:0,med:0,low:0,info:0};let penalty=0;
+    F.forEach(f=>{counts[f.sev]=(counts[f.sev]||0)+1;penalty+=VULN_SEV[f.sev].w;});
+    const score=Math.max(0,100-penalty);
+    const order=['A','B','C','D','E','F'];let gi=score>=90?0:score>=80?1:score>=70?2:score>=55?3:score>=35?4:5;
+    if(counts.crit>0)gi=Math.max(gi,3);if(counts.high>0)gi=Math.max(gi,2);
+    const grade=order[gi];
+    VULN_DATA={target:input,isIP,ips,geo,ports,tags:[...tags],hostnames:[...hostnames],cpes:[...cpes],findings:F,counts,score,grade,sources,kevCount,when:new Date(),depth};
+    setP(100,'Listo');renderVuln(VULN_DATA);
+  }catch(e){alert('Error: '+e.message);}
+  finally{$('#goVuln').disabled=false;st.style.display='none';$('#vulnBarwrap').style.display='none';}
+}
+function vSevChip(sev){const s=VULN_SEV[sev];return `<span class="vsev ${s.cls}">${s.label}</span>`;}
+function gradeColor(g){return {A:'#31d9a6',B:'#8ee06b',C:'#eab308',D:'#f97316',E:'#f4593c',F:'#dc2626'}[g]||'#888';}
+function renderVuln(D){
+  const sevOrder={crit:0,high:1,med:2,low:3,info:4};
+  const catOrder=['Vulnerabilidades conocidas (CVE)','Subdomain takeover','Exposición de servicios','Seguridad del correo','TLS / Certificados','Configuración TLS/servicio','Infraestructura DNS','Superficie de ataque'];
+  const cats=[...new Set(D.findings.map(f=>f.cat))].sort((a,b)=>{const ia=catOrder.indexOf(a),ib=catOrder.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
+  const gc=gradeColor(D.grade);
+  const srcRow=[['Shodan InternetDB',D.sources.shodan],['CIRCL / NVD (CVE)',D.sources.circl],['CISA KEV',D.sources.kev],['crt.sh',D.sources.crtsh],['DNS-over-HTTPS',D.sources.doh],['Geo/ASN',D.sources.geo]].map(([n,on])=>`<span class="vsrc ${on?'on':''}">${on?'✓':'○'} ${esc(n)}</span>`).join(' ');
+  const head=`<div class="glass phishcard">
+    <div class="vgrade">
+      <div class="vgbadge" style="background:${gc}">${D.grade}</div>
+      <div style="flex:1 1 220px">
+        <div class="phverdict" style="margin:0;color:${gc}">Puntaje de seguridad: ${D.score}/100</div>
+        <div class="phurl">Objetivo: ${esc(D.target)}${D.ips.length?' · '+esc(D.ips.join(', ')):''}${D.geo&&(D.geo.asn||D.geo.org)?' · '+esc([D.geo.asn,D.geo.org||D.geo.isp].filter(Boolean).join(' · ')):''}</div>
+      </div>
+    </div>
+    <div class="kpis" style="margin-top:14px;margin-bottom:0">
+      <div class="kpi ${D.counts.crit?'fail':'neut'}"><b>${D.counts.crit}</b><span>Críticas</span></div>
+      <div class="kpi ${D.counts.high?'fail':'neut'}"><b>${D.counts.high}</b><span>Altas</span></div>
+      <div class="kpi ${D.counts.med?'warn':'neut'}"><b>${D.counts.med}</b><span>Medias</span></div>
+      <div class="kpi neut"><b>${D.counts.low}</b><span>Bajas</span></div>
+      ${D.kevCount?`<div class="kpi fail"><b>${D.kevCount}</b><span>explotadas 🔴</span></div>`:''}
+      <div class="kpi neut"><b>${D.ports.length}</b><span>puertos</span></div>
+    </div>
+    ${D.kevCount?`<div class="vmeta" style="margin-top:10px;color:var(--failtx)"><b>🔴 ${D.kevCount} vulnerabilidad(es) en el catálogo CISA KEV</b> — se explotan activamente en ataques reales. Parchéalas antes que nada.</div>`:''}
+    <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="hint">Fuentes:</span> ${srcRow}</div>
+    <div class="rtoolbar"><button class="btn" id="vulnTxtBtn">⬇️ Informe (.txt)</button><button class="btn ghost" id="vulnJsonBtn">🧬 Datos (.json)</button></div>
+  </div>`;
+  let body='';
+  cats.forEach(cat=>{
+    const items=D.findings.filter(f=>f.cat===cat).sort((a,b)=>sevOrder[a.sev]-sevOrder[b.sev]);
+    body+=`<div class="glass phishcard" style="margin-top:14px"><div class="subh" style="margin-top:0">${esc(cat)} <span class="hint">(${items.length})</span></div>`;
+    items.forEach(f=>{body+=`<div class="vfind ${VULN_SEV[f.sev].cls}"><h4>${vSevChip(f.sev)} ${esc(f.title)} ${(f.cvss!=null&&f.cvss!==undefined)?'<span class="vcvss">CVSS '+esc(f.cvss)+'</span>':''}</h4>
+      <div class="vmeta">${esc(f.detail)}</div>
+      ${f.evidence?`<div class="vmeta">Evidencia: <span style="font-family:var(--mono);color:var(--txt)">${esc(f.evidence)}</span></div>`:''}
+      ${f.remediation?`<div class="vrem">🔧 <b>Remediación:</b> ${esc(f.remediation)}</div>`:''}
+      ${f.refs&&f.refs.length?`<div style="margin-top:6px">${f.refs.map(r=>`<a class="tag" style="text-decoration:none" target="_blank" rel="noopener noreferrer" href="${esc(r[1])}">${esc(r[0])} ↗</a>`).join(' ')}</div>`:''}
+    </div>`;});
+    body+='</div>';
+  });
+  if(!D.findings.length)body='<div class="glass phishcard" style="margin-top:14px"><p class="hint">No se detectaron hallazgos con las fuentes consultadas. El host puede no exponer servicios públicos, o las fuentes no tienen datos sobre él. Recuerda que esta evaluación es pasiva.</p></div>';
+  $('#vulnOut').innerHTML=head+body;
+  const b1=$('#vulnTxtBtn');if(b1)b1.addEventListener('click',vulnExportTxt);
+  const b2=$('#vulnJsonBtn');if(b2)b2.addEventListener('click',vulnExportJson);
+  $('#vulnOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function vulnExportTxt(){
+  if(!VULN_DATA)return;const D=VULN_DATA;const L=[];
+  L.push('INFORME DE ANÁLISIS DE VULNERABILIDADES — CENTINELA');
+  L.push('='.repeat(62));
+  L.push('Objetivo   : '+D.target+(D.ips.length?'  ('+D.ips.join(', ')+')':''));
+  if(D.geo&&(D.geo.asn||D.geo.org))L.push('Hosting/ASN: '+[D.geo.asn,D.geo.org||D.geo.isp].filter(Boolean).join(' · '));
+  L.push('Fecha      : '+D.when.toLocaleString('es-CO'));
+  L.push('Calificación: '+D.grade+'   Puntaje: '+D.score+'/100');
+  L.push('Hallazgos  : '+D.counts.crit+' críticas · '+D.counts.high+' altas · '+D.counts.med+' medias · '+D.counts.low+' bajas');
+  if(D.kevCount)L.push('CISA KEV   : '+D.kevCount+' vulnerabilidad(es) EXPLOTADAS ACTIVAMENTE — prioridad máxima');
+  L.push('Puertos    : '+(D.ports.join(', ')||'—'));
+  L.push('Fuentes    : '+Object.entries(D.sources).filter(([k,v])=>v).map(([k])=>k).join(', '));
+  L.push('');
+  const sevOrder={crit:0,high:1,med:2,low:3,info:4};
+  D.findings.slice().sort((a,b)=>sevOrder[a.sev]-sevOrder[b.sev]).forEach((f,i)=>{
+    L.push('-'.repeat(62));
+    L.push('['+VULN_SEV[f.sev].label.toUpperCase()+'] '+f.title+(f.cvss!=null&&f.cvss!==undefined?'  (CVSS '+f.cvss+')':''));
+    L.push('  Categoría   : '+f.cat);
+    L.push('  Detalle     : '+f.detail);
+    if(f.evidence)L.push('  Evidencia   : '+f.evidence);
+    if(f.remediation)L.push('  Remediación : '+f.remediation);
+    if(f.refs)f.refs.forEach(r=>L.push('  Ref         : '+r[0]+' '+r[1]));
+  });
+  L.push('');L.push('Evaluación pasiva (sin pruebas intrusivas). Uso autorizado sobre infraestructura propia.');
+  L.push('Generado por Centinela — Suite de Ciberseguridad.');
+  dl('centinela-vulnerabilidades-'+D.target+'.txt',L.join('\n'));
+}
+function vulnExportJson(){
+  if(!VULN_DATA)return;const D=VULN_DATA;
+  const out={tool:'Centinela',type:'vulnerability-assessment',target:D.target,generated:D.when.toISOString(),grade:D.grade,score:D.score,counts:D.counts,ips:D.ips,geo:D.geo||null,ports:D.ports,tags:D.tags,cpes:D.cpes,sources:D.sources,findings:D.findings.map(f=>({severity:f.sev,category:f.cat,title:f.title,detail:f.detail,cvss:f.cvss==null?null:f.cvss,cve:f.cve||null,evidence:f.evidence||null,remediation:f.remediation||null,references:(f.refs||[]).map(r=>r[1])}))};
+  dl('centinela-vulnerabilidades-'+D.target+'.json',JSON.stringify(out,null,2),'application/json');
+}
+
+/* ============================================================ Informe ejecutivo unificado */
+async function runReport(){
+  let d=$('#reportInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido');return;}
+  const doDom=$('#rptDomain').checked,doVuln=$('#rptVuln').checked,doRecon=$('#rptRecon').checked;
+  if(!doDom&&!doVuln&&!doRecon){alert('Selecciona al menos un módulo');return;}
+  $('#goReport').disabled=true;$('#reportOut').innerHTML='';
+  const st=$('#reportStatus');st.style.display='flex';$('#reportBarwrap').style.display='block';
+  const setP=(p,t)=>{$('#reportBar').style.width=p+'%';$('#reportStatusTxt').textContent=t;};
+  const data={target:d,when:new Date(),domain:null,vuln:null,recon:null};
+  try{
+    if(doDom){setP(8,'Analizando dominio y correo…');$('#domain').value=d;const rt=$('#rbltoggle');if(rt)rt.value='1';await run();data.domain={items:ITEMS.slice(),report:Object.assign({},REPORT)};}
+    if(doVuln){setP(45,'Analizando vulnerabilidades…');$('#vulnInput').value=d;$('#vulnDepth').value='std';await runVuln();data.vuln=VULN_DATA;}
+    if(doRecon){setP(78,'Buscando dominios suplantadores…');$('#reconInput').value=d;$('#reconDepth').value='fast';await runRecon();data.recon=RECON_DATA;}
+    setP(100,'Listo');REPORT_DATA=data;renderReportDoc(data);
+  }catch(e){alert('Error generando informe: '+e.message);}
+  finally{$('#goReport').disabled=false;st.style.display='none';$('#reportBarwrap').style.display='none';setMode('report');}
+}
+let REPORT_DATA=null;
+function renderReportDoc(D){
+  const org=(function(){try{return localStorage.getItem('ctn-org')||'';}catch(e){return'';}})();
+  // ---- resúmenes ----
+  let grade='—',gcol='var(--muted)',vsum='';
+  if(D.vuln){grade=D.vuln.grade;gcol=gradeColor(grade);}
+  // domain posture counts
+  let dFail=0,dWarn=0,dOk=0;
+  if(D.domain){D.domain.items.forEach(it=>{if(it.status==='fail')dFail++;else if(it.status==='warn')dWarn++;else if(it.status==='ok')dOk++;});}
+  const recImp=D.recon?D.recon.registered.length:0;const recAct=D.recon?D.recon.dossiers.filter(e=>e.ips.length).length:0;
+  // overall one-line verdict
+  const crit=(D.vuln?D.vuln.counts.crit:0)+(D.recon?D.recon.dossiers.filter(e=>e.score>=60).length:0);
+  const kev=D.vuln?(D.vuln.kevCount||0):0;
+  let verdict,vcol;
+  if(kev>0||crit>0||dFail>2){verdict='Riesgo ALTO — requiere acción inmediata';vcol='var(--fail)';}
+  else if(dFail>0||(D.vuln&&D.vuln.counts.high)||recImp>0){verdict='Riesgo MEDIO — hay hallazgos a corregir';vcol='var(--warn)';}
+  else{verdict='Riesgo BAJO — postura aceptable';vcol='var(--ok)';}
+  // ---- cover + resumen ----
+  let html=`<div class="glass phishcard">
+    <div class="rptcover">
+      ${D.vuln?`<div class="vgbadge" style="background:${gcol}">${grade}</div>`:''}
+      <div style="flex:1 1 240px">
+        <div style="font-family:var(--display);font-size:22px;font-weight:700">Informe ejecutivo de ciberseguridad</div>
+        <div class="phurl" style="margin-top:2px">${org?esc(org)+' · ':''}Objetivo: <b>${esc(D.target)}</b> · ${esc(D.when.toLocaleString('es-CO'))}</div>
+        <div style="margin-top:6px;font-weight:700;color:${vcol}">${verdict}</div>
+      </div>
+    </div>
+    <div class="kpis" style="margin-top:14px;margin-bottom:0">
+      ${D.vuln?`<div class="kpi ${D.vuln.counts.crit?'fail':'ok'}"><b>${D.vuln.counts.crit}</b><span>vuln. críticas</span></div>
+      <div class="kpi ${D.vuln.counts.high?'warn':'neut'}"><b>${D.vuln.counts.high}</b><span>vuln. altas</span></div>
+      ${kev?`<div class="kpi fail"><b>${kev}</b><span>explotadas 🔴</span></div>`:''}`:''}
+      ${D.domain?`<div class="kpi ${dFail?'fail':'ok'}"><b>${dFail}</b><span>fallos correo/DNS</span></div>`:''}
+      ${D.recon?`<div class="kpi ${recImp?'warn':'ok'}"><b>${recImp}</b><span>suplantadores</span></div>`:''}
+    </div>
+    <div class="dashbtns" style="justify-content:flex-start;margin-top:14px;gap:8px">
+      <button class="btn" id="rptPrintBtn">🖨️ Guardar como PDF</button>
+      <button class="btn ghost" id="rptJsonBtn">🧬 Datos (.json)</button>
+    </div>
+  </div>`;
+  // ---- Sección Vulnerabilidades ----
+  if(D.vuln){
+    const V=D.vuln;const sevOrder={crit:0,high:1,med:2,low:3,info:4};
+    const top=V.findings.slice().sort((a,b)=>sevOrder[a.sev]-sevOrder[b.sev]).slice(0,12);
+    html+=`<div class="glass phishcard rptsec"><h3>1 · Vulnerabilidades e infraestructura</h3>
+      <div class="rptrow"><span>Calificación de seguridad</span><b style="color:${gcol}">${grade} (${V.score}/100)</b></div>
+      <div class="rptrow"><span>Puertos expuestos</span><b>${V.ports.join(', ')||'—'}</b></div>
+      <div class="rptrow"><span>Hallazgos</span><b>${V.counts.crit} críticas · ${V.counts.high} altas · ${V.counts.med} medias · ${V.counts.low} bajas</b></div>
+      ${kev?`<div class="rptrow"><span style="color:var(--fail)">🔴 Explotadas activamente (CISA KEV)</span><b style="color:var(--fail)">${kev}</b></div>`:''}
+      <div style="margin-top:10px;font-weight:600;font-size:13px">Hallazgos principales</div>
+      ${top.map(f=>`<div class="vfind ${VULN_SEV[f.sev].cls}" style="margin-top:8px"><h4>${vSevChip(f.sev)} ${esc(f.title)}</h4><div class="vmeta">${esc(f.detail)}</div>${f.remediation?`<div class="vrem">🔧 ${esc(f.remediation)}</div>`:''}</div>`).join('')}
+    </div>`;
+  }
+  // ---- Sección Correo & DNS ----
+  if(D.domain){
+    const items=D.domain.items;
+    const icon=s=>s==='ok'?'✅':s==='warn'?'⚠️':s==='fail'?'⛔':'•';
+    html+=`<div class="glass phishcard rptsec"><h3>2 · Postura de correo y DNS</h3>
+      <div class="rptrow"><span>Controles evaluados</span><b>${items.length} · ${dOk} correctos, ${dWarn} advertencias, ${dFail} fallos</b></div>
+      ${items.map(it=>{const f=(it.findings||[]).find(x=>x.sev===it.status)||(it.findings||[])[0];return `<div class="rptrow"><span>${icon(it.status)} ${esc(it.name)}</span><span style="color:var(--muted);max-width:60%;text-align:right">${esc(f?f.title:(it.subtitle||''))}</span></div>`;}).join('')}
+    </div>`;
+  }
+  // ---- Sección OSINT / Suplantación ----
+  if(D.recon){
+    const R=D.recon;const ds=R.dossiers.slice().sort((a,b)=>b.score-a.score).slice(0,10);
+    html+=`<div class="glass phishcard rptsec"><h3>3 · Dominios suplantadores (OSINT)</h3>
+      <div class="rptrow"><span>Candidatos analizados</span><b>${R.scanned}</b></div>
+      <div class="rptrow"><span>Registrados / activos</span><b>${R.registered.length} / ${recAct}</b></div>
+      ${ds.length?`<div style="margin-top:10px;font-weight:600;font-size:13px">Dominios de mayor riesgo</div>
+      <table class="mini" style="margin-top:6px"><tr><th>Dominio</th><th>Riesgo</th><th>IP</th><th>País</th></tr>
+      ${ds.map(e=>`<tr><td style="font-family:var(--mono)">${esc(e.dom)}</td><td>${e.score>=60?'<b style="color:var(--fail)">ALTO':e.score>=30?'<b style="color:var(--warn)">MEDIO':'<b>BAJO'} ${e.score}</b></td><td>${esc((e.ips&&e.ips[0])||'—')}</td><td>${esc((e.geo&&e.geo.country)||'—')}</td></tr>`).join('')}</table>`:'<p class="hint" style="margin-top:8px">No se hallaron dominios suplantadores registrados con el barrido rápido.</p>'}
+    </div>`;
+  }
+  html+=`<div class="glass phishcard rptsec"><h3>Metodología y alcance</h3>
+    <p class="hint" style="margin-top:0">Informe generado por <b>Centinela</b> mediante evaluación <b>pasiva</b> (sin pruebas intrusivas) correlacionando fuentes públicas: DNS-over-HTTPS, Shodan InternetDB, CIRCL/NVD, CISA KEV, crt.sh, RDAP e IP-geo. Los resultados reflejan el estado observable en la fecha del informe y deben validarse antes de tomar acciones. Uso autorizado sobre infraestructura propia.</p></div>`;
+  $('#reportOut').innerHTML=html;
+  const pb=$('#rptPrintBtn');if(pb)pb.addEventListener('click',()=>{try{window.print();}catch(e){}});
+  const jb=$('#rptJsonBtn');if(jb)jb.addEventListener('click',reportExportJson);
+  $('#reportOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function reportExportJson(){
+  if(!REPORT_DATA)return;const D=REPORT_DATA;
+  const out={tool:'Centinela',type:'executive-report',target:D.target,generated:D.when.toISOString(),
+    vulnerabilities:D.vuln?{grade:D.vuln.grade,score:D.vuln.score,counts:D.vuln.counts,kev:D.vuln.kevCount||0,ports:D.vuln.ports,findings:D.vuln.findings.map(f=>({severity:f.sev,category:f.cat,title:f.title}))}:null,
+    mail_dns:D.domain?D.domain.items.map(it=>({control:it.name,status:it.status})):null,
+    impersonation:D.recon?{scanned:D.recon.scanned,registered:D.recon.registered.length,domains:D.recon.dossiers.map(e=>({domain:e.dom,risk:e.score,ip:(e.ips&&e.ips[0])||null,country:(e.geo&&e.geo.country)||null}))}:null};
+  dl('centinela-informe-'+D.target+'.json',JSON.stringify(out,null,2),'application/json');
 }
 
 /* ============================================================ Analizador de correo (.eml) */
@@ -1967,7 +2674,7 @@ function runGen(){
   $('#genDnsOut').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));['domain','phish','geo','cmp','typo','eml','mon','tools','headers','gen'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();}
+function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));['domain','phish','geo','cmp','recon','vuln','report','eml','mon','tools','headers','gen'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();}
 $('#mbTools').addEventListener('click',()=>setMode('tools'));
 $('#mbHeaders').addEventListener('click',()=>setMode('headers'));
 $('#mbGen').addEventListener('click',()=>{setMode('gen');});
@@ -2013,12 +2720,18 @@ $('#mbDomain').addEventListener('click',()=>setMode('domain'));
 $('#mbPhish').addEventListener('click',()=>setMode('phish'));
 $('#mbGeo').addEventListener('click',()=>setMode('geo'));
 $('#mbCmp').addEventListener('click',()=>setMode('cmp'));
-$('#mbTypo').addEventListener('click',()=>setMode('typo'));
+$('#mbRecon').addEventListener('click',()=>setMode('recon'));
+$('#mbVuln').addEventListener('click',()=>setMode('vuln'));
+$('#mbReport').addEventListener('click',()=>setMode('report'));
 $('#mbEml').addEventListener('click',()=>setMode('eml'));
 $('#mbMon').addEventListener('click',()=>setMode('mon'));
 $('#goCmp').addEventListener('click',runCompare);
-$('#goTypo').addEventListener('click',runTypo);
-$('#typoInput').addEventListener('keydown',e=>{if(e.key==='Enter')runTypo();});
+$('#goRecon').addEventListener('click',runRecon);
+$('#reconInput').addEventListener('keydown',e=>{if(e.key==='Enter')runRecon();});
+$('#goVuln').addEventListener('click',runVuln);
+$('#vulnInput').addEventListener('keydown',e=>{if(e.key==='Enter')runVuln();});
+$('#goReport').addEventListener('click',runReport);
+$('#reportInput').addEventListener('keydown',e=>{if(e.key==='Enter')runReport();});
 $('#goEml').addEventListener('click',analyzeEml);
 $('#monAdd').addEventListener('click',monAddDomain);
 $('#monInput').addEventListener('keydown',e=>{if(e.key==='Enter')monAddDomain();});
@@ -2097,7 +2810,6 @@ const themeBtn=$('#themeBtn');
 function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==='dark'?'🌙':'☀️';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
 themeBtn.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 try{const s=localStorage.getItem('dnsg-theme');if(s)setTheme(s);}catch(e){}
-try{if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});}catch(e){}
 // PWA (instalable al publicar en un hosting)
 try{const mani={name:'Centinela — Ciberseguridad',short_name:'Centinela',start_url:'.',display:'standalone',background_color:'#070b16',theme_color:'#070b16',description:'Suite de ciberseguridad de dominios y correo',icons:[{src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#0b0d11"/><path d="M32 8 49 15 49 31 C49 42 42 49 32 52.5 C22 49 15 42 15 31 L15 15 Z" fill="rgba(49,217,166,.08)" stroke="#31d9a6" stroke-width="2"/><circle cx="32" cy="30.5" r="13" stroke="#31d9a6" stroke-opacity=".3" stroke-width="1.3"/><circle cx="32" cy="30.5" r="2.6" fill="#31d9a6"/><path d="M32 15v2.6M32 43.4V46M16.4 30.5H19M45 30.5h2.6" stroke="#31d9a6" stroke-width="1.5"/></svg>'),sizes:'any',type:'image/svg+xml',purpose:'any'}]};const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(new Blob([JSON.stringify(mani)],{type:'application/manifest+json'}));document.head.appendChild(link);}catch(e){}
 let deferredPrompt=null;
