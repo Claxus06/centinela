@@ -1,0 +1,18 @@
+{
+  "name": "centinela-tests",
+  "private": true,
+  "description": "Pruebas automáticas de Centinela (motor del sandbox y aplicación en navegador headless)",
+  "scripts": {
+    "check": "node --check ../app.js && node --check ../boot.js && node --check ../sandbox-worker.js && node --check ../sw.js && node --check ../worker-sandbox.js && node --check ../worker-filtraciones.js",
+    "unit": "node unit.test.js",
+    "browser": "node browser.test.js",
+    "test": "npm run check && npm run unit && npm run backend && npm run browser",
+    "backend": "node backend.test.js"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
