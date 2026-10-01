@@ -17,7 +17,7 @@
       (o:  npx wrangler secret put HIBP_KEY). Sin él, /hibp responde 500 y el resto sigue funcionando.
    2. Copia las funciones de este archivo en el código del Worker.
    3. En el enrutador del Worker (donde ya atiende /verify y /headers) añade:
-        const leak = await handleLeakRoutes(url, env);
+        const leak = await handleLeakRoutes(url, env, request);
         if (leak) return leak;
    4. Publica el Worker y pon su URL en Centinela → Ajustes → "URL del backend". */
 
@@ -35,7 +35,13 @@ async function leakPassThrough(target, headers = {}) {
   return new Response(await r.text(), { status: r.status, headers: LEAK_CORS });
 }
 
-async function handleLeakRoutes(url, env) {
+// request es opcional por compatibilidad; pásalo para aplicar ALLOWED_ORIGINS y SBX_LIMIT (ver worker-sandbox.js)
+async function handleLeakRoutes(url, env, request) {
+  if (!/^\/(hibp|hudsonrock|rdap|ransomware)$/.test(url.pathname)) return null;
+  if (request && typeof centinelaGuard === 'function') return centinelaGuard(request, env, () => leakRoutes(url, env));
+  return leakRoutes(url, env);
+}
+async function leakRoutes(url, env) {
   const p = url.pathname;
 
   if (p === '/hibp') {
