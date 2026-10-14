@@ -32,7 +32,9 @@ let AXE = null; try { AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js
     ok(await b.ev(`document.querySelectorAll('#homeGrid .homecard').length`) === modes.length - 1, 'el inicio tiene una tarjeta por módulo');
 
     section('Idioma');
-    const snap = `(()=>{const o=[];const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode,p=n.parentNode;if(!p||/SCRIPT|STYLE|TEXTAREA/.test(p.nodeName)||p.closest('svg,#legalBody,.raw'))continue;const t=n.nodeValue.replace(/\\s+/g,' ').trim();if(t)o.push(t);}document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(e=>['placeholder','title','aria-label'].forEach(a=>{const v=e.getAttribute(a);if(v)o.push('@'+a+':'+v);}));return o;})()`;
+    const snap = `(()=>{const o=[];const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(w.nextNode()){const n=w.currentNode,p=n.parentNode;if(!p||/SCRIPT|STYLE|TEXTAREA/.test(p.nodeName)||p.closest('svg,#legalBody,.raw,.co-data'))continue;const t=n.nodeValue.replace(/\\s+/g,' ').trim();if(t)o.push(t);}document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(e=>['placeholder','title','aria-label'].forEach(a=>{const v=e.getAttribute(a);if(v)o.push('@'+a+':'+v);}));return o;})()`;
+    // El módulo "Ataques en Colombia" carga sus datos de forma asíncrona: esperar a que termine antes de comparar
+    await b.ev(`(async()=>{for(let i=0;i<50&&!document.querySelector('.co-count,.co-err');i++)await new Promise(r=>setTimeout(r,100));return 1})()`); await b.sleep(1200);   // y a que terminen de contar sus cifras
     const es1 = await b.ev(snap); await b.ev(`document.querySelector('#langBtn').click();1`); const en = await b.ev(snap);
     const left = en.filter(t => /[áéíóúñ¿¡]|\b(de|la|el|los|las|del|para|con|por|una|que|sin|tu|tus|se|es)\b/i.test(t) && !/^@title:Idioma/.test(t));
     ok(left.length === 0, 'interfaz completa en inglés' + (left.length ? ': ' + left.slice(0, 5).join(' | ') : ''));
@@ -59,6 +61,7 @@ let AXE = null; try { AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js
     ok(overflow.length === 0, 'ningún módulo desborda horizontalmente' + (overflow.length ? ': ' + overflow.join(', ') : ''));
     const nav = await b.ev(`(()=>{const t=[...document.querySelectorAll('.mnav .mtab')];return {n:t.length,rows:new Set(t.map(x=>Math.round(x.getBoundingClientRect().top))).size};})()`);
     ok(nav.n >= 6 && nav.rows === 1, 'menú inferior: ' + nav.n + ' pestañas en una sola fila');
+    ok(await b.ev(`document.querySelector('#asstBtn').getBoundingClientRect().bottom<=document.querySelector('.mnav').getBoundingClientRect().top`), 'el botón del asistente no tapa el menú inferior');
     await b.send('Emulation.clearDeviceMetricsOverride'); await b.go(URL, 2500);
 
     section('Sandbox en sus tres entornos');
@@ -88,6 +91,63 @@ let AXE = null; try { AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js
     section('Casos');
     await b.ev(`localStorage.removeItem('ctn-cases');setMode('cases');document.querySelector('#caseTitle').value='Caso de prueba';document.querySelector('#caseNew').click();document.querySelector('#caseNote').value='Nota';document.querySelector('#caseNoteAdd').click();1`);
     ok(await b.ev(`caseAll().length===1&&caseAll()[0].items[0].kind==='note'`), 'crea un caso y añade una nota');
+
+    section('Ataques en Colombia');
+    await b.ev(`setTheme('light');setMode('colombia');1`); await b.sleep(1500);
+    const co = await b.ev(`(()=>{const j=document.querySelectorAll('.co-inc').length;return {inc:j,kpis:document.querySelectorAll('.co-kpis .kpi').length,cols:document.querySelectorAll('.co-col').length,bars:document.querySelectorAll('.co-bar').length,count:document.querySelector('.co-count').textContent};})()`);
+    ok(co.inc === 20 && co.kpis === 4 && co.cols === 24 && co.bars > 0, 'carga data/colombia.json: indicadores, gráfico mensual, barras y 20 incidentes por página (' + co.count + ')');
+    ok(await b.ev(`!/\\.onion/i.test(document.querySelector('#coOut').innerHTML)&&[...document.querySelectorAll('#coOut a[href]')].every(a=>/^https:\\/\\//.test(a.getAttribute('href'))&&a.rel.includes('noopener'))`), 'no hay enlaces a sitios de filtración; todos los enlaces son https con noopener');
+    await b.ev(`document.querySelector('#coType').value='confirmado';document.querySelector('#coType').dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#coPer').value='all';document.querySelector('#coPer').dispatchEvent(new Event('change',{bubbles:true}));1`);
+    ok(await b.ev(`[...document.querySelectorAll('.co-inc .co-badge')].every(x=>!x.classList.contains('co-reclamado'))&&document.querySelectorAll('.co-inc').length>0`), 'el filtro "Confirmado" excluye las reclamaciones sin confirmar');
+    await b.ev(`document.querySelector('[data-act="clear"]').click();const q=document.querySelector('#coQ');q.focus();q.value='ecopetrol';q.dispatchEvent(new Event('input',{bubbles:true}));1`); await b.sleep(400);
+    ok(await b.ev(`document.querySelectorAll('.co-inc').length===1&&document.activeElement.id==='coQ'`), 'la búsqueda filtra por víctima y conserva el foco al escribir');
+    await b.ev(`const d=document.querySelector('.co-inc');d.open=true;1`);
+    ok(await b.ev(`(()=>{const t=document.querySelector('.co-inc .co-body').textContent;return /Qué se filtró/.test(t)&&/Quién se lo adjudica/.test(t)&&/infostealers/.test(t)&&/Noticia/.test(t);})()`), 'el detalle muestra qué se filtró, el actor, los infostealers y la noticia');
+    await b.ev(`document.querySelector('.co-inc [data-act="case"]').click();1`); await b.sleep(200);
+    ok(await b.ev(`document.querySelector('#caseDlg').open&&/Ecopetrol/.test(document.querySelector('#caseDlgWhat').textContent)`), '"Añadir a un caso" abre el diálogo con el incidente');
+    await b.ev(`document.querySelector('#caseDlgCancel').click();document.querySelector('[data-act="clear"]').click();document.querySelector('.co-bar[data-f="actor"]').click();1`); await b.sleep(300);
+    ok(await b.ev(`(()=>{const a=document.querySelector('#coActor').value;return !!a&&[...document.querySelectorAll('.co-inc')].every(x=>x.querySelector('.co-meta .co-actor').textContent===a);})()`), 'pulsar una barra de actor filtra sus incidentes');
+    if (AXE) {
+      await b.send('Runtime.evaluate', { expression: AXE });
+      const cv = [];
+      for (const theme of ['dark', 'light']) { await b.ev(`setTheme('${theme}');document.querySelectorAll('.co-inc').forEach((d,i)=>{if(i<3)d.open=true});1`); await b.sleep(300);
+        (await b.ev(`(async()=>{const r=await axe.run(document.querySelector('#coOut'),{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}});return r.violations.map(v=>v.id+' ('+v.nodes.length+')');})()`)).forEach(v => cv.push(theme + ':' + v)); }
+      ok(cv.length === 0, 'módulo sin incumplimientos WCAG en los 2 temas (con detalles abiertos)' + (cv.length ? ': ' + cv.join(', ') : ''));
+    }
+    await b.ev(`document.querySelector('[data-act="clear"]').click();setMode('home');1`);
+
+    section('Asistente de IA');
+    await b.ev(`localStorage.removeItem('ctn-backend');window.CENTINELA_BACKEND='';setMode('home');document.querySelector('#asstBtn').click();1`); await b.sleep(300);
+    ok(await b.ev(`!document.querySelector('#asstPanel').hidden&&document.activeElement===document.querySelector('#asstQ')`), 'el botón "Preguntar" abre el panel y enfoca la pregunta');
+    ok(await b.ev(`document.querySelectorAll('#asstLog .asst-chip').length>=2`), 'muestra preguntas sugeridas según el módulo');
+    ok(await b.ev(`/backend/.test(document.querySelector('#asstLog').textContent)`), 'sin backend explica cómo configurarlo');
+    // Backend simulado: /ai/status y /ai/chat en streaming, con un intento de inyección de HTML en la respuesta
+    await b.ev(`window.__aiReq=null;window.__realFetch=window.__realFetch||window.fetch;window.fetch=async(u,o)=>{u=String(u);
+      if(u.endsWith('/ai/status'))return new Response('{"ok":true,"providers":{"workersAi":true,"groq":false}}');
+      if(u.endsWith('/ai/chat')){window.__aiReq=JSON.parse(o.body);const e=new TextEncoder();return new Response(new ReadableStream({start(c){
+        ['Revisa **Dominio & correo**.\\n','- paso uno <img src=x onerror="window.__xss=1">\\n'].forEach(t=>c.enqueue(e.encode('data: '+JSON.stringify({t})+'\\n\\n')));
+        c.enqueue(e.encode('data: {"done":true,"via":"workers-ai"}\\n\\n'));c.close();}}),{headers:{'content-type':'text/event-stream'}});}
+      return window.__realFetch(u,o);};
+      localStorage.setItem('ctn-backend','https://prueba.workers.dev/');document.querySelector('#asstReset').click();centinelaAsk('¿Qué reviso primero?');1`);
+    await b.sleep(800);
+    const req = await b.ev(`window.__aiReq`);
+    ok(req && req.messages.at(-1).content === '¿Qué reviso primero?' && req.lang === 'es' && req.context.module === 'Inicio' && typeof req.context.summary === 'string' && req.context.summary.length > 0, 'envía la pregunta, el idioma y el contexto del módulo');
+    ok(await b.ev(`/Revisa/.test(document.querySelector('#asstLog .asst-msg.bot:last-child').textContent)&&!!document.querySelector('#asstLog .asst-via')`), 'muestra la respuesta en streaming y el proveedor');
+    ok(await b.ev(`!document.querySelector('#asstLog img')&&!window.__xss`), 'la respuesta del modelo no puede inyectar HTML');
+    await b.ev(`document.querySelector('#asstLog .asst-go[data-mode="domain"]').click();1`); await b.sleep(200);
+    ok(await b.ev(`document.querySelector('.modebtn.active').dataset.mode==='domain'`), 'los módulos mencionados son enlaces que abren el módulo');
+    await b.ev(`document.querySelector('#asstCtx').checked=false;centinelaAsk('Otra');1`); await b.sleep(600);
+    ok(await b.ev(`window.__aiReq.context.summary===''&&window.__aiReq.messages.length===3`), 'sin la casilla no envía el resultado en pantalla; conserva el historial');
+    if (AXE) {
+      await b.send('Runtime.evaluate', { expression: AXE });
+      const av = [];
+      for (const theme of ['dark', 'light']) { await b.ev(`setTheme('${theme}');1`); await b.sleep(300);
+        (await b.ev(`(async()=>{const r=await axe.run(document.querySelector('#asstPanel'),{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}});return r.violations.map(v=>v.id+' ('+v.nodes.length+')');})()`)).forEach(v => av.push(theme + ':' + v)); }
+      ok(av.length === 0, 'panel del asistente sin incumplimientos WCAG en los 2 temas' + (av.length ? ': ' + av.join(', ') : ''));
+    }
+    await b.ev(`document.querySelector('#asstQ').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));1`);
+    ok(await b.ev(`document.querySelector('#asstPanel').hidden&&document.activeElement===document.querySelector('#asstBtn')`), 'Esc cierra el panel y devuelve el foco al botón');
+    await b.ev(`window.fetch=window.__realFetch;localStorage.removeItem('ctn-backend');setMode('home');1`);
 
     ok(b.errs.length === 0, 'sin excepciones de JavaScript' + (b.errs.length ? ': ' + b.errs.slice(0, 3).join(' | ') : ''));
   } catch (e) { ok(false, 'error inesperado: ' + e.message); }

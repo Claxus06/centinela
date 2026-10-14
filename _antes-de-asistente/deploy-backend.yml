@@ -1,0 +1,35 @@
+name: Desplegar backend (Cloudflare Worker)
+
+# Despliegue manual: Actions → "Desplegar backend" → Run workflow.
+# Requiere los secretos del repositorio CLOUDFLARE_API_TOKEN (plantilla "Edit Cloudflare Workers")
+# y CLOUDFLARE_ACCOUNT_ID. Las claves de API del Worker (VT_KEY, ABUSECH_KEY…) se gestionan en Cloudflare.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Pruebas del backend
+        working-directory: tests
+        run: node backend.test.js
+
+      - name: Ensamblar el Worker
+        working-directory: backend
+        run: node build.mjs
+
+      - name: Desplegar en Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: backend

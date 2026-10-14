@@ -3431,7 +3431,7 @@ $('#goLeakEntity').addEventListener('click',runLeakEntity);
 $('#leakEmails').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))runLeakEmail();});
 $('#mbLeak').addEventListener('click',()=>setMode('leak'));
 
-function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();}
+function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();if(m==='colombia'&&typeof renderColombia==='function')renderColombia();}
 $('#mbTools').addEventListener('click',()=>setMode('tools'));
 $('#mbHeaders').addEventListener('click',()=>setMode('headers'));
 $('#mbGen').addEventListener('click',()=>{setMode('gen');});
@@ -3861,7 +3861,7 @@ $('#installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredP
     const txt=el.textContent.trim();if(!/^\d{1,3}(\.\d{3})+$|^\d+$/.test(txt))return;
     const target=+txt.replace(/\./g,'');if(!target)return;
     const t0=performance.now(),dur=Math.min(900,380+target*45);
-    const tick=now=>{const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=p<1?Math.round(target*e).toLocaleString('es-CO'):txt;if(p<1)requestAnimationFrame(tick);};
+    const tick=now=>{const p=Math.max(0,Math.min(1,(now-t0)/dur)),e=1-Math.pow(1-p,3);el.textContent=p<1?Math.round(target*e).toLocaleString('es-CO'):txt;if(p<1)requestAnimationFrame(tick);};
     requestAnimationFrame(tick);
   };
   new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches(SEL))count(n);n.querySelectorAll(SEL).forEach(count);})))
@@ -4380,7 +4380,7 @@ function renderCases(){
   const c=list.find(x=>x.id===CASES.sel);const D=$('#caseDetail');
   if(!c){D.innerHTML='<p class="hint">Selecciona o crea un caso.</p>';return;}
   const left=CASE_DAYS-Math.floor((Date.now()-Date.parse(c.updated))/864e5);
-  const kindL={file:'Archivo',url:'Enlace',ioc:'Indicadores',report:'Informe',note:'Nota'};
+  const kindL={file:'Archivo',url:'Enlace',ioc:'Indicadores',report:'Informe',note:'Nota',incident:'Incidente'};
   D.innerHTML=`<div class="controls"><div class="field grow"><label for="caseEdTitle">Título</label><input type="text" id="caseEdTitle" value="${esc(c.title)}" maxlength="120"></div>
       <div class="field res"><label for="caseEdSt">Estado</label><select id="caseEdSt">${Object.entries(CASE_ST).map(([k,v])=>`<option value="${k}"${c.status===k?' selected':''}>${v}</option>`).join('')}</select></div>
       <div class="field res"><label for="caseEdSev">Severidad</label><select id="caseEdSev">${['crit','high','med','low'].map(k=>`<option value="${k}"${c.sev===k?' selected':''}>${VULN_SEV[k].label}</option>`).join('')}</select></div></div>
@@ -4394,7 +4394,7 @@ function renderCases(){
     <div class="rtoolbar"><button class="btn" id="caseTxt" type="button">${ico('download')}Informe del caso (.txt)</button><button class="btn ghost" id="caseJson" type="button">${ico('download')}Datos (.json)</button><button class="btn ghost" id="caseDel" type="button">${ico('ban')}Eliminar caso</button></div>`;
 }
 function caseTxt(c){
-  const L=[];const line=ch=>L.push((ch||'=').repeat(72));const kindL={file:'Archivo',url:'Enlace',ioc:'Indicadores',report:'Informe',note:'Nota'};
+  const L=[];const line=ch=>L.push((ch||'=').repeat(72));const kindL={file:'Archivo',url:'Enlace',ioc:'Indicadores',report:'Informe',note:'Nota',incident:'Incidente'};
   L.push('INFORME DE CASO — CENTINELA');line();L.push('Caso      : '+c.title);L.push('Estado    : '+CASE_ST[c.status]);L.push('Severidad : '+VULN_SEV[c.sev].label);
   L.push('Creado    : '+new Date(c.created).toLocaleString('es-CO'));L.push('Actualizado: '+new Date(c.updated).toLocaleString('es-CO'));if(c.desc){L.push('');L.push(c.desc);}
   L.push('');L.push('ELEMENTOS ('+c.items.length+')');line('-');
@@ -4437,7 +4437,7 @@ const HOME_DESC={cases:'Agrupa hallazgos, indicadores y notas de un incidente.',
   phish:'Analiza una URL sospechosa y prepara la denuncia.',eml:'Encabezados de un correo: autenticación y origen.',sbx:'Análisis aislado de archivos con MITRE ATT&CK y CVE.',
   leak:'Correos y entidades en filtraciones de datos.',mon:'Vigila cambios y listas negras de tus dominios.',recon:'Dominios suplantadores y typosquatting.',
   vuln:'Puertos, CVE expuestos y superficie de ataque.',report:'Informe ejecutivo consolidado e imprimible.',geo:'Ubicación, ASN y proveedor de una IP.',
-  headers:'Cabeceras de seguridad HTTP de un sitio.',tools:'Contraseñas, hashes, Base64 y JWT.'};
+  headers:'Cabeceras de seguridad HTTP de un sitio.',tools:'Contraseñas, hashes, Base64 y JWT.',colombia:'Ciberataques confirmados y reclamados en Colombia: qué se filtró y quién lo hizo.'};
 Object.assign(I18N_EN,{'Análisis rápido':'Quick analysis','Escribe un dominio, IP, URL, correo, hash o CVE y Centinela abrirá el módulo adecuado':'Type a domain, IP, URL, email, hash or CVE and Centinela will open the right module',
   'ejemplo.com · 8.8.8.8 · https://… · usuario@dominio.com · SHA-256 · CVE-2021-44228':'example.com · 8.8.8.8 · https://… · user@domain.com · SHA-256 · CVE-2021-44228','Analizar':'Analyze',
   '¿Tienes un archivo sospechoso? Abrir el sandbox':'Got a suspicious file? Open the sandbox','Estado de las fuentes de datos':'Data source status','Comprobar ahora':'Check now','Actividad de esta sesión':'Activity in this session',
@@ -4449,7 +4449,8 @@ Object.assign(I18N_EN,{'Análisis rápido':'Quick analysis','Escribe un dominio,
   'Correos y entidades en filtraciones de datos.':'Emails and organizations in data breaches.','Vigila cambios y listas negras de tus dominios.':'Watches your domains for changes and blacklisting.',
   'Dominios suplantadores y typosquatting.':'Impersonating domains and typosquatting.','Puertos, CVE expuestos y superficie de ataque.':'Ports, exposed CVEs and attack surface.',
   'Informe ejecutivo consolidado e imprimible.':'Consolidated, printable executive report.','Ubicación, ASN y proveedor de una IP.':'Location, ASN and provider of an IP.',
-  'Cabeceras de seguridad HTTP de un sitio.':'A site’s HTTP security headers.',
+  'Cabeceras de seguridad HTTP de un sitio.':'A site’s HTTP security headers.','Ataques en Colombia':'Attacks in Colombia',
+  'Ciberataques confirmados y reclamados en Colombia: qué se filtró y quién lo hizo.':'Confirmed and claimed cyberattacks in Colombia: what leaked and who did it.','Incidente':'Incident',
   'Filtraciones de la entidad':'Organization data leaks','Archivos analizados en el sandbox (sesión)':'Files analyzed in the sandbox (session)','Prioridades de actuación':'Action priorities',
   'filtraciones':'leaks','empleados con infostealer':'employees with infostealer','archivos de riesgo':'risky files','Metodología y alcance':'Methodology and scope',
   'Informe ejecutivo de ciberseguridad':'Cybersecurity executive report','Consulta de IOCs':'IOC lookup','Consulta de indicadores de compromiso (IOCs)':'Indicators of compromise (IOC) lookup',

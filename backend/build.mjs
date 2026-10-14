@@ -1,6 +1,7 @@
 // Ensambla el Worker de Centinela (dist/worker.js) a partir de los archivos del proyecto:
 //   ../worker-filtraciones.js  (filtraciones: HIBP, Hudson Rock, ransomware.live, RDAP)
 //   ../worker-sandbox.js       (reputación, sandbox dinámico, enlaces, TLS, KEV, cabeceras, verificación)
+//   ../worker-asistente.js     (asistente de IA: Workers AI con respaldo de Groq)
 // Uso:  node build.mjs   y después   npx wrangler deploy
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -9,13 +10,15 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const src = f => readFileSync(join(here, '..', f), 'utf8');
 
-const entry = `// Generado por backend/build.mjs — no editar a mano: modifica worker-filtraciones.js / worker-sandbox.js y vuelve a construir.
+const entry = `// Generado por backend/build.mjs — no editar a mano: modifica worker-filtraciones.js / worker-sandbox.js / worker-asistente.js y vuelve a construir.
 import { connect } from 'cloudflare:sockets';
 globalThis.CF_CONNECT = connect;   // sockets TCP para el análisis TLS (/sbx/tls)
 
 ${src('worker-filtraciones.js')}
 
 ${src('worker-sandbox.js')}
+
+${src('worker-asistente.js')}
 
 export default {
   async fetch(request, env) {
@@ -25,6 +28,8 @@ export default {
       if (leak) return leak;
       const sbx = await handleSandboxRoutes(request, url, env);
       if (sbx) return sbx;
+      const ai = await handleAiRoutes(request, url, env);
+      if (ai) return ai;
       if (url.pathname === '/') return new Response('Centinela backend: operativo.', { headers: { 'content-type': 'text/plain; charset=utf-8' } });
       return new Response(JSON.stringify({ error: 'Ruta no encontrada' }), { status: 404, headers: { 'content-type': 'application/json; charset=utf-8' } });
     } catch (e) {

@@ -27,3 +27,19 @@ ALLOWED_ORIGINS = "https://TU_USUARIO.github.io"
 #   HA_KEY        Hybrid Analysis
 #   HIBP_KEY      Have I Been Pwned (búsqueda por correo)
 #   GSB_KEY       Google Safe Browsing (verificación de URLs en Phishing)
+#   GROQ_KEY      Groq (respaldo gratuito del asistente de IA cuando Workers AI agota su cuota diaria)
+
+# Asistente de IA (worker-asistente.js) ------------------------------------------------------------
+# Cloudflare Workers AI: gratis hasta 10.000 neuronas al día (≈ 350 consultas). Nunca cobra en el plan
+# gratuito: al agotarse, el asistente pasa a Groq (si existe GROQ_KEY) o avisa hasta las 00:00 UTC.
+[ai]
+binding = "AI"
+
+# Límite de preguntas por IP para que nadie agote la cuota diaria: 6 por minuto.
+[[ratelimits]]
+name = "AI_LIMIT"
+namespace_id = "1002"
+
+  [ratelimits.simple]
+  limit = 6
+  period = 60

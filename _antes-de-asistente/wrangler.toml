@@ -1,0 +1,29 @@
+# Configuración del Worker de Centinela para Cloudflare.
+# 1) node build.mjs        (genera dist/worker.js)
+# 2) npx wrangler login
+# 3) npx wrangler deploy
+# Los secretos (claves de API) NO van aquí: se crean con  npx wrangler secret put NOMBRE
+
+name = "centinela-backend"
+main = "dist/worker.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# OBLIGATORIO en producción: URL(s) de tu Centinela publicado, separadas por comas.
+# Sin esta lista, cualquier sitio web podría usar tu Worker, tus claves y tus cuotas.
+ALLOWED_ORIGINS = "https://TU_USUARIO.github.io"
+
+# Opcional: límite de peticiones por IP. Requiere la función Rate Limiting de Workers;
+# revisa la sintaxis vigente en la documentación de Cloudflare antes de activarlo.
+# [[unsafe.bindings]]
+# name = "SBX_LIMIT"
+# type = "ratelimit"
+# namespace_id = "1001"
+# simple = { limit = 60, period = 60 }
+
+# Secretos que puedes crear (todos opcionales; cada función se activa si existe su clave):
+#   VT_KEY        VirusTotal (reputación, sandbox dinámico, verificación de URLs)
+#   ABUSECH_KEY   abuse.ch: MalwareBazaar, URLhaus y ThreatFox (Auth-Key gratuita)
+#   HA_KEY        Hybrid Analysis
+#   HIBP_KEY      Have I Been Pwned (búsqueda por correo)
+#   GSB_KEY       Google Safe Browsing (verificación de URLs en Phishing)

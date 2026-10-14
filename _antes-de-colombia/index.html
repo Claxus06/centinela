@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fcfcf7">
+<meta name="description" content="Centinela — suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, geolocaliza IPs y genera planes de acción.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Centinela">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>Centinela — Suite de Ciberseguridad de Dominios</title>
+<!-- Seguridad: CSP, política de referer y anti-clickjacking (defensa en profundidad, lado cliente) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; manifest-src 'self' blob:; worker-src 'self' blob:; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://dns.google https://cloudflare-dns.com https://doh.dns.sb https://safebrowsing.googleapis.com https://rdap.org https://rdap.arin.net https://rdap.lacnic.net https://rdap.db.ripe.net https://rdap.apnic.net https://rdap.afrinic.net https://rdap.verisign.com https://rdap.publicinterestregistry.org https://ipwho.is https://ipapi.co https://crt.sh https://api.pwnedpasswords.com https://api.ipify.org https://internetdb.shodan.io https://archive.org https://cve.circl.lu https://api.osv.dev https://api.first.org https://raw.githubusercontent.com https://www.cisa.gov https://api.xposedornot.com https://haveibeenpwned.com https://cavalier.hudsonrock.com https://api.ransomware.live https://*.workers.dev; frame-src https://www.openstreetmap.org; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="./boot.js"></script>
+<link rel="preload" href="./fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<a class="skiplink" href="#contenido">Saltar al contenido</a>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<!-- Juego de iconos de línea (uso: <svg class="i"><use href="#i-nombre"/></svg>) -->
+<svg width="0" height="0" data-s="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6 20 20"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-hook" viewBox="0 0 24 24"><path d="M16 4v9a5 5 0 1 1-5-5"/><path d="M16 4h3"/><path d="M8 14l-2.2 2.2"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21h16M5 21V10l7-5 7 5v11M9.5 21v-6h5v6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21c4-4.6 7-7.8 7-11a7 7 0 1 0-14 0c0 3.2 3 6.4 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/></symbol>
+  <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M9 11.5l2.2 2.2L15 10"/></symbol>
+  <symbol id="i-shield-alert" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M12 8.3v4.2M12 15.4v.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 5.5L20 7"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2.2-6H21"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h.01M15 9h.01M12 12h.01M9 15h.01M15 15h.01" stroke-width="2.6"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 4 3 9l9 5 9-5z"/><path d="M3 14l9 5 9-5"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="4" y="4.5" width="16" height="6" rx="1.5"/><rect x="4" y="13.5" width="16" height="6" rx="1.5"/><path d="M7.5 7.5h.01M7.5 16.5h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="1.5"/><path d="M7 14h10v6H7z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></symbol>
+  <symbol id="i-compare" viewBox="0 0 24 24"><path d="M4 8h11l-3-3M20 16H9l3 3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M4.5 10a11 11 0 0 1 15 0M7.5 13.5a6.5 6.5 0 0 1 9 0M12 18h.01"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 13l2.5-7h11L20 13v6H4z"/><path d="M4 13h5l1 2h4l1-2h5"/></symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 19V5a2 2 0 0 1 2-2h12v14H7a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 15l3.5-4.5 3 3L19 8"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M20 16l-5-5-8 8.5"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="11" cy="5.5" rx="7" ry="2.5"/><path d="M4 5.5v11c0 1.4 3.1 2.5 7 2.5M18 5.5V11M4 11c0 1.4 3.1 2.5 7 2.5"/><path d="M18 14v3.5M18 20.5v.01"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 24 24"><rect x="7.5" y="8" width="9" height="11" rx="4.5"/><path d="M9.5 8a2.5 2.5 0 0 1 5 0M12 12v7M4 13h3.5M16.5 13H20M5 8l2.7 2M19 8l-2.7 2M5 19l2.7-2M19 19l-2.7-2"/></symbol>
+  <symbol id="i-skull" viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-5 14.2V20h10v-2.8A8 8 0 0 0 12 3z"/><circle cx="9" cy="11.5" r="1.6"/><circle cx="15" cy="11.5" r="1.6"/><path d="M10.5 20v-2M13.5 20v-2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.01"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><path d="M8.3 3.5h7.4l4.8 4.8v7.4l-4.8 4.8H8.3l-4.8-4.8V8.3z"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2V16h5v-.1c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M15 6.5a4 4 0 0 0-5.3 5.3L4 17.5 6.5 20l5.7-5.7A4 4 0 0 0 17.5 9l-2.3 2.3-2-2z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M3.5 6.5 9 4l6 2.5L20.5 4v13.5L15 20l-6-2.5-5.5 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 7h14"/><path d="M5 7l-2.5 6a2.5 2.5 0 0 0 5 0zM19 7l-2.5 6a2.5 2.5 0 0 0 5 0z"/></symbol>
+  <symbol id="i-user-x" viewBox="0 0 24 24"><circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 11.5-5.4M17 15l4 4M21 15l-4 4"/></symbol>
+</svg>
+<div class="wrap">
+  <div id="printHead" data-s="display:none"></div>
+  <header class="top">
+    <div class="logo">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M32 5 51 13 51 31 C51 43 43 51 32 55 C21 51 13 43 13 31 L13 13 Z" fill="currentColor" fill-opacity=".09" stroke="currentColor" stroke-width="2"/>
+        <circle cx="32" cy="31" r="14" stroke="currentColor" stroke-opacity=".28" stroke-width="1.3"/>
+        <circle cx="32" cy="31" r="9" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3"/>
+        <path d="M32 31 L32 17 A14 14 0 0 1 45.1 26.5 Z" fill="url(#cx_sweep)"/>
+        <circle cx="32" cy="31" r="2.8" fill="currentColor"/>
+        <path d="M32 14.5v3M32 44.5v3M15.5 31h3M45.5 31h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <defs><radialGradient id="cx_sweep" cx="32" cy="31" r="14" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" stop-opacity=".55"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs>
+      </svg>
+    </div>
+    <div class="htext">
+      <h1><span class="grad">Centinela</span></h1>
+      <p>Plataforma de ciberseguridad de dominios, correo e infraestructura</p>
+    </div>
+    <button class="themebtn cmdkbtn" id="cmdkBtn" title="Buscar módulo o analizar (Ctrl+K)" aria-label="Buscar módulo o analizar (Ctrl+K)" aria-keyshortcuts="Control+K"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><kbd>Ctrl K</kbd></button>
+    <button class="themebtn" id="setBtn" title="Ajustes" aria-label="Ajustes">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+    </button>
+    <button class="themebtn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
+      <svg class="i"><use href="#i-sun"/></svg>
+    </button>
+    <button class="themebtn" id="langBtn" title="Idioma / Language" data-s="font-size:12.5px;font-weight:800">ES</button>
+    <button class="themebtn" id="installBtn" title="Instalar app" data-s="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+    </button>
+  </header>
+
+  <div class="glass" id="settings" data-s="display:none;padding:16px;margin-bottom:16px">
+    <div class="controls">
+      <div class="field grow">
+        <label for="setOrg">Membrete / entidad (aparece en la denuncia e impresión)</label>
+        <input type="text" id="setOrg" placeholder="p.ej. Nombre de tu entidad o empresa — Equipo de Ciberseguridad" autocomplete="off">
+      </div>
+      <div class="field grow">
+        <label for="setGsb">Clave API Google Safe Browsing <span class="opt">(opcional, para verificación automática)</span></label>
+        <input type="text" id="setGsb" placeholder="AIza… (se guarda solo en tu navegador)" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field grow">
+        <label for="setBackend">URL del backend (Cloudflare Worker) <span class="opt">(opcional)</span></label>
+        <input type="text" id="setBackend" placeholder="https://centinela.tucuenta.workers.dev" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field" data-s="flex:0 0 auto">
+        <label for="setFx">Animación de fondo</label>
+        <select id="setFx"><option value="on">Activada</option><option value="off">Desactivada</option></select>
+      </div>
+      <div class="field" data-s="flex:0 0 auto">
+        <label for="setRet">Conservar historial</label>
+        <select id="setRet"><option value="1">1 hora</option><option value="24">24 horas (recomendado)</option><option value="168">7 días</option></select>
+      </div>
+      <div class="field" data-s="flex:0 0 auto"><label>&nbsp;</label><button class="btn ghost" id="setSave"><svg class="i"><use href="#i-save"/></svg><span class="t">Guardar</span></button></div>
+      <div class="field" data-s="flex:0 0 auto"><label>&nbsp;</label><button class="btn ghost" id="retNow"><svg class="i"><use href="#i-ban"/></svg><span class="t">Borrar historial ahora</span></button></div>
+    </div>
+    <p class="hint" id="retInfo" data-s="margin-top:8px"></p>
+    <p class="hint" data-s="margin-top:8px">Tus datos se guardan solo en este navegador (localStorage), nunca se envían a servidores propios. Si configuras un backend (Worker), la verificación automática (VirusTotal / Safe Browsing) se hace a través de él sin límites de CORS y sin exponer claves.</p>
+  </div>
+
+  <div class="app">
+  <aside class="nav">
+    <div class="nav-group">
+      <span class="lbl">General</span>
+      <button class="modebtn active" id="mbHome" data-mode="home" aria-current="page"><svg class="ni" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>Inicio</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Dominio &amp; correo</span>
+      <button class="modebtn" id="mbDomain" data-mode="domain"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M9 11.5l2.2 2.2L15 10"/></svg><span>Dominio &amp; correo</span></button>
+      <button class="modebtn" id="mbCmp" data-mode="cmp"><svg class="ni" viewBox="0 0 24 24"><path d="M4 8h11l-3-3M20 16H9l3 3"/></svg><span>Comparar dominios</span></button>
+      <button class="modebtn" id="mbGen" data-mode="gen"><svg class="ni" viewBox="0 0 24 24"><rect x="4" y="4.5" width="16" height="6" rx="1.5"/><rect x="4" y="13.5" width="16" height="6" rx="1.5"/><path d="M7.5 7.5h.01M7.5 16.5h.01"/></svg><span>Generador DNS</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Amenazas</span>
+      <button class="modebtn" id="mbPhish" data-mode="phish"><svg class="ni" viewBox="0 0 24 24"><path d="M16 4v9a5 5 0 1 1-5-5"/><path d="M16 4h3"/><path d="M8 14l-2.2 2.2"/></svg><span>Phishing</span></button>
+      <button class="modebtn" id="mbEml" data-mode="eml"><svg class="ni" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 5.5L20 7"/></svg><span>Analizar correo</span></button>
+      <button class="modebtn" id="mbSbx" data-mode="sbx"><svg class="ni" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M4 12h2M18 12h2M12 4v2M12 18v2"/></svg><span>Sandbox de archivos</span></button>
+      <button class="modebtn" id="mbLeak" data-mode="leak"><svg class="ni" viewBox="0 0 24 24"><ellipse cx="11" cy="5.5" rx="7" ry="2.5"/><path d="M4 5.5v11c0 1.4 3.1 2.5 7 2.5M18 5.5V11M4 11c0 1.4 3.1 2.5 7 2.5"/><path d="M18 14v3.5M18 20.5v.01"/></svg><span>Filtraciones</span></button>
+      <button class="modebtn" id="mbMon" data-mode="mon"><svg class="ni" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2.2-6H21"/></svg><span>Monitoreo</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Ciberinteligencia</span>
+      <button class="modebtn" id="mbRecon" data-mode="recon"><svg class="ni" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6L20 20"/><path d="M11 7.5v7M7.5 11h7"/></svg><span>Reconocimiento OSINT</span></button>
+      <button class="modebtn" id="mbVuln" data-mode="vuln"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M12 8.3v4.2M12 15.4v.01"/></svg><span>Análisis de vulnerabilidades</span></button>
+      <button class="modebtn" id="mbIoc" data-mode="ioc"><svg class="ni" viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/><path d="M8.5 9h7M8.5 12h7M8.5 15h4"/><circle cx="17.5" cy="17.5" r="3.2"/><path d="M19.8 19.8 22 22"/></svg><span>Consulta de IOCs</span></button>
+      <button class="modebtn" id="mbCases" data-mode="cases"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7.5h16v11.5H4z"/><path d="M9 7.5V5h6v2.5"/><path d="M4 12h16"/></svg><span>Casos</span></button>
+      <button class="modebtn" id="mbReport" data-mode="report"><svg class="ni" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5"/></svg><span>Informe ejecutivo</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Infraestructura</span>
+      <button class="modebtn" id="mbGeo" data-mode="geo"><svg class="ni" viewBox="0 0 24 24"><path d="M12 21c4-4.6 7-7.8 7-11a7 7 0 1 0-14 0c0 3.2 3 6.4 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span>Geolocalización IP</span></button>
+      <button class="modebtn" id="mbTls" data-mode="tls"><svg class="ni" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="M10 15.5l1.5 1.5 2.5-3"/></svg><span>TLS y certificados</span></button>
+      <button class="modebtn" id="mbHeaders" data-mode="headers"><svg class="ni" viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg><span>Cabeceras HTTP</span></button>
+    </div>
+    <div class="nav-group">
+      <span class="lbl">Utilidades</span>
+      <button class="modebtn" id="mbTools" data-mode="tools"><svg class="ni" viewBox="0 0 24 24"><path d="M15 6.5a4 4 0 0 0-5.3 5.3L4 17.5 6.5 20l5.7-5.7A4 4 0 0 0 17.5 9l-2.3 2.3-2-2z"/></svg><span>Herramientas</span></button>
+    </div>
+  </aside>
+  <main class="main" id="contenido" tabindex="-1">
+
+  <div id="modeHomeWrap">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-radar"/></svg>Análisis rápido</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="homeQ">Escribe un dominio, IP, URL, correo, hash o CVE y Centinela abrirá el módulo adecuado</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-search"/></svg></span><input type="text" id="homeQ" placeholder="ejemplo.com · 8.8.8.8 · https://… · usuario@dominio.com · SHA-256 · CVE-2021-44228" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="homeGo"><svg class="i"><use href="#i-search"/></svg><span class="t">Analizar</span></button></div>
+      </div>
+      <div id="homeHint" class="hint" data-s="margin-top:8px"></div>
+      <div id="homeOut"></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn ghost" id="homeFile"><svg class="i"><use href="#i-bug"/></svg><span class="t">¿Tienes un archivo sospechoso? Abrir el sandbox</span></button></div>
+    </div>
+    <div class="homegrid" id="homeGrid"></div>
+    <div class="homecols">
+      <div class="glass homebox"><div class="subh" data-s="margin-top:0"><svg class="i"><use href="#i-pulse"/></svg>Estado de las fuentes de datos</div><div id="homeSrc" class="sbxlist"></div>
+        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn ghost" id="homeSrcBtn"><svg class="i"><use href="#i-refresh"/></svg><span class="t">Comprobar ahora</span></button></div></div>
+      <div class="glass homebox"><div class="subh" data-s="margin-top:0"><svg class="i"><use href="#i-clock"/></svg>Actividad de esta sesión</div><div id="homeAct"></div></div>
+    </div>
+  </div>
+
+  <div id="modeDomainWrap" data-s="display:none">
+  <div class="glass search">
+    <div class="controls">
+      <div class="field grow">
+        <label for="domain">Dominio</label>
+        <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span>
+          <input type="text" id="domain" placeholder="ejemplo.com" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="field res">
+        <label for="resolver">Resolutor DNS</label>
+        <select id="resolver">
+          <option value="auto">Automático (respaldo múltiple)</option>
+          <option value="google">Google · 8.8.8.8</option>
+          <option value="cloudflare">Cloudflare · 1.1.1.1</option>
+          <option value="dnssb">DNS.SB · 185.222.222.222</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn" id="go"><svg class="i"><use href="#i-search"/></svg><span class="t">Validar dominio</span></button>
+      </div>
+    </div>
+    <span class="advtoggle" id="advToggle" role="button" tabindex="0"><svg class="i"><use href="#i-sliders"/></svg><span class="t">Opciones avanzadas</span></span>
+    <div class="adv" id="adv">
+      <div class="field grow">
+        <label for="selectors">Selectores DKIM adicionales (coma)</label>
+        <input type="text" id="selectors" placeholder="p.ej. mailchimp, sendgrid, s1024" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field res">
+        <label for="rbltoggle">Chequeo de listas negras</label>
+        <select id="rbltoggle"><option value="1">Activado</option><option value="0">Desactivado</option></select>
+      </div>
+    </div>
+    <div class="examples">
+      <span>Ejemplos:</span>
+      <span class="chip" data-d="github.com">github.com</span>
+      <span class="chip" data-d="gmail.com">gmail.com</span>
+      <span class="chip" data-d="microsoft.com">microsoft.com</span>
+      <span class="chip" data-d="paypal.com">paypal.com</span>
+    </div>
+    <div id="status"><span class="spinner"></span><span id="statusTxt">Consultando…</span></div>
+    <div class="barwrap" id="barwrap"><div class="bar" id="bar"></div></div>
+  </div>
+
+  <div id="blAlert"></div>
+  <div class="glass" id="dash">
+    <div class="dashgrid">
+      <div class="ring">
+        <svg width="190" height="190" viewBox="0 0 190 190">
+          <circle cx="95" cy="95" r="80" fill="none" stroke="var(--line2)" stroke-width="13"/>
+          <circle id="ringArc" cx="95" cy="95" r="80" fill="none" stroke="var(--accent)" stroke-width="13"
+                  stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="502" data-s="transition:stroke-dashoffset 1s ease,stroke .4s"/>
+        </svg>
+        <div class="num"><div data-s="text-align:center"><b id="scoreNum">0</b><small>de 100</small><div class="grade" id="scoreGrade"></div></div></div>
+      </div>
+      <div>
+        <div class="verdict" id="verdict"></div>
+        <div class="vdom" id="vdom"></div>
+        <div class="kpis" id="kpis"></div>
+        <div class="meta" id="meta"></div>
+        <div class="dashbtns">
+          <button class="btn ghost" id="btnPrint"><svg class="i"><use href="#i-printer"/></svg><span class="t">Imprimir / PDF</span></button>
+          <button class="btn ghost" id="btnJson"><svg class="i"><use href="#i-download"/></svg><span class="t">JSON</span></button>
+          <button class="btn ghost" id="btnCopy"><svg class="i"><use href="#i-copy"/></svg><span class="t">Copiar resumen</span></button>
+          <button class="btn ghost" id="btnShare"><svg class="i"><use href="#i-link"/></svg><span class="t">Enlace</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="actionPlan"></div>
+  <div class="tabs" id="tabs"></div>
+  <div id="results" class="stg"></div>
+  <div id="histWrap"></div>
+  </div><!-- /modeDomainWrap -->
+
+  <div id="modePhishWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="phishUrl">URL o dominio sospechoso</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-hook"/></svg></span>
+            <input type="text" id="phishUrl" placeholder="https://portal-seguro-banco.co/login" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field res">
+          <label for="phishBrand">Marca / dominio real suplantado <span class="opt">(opcional)</span></label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span>
+            <input type="text" id="phishBrand" placeholder="p.ej. tudominio.gov.co" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="goPhish"><svg class="i"><use href="#i-search"/></svg><span class="t">Analizar y reportar</span></button>
+        </div>
+      </div>
+      <div class="examples">
+        <span>Sirve para:</span>
+        <span class="chip">Sitios que copian tu página real</span>
+        <span class="chip">Correos/enlaces de phishing</span>
+        <span class="chip">Dominios parecidos al tuyo</span>
+      </div>
+      <div id="phishStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="phishStatusTxt">Analizando…</span></div>
+    </div>
+    <div id="phishOut" class="stg"></div>
+  </div>
+
+  <div id="modeGeoWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="geoInput">IP o dominio a geolocalizar</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
+            <input type="text" id="geoInput" placeholder="8.8.8.8  ó  ejemplo.com" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="goGeo"><svg class="i"><use href="#i-pin"/></svg><span class="t">Localizar</span></button>
+        </div>
+      </div>
+      <div class="examples">
+        <span>Ejemplos:</span>
+        <span class="chip" data-geo="8.8.8.8">8.8.8.8</span>
+        <span class="chip" data-geo="1.1.1.1">1.1.1.1</span>
+        <span class="chip" data-geo="cloudflare.com">cloudflare.com</span>
+        <span class="chip" data-geo="mi-ip"><svg class="i"><use href="#i-wifi"/></svg> Mi IP pública</span>
+      </div>
+      <div id="geoStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="geoStatusTxt">Localizando…</span></div>
+    </div>
+    <div id="geoOut" class="stg"></div>
+  </div>
+
+  <div id="modeCmpWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="cmpA">Dominio A</label>
+          <div class="inputwrap"><span class="ic">A</span><input type="text" id="cmpA" placeholder="dominio-uno.com" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field grow">
+          <label for="cmpB">Dominio B</label>
+          <div class="inputwrap"><span class="ic">B</span><input type="text" id="cmpB" placeholder="dominio-dos.com" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goCmp"><svg class="i"><use href="#i-compare"/></svg><span class="t">Comparar</span></button></div>
+      </div>
+      <div id="cmpStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="cmpStatusTxt">Comparando…</span></div>
+    </div>
+    <div id="cmpOut" class="stg"></div>
+  </div>
+
+  <div id="modeReconWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-radar"/></svg>Reconocimiento de ciberinteligencia — superficie, deep y dark web</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="reconInput">Dominio objetivo a proteger / investigar</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reconInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field res">
+          <label for="reconDepth">Profundidad</label>
+          <select id="reconDepth"><option value="fast">Rápida (typosquatting)</option><option value="deep" selected>Profunda (recomendada)</option><option value="max">Exhaustiva</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goRecon"><svg class="i"><use href="#i-radar"/></svg><span class="t">Iniciar reconocimiento</span></button></div>
+      </div>
+      <div class="srcs">Combina: <span class="src">Variantes typosquatting</span><span class="src">Certificate Transparency</span><span class="src">DNS en vivo</span><span class="src">RDAP</span><span class="src">Shodan</span><span class="src">Wayback</span><span class="src">+40 pivotes OSINT</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">Descubre dominios parecidos o suplantados combinando <b>tres fuentes</b>: (1) generación algorítmica de variantes (homóglifos, typos, combosquatting, TLDs alternos), (2) barrido de <b>Certificate Transparency</b> (crt.sh) que revela dominios <b>realmente registrados</b> que contienen tu marca, y (3) resolución DNS en vivo. De cada hallazgo levanta un <b>expediente</b>: IP(s), geolocalización completa, hosting/ASN, proveedor de correo (MX) y política <b>DMARC</b> (spoofeabilidad), nameservers, registrador (RDAP), contacto abuse, puertos/CVEs (Shodan), historial en <b>Wayback</b>, detección de <b>IDN/homóglifo</b>, similitud con tu marca y reputación. Incluye <b>+40 pivotes OSINT</b> (superficie, deep y dark web), panorama de infraestructura y exportación de IOCs en TXT/CSV/JSON.</p></details>
+      <div id="reconStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="reconStatusTxt">Buscando…</span></div>
+      <div class="barwrap" id="reconBarwrap" data-s="display:none"><div class="bar" id="reconBar"></div></div>
+    </div>
+    <div id="reconOut" class="stg"></div>
+  </div>
+
+  <div id="modeVulnWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-shield-alert"/></svg>Análisis de vulnerabilidades multi-fuente</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="vulnInput">Dominio o IP a auditar</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="vulnInput" placeholder="tudominio.gov.co  ·  o  203.0.113.10" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field res">
+          <label for="vulnDepth">Alcance</label>
+          <select id="vulnDepth"><option value="std" selected>Estándar</option><option value="deep">Profundo (más CVEs)</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goVuln"><svg class="i"><use href="#i-shield-alert"/></svg><span class="t">Analizar vulnerabilidades</span></button></div>
+      </div>
+      <div class="srcs">Fuentes: <span class="src">Shodan InternetDB</span><span class="src">CIRCL CVE</span><span class="src">NVD</span><span class="src">crt.sh</span><span class="src">DNS-over-HTTPS</span><span class="src">Pasivo, sin explotación</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">Evaluación <b>pasiva</b> de la exposición y las debilidades del objetivo, correlacionando <b>varias fuentes</b>: <b>Shodan InternetDB</b> (puertos y servicios expuestos, CVEs por host), <b>CIRCL CVE</b> y <b>NVD</b> (CVSS, descripción y severidad de cada CVE), <b>crt.sh</b> (superficie de ataque: subdominios y certificados), y <b>DNS-over-HTTPS</b> (postura de correo SPF/DKIM/DMARC, DNSSEC, CAA, MTA-STS). Devuelve un <b>puntaje y calificación (A–F)</b>, hallazgos clasificados por <b>criticidad</b> (Crítica/Alta/Media/Baja) con evidencia, referencias y <b>remediación</b> concreta. No realiza pruebas intrusivas ni explotación — es seguro y legal para auditar tu propia infraestructura.</p></details>
+      <div id="vulnStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="vulnStatusTxt">Analizando…</span></div>
+      <div class="barwrap" id="vulnBarwrap" data-s="display:none"><div class="bar" id="vulnBar"></div></div>
+    </div>
+    <div id="vulnOut" class="stg"></div>
+  </div>
+
+  <div id="modeIocWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-search"/></svg>Consulta de indicadores de compromiso (IOCs)</div>
+      <div class="field">
+        <label for="iocInput">Indicadores a consultar <span class="opt">(hasta 100; uno por línea o separados por comas: IP, dominio, URL, hash MD5/SHA-1/SHA-256 o CVE; admite hxxp:// y [.])</span></label>
+        <textarea id="iocInput" class="code" rows="6" placeholder="185.220.101.4&#10;malicioso[.]xyz&#10;hxxps://login-falso[.]top/verify&#10;44d88612fea8a8f36de82e1278abb02f&#10;CVE-2023-4966" autocomplete="off" spellcheck="false"></textarea>
+      </div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goIoc"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar indicadores</span></button><button class="btn ghost" id="iocClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
+      <div class="srcs">Fuentes: <span class="src">Shodan InternetDB</span><span class="src">Spamhaus ZEN / DBL</span><span class="src">RDAP</span><span class="src">CIRCL CVE</span><span class="src">FIRST EPSS</span><span class="src">CISA KEV</span><span class="src">Google Safe Browsing (clave)</span><span class="src">URLhaus · ThreatFox · VirusTotal · MalwareBazaar · Hybrid Analysis (backend)</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">Detecta el tipo de cada indicador y lo consulta en las fuentes que le corresponden. Clasifica cada uno como <b>malicioso</b>, <b>sospechoso</b>, <b>sin reportes</b> o <b>sin datos</b>, con el motivo y enlaces para investigarlo. Las fuentes de abuse.ch (URLhaus, ThreatFox) y las de reputación de hashes requieren el backend con sus claves; sin él, esos indicadores muestran enlaces de búsqueda. Exporta en CSV, JSON y STIX 2.1, con la opción de "desactivar" (defang) los indicadores para compartirlos sin riesgo de clic. Los indicadores se envían a los servicios consultados: no incluyas datos personales.</p></details>
+      <div id="iocStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="iocStatusTxt">Consultando…</span></div>
+      <div class="barwrap" id="iocBarwrap" data-s="display:none"><div class="bar" id="iocBar"></div></div>
+    </div>
+    <div id="iocOut" class="stg"></div>
+  </div>
+
+  <div id="modeCasesWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i" aria-hidden="true"><use href="#i-note"/></svg>Gestor de casos</div>
+      <div class="controls">
+        <div class="field grow"><label for="caseTitle">Nuevo caso</label><input type="text" id="caseTitle" placeholder="p.ej. Campaña de phishing con facturas falsas" autocomplete="off" maxlength="120"></div>
+        <div class="field res"><label for="caseSev">Severidad</label><select id="caseSev"><option value="crit">Crítica</option><option value="high" selected>Alta</option><option value="med">Media</option><option value="low">Baja</option></select></div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="caseNew"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Crear caso</span></button></div>
+      </div>
+      <p class="hint" data-s="margin-top:8px">Agrupa en un caso lo que encuentres en los demás módulos con el botón <b>Añadir a un caso</b> (sandbox, consulta de IOCs, informe ejecutivo), y documenta el avance con notas. Los casos se guardan solo en este navegador; un caso <b>sin cambios durante 30 días se borra automáticamente</b> (nunca durante la sesión activa): exporta el caso para conservarlo.</p>
+    </div>
+    <div class="casegrid"><div id="caseList" class="glass casebox" aria-label="Casos"></div><div id="caseDetail" class="glass casebox"></div></div>
+  </div>
+  <dialog id="caseDlg" class="cmdkdlg" aria-labelledby="caseDlgT">
+    <div data-s="padding:16px"><div class="subh" id="caseDlgT" data-s="margin-top:0">Añadir a un caso</div>
+      <p class="hint" id="caseDlgWhat"></p>
+      <div class="field" data-s="margin-top:8px"><label for="caseDlgSel">Caso</label><select id="caseDlgSel"></select></div>
+      <div class="field" id="caseDlgNewWrap" data-s="margin-top:8px"><label for="caseDlgNew">Título del nuevo caso</label><input type="text" id="caseDlgNew" maxlength="120" autocomplete="off"></div>
+      <div class="dashbtns" data-s="justify-content:flex-end;margin-top:14px"><button class="btn ghost" id="caseDlgCancel" type="button">Cancelar</button><button class="btn" id="caseDlgOk" type="button">Añadir</button></div>
+    </div>
+  </dialog>
+
+  <div id="modeReportWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-file"/></svg>Informe ejecutivo unificado</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="reportInput">Dominio a evaluar</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reportInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goReport"><svg class="i"><use href="#i-file"/></svg><span class="t">Generar informe</span></button></div>
+      </div>
+      <div class="checks" data-s="margin-top:12px">
+        <label><input type="checkbox" id="rptDomain" checked> Dominio &amp; correo</label>
+        <label><input type="checkbox" id="rptVuln" checked> Vulnerabilidades</label>
+        <label><input type="checkbox" id="rptRecon" checked> Suplantación (OSINT)</label>
+        <label><input type="checkbox" id="rptLeak" checked> Filtraciones de la entidad</label>
+        <label><input type="checkbox" id="rptSbx" checked> Archivos analizados en el sandbox (sesión)</label>
+      </div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">Ejecuta los módulos seleccionados sobre un mismo dominio y consolida todo en un <b>informe ejecutivo</b> con portada, prioridades de actuación, calificación de seguridad, vulnerabilidades por criticidad (incl. CISA KEV), postura de correo/DNS, dominios suplantadores, filtraciones de datos, archivos analizados en el sandbox y estado de monitoreo. Luego pulsa <b>Guardar como PDF</b> (usa la impresión del navegador → destino «Guardar como PDF»). Sugerencia: pon el nombre de tu organización en Ajustes (icono de engranaje, arriba) para que aparezca en la portada.</p></details>
+      <div id="reportStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="reportStatusTxt">Generando…</span></div>
+      <div class="barwrap" id="reportBarwrap" data-s="display:none"><div class="bar" id="reportBar"></div></div>
+    </div>
+    <div id="reportOut" class="stg"></div>
+  </div>
+
+  <div id="modeEmlWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="field">
+        <label for="emlInput">Pega el correo completo (con encabezados / código fuente)</label>
+        <textarea id="emlInput" class="code" rows="9" placeholder="Pega aquí el correo. En Gmail: ⋮ → 'Mostrar original'. En Outlook: Archivo → Propiedades → Encabezados de Internet."></textarea>
+      </div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goEml"><svg class="i"><use href="#i-mail"/></svg><span class="t">Analizar correo</span></button></div>
+    </div>
+    <div id="emlOut" class="stg"></div>
+  </div>
+
+  <div id="modeSbxWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-bug"/></svg>Sandbox de archivos · análisis estático aislado</div>
+      <div class="segtabs" role="tablist" aria-label="Qué analizar">
+        <button type="button" class="segtab active" role="tab" aria-selected="true" id="sbxTabFile" data-sbxtab="file"><svg class="i"><use href="#i-file"/></svg>Archivos</button>
+        <button type="button" class="segtab" role="tab" aria-selected="false" id="sbxTabUrl" data-sbxtab="url"><svg class="i"><use href="#i-link"/></svg>Enlace (URL)</button>
+      </div>
+      <div id="sbxUrlPane" hidden data-s="margin-top:14px">
+        <div class="controls">
+          <div class="field grow">
+            <label for="sbxUrl">Enlace sospechoso a analizar sin visitarlo</label>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="sbxUrl" placeholder="https://sitio-sospechoso.xyz/factura  ·  admite hxxp:// y [.]" autocomplete="off" spellcheck="false"></div>
+          </div>
+          <div class="field"><label>&nbsp;</label><button class="btn" id="goSbxUrl"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar enlace</span></button></div>
+        </div>
+        <p class="hint" data-s="margin-top:8px">El backend descarga la página o el archivo de forma aislada (tu navegador nunca visita el sitio), sigue las redirecciones y el contenido pasa por el mismo motor del sandbox: formularios de credenciales, HTML smuggling, scripts ofuscados, descargas maliciosas, MITRE ATT&amp;CK e IOCs. También consulta URLhaus. Requiere configurar el backend en Ajustes.</p>
+      </div>
+      <div id="sbxFilePane" data-s="margin-top:14px">
+      <label class="sbxdrop" id="sbxDrop" for="sbxFile" tabindex="0">
+        <svg class="i" data-s="width:30px;height:30px"><use href="#i-download"/></svg>
+        <b>Arrastra aquí los archivos o haz clic para elegirlos</b>
+        <span class="hint">Hasta 20 archivos de 128 MB. Ejecutables, documentos Office, PDF, scripts, accesos directos, comprimidos, imágenes y manifiestos de dependencias.</span>
+        <input type="file" id="sbxFile" multiple hidden>
+      </label>
+      <div id="sbxList" class="sbxlist"></div>
+      <details class="help" id="sbxYaraBox" data-s="margin-top:12px"><summary>Reglas YARA propias <span class="opt">(opcional)</span></summary>
+        <div class="field" data-s="margin-top:8px">
+          <label for="sbxYara">Reglas que se aplicarán a cada archivo analizado <span class="opt">(se guardan solo en este navegador)</span></label>
+          <textarea id="sbxYara" class="code" rows="8" spellcheck="false" autocomplete="off" placeholder="rule ejemplo_upx : empaquetador {&#10;  meta:&#10;    description = &quot;Ejecutable empaquetado con UPX&quot;&#10;    severity = &quot;medium&quot;&#10;    attack = &quot;T1027.002&quot;&#10;  strings:&#10;    $a = &quot;UPX0&quot;&#10;    $b = &quot;UPX1&quot;&#10;  condition:&#10;    uint16(0) == 0x5A4D and all of them&#10;}"></textarea>
+        </div>
+        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px">
+          <button type="button" class="btn ghost" id="sbxYaraCheck"><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg><span class="t">Validar reglas</span></button>
+          <label class="btn ghost" for="sbxYaraFile" tabindex="0" role="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span class="t">Cargar archivo .yar</span></label>
+          <input type="file" id="sbxYaraFile" accept=".yar,.yara,.txt" hidden>
+          <button type="button" class="btn ghost" id="sbxYaraBase"><svg class="i" aria-hidden="true"><use href="#i-shield-check"/></svg><span class="t">Cargar reglas base</span></button>
+          <button type="button" class="btn ghost" id="sbxYaraClear"><svg class="i" aria-hidden="true"><use href="#i-undo"/></svg><span class="t">Vaciar</span></button>
+        </div>
+        <p class="hint" id="sbxYaraMsg" role="status" aria-live="polite" data-s="margin-top:8px"></p>
+        <p class="hint">Subconjunto de YARA: cadenas de texto (nocase, wide, ascii, fullword), hexadecimales (??, nibbles, saltos [n-m], alternativas), expresiones regulares y condiciones con of / them / #, at, in, filesize y uint8/16/32. En <b>meta</b>, <code>severity</code> (critical, high, medium, low, info) fija la severidad y <code>attack</code> las técnicas MITRE ATT&amp;CK. No se admiten módulos (pe, math…) ni referencias entre reglas.</p>
+      </details>
+      <div class="controls" data-s="margin-top:10px">
+        <label class="sbxopt"><input type="checkbox" id="sbxOptCve" checked> Enriquecer CVE (CIRCL · CISA KEV · EPSS)</label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptOsv" checked> Dependencias vulnerables (OSV.dev)</label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptRep" checked> Reputación del hash (CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend)</label>
+      </div>
+      </div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px" id="sbxFileBtns"><button class="btn" id="goSbx"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar en sandbox</span></button><button class="btn ghost" id="sbxClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
+      <div class="srcs">Fuentes: <span class="src">Motor local (Web Worker aislado)</span><span class="src">MITRE ATT&amp;CK</span><span class="src">CIRCL CVE</span><span class="src">NVD</span><span class="src">CISA KEV</span><span class="src">FIRST EPSS</span><span class="src">OSV.dev</span><span class="src">CIRCL hashlookup</span><span class="src">VirusTotal · MalwareBazaar · Hybrid Analysis (backend)</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">Cada archivo se abre en un <b>Web Worker aislado</b>, sin acceso a la página, a tus datos ni a la red, y <b>nunca se ejecuta</b>. Solo se leen sus bytes. El motor identifica el tipo real por su firma y lo compara con la extensión. Examina la estructura del formato: ejecutables PE/ELF/Mach-O, Office con extracción de macros VBA, PDF, RTF, LNK, OneNote, ISO y ZIP/JAR/APK. Además extrae indicadores (URLs, dominios, IP, rutas, registro), mide la entropía y aplica reglas de comportamiento asociadas a <b>técnicas MITRE ATT&amp;CK</b> y a <b>CVE</b> conocidos. Los CVE se enriquecen con CVSS (CIRCL/NVD), explotación activa (CISA KEV) y probabilidad de explotación (EPSS). Los manifiestos de dependencias se contrastan con OSV.dev. A servicios externos solo se envían <b>hashes</b> e identificadores. El sandbox dinámico de VirusTotal es opcional y solo se usa si pulsas el botón correspondiente: el archivo se sube a VirusTotal y queda disponible para su comunidad, así que no envíes documentos confidenciales. Este análisis es orientativo y no sustituye a un antivirus/EDR ni a un análisis forense.</p></details>
+      <div id="sbxStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="sbxStatusTxt">Analizando…</span></div>
+      <div class="barwrap" id="sbxBarwrap" data-s="display:none"><div class="bar" id="sbxBar"></div></div>
+    </div>
+    <div id="sbxOut" class="stg"></div>
+  </div>
+
+  <div id="modeLeakWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i"><use href="#i-database"/></svg>Búsqueda de filtraciones de datos</div>
+      <div class="segtabs" role="tablist" aria-label="Tipo de búsqueda">
+        <button type="button" class="segtab active" role="tab" aria-selected="true" id="leakTabEmail" data-leak="email"><svg class="i"><use href="#i-mail"/></svg>Correos comprometidos</button>
+        <button type="button" class="segtab" role="tab" aria-selected="false" id="leakTabEntity" data-leak="entity"><svg class="i"><use href="#i-building"/></svg>Filtraciones de una entidad</button>
+        <button type="button" class="segtab" role="tab" aria-selected="false" id="leakTabTakedown" data-leak="takedown"><svg class="i"><use href="#i-ban"/></svg>Retirar contenido publicado</button>
+      </div>
+      <div id="leakEmailPane" data-s="margin-top:14px">
+        <div class="field">
+          <label for="leakEmails">Correos a verificar <span class="opt">(uno por línea, hasta 25)</span></label>
+          <textarea id="leakEmails" class="code" rows="3" placeholder="funcionario@tuentidad.gov.co&#10;contacto@tuentidad.gov.co" autocomplete="off" spellcheck="false"></textarea>
+        </div>
+        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goLeakEmail"><svg class="i"><use href="#i-search"/></svg><span class="t">Buscar en filtraciones</span></button></div>
+      </div>
+      <div id="leakEntityPane" data-s="margin-top:14px" hidden>
+        <div class="controls">
+          <div class="field grow">
+            <label for="leakEntity">Dominio de la entidad</label>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><input type="text" id="leakEntity" placeholder="tuentidad.gov.co" autocomplete="off" spellcheck="false"></div>
+          </div>
+          <div class="field grow">
+            <label for="leakName" title="Mejora la búsqueda en sitios de ransomware">Nombre de la entidad <span class="opt">(opcional)</span></label>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><input type="text" id="leakName" placeholder="p.ej. Ministerio de Educación" autocomplete="off"></div>
+          </div>
+          <div class="field"><label>&nbsp;</label><button class="btn" id="goLeakEntity"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar filtraciones</span></button></div>
+        </div>
+      </div>
+      <div id="leakTakedownPane" data-s="margin-top:14px" hidden>
+        <div class="controls">
+          <div class="field grow">
+            <label for="tdUrl">Página donde están publicados los datos</label>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="tdUrl" placeholder="https://pastebin.com/abc123" autocomplete="off" spellcheck="false"></div>
+          </div>
+          <div class="field res">
+            <label for="tdKind">Qué se publicó</label>
+            <select id="tdKind"><option value="cred">Usuarios y contraseñas</option><option value="pii">Datos personales de ciudadanos o clientes</option><option value="docs">Documentos internos de la entidad</option><option value="db">Base de datos completa</option></select>
+          </div>
+          <div class="field"><label>&nbsp;</label><button class="btn" id="goTakedown"><svg class="i"><use href="#i-ban"/></svg><span class="t">Preparar la retirada</span></button></div>
+        </div>
+        <p class="hint" data-s="margin-top:10px">Centinela no abre la página: solo consulta quién registra el dominio y quién aloja el servidor para saber a quién pedir la retirada, y prepara la solicitud.</p>
+      </div>
+      <div class="srcs">Fuentes: <span class="src">XposedOrNot</span><span class="src">Have I Been Pwned</span><span class="src">Hudson Rock (infostealers)</span><span class="src">ransomware.live</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint"><b>Correos comprometidos:</b> busca cada dirección en bases públicas de filtraciones conocidas (<b>XposedOrNot</b>, y <b>Have I Been Pwned</b> si configuras el backend con tu clave de HIBP) y en <b>Hudson Rock</b>, que indica si la cuenta aparece en equipos infectados por malware <i>infostealer</i> (robo de contraseñas guardadas en el navegador). <b>Filtraciones de una entidad:</b> revisa si el dominio fue un sitio vulnerado (HIBP y XposedOrNot), cuántos empleados y usuarios del dominio tienen credenciales robadas por infostealers (Hudson Rock) y si la entidad aparece publicada en sitios de filtración de grupos de <b>ransomware</b> (ransomware.live). XposedOrNot y la lista pública de HIBP funcionan sin configurar nada; Hudson Rock y ransomware.live necesitan el backend (Ajustes → URL del backend, rutas en <code>worker-filtraciones.js</code>) porque no permiten consultas directas desde el navegador. <b>Mitigar:</b> cada sitio o hallazgo trae su panel con los pasos a seguir, enlaces directos (cambio de contraseña, contacto de seguridad, colCERT, CAI Virtual, SIC) y plantillas listas para enviar; marca los pasos y el estado para llevar el seguimiento (se guarda solo en este navegador). <b>Retirar contenido:</b> si encuentras datos publicados en una página, indica a quién pedir la retirada (plataforma, hosting, registrador y buscadores) y prepara la solicitud. Nunca se muestran contraseñas. Los correos y dominios que consultes se envían a esos servicios; úsalo solo con cuentas y entidades que te corresponda proteger.</p></details>
+      <div id="leakStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="leakStatusTxt">Consultando…</span></div>
+      <div class="barwrap" id="leakBarwrap"><div class="bar" id="leakBar"></div></div>
+    </div>
+    <div id="leakOut" class="stg"></div>
+  </div>
+
+  <div id="modeMonWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="monInput">Agregar dominio a monitorear</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-pulse"/></svg></span><input type="text" id="monInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monAdd"><svg class="i"><use href="#i-plus"/></svg><span class="t">Agregar</span></button></div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="monRun"><svg class="i"><use href="#i-refresh"/></svg><span class="t">Revisar ahora</span></button></div>
+      </div>
+      <div class="controls" data-s="margin-top:10px;align-items:center">
+        <div class="field res">
+          <label for="monEvery">Auto-revisión</label>
+          <select id="monEvery"><option value="0">Desactivada</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monNotif"><svg class="i"><use href="#i-bell"/></svg><span class="t">Activar notificaciones</span></button></div>
+      </div>
+      <p class="hint" data-s="margin-top:10px">Vigila listas negras y cambios en SPF/DMARC/MX/NS. Te notifica en el escritorio si algo cambia. <b>Solo funciona mientras esta pestaña esté abierta</b>; para alertas 24/7 con la pestaña cerrada se necesita un servicio programado en un servidor.</p>
+      <div id="monStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="monStatusTxt">Revisando…</span></div>
+    </div>
+    <div id="monOut" class="stg"></div>
+  </div>
+
+  <div id="modeToolsWrap" data-s="display:none">
+    <!-- Contraseñas filtradas + fortaleza -->
+    <div class="glass phishcard">
+      <div class="subh"><svg class="i"><use href="#i-lock"/></svg>Verificador de contraseñas filtradas + fortaleza</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="pwdInput">Contraseña a evaluar</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-key"/></svg></span><input type="password" id="pwdInput" placeholder="escribe una contraseña…" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="pwdShow"><svg class="i"><use href="#i-eye"/></svg><span class="t">Ver</span></button></div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="pwdCheck"><svg class="i"><use href="#i-search"/></svg><span class="t">Verificar filtración</span></button></div>
+      </div>
+      <div id="pwdStrength" data-s="margin-top:12px"></div>
+      <div id="pwdOut" data-s="margin-top:8px"></div>
+      <p class="hint" data-s="margin-top:8px">Privacidad garantizada (k-anonymity): solo se envían los primeros 5 caracteres del hash SHA-1 a la base <b>Have I Been Pwned</b>; tu contraseña nunca sale del navegador.</p>
+    </div>
+
+    <!-- Generador de contraseñas -->
+    <div class="glass phishcard" data-s="margin-top:14px">
+      <div class="subh"><svg class="i"><use href="#i-dice"/></svg>Generador de contraseñas y frases</div>
+      <div class="controls" data-s="align-items:center">
+        <div class="field" data-s="flex:1 1 260px"><label>Longitud: <span id="genLenVal">20</span></label><input type="range" id="genLen" aria-label="Longitud de la contraseña" min="8" max="64" value="20" data-s="width:100%"></div>
+        <label class="check"><input type="checkbox" id="genUpper" checked> Mayúsculas</label>
+        <label class="check"><input type="checkbox" id="genNum" checked> Números</label>
+        <label class="check"><input type="checkbox" id="genSym" checked> Símbolos</label>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="genBtn">Generar</button></div>
+        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="genPhrase">Frase (passphrase)</button></div>
+      </div>
+      <div id="genOut" data-s="margin-top:8px"></div>
+    </div>
+
+    <!-- Hash & codificación -->
+    <div class="glass phishcard" data-s="margin-top:14px">
+      <div class="subh"><svg class="i"><use href="#i-hash"/></svg>Hash y codificación</div>
+      <div class="field"><textarea id="hashIn" class="code" rows="3" placeholder="Texto de entrada…" aria-label="Texto de entrada"></textarea></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px;flex-wrap:wrap">
+        <button class="btn ghost" data-hash="SHA-1">SHA-1</button>
+        <button class="btn ghost" data-hash="SHA-256">SHA-256</button>
+        <button class="btn ghost" data-hash="SHA-512">SHA-512</button>
+        <button class="btn ghost" data-enc="b64e">Base64 ▶</button>
+        <button class="btn ghost" data-enc="b64d">◀ Base64</button>
+        <button class="btn ghost" data-enc="urle">URL ▶</button>
+        <button class="btn ghost" data-enc="urld">◀ URL</button>
+      </div>
+      <div id="hashOut" data-s="margin-top:8px"></div>
+    </div>
+
+    <!-- JWT decoder -->
+    <div class="glass phishcard" data-s="margin-top:14px">
+      <div class="subh"><svg class="i"><use href="#i-code"/></svg>Decodificador JWT</div>
+      <div class="field"><textarea id="jwtIn" class="code" rows="3" placeholder="Pega un token JWT (eyJ...) — no se verifica la firma, solo se decodifica" aria-label="Token JWT"></textarea></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px"><button class="btn" id="jwtBtn">Decodificar</button></div>
+      <div id="jwtOut" data-s="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <div id="modeTlsWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="subh"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Análisis TLS y certificados</div>
+      <div class="controls">
+        <div class="field grow">
+          <label for="tlsHost">Dominio o servidor</label>
+          <div class="inputwrap"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-globe"/></svg></span><input type="text" id="tlsHost" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field res">
+          <label for="tlsPort">Servicio</label>
+          <select id="tlsPort"><option value="443">HTTPS · 443</option><option value="8443">HTTPS alterno · 8443</option><option value="465">SMTPS · 465</option><option value="993">IMAPS · 993</option><option value="995">POP3S · 995</option></select>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goTls"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span class="t">Analizar TLS</span></button></div>
+      </div>
+      <div class="srcs">Fuentes: <span class="src">Sockets TCP desde el backend</span><span class="src">Certificado X.509</span><span class="src">HSTS</span><span class="src">crt.sh</span></div>
+      <details class="help"><summary>¿Cómo funciona?</summary>
+      <p class="hint">El backend abre una conexión TCP con el servidor y le propone cada versión de TLS (1.3, 1.2, 1.1 y 1.0) para saber cuáles acepta, sin completar la conexión ni enviar datos. Lee el certificado (emisor, validez, nombres, tipo y tamaño de clave, algoritmo de firma), la cabecera HSTS y la redirección de HTTP a HTTPS, y asigna una calificación de A+ a F. Requiere el backend con sockets habilitados; los sitios detrás de Cloudflare no pueden analizarse por esta vía (limitación de Cloudflare Workers). Úsalo con servidores que te corresponda evaluar.</p></details>
+      <div id="tlsStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span id="tlsStatusTxt">Analizando…</span></div>
+    </div>
+    <div id="tlsOut" class="stg"></div>
+  </div>
+
+  <div id="modeHeadersWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="hdrUrl">URL o dominio a escanear</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-layers"/></svg></span><input type="text" id="hdrUrl" placeholder="https://tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goHdr"><svg class="i"><use href="#i-layers"/></svg><span class="t">Escanear cabeceras</span></button></div>
+      </div>
+      <p class="hint" data-s="margin-top:10px">Analiza HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, COOP y fugas de versión. <b>Requiere el backend</b> (Ajustes → URL del backend): el navegador no puede leer estas cabeceras por CORS.</p>
+      <div id="hdrStatus" class="status-row" role="status" aria-live="polite"><span class="spinner"></span><span>Escaneando…</span></div>
+    </div>
+    <div id="hdrOut" class="stg"></div>
+  </div>
+
+  <div id="modeGenWrap" data-s="display:none">
+    <div class="glass search">
+      <div class="controls">
+        <div class="field grow">
+          <label for="genDom">Dominio</label>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-server"/></svg></span><input type="text" id="genDom" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field res">
+          <label for="genDmarc">Política DMARC objetivo</label>
+          <select id="genDmarc"><option value="reject">reject (máxima)</option><option value="quarantine">quarantine</option><option value="none">none (monitoreo)</option></select>
+        </div>
+      </div>
+      <div class="field" data-s="margin-top:10px">
+        <label>Proveedores de correo saliente (marca los que usas)</label>
+        <div id="genProviders" data-s="display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:4px"></div>
+      </div>
+      <div class="controls" data-s="margin-top:10px">
+        <div class="field grow"><label for="genRua">Correo para reportes (rua/ruf)</label><input type="text" id="genRua" placeholder="dmarc@tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label for="genExtras">Incluir extras</label>
+          <div data-s="display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)">
+            <label class="check"><input type="checkbox" id="genMtasts" checked> MTA-STS</label>
+            <label class="check"><input type="checkbox" id="genTlsrpt" checked> TLS-RPT</label>
+            <label class="check"><input type="checkbox" id="genCaa" checked> CAA</label>
+          </div>
+        </div>
+        <div class="field"><label>&nbsp;</label><button class="btn" id="goGen"><svg class="i"><use href="#i-server"/></svg><span class="t">Generar registros</span></button></div>
+      </div>
+    </div>
+    <div id="genDnsOut" class="stg"></div>
+  </div>
+
+  </main>
+  </div><!-- /app -->
+
+  <footer>
+    <p id="footNote"><b>Centinela</b> — suite gratuita de ciberseguridad · Consultas vía DNS-over-HTTPS (Google, Cloudflare, DNS.SB), RDAP y geo-IP, ejecutadas desde tu navegador. Ningún dato se envía a servidores propios.<br>
+    Los resultados de listas negras consultadas a través de resolutores públicos pueden ser limitados por los operadores de RBL; úsalos como orientación.</p>
+    <nav class="footlegal" aria-label="Información legal">
+      <a href="#privacidad" data-legal="privacidad">Política de tratamiento de datos</a>
+      <a href="#terminos" data-legal="terminos">Términos y condiciones</a>
+      <a href="#aviso-legal" data-legal="aviso-legal">Aviso legal</a>
+    </nav>
+    <p class="footcopy">© <span id="footYear">2026</span> Centinela. Todos los derechos reservados.</p>
+  </footer>
+  <dialog id="cmdkDlg" class="cmdkdlg" aria-label="Buscar módulo o analizar">
+    <div class="cmdkhead"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="text" id="cmdkQ" role="combobox" aria-expanded="true" aria-controls="cmdkList" aria-autocomplete="list" aria-label="Buscar módulo o escribir un indicador" placeholder="Busca un módulo o escribe un dominio, IP, URL, hash o CVE…" autocomplete="off" spellcheck="false">
+      <kbd>Esc</kbd></div>
+    <ul id="cmdkList" role="listbox" aria-label="Resultados"></ul>
+    <div class="cmdkfoot hint"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></div>
+  </dialog>
+  <dialog id="legalDlg" class="legaldlg" aria-labelledby="legalTitle">
+    <div class="legalhead">
+      <h2 id="legalTitle"></h2>
+      <button type="button" class="themebtn" id="legalClose" aria-label="Cerrar"><svg class="i"><use href="#i-plus"/></svg></button>
+    </div>
+    <div class="legalbody" id="legalBody"></div>
+  </dialog>
+</div>
+
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+<script src="./asistente.js"></script>
+</body>
+</html>

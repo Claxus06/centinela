@@ -1,0 +1,5971 @@
+{
+ "generado": "2026-10-14T17:37:34.209Z",
+ "pais": "CO",
+ "fuente": {
+  "nombre": "ransomware.live",
+  "url": "https://www.ransomware.live/country/co",
+  "licencia": "Datos públicos agregados por ransomware.live; reutilización sujeta a sus condiciones."
+ },
+ "totales": {
+  "incidentes": 179,
+  "confirmados": 26,
+  "reclamados": 155
+ },
+ "incidentes": [
+  {
+   "tipo": "reclamado",
+   "victima": "Confipetrol",
+   "dominio": "confipetrol.com",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2026-10-11",
+   "detectado": "2026-10-11",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-10-11-confipetrol.com-0"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ACI Proyectos SAS",
+   "dominio": "aciproyectos.com",
+   "sector": "Otro",
+   "fecha": "2026-10-10",
+   "detectado": "2026-10-10",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-10-10-aciproyectos.com-1"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "superpack.com.co",
+   "dominio": "superpack.com.co",
+   "sector": "Comercio",
+   "fecha": "2026-10-04",
+   "detectado": "2026-10-04",
+   "actor": "Krybit",
+   "actorId": "krybit",
+   "filtracion": {
+    "descripcion": "Empaques y Servicios Superiores S.A.S. (SUPERPACK) is a Colombian medium-sized company founded on January 12, 1999, head...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/krybit"
+    }
+   ],
+   "id": "2026-10-04-superpack.com.co-2"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "coosalud.com",
+   "dominio": "coosalud.com",
+   "sector": "Salud",
+   "fecha": "2026-09-28",
+   "detectado": "2026-09-28",
+   "actor": "Threeam",
+   "actorId": "threeam",
+   "filtracion": {
+    "descripcion": "Coosalud EPS (Coosalud Entidad Promotora de Salud S.A.) is one of the major health promotion entities (EPS) in Colombia, primarily managing subsidized and contributory healthcare regimes with multi-million-peso operating volumes. Alongside its sub",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/threeam"
+    }
+   ],
+   "id": "2026-09-28-coosalud.com-3"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Inversiones Bolívar",
+   "dominio": "proyectosdevida.com",
+   "sector": "Servicios financieros",
+   "fecha": "2026-09-24",
+   "detectado": "2026-09-24",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-09-24-proyectosdevida.com-4"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Agrocampo",
+   "dominio": "agrocampo.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-09-21",
+   "detectado": "2026-09-26",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "agrocampo.com.co zoominfo.com/c/agrocampo/[teléfono omitido] Agrocampo S.A.S. is Colombia's first and only veterinary hypermarket, founded in 1979 by veterinarian Alfonso Villa and headquartered in Bogotá, serving as the country's leading distributor of veterinary drugs and agricultural supplies for over 45 years. The company operates one flagship hypermarket in Bogotá plus a 24/7 distribution center of ~8,000 m² in Cota, delivering 15,000+ products to ~980 municipalities (99% of Colombia's territory) through e-commerce, call center, and a network of partner veterinary stores it deliberately d",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-09-21-agrocampo.com.co-5"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "EASY JOB S.A.S.",
+   "dominio": "easyjobsas.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2026-09-10",
+   "detectado": "2026-09-10",
+   "actor": "Emperador",
+   "actorId": "emperador",
+   "filtracion": {
+    "descripcion": "Colombian Company. Audit and Tax Audit with more than 5 years of experience Calle 17 sur 44 - 159 Oficina 1501 EDIFICIO CLAROSCURO, Medellín Colombia. Llámanos o escríbenos: [teléfono omitido] The archives contain personal data of employees and customers of the company, tax documents, databases and other important documents 17000 documents [Size: 2.7 GB | Sector: Finance]",
+    "tipos": [
+     "Datos personales",
+     "Datos de empleados",
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios",
+     "Bases de datos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/emperador"
+    }
+   ],
+   "id": "2026-09-10-easyjobsas.com-6"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "TrainMe",
+   "dominio": "trainme.co",
+   "sector": "Educación",
+   "fecha": "2026-09-07",
+   "detectado": "2026-09-07",
+   "actor": "Direwolf",
+   "actorId": "direwolf",
+   "filtracion": {
+    "descripcion": "Corporate Wellness Services",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/direwolf"
+    }
+   ],
+   "id": "2026-09-07-trainme.co-7"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "El Carriel",
+   "dominio": "elcarriel.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-09-07",
+   "detectado": "2026-09-07",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "elcarriel.com.co Productos Alimenticios El Carriel S.A.S. Colombian family food company and dominant leader of Bogotá's arepa market (~70% share) — founded Aug 17, 1992 by two brothers from Sonson, Antioquia (Luis Alberto & Luis Alfonso Valencia) and their wives, who started selling handmade arepas from bicycles via a consignment model. Today: 9 plants in Bogotá & Medellín, 1M+ arepas/day, full vertical integration — 2,000 ha of own corn (Pioneer seeds), own mill, 400+ employees, ~$8M revenue (31.3B COP, 2023), no external investors. Exporter to the US (since 1999), Australia and England; stat",
+    "tipos": [
+     "Datos de empleados"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-09-07-elcarriel.com.co-8"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Liga Nacional contra el Cáncer",
+   "dominio": "ligacancercolombia.org",
+   "sector": "Salud",
+   "fecha": "2026-09-02",
+   "detectado": "2026-09-02",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 26,
+    "terceros": 2,
+    "familias": [],
+    "ultimoEmpleado": null,
+    "ultimoUsuario": null
+   },
+   "noticia": {
+    "titulo": "Ciberataque Afecta Servicios De La Liga Nacional Contra El Cáncer - La Red 106.1 FM",
+    "resumen": "La Liga Nacional contra el Cáncer a communiqué que son victime d'un incident de cybersécurité qui a affecté temporairement les services de son Département de Radiothérapie. L'institution a confirmé que l'incident fait l'objet d'une enquête par les autorités compétentes et a assuré aux patients que son équipe travaille pour résoudre le problème et rétablir les services rapidement.",
+    "url": "https://www.lared1061.com/posts/ciberataque-afecta-servicios-de-la-liga-nacional-contra-el-cancer"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.lared1061.com/posts/ciberataque-afecta-servicios-de-la-liga-nacional-contra-el-cancer"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idbGlnYWNhbmNlcmNvbG9tYmlhLm9yZ0AyMDI2LTA5LTAy"
+    }
+   ],
+   "id": "2026-09-02-ligacancercolombia.org-9"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Transportes Montejo S.A.S.",
+   "dominio": "transportesmontejo.com",
+   "sector": "Transporte",
+   "fecha": "2026-08-31",
+   "detectado": "2026-09-01",
+   "actor": "NightSpire",
+   "actorId": "nightspire",
+   "filtracion": {
+    "descripcion": "Data is not available now.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nightspire"
+    }
+   ],
+   "id": "2026-08-31-transportesmontejo.com-10"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Préfecture de Cordoue",
+   "dominio": "cordoba.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-08-31",
+   "detectado": "2026-09-01",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 3,
+    "usuarios": 265,
+    "terceros": 41,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 93
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 50
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 33
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 9
+     },
+     {
+      "familia": "StealC",
+      "equipos": 6
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 3
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-03-21",
+    "ultimoUsuario": "2026-08-01"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético afectó los sistemas de Rentas Departamentales de Córdoba",
+    "resumen": "La préfecture de Cordoue a confirmé que l'infrastructure technologique de la Direction des recettes départementales avait été victime d'une cyberattaque, qui a temporairement paralysé le portail de paiement des impôts. Les autorités ont activé des protocoles d'urgence et mènent actuellement une analyse technique afin d'identifier le vecteur de l'attaque. À ce jour, il n'a pas été confirmé si des données des contribuables avaient été exposées ni s'il s'agissait d'une attaque de rançon.",
+    "url": "https://larazon.co/ataque-cibernetico-afecta-los-sistemas-de-rentas-departamentales-de-cordoba/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://larazon.co/ataque-cibernetico-afecta-los-sistemas-de-rentas-departamentales-de-cordoba/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idY29yZG9iYS5nb3YuY29AMjAyNi0wOC0zMQ=="
+    }
+   ],
+   "id": "2026-08-31-cordoba.gov.co-11"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Perimetral Oriental de Bogotá S.A.S.",
+   "dominio": "",
+   "sector": "Transporte",
+   "fecha": "2026-08-30",
+   "detectado": "2026-09-11",
+   "actor": "NightSpire",
+   "actorId": "nightspire",
+   "filtracion": {
+    "descripcion": "- Customers' Interior Designs- Many Departments Internal Documents",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nightspire"
+    }
+   ],
+   "id": "2026-08-30-perimetralorientaldebogota-12"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "PIT.local",
+   "dominio": "pit.local",
+   "sector": "Sin clasificar",
+   "fecha": "2026-08-27",
+   "detectado": "2026-09-04",
+   "actor": "AuditTeam",
+   "actorId": "auditteam",
+   "filtracion": {
+    "descripcion": "unknown",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/auditteam"
+    }
+   ],
+   "id": "2026-08-27-pit.local-13"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "PI***al",
+   "dominio": "",
+   "sector": "Servicios financieros",
+   "fecha": "2026-08-27",
+   "detectado": "2026-08-27",
+   "actor": "AuditTeam",
+   "actorId": "auditteam",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/auditteam"
+    }
+   ],
+   "id": "2026-08-27-pial-14"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Ministerio de Justicia y del Derecho",
+   "dominio": "minjusticia.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-08-03",
+   "detectado": "2026-08-04",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 10,
+    "usuarios": 385,
+    "terceros": 31,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 160
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 83
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 60
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 25
+     },
+     {
+      "familia": "StealC",
+      "equipos": 21
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 12
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 2
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 2
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 1
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2024-08-28",
+    "ultimoUsuario": "2026-05-22"
+   },
+   "noticia": {
+    "titulo": "El Ministerio de Justicia fue víctima de un ciberataque por medio de ransomware | AsuntosLegales.co",
+    "resumen": "Le Ministère de la Justice et du Droit a été victime d'une cyberattaque par rançongiciel (ransomware) qui a compromis une partie de son infrastructure technologique et affecté la disponibilité de certains de ses services. La ministre en charge, Cielo Rusinque, a indiqué que les protocoles de cybersécurité et de confinement ont été immédiatement activés. Elle a appelé les autorités compétentes à mener rapidement les enquêtes pour identifier les responsables. Le Ministère travaille en collaboration avec le Ministère des TIC et les autorités pour contenir l'incident, récupérer les systèmes et rét",
+    "url": "https://www.asuntoslegales.com.co/actualidad/el-ministerio-de-justicia-fue-victima-de-un-ataque-cibernetico-por-medio-de-un-ransomware-4450087"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.asuntoslegales.com.co/actualidad/el-ministerio-de-justicia-fue-victima-de-un-ataque-cibernetico-por-medio-de-un-ransomware-4450087"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idbWluanVzdGljaWEuZ292LmNvQDIwMjYtMDgtMDM="
+    }
+   ],
+   "id": "2026-08-03-minjusticia.gov.co-15"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "AguAseo",
+   "dominio": "aguaseo.com",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2026-07-30",
+   "detectado": "2026-07-30",
+   "actor": "Gammax",
+   "actorId": "gammax",
+   "filtracion": {
+    "descripcion": "AguAseo is a Panamanian organization dedicated to maintaining cleanliness in the province of Colón. It provides solid waste collection and cleaning of...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/gammax"
+    }
+   ],
+   "id": "2026-07-30-aguaseo.com-16"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "DUCON",
+   "dominio": "ducon.com.co",
+   "sector": "Manufactura",
+   "fecha": "2026-07-28",
+   "detectado": "2026-07-28",
+   "actor": "INC Ransom",
+   "actorId": "incransom",
+   "filtracion": {
+    "descripcion": "Unauthorized access has been gained to the company's confidential files, including client data, proprietary R&D, and financial documentation.",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/incransom"
+    }
+   ],
+   "id": "2026-07-28-ducon.com.co-17"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Anpra SAS",
+   "dominio": "anpra.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2026-07-21",
+   "detectado": "2026-07-21",
+   "actor": "Space Bears",
+   "actorId": "spacebears",
+   "filtracion": {
+    "descripcion": "With over a decade of experience in the auto parts sector, Anpra SAS has established a solid reputation for importing and distributing quality products. We are dedicated to supporting the growth and efficiency of wholesale businesses in Colombia, focusing on mechanical components for European and Japanese commercial vehicles.-Personal information of employees and clients -Financial documents -Other files https://***.co/",
+    "tipos": [
+     "Datos personales",
+     "Datos de empleados",
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/spacebears"
+    }
+   ],
+   "id": "2026-07-21-anpra.co-18"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Saint George's School",
+   "dominio": "sgs.edu.co",
+   "sector": "Educación",
+   "fecha": "2026-07-16",
+   "detectado": "2026-07-16",
+   "actor": "Cmdorganization",
+   "actorId": "cmdorganization",
+   "filtracion": {
+    "descripcion": "Saint George's School: a bilingual school in Bogotá with a Cambridge curriculum and EFQM-certified quality. A well-rounded education that helps your child thrive.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/cmdorganization"
+    }
+   ],
+   "id": "2026-07-16-sgs.edu.co-19"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Busscar de Colombia",
+   "dominio": "busscar.com.co",
+   "sector": "Transporte",
+   "fecha": "2026-07-13",
+   "detectado": "2026-07-13",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-07-13-busscar.com.co-20"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Surtifamiliar",
+   "dominio": "surtifamiliar.com",
+   "sector": "Sin clasificar",
+   "fecha": "2026-07-12",
+   "detectado": "2026-07-12",
+   "actor": "Anubis",
+   "actorId": "anubis",
+   "filtracion": {
+    "descripcion": "Passports of supermarket chain employees.",
+    "tipos": [
+     "Datos de empleados",
+     "Documentos de identidad"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/anubis"
+    }
+   ],
+   "id": "2026-07-12-surtifamiliar.com-21"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Hilo",
+   "dominio": "hilo.com",
+   "sector": "Comercio",
+   "fecha": "2026-07-10",
+   "detectado": "2026-07-10",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-07-10-hilo.com-22"
+  },
+  {
+   "tipo": "ambos",
+   "victima": "Ecopetrol",
+   "dominio": "ecopetrol.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2026-07-09",
+   "detectado": "2026-07-19",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "$33.1 Billion. www.***.com.co ECOPETROL copetrol SA is a company organized as a public limited company, of national order, linked to the Ministry of Mines and Energy. It has operations located in the center, south, east and north of Colombia, as well as abroad. It has two refineries in Barrancabermeja and Cartagena. Through its subsidiary Cenit, specialized in hydrocarbon transportation and logistics, it owns three ports for the export and import of fuels and crude oil in Coveñas (Sucre) and Cartagena (Bolvar) with access to the Atlantic, and Tumaco (Nariño) on the Pacific. Cenit also owns mos",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": {
+    "empleados": 556,
+    "usuarios": 2871,
+    "terceros": 558,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 1478
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 447
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 438
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 318
+     },
+     {
+      "familia": "StealC",
+      "equipos": 137
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 88
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 42
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 37
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 12
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 10
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 10
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 2
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 1
+     },
+     {
+      "familia": "Taurus",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-05-24",
+    "ultimoUsuario": "2026-07-10"
+   },
+   "noticia": {
+    "titulo": "Ecopetrol confirma ciberataque con robo de datos y extorsión a la compañía",
+    "resumen": "Ecopetrol a été victime d'un incident de cybersécurité, incluant un accès non autorisé à son infrastructure numérique. Des acteurs externes ont volé des données de près de 3 300 comptes d'utilisateurs et ont ensuite exigé une rançon pour éviter leur divulgation (extorsion). Les attaquants ont également tenté d'exécuter une attaque par ransomware, mais celle-ci a été bloquée par les contrôles de cybersécurité du groupe. L'incident a affecté environ 15 sociétés du Groupe Ecopetrol.",
+    "url": "https://www.valoraanalitik.com/ecopetrol-reconoce-ataque-cibernetico-datos-de-usuarios-y-15-companias-del-grupo-impactadas/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.valoraanalitik.com/ecopetrol-reconoce-ataque-cibernetico-datos-de-usuarios-y-15-companias-del-grupo-impactadas/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idZWNvcGV0cm9sLmNvbS5jb0AyMDI2LTA3LTE3"
+    },
+    {
+     "nombre": "Reclamación en ransomware.live",
+     "url": "https://www.ransomware.live/id/RWNvcGV0cm9sQHRoZWdlbnRsZW1lbg=="
+    },
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-07-09-ecopetrol.com.co-23"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "EPM",
+   "dominio": "epm.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2026-07-06",
+   "detectado": "2026-08-05",
+   "actor": "Everest",
+   "actorId": "everest",
+   "filtracion": {
+    "descripcion": "[AI generated] EPM (Empresas Públicas de Medellín) is a Colombian public utility company headquartered in Medellín, Colombia. It operates in the energy, water, and telecommunications sectors, providing electricity generation and distribution, water supply, sewage, and natural gas services. It serves millions of customers across Colombia and has expanded operations into other Latin American countries, making it one of the largest public utility groups in the region.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/everest"
+    }
+   ],
+   "id": "2026-07-06-epm.com.co-24"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Sociedad Portuaria Mardique S.A.",
+   "dominio": "spmardique.com",
+   "sector": "Transporte",
+   "fecha": "2026-07-03",
+   "detectado": "2026-10-08",
+   "actor": "NightSpire",
+   "actorId": "nightspire",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nightspire"
+    }
+   ],
+   "id": "2026-07-03-spmardique.com-25"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "PIO PIO",
+   "dominio": "piopio.com.co",
+   "sector": "Otro",
+   "fecha": "2026-06-27",
+   "detectado": "2026-10-10",
+   "actor": "Majinahanashi",
+   "actorId": "majinahanashi",
+   "filtracion": {
+    "descripcion": "Pio Pio (Grupo PIO PIO S.A.S.) is a family-owned rotisserie chicken restaurant chain (asadero) in Colombia. Currently 10+ locations in the Popayán/Cali region (southwestern Colombia). Managed by th...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/majinahanashi"
+    }
+   ],
+   "id": "2026-06-27-piopio.com.co-26"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Masivian S.A.S (filiale de Route Mobile)",
+   "dominio": "masivian.com",
+   "sector": "Tecnología",
+   "fecha": "2026-06-24",
+   "detectado": "2026-06-25",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 1,
+    "usuarios": 4,
+    "terceros": 6,
+    "familias": [],
+    "ultimoEmpleado": null,
+    "ultimoUsuario": null
+   },
+   "noticia": {
+    "titulo": "Route Mobile: கொலம்பியாவில் சைபர் தாக்குதல்! பெற்றோர் நிறுவனத்துக்கு பாதிப்பில்லையா?",
+    "resumen": "La filiale colombienne de Route Mobile, Masivian S.A.S, a été victime d'une cyberattaque. Les systèmes affectés ont été isolés et une enquête est en cours. L'entreprise mère, Route Mobile Limited, ainsi que les autres entités du groupe, n'ont pas été affectées.",
+    "url": "https://www.whalesbook.com/corporate-news/Tamil/technology/Route-Mobile-Subsidiary-Masivian-Faces-Cyber-Security-Incident-in-Colombia/6a3c5f6a7465030c38b762b2"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.whalesbook.com/corporate-news/Tamil/technology/Route-Mobile-Subsidiary-Masivian-Faces-Cyber-Security-Incident-in-Colombia/6a3c5f6a7465030c38b762b2"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idbWFzaXZpYW4uY29tQDIwMjYtMDYtMjQ="
+    }
+   ],
+   "id": "2026-06-24-masivian.com-27"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "cloudquantum",
+   "dominio": "cloudquantum.co",
+   "sector": "Tecnología",
+   "fecha": "2026-06-23",
+   "detectado": "2026-06-23",
+   "actor": "Nova",
+   "actorId": "nova",
+   "filtracion": {
+    "descripcion": "cloudquantum.co - software company that builds and delivers software solutions and products, such as an app for organizing activities and tools for automatically processing information from documents and media - Nova Provide tree and samples from stolen data to the company when its get in touch with support department.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nova"
+    }
+   ],
+   "id": "2026-06-23-cloudquantum.co-28"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Asopagos S.A.",
+   "dominio": "asopagos.com",
+   "sector": "Servicios financieros",
+   "fecha": "2026-05-29",
+   "detectado": "2026-05-29",
+   "actor": "Everest",
+   "actorId": "everest",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/everest"
+    }
+   ],
+   "id": "2026-05-29-asopagos.com-29"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Adelante Soluciones Financieras (Addi.com)",
+   "dominio": "addi.com",
+   "sector": "Servicios financieros",
+   "fecha": "2026-05-05",
+   "detectado": "2026-05-05",
+   "actor": "Shinyhunters",
+   "actorId": "shinyhunters",
+   "filtracion": {
+    "descripcion": "Over 16M unique persons records containing significant PII, financial/transactions (credit cards), KYC and data from TransUnion and Experian (background checks) . The company failed to reach an agreement with us despite our incredible patience, all the chances and offers we made. They don't care. | Size: 518GB+ (compressed) | Updated: 5 May 2026 | SHA256: 520d50dc384fc474e419fdd19cb3517ed6ce778a187ae7d6f44b93ccef5687db",
+    "tipos": [
+     "Datos personales",
+     "Datos financieros o tributarios",
+     "Contratos y documentos legales"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/shinyhunters"
+    }
+   ],
+   "id": "2026-05-05-addi.com-30"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "General Hardware",
+   "dominio": "generalhardware.co",
+   "sector": "Manufactura",
+   "fecha": "2026-05-04",
+   "detectado": "2026-05-04",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-05-04-generalhardware.co-31"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "IMEVI",
+   "dominio": "imevi.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2026-05-01",
+   "detectado": "2026-05-01",
+   "actor": "Fulcrumsec",
+   "actorId": "fulcrumsec",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/fulcrumsec"
+    }
+   ],
+   "id": "2026-05-01-imevi.com.co-32"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Jgb",
+   "dominio": "jgb.com.co",
+   "sector": "Otro",
+   "fecha": "2026-04-30",
+   "detectado": "2026-04-30",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-04-30-jgb.com.co-33"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "asunim.co",
+   "dominio": "asunim.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2026-04-27",
+   "detectado": "2026-04-27",
+   "actor": "APT73",
+   "actorId": "apt73",
+   "filtracion": {
+    "descripcion": "Asunim is a company operating in the field of renewable energy, which is engaged in the developme...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/apt73"
+    }
+   ],
+   "id": "2026-04-27-asunim.co-34"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "cofaco.com",
+   "dominio": "cofaco.com",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-04-27",
+   "detectado": "2026-04-27",
+   "actor": "APT73",
+   "actorId": "apt73",
+   "filtracion": {
+    "descripcion": "Cofaco Industries S.A.C. is a textile company in Peru, which produces fabrics and tailoring (a fu...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/apt73"
+    }
+   ],
+   "id": "2026-04-27-cofaco.com-35"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Coralina",
+   "dominio": "coralina.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-04-26",
+   "detectado": "2026-04-26",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "coralina.gov.co zoominfo.com/c/coralina/[teléfono omitido] CORALINA (Corporación para el Desarrollo Sostenible del Archipiélago de San Andrés, Providencia y Santa Catalina) is the official Colombian government environmental authority responsible for managing and protecting the natural resources of the San Andrés, Providencia, and Santa Catalina archipelago in the Caribbean. It was created under Article 37 of Law 99 of December 22, 1993 and operates as a public entity with administrative and financial autonomy, its own assets, and legal status",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-04-26-coralina.gov.co-36"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Cooperativa de Hospitales de Antioquia - COHAN",
+   "dominio": "cohan.org.co",
+   "sector": "Salud",
+   "fecha": "2026-04-20",
+   "detectado": "2026-04-20",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-04-20-cohan.org.co-37"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Alternativa de Moda SAS",
+   "dominio": "touche.com.co",
+   "sector": "Comercio",
+   "fecha": "2026-04-13",
+   "detectado": "2026-04-13",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-04-13-touche.com.co-38"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Cancillería de Colombia",
+   "dominio": "cancilleria.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-04-08",
+   "detectado": "2026-04-09",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Documentos de identidad"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 11,
+    "usuarios": 1820,
+    "terceros": 90,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 722
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 320
+     },
+     {
+      "familia": "StealC",
+      "equipos": 157
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 124
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 103
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 37
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 14
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 8
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 5
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 2
+     }
+    ],
+    "ultimoEmpleado": "2026-05-24",
+    "ultimoUsuario": "2026-06-30"
+   },
+   "noticia": {
+    "titulo": "Caos en entrega de pasaportes por supuesto âataque cibernÃ©ticoâ, Â¿tiene que ver el nuevo modelo?",
+    "resumen": "Un supuesto ataque cibernético causó la suspensión de la atención en las oficinas de la Cancillería de Colombia para la expedición de pasaportes en varias ciudades, incluyendo Medellín, Bogotá, Cali y Bucaramanga. El problema se concentró en la plataforma SITAC, lo que impidió la prestación de servicios clave como apostilla y pasaportes en línea. La Cancillería informó que se están realizando labores técnicas para resolver las intermitencias y mejorar la plataforma.",
+    "url": "https://www.elcolombiano.com/colombia/caos-en-entrega-de-pasaportes-por-supuesto-ataque-cibernetico-tiene-que-ver-el-nuevo-modelo-PB35343682"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.elcolombiano.com/colombia/caos-en-entrega-de-pasaportes-por-supuesto-ataque-cibernetico-tiene-que-ver-el-nuevo-modelo-PB35343682"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idY2FuY2lsbGVyaWEuZ292LmNvQDIwMjYtMDQtMDg="
+    }
+   ],
+   "id": "2026-04-08-cancilleria.gov.co-39"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Casa Andina",
+   "dominio": "casaandina.com.co",
+   "sector": "Turismo y hotelería",
+   "fecha": "2026-03-26",
+   "detectado": "2026-04-19",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "casaandina.com.co zoominfo.com/c/casa-andina/[teléfono omitido] Casa Andina SAS is the leading hardware and construction materials distributor in south-western Colombia, headquartered in Pasto, Nariño. The company serves both wholesale and retail channels, offering a specialized portfolio including plumbing, drainage, lightweight construction systems (drywall), architectural carpentry, paints, ceramics, and chemical construction products. With 51–200 employees and nationwide online delivery across Colombia, Casa Andina positions itself as a one-stop specialist solutions provider for builders a",
+    "tipos": [
+     "Datos de empleados"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-03-26-casaandina.com.co-40"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "sanatoriodelta.com",
+   "dominio": "sanatoriodelta.com",
+   "sector": "Salud",
+   "fecha": "2026-03-24",
+   "detectado": "2026-06-20",
+   "actor": "LockBit 5.0",
+   "actorId": "lockbit5",
+   "filtracion": {
+    "descripcion": "Sanatorio Delta is a prominent private medical institution of high complexity with more than 40 year...",
+    "tipos": [
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit5"
+    }
+   ],
+   "id": "2026-03-24-sanatoriodelta.com-41"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Enviaseo ESP",
+   "dominio": "enviaseo-envigado-antioquia.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-03-19",
+   "detectado": "2026-03-19",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-03-19-enviaseo-envigado-antioquia.gov.co-42"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "casaandina.com.co",
+   "dominio": "casaandina.com.co",
+   "sector": "Turismo y hotelería",
+   "fecha": "2026-03-19",
+   "detectado": "2026-06-20",
+   "actor": "LockBit 5.0",
+   "actorId": "lockbit5",
+   "filtracion": {
+    "descripcion": "We are the premier hardware and construction material distributor serving the southwestern region of...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit5"
+    }
+   ],
+   "id": "2026-03-19-casaandina.com.co-43"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Excellentiam",
+   "dominio": "excellentiam.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2026-03-18",
+   "detectado": "2026-03-18",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "excellentiam.co zoominfo.com/c/excellentiam-soluciones-empresariales/[teléfono omitido] Excellentiam offers comprehensive BPO, KYC, and IT support services. Their solutions include end-to-end Client Knowledge Form management with identity validation and electronic signature, plus a national IT Service Desk for technical support. They also provide on-site or off-site operational outsourcing, advanced document management covering the entire document lifecycle, and specialized consulting to optimize business processes with efficiency and quality.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-03-18-excellentiam.co-44"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Dielco",
+   "dominio": "dielco.co",
+   "sector": "Manufactura",
+   "fecha": "2026-03-07",
+   "detectado": "2026-03-07",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-03-07-dielco.co-45"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Gerleinco",
+   "dominio": "gerleinco.com",
+   "sector": "Transporte",
+   "fecha": "2026-03-06",
+   "detectado": "2026-03-06",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "gerleinco.com zoominfo.com/c/gerleinco-sa/[teléfono omitido] Gerleinco is a leading logistics service provider in Colombia, established in 1916, specializing in container control, multimodal transport, and project logistics. The company offers reliable and dynamic services through innovative technological developments and a dedicated professional team. Gerleinco serves various clients in key ports and commercial cities across the country. Their commitment to effective logistics ensures fulfillment of client needs in a responsible manner",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-03-06-gerleinco.com-46"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "DIAN",
+   "dominio": "dian.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2026-03-06",
+   "detectado": "2026-03-07",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 440,
+    "usuarios": 117561,
+    "terceros": 368,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 23615
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 8569
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 7847
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 4536
+     },
+     {
+      "familia": "StealC",
+      "equipos": 3045
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 1220
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 424
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 272
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 224
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 111
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 81
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 25
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 11
+     },
+     {
+      "familia": "Acreed",
+      "equipos": 7
+     },
+     {
+      "familia": "KPOT",
+      "equipos": 5
+     },
+     {
+      "familia": "Taurus",
+      "equipos": 5
+     },
+     {
+      "familia": "Predator",
+      "equipos": 3
+     }
+    ],
+    "ultimoEmpleado": "2026-07-03",
+    "ultimoUsuario": "2026-07-23"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético a la DIAN obliga a suspender sistema de citas y abre investigación por extorsión - Revista C-Level",
+    "resumen": "La Direction des impôts et des douanes nationales (DIAN) a confirmé un ataque cibernétique externe qui a affecté son système de prise de rendez-vous en ligne. L'incident, associé à une tentative d'extorsion, a conduit à la suspension temporaire de la plateforme et à une enquête formelle auprès des autorités judiciaires et de protection des données. La DIAN assure que les informations fiscales et les identifiants des utilisateurs restent protégés, tandis que les services fiscaux continuent de fonctionner normalement via des points de contact physiques.",
+    "url": "https://revistaclevel.com/ataque-cibernetico-la-dian-obliga-suspender-sistema-de-citas-y-abre-investigacion-por-extorsion"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://revistaclevel.com/ataque-cibernetico-la-dian-obliga-suspender-sistema-de-citas-y-abre-investigacion-por-extorsion"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idZGlhbi5nb3YuY29AMjAyNi0wMy0wNg=="
+    }
+   ],
+   "id": "2026-03-06-dian.gov.co-47"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Sus Insumos S.A.S",
+   "dominio": "susinsumos.com",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-02-25",
+   "detectado": "2026-02-25",
+   "actor": "Vect",
+   "actorId": "vect",
+   "filtracion": {
+    "descripcion": "Status: STATUS: NEGOTIATING | Sector: Seller | ├─ Web server and local development environment files ├─ Database and SQL server data directories ├─ Business/ERP and accounting application data ├─ Shared company network data directories ├─ Micr... DATA SIZE: 30.26 GB | Deadline: 18d 19h",
+    "tipos": [
+     "Datos financieros o tributarios",
+     "Bases de datos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/vect"
+    }
+   ],
+   "id": "2026-02-25-susinsumos.com-48"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Induherzig SAS",
+   "dominio": "induherzig.com.co",
+   "sector": "Manufactura",
+   "fecha": "2026-02-24",
+   "detectado": "2026-02-24",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2026-02-24-induherzig.com.co-49"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "IFMNOTICIAS",
+   "dominio": "ifmnoticias.com",
+   "sector": "Medios",
+   "fecha": "2026-02-12",
+   "detectado": "2026-02-15",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": null,
+   "noticia": {
+    "titulo": "Vil ataque cibernético contra IFMNOTICIAS",
+    "resumen": "Le média IFMNOTICIAS a été victime d'une attaque cybernétique qui a paralysé ses opérations digitales, mais son équipe travaille pour rétablir les services et continue de s'engager pour un journalisme libre et indépendant. L'attaque est considérée comme une forme de censure et un défi à la liberté de la presse. Le média reste déterminé à poursuivre son travail avec force et clarté.",
+    "url": "https://juanpaz.net/vil-ataque-cibernetico-contra-ifmnoticias/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://juanpaz.net/vil-ataque-cibernetico-contra-ifmnoticias/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idaWZtbm90aWNpYXMuY29tQDIwMjYtMDItMTI="
+    }
+   ],
+   "id": "2026-02-12-ifmnoticias.com-50"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Area Limpia",
+   "dominio": "arealimpia.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2026-02-10",
+   "detectado": "2026-02-10",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "www.arealimpia.com.co https://www.zoominfo.com/c/rea-limpia/[teléfono omitido] Área Limpia Distrito Capital S.A.S E.S.P provides various cleaning and waste management services including mechanical and manual street sweeping, tree pruning, containerization for waste disposal, and public area washing. The company serves residential and commercial clients, ensuring the collection and transport of non-recyclable waste and maintaining public cleanliness. It aims to enhance urban environments through regular",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-02-10-arealimpia.com.co-51"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "sidercentersas.com",
+   "dominio": "sidercentersas.com",
+   "sector": "Manufactura",
+   "fecha": "2026-02-03",
+   "detectado": "2026-03-30",
+   "actor": "LockBit 5.0",
+   "actorId": "lockbit5",
+   "filtracion": {
+    "descripcion": "La Sider Center sas opera nella sua sede di Marcianise, Zona Industriale Asi Sud. La struttura lavo...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit5"
+    }
+   ],
+   "id": "2026-02-03-sidercentersas.com-52"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Disuelas JC SAS",
+   "dominio": "",
+   "sector": "Manufactura",
+   "fecha": "2026-01-26",
+   "detectado": "2026-01-26",
+   "actor": "Tengu",
+   "actorId": "tengu",
+   "filtracion": {
+    "descripcion": "La empresa Disuelas Jc Sas tiene como domicilio principal de su actividad la dirección, CALLE 26 SUR 29 49 en la ciudad de BOGOTA, BOGOTA. El teléfono de Disuelas Jc Sas es el [teléfono omitido]. Esta empresa fué constituida como SOCIEDAD POR ACCIONES SIMPLIFICADA y se dedica a Fabricacion de partes del calzado",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/tengu"
+    }
+   ],
+   "id": "2026-01-26-disuelasjc-53"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "lasevillanita.com",
+   "dominio": "lasevillanita.com",
+   "sector": "Transporte",
+   "fecha": "2026-01-26",
+   "detectado": "2026-02-23",
+   "actor": "LockBit 5.0",
+   "actorId": "lockbit5",
+   "filtracion": {
+    "descripcion": "Transportes La Sevillanita Srl is a company that operates in the Freight & Logistics Services indust...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit5"
+    }
+   ],
+   "id": "2026-01-26-lasevillanita.com-54"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Autofinanciera",
+   "dominio": "autofinanciera.com.co",
+   "sector": "Servicios financieros",
+   "fecha": "2026-01-20",
+   "detectado": "2026-01-20",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "www.autofinanciera.com.co https://www.zoominfo.com/c/autofinanciera/[teléfono omitido] Autofinanciera offers a unique program for purchasing goods and services without bank interest, featuring flexible terms and fixed payments. The company aims to help clients achieve their dreams by providing a structured savings plan that allows for the acquisition of vehicles, education, travel, and home renovations. Their target clients include individuals looking to invest in their future and fulfill personal goals through a planned savings approach. Autofinanciera emphasizes financial tranquility and the",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2026-01-20-autofinanciera.com.co-55"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Grupo Roa",
+   "dominio": "gruporoa.mx",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-01-16",
+   "detectado": "2026-01-16",
+   "actor": "Tengu",
+   "actorId": "tengu",
+   "filtracion": {
+    "descripcion": "Grupo ROA is a Mexican group of companies operating in the construction and infrastructure sector, founded on March 30, 1995 with the aim of meeting the challenges of large construction projects in the southeastern region of Mexico.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/tengu"
+    }
+   ],
+   "id": "2026-01-16-gruporoa.mx-56"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.granosycereales.com.co",
+   "dominio": "granosycereales.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2026-01-05",
+   "detectado": "2026-01-05",
+   "actor": "Lynx",
+   "actorId": "lynx",
+   "filtracion": {
+    "descripcion": "Granos y Cereales de Colombia S.A. is a Colombian agro-industrial company with over 40 years of experience in the food sector, specializing in the processing, classification, packaging, and distribution of rice and dry legumes. The company is committed to providing high-quality rice to Colombian families, aiming to nourish their dreams. With a strong presence in the agro-industrial sector, it plays a significant role in the local market. Their product offerings include various rice brands such as Arroz Tailandés, Sabrosón, and Mi Arroz.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lynx"
+    }
+   ],
+   "id": "2026-01-05-granosycereales.com.co-57"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "seguriamericas.com",
+   "dominio": "seguriamericas.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2025-12-17",
+   "detectado": "2025-12-17",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "SeguriAmericas, formally known as Seguridad Las Americas Ltda, is a Colombian company specialising in private security and investigation services. Founded …",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2025-12-17-seguriamericas.com-58"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Instituto Nacional des Routes (Invías)",
+   "dominio": "invias.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-12-10",
+   "detectado": "2025-12-12",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 31,
+    "usuarios": 496,
+    "terceros": 100,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 196
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 112
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 90
+     },
+     {
+      "familia": "StealC",
+      "equipos": 38
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 30
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 10
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 3
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-04-28",
+    "ultimoUsuario": "2026-07-07"
+   },
+   "noticia": {
+    "titulo": "Grave ataque cibernético en Invías",
+    "resumen": "L'Instituto Nacional de Vías (Invías) en Colombie a subi un grave ataque cibernétique, ce qui a entraîné une perte d'internet pendant près de 48 heures. L'entité a déposé une plainte auprès de la Fiscalía General de la Nación. Cet incident s'ajoute à d'autres attaques que l'entité a subies ces dernières semaines, notamment un attentat sur la route nationale Los Llanos - Tarazá le 19 novembre.",
+    "url": "https://www.elpais.com.co/colombia/invias-sufre-grave-ataque-cibernetico-van-cerca-de-48-horas-sin-internet-1110.html"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.elpais.com.co/colombia/invias-sufre-grave-ataque-cibernetico-van-cerca-de-48-horas-sin-internet-1110.html"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idaW52aWFzLmdvdi5jb0AyMDI1LTEyLTEw"
+    }
+   ],
+   "id": "2025-12-10-invias.gov.co-59"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.bkcolombia.org",
+   "dominio": "bkcolombia.org",
+   "sector": "Otro",
+   "fecha": "2025-12-08",
+   "detectado": "2025-12-08",
+   "actor": "Stormous",
+   "actorId": "stormous",
+   "filtracion": {
+    "descripcion": "(Folders/Files) Email/Communication/System/Application Data AYEAPLICACIONES database/Log Data BDATOSFITCLOD ( Software/Installation/Program Files AUTOBΟΥ Personal/Miscellaneous Files AvenaCubana )",
+    "tipos": [
+     "Bases de datos",
+     "Correos electrónicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/stormous"
+    }
+   ],
+   "id": "2025-12-08-bkcolombia.org-60"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Rama Judicial",
+   "dominio": "ramajudicial.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-11-27",
+   "detectado": "2025-11-27",
+   "actor": "KillSec",
+   "actorId": "killsec",
+   "filtracion": {
+    "descripcion": "Price ??? Disclosures 0/1",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/killsec"
+    }
+   ],
+   "id": "2025-11-27-ramajudicial.gov.co-61"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "INTEROIL.COM.CO",
+   "dominio": "interoil.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2025-11-21",
+   "detectado": "2025-11-21",
+   "actor": "Cl0p",
+   "actorId": "clop",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/clop"
+    }
+   ],
+   "id": "2025-11-21-interoil.com.co-62"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "adesursas.com",
+   "dominio": "adesursas.com",
+   "sector": "Agro y alimentos",
+   "fecha": "2025-11-18",
+   "detectado": "2025-11-18",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "Adesur SAS is a Colombian company based in Pasto, Nariño, that operates in the wholesale distribution of agricultural and veterinary …",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2025-11-18-adesursas.com-63"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "National Civil Service Commission of Colombia",
+   "dominio": "cnsc.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-11-10",
+   "detectado": "2025-11-11",
+   "actor": "Kazu",
+   "actorId": "kazu",
+   "filtracion": {
+    "descripcion": "The official portal of the Comisión Nacional del Servicio Civil (CNSC), Colombia’s National Civil Service Commission. This government body is responsible for overseeing the recruitment, selection, and management of public servants in the country. It ensures that hiring for government positions is fair, transparent, and based on merit. The site provides essential information about job openings in the public sector, application processes, and the regulations that govern public service employment in Colombia. It serves as a key resource for individuals seeking to apply for civil service positions",
+    "tipos": [],
+    "volumen": "2.9 TB",
+    "rescate": "$300 000",
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/kazu"
+    }
+   ],
+   "id": "2025-11-10-cnsc.gov.co-64"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Defensoría del Pueblo de Colombia – Protection and Promotion of Human Rights",
+   "dominio": "defensoria.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-11-08",
+   "detectado": "2025-11-11",
+   "actor": "Kazu",
+   "actorId": "kazu",
+   "filtracion": {
+    "descripcion": "The official online portal of the Defensoría del Pueblo de Colombia, a constitutional and autonomous institution responsible for promoting, protecting, and defending human rights across the country. It serves as a public platform where citizens can access information about their rights, file complaints, seek legal guidance, and learn about the institution’s oversight and advocacy efforts. The Defensoría operates independently from other branches of government and plays a key role in ensuring that state entities respect and uphold fundamental rights, especially for vulnerable populations",
+    "tipos": [],
+    "volumen": "466.2 GB",
+    "rescate": "$100 000",
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/kazu"
+    }
+   ],
+   "id": "2025-11-08-defensoria.gov.co-65"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "BR Group",
+   "dominio": "brgsa.com",
+   "sector": "Manufactura",
+   "fecha": "2025-10-30",
+   "detectado": "2025-11-03",
+   "actor": "NightSpire",
+   "actorId": "nightspire",
+   "filtracion": {
+    "descripcion": "BR Group",
+    "tipos": [],
+    "volumen": "1 GB",
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nightspire"
+    }
+   ],
+   "id": "2025-10-30-brgsa.com-66"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.americanadecolchones.com",
+   "dominio": "americanadecolchones.com",
+   "sector": "Comercio",
+   "fecha": "2025-10-27",
+   "detectado": "2025-10-27",
+   "actor": "Stormous",
+   "actorId": "stormous",
+   "filtracion": {
+    "descripcion": "VPN access to the company’s internal network is provided.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/stormous"
+    }
+   ],
+   "id": "2025-10-27-americanadecolchones.com-67"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Alqueria",
+   "dominio": "alqueria.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2025-10-14",
+   "detectado": "2025-10-14",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "Productos Naturales de la Sabana S.A.S., doing business as Alquería, is a Colombian company that produces food, especially dairy products and beverages. Founded between 1958 and 1959, it currently has 7 processing plants and 21 distribution ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2025-10-14-alqueria.com.co-68"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Ditransa",
+   "dominio": "ditransa.com.co",
+   "sector": "Transporte",
+   "fecha": "2025-10-14",
+   "detectado": "2025-10-14",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "Ditransa specializes in logistics services aimed at optimizing every stage of the supply chain, from mass transport to last-mile delivery. With over 30 years of experience, the company has established itself as a leader in ground freight tran ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2025-10-14-ditransa.com.co-69"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Termotasajero",
+   "dominio": "termotasajero.com",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2025-10-08",
+   "detectado": "2025-10-08",
+   "actor": "Sinobi",
+   "actorId": "sinobi",
+   "filtracion": {
+    "descripcion": "Termotasajero SA ESP is a power generation and commercialization company that provides high-quality electricity to meet the needs of its clients. They focus on ensuring effectiveness and sustainability in the energy sector. The company emphasizes environmental harmony through recycling and reusing initiatives. Termotasajero caters to various clients in the energy market, demonstrating transparency and high standards in their operations.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/sinobi"
+    }
+   ],
+   "id": "2025-10-08-termotasajero.com-70"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ARMONIA MEDICAL S.A.S.",
+   "dominio": "armoniaips.com",
+   "sector": "Salud",
+   "fecha": "2025-09-17",
+   "detectado": "2025-09-17",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "Armonia Medical S.A.S es una empresa en Colombia, con sede principal en Santa Marta. Opera en Servicios de Salud Móviles sector. La empresa fue fundada en 24 de febrero de 2012. Actividades de la práctica médica sin internación, Peluquería y otros tratamientos de belleza, Comercio al por menor de productos farmacéuticos y medicinales cosméticos y artículos de tocador en establecimientos especializados https://armoniaips.com",
+    "tipos": [
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2025-09-17-armoniaips.com-71"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Kandeo",
+   "dominio": "kandeofund.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2025-09-09",
+   "detectado": "2025-09-09",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "www.kandeofund.com , https://diaphanum.pe/ , https://www.zoominfo.com/c/kandeo/[teléfono omitido] Kandeo is focused on providing innovative solutions to enhance growth for businesses. Their product offerings are designed to empower companies to achieve brilliance in their operations. The intended clients range from small startups to large corporations seeking to optimize their business strategies. By leveraging advanced technologies, Kandeo aims to drive success and foster sustainable development.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2025-09-09-kandeofund.com-72"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "GoTelemedicina",
+   "dominio": "gotelemedicina.co",
+   "sector": "Salud",
+   "fecha": "2025-09-06",
+   "detectado": "2025-09-06",
+   "actor": "KillSec",
+   "actorId": "killsec",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/killsec"
+    }
+   ],
+   "id": "2025-09-06-gotelemedicina.co-73"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "grupobocel.com",
+   "dominio": "grupobocel.com",
+   "sector": "Manufactura",
+   "fecha": "2025-09-06",
+   "detectado": "2025-09-25",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "Grupo Bocel is a holding company comprising two companies: La Dominicana Industrial and Molinos Valle del Cibao, located in Santiago de los Caballeros, Dominican Republic.La Dominicana Industrial manufactures and sells pasta, while Molinos Va ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2025-09-06-grupobocel.com-74"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "sosltda.com",
+   "dominio": "sosltda.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2025-08-29",
+   "detectado": "2026-02-14",
+   "actor": "LockBit 5.0",
+   "actorId": "lockbit5",
+   "filtracion": {
+    "descripcion": "S.O.S. Ltda is a leading security solutions provider in Colombia, established in 1957. They speciali...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit5"
+    }
+   ],
+   "id": "2025-08-29-sosltda.com-75"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Construseñales S.A.",
+   "dominio": "",
+   "sector": "Manufactura",
+   "fecha": "2025-08-28",
+   "detectado": "2025-09-01",
+   "actor": "Desolator",
+   "actorId": "desolator",
+   "filtracion": {
+    "descripcion": "Status: waiting | Expiration: 2025-09-04T00:00",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/desolator"
+    }
+   ],
+   "id": "2025-08-28-construsenales-76"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Construcciones Sala",
+   "dominio": "construccionessala.com",
+   "sector": "Manufactura",
+   "fecha": "2025-08-28",
+   "detectado": "2025-08-30",
+   "actor": "Desolator",
+   "actorId": "desolator",
+   "filtracion": {
+    "descripcion": "Status: waiting | Expiration: 2025-09-04T00:00",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/desolator"
+    }
+   ],
+   "id": "2025-08-28-construccionessala.com-77"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Ashe",
+   "dominio": "ashe.com.co",
+   "sector": "Sin clasificar",
+   "fecha": "2025-08-28",
+   "detectado": "2025-10-15",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 6,
+    "usuarios": 1,
+    "terceros": 7,
+    "familias": [
+     {
+      "familia": "StealC",
+      "equipos": 4
+     },
+     {
+      "familia": "RedLine",
+      "equipos": 3
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2024-07-07",
+    "ultimoUsuario": "2024-05-29"
+   },
+   "noticia": {
+    "titulo": "",
+    "resumen": "L'attaque n'a pas été revendiquée, mais l'enseigne Qilin divulgue des données présentées comme issues des systèmes d'Ashe.",
+    "url": null
+   },
+   "fuentes": [
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idYXNoZS5jb20uY29AMjAyNS0wOC0yOA=="
+    }
+   ],
+   "id": "2025-08-28-ashe.com.co-78"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Harinera del Valle",
+   "dominio": "hv.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2025-08-06",
+   "detectado": "2025-08-06",
+   "actor": "Sarcoma",
+   "actorId": "sarcoma",
+   "filtracion": {
+    "descripcion": "Harinera del Valle Harinera del Valle (HV) is a prominent Colombian company with over 60 years of experience in producing and commercializing processed foods. They offer a wide range of products, including oils, flours, pastas, and ready-to-eat meal mixes, aimed at families and businesses in the food sector. Known for brands such as 'Haz de Oros' and 'Doarepa,' HV emphasizes quality and innovation in its offerings. The company strives to continue being a part of Colombian families' lives by providing delicious and nutritious food options.Geo: Colombia - Leak size: 59 GB Archive - Contains: Fil",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/sarcoma"
+    }
+   ],
+   "id": "2025-08-06-hv.com.co-79"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ferrocortes",
+   "dominio": "ferrocortes.com.co",
+   "sector": "Manufactura",
+   "fecha": "2025-08-06",
+   "detectado": "2025-08-06",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "Ferrocortes S.A.S is a leader in high-quality steel solutions for heavy machinery and hardware from Colombia. The company provides customized steel products such as sheets and profiles, catering to various industrial sectors including mining, ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2025-08-06-ferrocortes.com.co-80"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.lincecomercial.com",
+   "dominio": "lincecomercial.com",
+   "sector": "Tecnología",
+   "fecha": "2025-07-24",
+   "detectado": "2025-07-24",
+   "actor": "INC Ransom",
+   "actorId": "incransom",
+   "filtracion": {
+    "descripcion": "Lince Comercial is a company that operates in the Cable & Satellite industry. We publish a small part of what we have!",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/incransom"
+    }
+   ],
+   "id": "2025-07-24-lincecomercial.com-81"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "SubsCorp",
+   "dominio": "subscorp.com.co",
+   "sector": "Manufactura",
+   "fecha": "2025-07-22",
+   "detectado": "2025-07-22",
+   "actor": "Arcus Media",
+   "actorId": "arcusmedia",
+   "filtracion": {
+    "descripcion": "Days06Hours23Minutes39Secondes43 Subs Corp S.A.S. is a company in Colombia, with a head office in Barranquilla. The enterpr…",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arcusmedia"
+    }
+   ],
+   "id": "2025-07-22-subscorp.com.co-82"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Nueva EPS",
+   "dominio": "nuevaeps.com.co",
+   "sector": "Salud",
+   "fecha": "2025-07-10",
+   "detectado": "2025-07-10",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 209,
+    "usuarios": 38589,
+    "terceros": 344,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 16961
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 5640
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 3604
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 3010
+     },
+     {
+      "familia": "StealC",
+      "equipos": 1980
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 766
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 318
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 176
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 112
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 105
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 49
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 18
+     },
+     {
+      "familia": "Taurus",
+      "equipos": 8
+     },
+     {
+      "familia": "KPOT",
+      "equipos": 3
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 2
+     }
+    ],
+    "ultimoEmpleado": "2026-05-15",
+    "ultimoUsuario": "2026-07-18"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético afecta canales de atención de Nueva EPS: activan plan de contingencia para garantizar servicios",
+    "resumen": "Nueva EPS avertit une faille de sécurité détectée par son fournisseur de connectivité, Americas BPS Outsourcing Transformation, ce qui affecte ses canaux d'attention. Les lignes téléphoniques pour les affiliés et les prestataires de services de santé sont touchées, mais l'entité offre des moyens alternatifs pour accéder aux services de santé. L'incident est en cours de résolution.",
+    "url": "https://emisoraatlantico.com.co/nacionales/ataque-cibernetico-afecta-canales-de-atencion-de-nueva-eps-activan-plan-de-contingencia-para-garantizar-servicios/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://emisoraatlantico.com.co/nacionales/ataque-cibernetico-afecta-canales-de-atencion-de-nueva-eps-activan-plan-de-contingencia-para-garantizar-servicios/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idbnVldmFlcHMuY29tLmNvQDIwMjUtMDctMTA="
+    }
+   ],
+   "id": "2025-07-10-nuevaeps.com.co-83"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Rama judicial colombia",
+   "dominio": "pmf.hr",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-07-03",
+   "detectado": "2025-07-03",
+   "actor": "Nova",
+   "actorId": "nova",
+   "filtracion": {
+    "descripcion": "The University of Zagreb Faculty of Science (Croatian: Prirodoslovno-matematički fakultet, PMF) is a prominent faculty within the University of Zagreb, Croatia, dedicated to education...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/nova"
+    }
+   ],
+   "id": "2025-07-03-pmf.hr-84"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "PDC www.cobranzasbeta.com.co",
+   "dominio": "cobranzasbeta.com.co",
+   "sector": "Servicios financieros",
+   "fecha": "2025-07-02",
+   "detectado": "2025-07-30",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "Promociones y Cobranzas Beta was created in 1987 as a collection unit of the then Banco Superior, which was acquired by Davivienda in 2006. Since then, it has established itself as the subsidiary specialized in the collection and financial a ...",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2025-07-02-cobranzasbeta.com.co-85"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "JN Aceros",
+   "dominio": "jnaceros.com.pe",
+   "sector": "Manufactura",
+   "fecha": "2025-06-30",
+   "detectado": "2025-09-09",
+   "actor": "The Gentlemen",
+   "actorId": "thegentlemen",
+   "filtracion": {
+    "descripcion": "www.jnaceros.com.pe, https://www.zoominfo.com/c/jn-aceros/[teléfono omitido], JN Aceros is a company that operates in the HR & Staffing industry. It employs 50to99 people and has 100MMto250M of revenue. The company is headquartered in San Luis, Lima region, Peru.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/thegentlemen"
+    }
+   ],
+   "id": "2025-06-30-jnaceros.com.pe-86"
+  },
+  {
+   "tipo": "ambos",
+   "victima": "Justicia Penal Militar",
+   "dominio": "justiciamilitar.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-06-15",
+   "detectado": "2025-08-18",
+   "actor": "Gunra",
+   "actorId": "gunra",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": "45TB",
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": {
+    "empleados": 17,
+    "usuarios": 157,
+    "terceros": 24,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 206
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 52
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 42
+     },
+     {
+      "familia": "StealC",
+      "equipos": 10
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 4
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 4
+     }
+    ],
+    "ultimoEmpleado": null,
+    "ultimoUsuario": null
+   },
+   "noticia": {
+    "titulo": "Justicia Penal Militar y Policial en emergencia por ataque cibernético",
+    "resumen": "La Unidad Administrativa Especial de la Justicia Penal Militar y Policial a été victime d'une attaque cibernétique, ce qui a entraîné la suspension des délais judiciaires. Les premières investigations ont révélé des atteintes à la confidentialité de l'information, notamment des données de configuration des services de réseau et de communication. Des plans de contingence et de récupération sont en cours pour rétablir les services technologiques.",
+    "url": "https://www.radiosantafe.com/2025/06/17/justicia-penal-militar-y-policial-en-emergencia-por-ataque-cibernetico/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.radiosantafe.com/2025/06/17/justicia-penal-militar-y-policial-en-emergencia-por-ataque-cibernetico/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idanVzdGljaWFtaWxpdGFyLmdvdi5jb0AyMDI1LTA2LTE1"
+    },
+    {
+     "nombre": "Reclamación en ransomware.live",
+     "url": "https://www.ransomware.live/id/SnVzdGljaWEgUGVuYWwgTWlsaXRhckBndW5yYQ=="
+    },
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/gunra"
+    }
+   ],
+   "id": "2025-06-15-justiciamilitar.gov.co-87"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Repremundo.com.co",
+   "dominio": "repremundo.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2025-06-14",
+   "detectado": "2025-06-14",
+   "actor": "IMNCrew",
+   "actorId": "imncrew",
+   "filtracion": {
+    "descripcion": "RepreMundo is a company that operates in the Management Consulting industry. It employs 500to999 people and has 10Mto25M of revenue. The company is headquartered in Bogota, Bogota D.C.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/imncrew"
+    }
+   ],
+   "id": "2025-06-14-repremundo.com.co-88"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Columbia TI",
+   "dominio": "columbiati.com.br",
+   "sector": "Tecnología",
+   "fecha": "2025-06-05",
+   "detectado": "2025-06-05",
+   "actor": "Bert",
+   "actorId": "bert",
+   "filtracion": {
+    "descripcion": "Columbia Integração delivers IT solutions in cloud, cybersecurity, and infrastructure to drive digital transformation for businesses in Brazil.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/bert"
+    }
+   ],
+   "id": "2025-06-05-columbiati.com.br-89"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Corantioquia",
+   "dominio": "corantioquia.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-05-27",
+   "detectado": "2025-05-27",
+   "actor": "Hunters International",
+   "actorId": "hunters",
+   "filtracion": {
+    "descripcion": "Exfiltraded data : yes - Encrypted data : yes",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/hunters"
+    }
+   ],
+   "id": "2025-05-27-corantioquia.gov.co-90"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Zeus Tecnología",
+   "dominio": "zeustecnologia.com",
+   "sector": "Tecnología",
+   "fecha": "2025-05-14",
+   "detectado": "2025-06-04",
+   "actor": "Worldleaks",
+   "actorId": "worldleaks",
+   "filtracion": {
+    "descripcion": "[AI generated] Zeus Tecnología is a Mexico-based technology company. They focus on automating processes and designing innovative solutions to support businesses across various industries, including retail, healthcare, and manufacturing. The company offers services such as software development, artificial intelligence, big data analytics, and cloud solutions, aiming to help businesses optimize their operations and enhance their digital transformation strategies.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/worldleaks"
+    }
+   ],
+   "id": "2025-05-14-zeustecnologia.com-91"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ibague.losolivos.co",
+   "dominio": "ibague.losolivos.co",
+   "sector": "Comercio",
+   "fecha": "2025-05-07",
+   "detectado": "2025-05-29",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "[AI generated] \"Los Olivos\" is a well-known funeral services company in Ibague, Colombia. They provide comprehensive services including funeral plans, crematorium, cemetery, wake rooms, and transportation. They also offer posthumous tributes, and psychological support to the bereaved families, showcasing their commitment to providing sensitive care during traumatic times.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2025-05-07-ibague.losolivos.co-92"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "iycsa.com.co",
+   "dominio": "iycsa.com.co",
+   "sector": "Otro",
+   "fecha": "2025-05-05",
+   "detectado": "2025-05-05",
+   "actor": "BrainCipher",
+   "actorId": "braincipher",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/braincipher"
+    }
+   ],
+   "id": "2025-05-05-iycsa.com.co-93"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Iris Neofinanciera",
+   "dominio": "iris.com.co",
+   "sector": "Servicios financieros",
+   "fecha": "2025-04-08",
+   "detectado": "2025-04-08",
+   "actor": "Crypto24",
+   "actorId": "crypto24",
+   "filtracion": {
+    "descripcion": "All files of google drives, google chatting data ,workmanager documents(for last 5years) ,sql dbs and personal information of clients and staffs.",
+    "tipos": [
+     "Datos personales",
+     "Datos de clientes o usuarios",
+     "Bases de datos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/crypto24"
+    }
+   ],
+   "id": "2025-04-08-iris.com.co-94"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "retycol.com",
+   "dominio": "retycol.com",
+   "sector": "Sin clasificar",
+   "fecha": "2025-03-30",
+   "detectado": "2025-03-30",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "[AI generated] N/A",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2025-03-30-retycol.com-95"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "icvc.co - Instituto Cardiovascular del Cesar",
+   "dominio": "icvc.co",
+   "sector": "Salud",
+   "fecha": "2025-03-29",
+   "detectado": "2025-03-29",
+   "actor": "Babuk 2.0",
+   "actorId": "babuk2",
+   "filtracion": {
+    "descripcion": "icvc.co - Instituto Cardiovascular del Cesar",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/babuk2"
+    }
+   ],
+   "id": "2025-03-29-icvc.co-96"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Coopertruni",
+   "dominio": "coopertruni.com.br",
+   "sector": "Transporte",
+   "fecha": "2025-03-18",
+   "detectado": "2025-03-19",
+   "actor": "Arcus Media",
+   "actorId": "arcusmedia",
+   "filtracion": {
+    "descripcion": "Days06Hours22222222Minutes44448888Seconds22224545 www.coopertruni.com.br Cooperativa dos Transportadores Unidos Ltda – COOPERTRUNI is a…",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arcusmedia"
+    }
+   ],
+   "id": "2025-03-18-coopertruni.com.br-97"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "cali.losolivos.co",
+   "dominio": "cali.losolivos.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2025-03-11",
+   "detectado": "2025-03-11",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "[AI generated] I'm sorry, but there doesn't seem to be enough verifiable or specific information available about a company by the name \"cali.losolivos.co\". It's possible that you may be referring to \"Los Olivos\", which is a well-known funeral services company in Colombia. However, without more specific details, it's difficult to provide a thorough description. Please provide more information.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2025-03-11-cali.losolivos.co-98"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Domina Entrega Total",
+   "dominio": "domina.com.co",
+   "sector": "Transporte",
+   "fecha": "2025-03-08",
+   "detectado": "2025-03-14",
+   "actor": "Akira",
+   "actorId": "akira",
+   "filtracion": {
+    "descripcion": "Domina Entrega Total a company based on security and trust, offer ing specialized services in Logistics , Digital and BPO. We are ready to upload more than 28 GB of essential corporate doc uments such as: corporate NDA’s, contact numbers and e-mail addre sses of employees and customers, corporate licenses, agreements a nd contracts, internal corporate correspondences, passports and o ther employee and customer documents, etc.",
+    "tipos": [
+     "Datos de empleados",
+     "Datos de clientes o usuarios",
+     "Documentos de identidad",
+     "Contratos y documentos legales",
+     "Correos electrónicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/akira"
+    }
+   ],
+   "id": "2025-03-08-domina.com.co-99"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Inversiones Clinica Del Meta SA",
+   "dominio": "clinicameta.co",
+   "sector": "Salud",
+   "fecha": "2025-02-28",
+   "detectado": "2025-02-28",
+   "actor": "Medusalocker",
+   "actorId": "medusalocker",
+   "filtracion": {
+    "descripcion": "www.clinicameta.co Description employee information – patient information – agreements – password data – appointment information Sold with 1-day access Price-$100000 (sale in one hand there are options for making a profit from these files will be included in the deal)",
+    "tipos": [
+     "Datos de empleados",
+     "Datos médicos",
+     "Contratos y documentos legales",
+     "Credenciales"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/medusalocker"
+    }
+   ],
+   "id": "2025-02-28-clinicameta.co-100"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.dcarosolutions.com",
+   "dominio": "dcaro.com.co",
+   "sector": "Tecnología",
+   "fecha": "2025-02-28",
+   "detectado": "2025-03-08",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "We offer technology and telecommunications solutions, and we help small, medium-size and large companies with the organization and good administration of ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2025-02-28-dcaro.com.co-101"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "IDPE.CO",
+   "dominio": "idpe.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2025-02-27",
+   "detectado": "2025-02-27",
+   "actor": "Cl0p",
+   "actorId": "clop",
+   "filtracion": {
+    "descripcion": "[AI generated] Sure, IDPE.CO is a digital content services company that provides language and content creation services. The company delivers a wide range of linguistic and digital services including translation, localization, interpretation, transcription, digital marketing, SEO, SEM and more. They cater to a global clientele from different industries.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/clop"
+    }
+   ],
+   "id": "2025-02-27-idpe.co-102"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "gilcar.co",
+   "dominio": "gilcar.co",
+   "sector": "Transporte",
+   "fecha": "2025-02-18",
+   "detectado": "2025-02-20",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "[AI generated] Gilcar.co is a property investment company based in the UK that primarily deals in the real estate market. They specialize in buying and managing properties, with a focus on building a sustainable portfolio. The company's business includes purchasing, development, leasing, and property management, aimed at generating steady revenue with potential for growth. Please note that services offered maybe subject to change.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2025-02-18-gilcar.co-103"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "morrisgroup.co",
+   "dominio": "morrisgroup.co",
+   "sector": "Manufactura",
+   "fecha": "2025-02-12",
+   "detectado": "2025-02-12",
+   "actor": "Cl0p",
+   "actorId": "clop",
+   "filtracion": {
+    "descripcion": "[AI generated] Morris Group is an international company that offers a range of financial solutions, assets management, fintech innovation, and real estate services. Originating in Switzerland, they combine a global perspective with deep local knowledge to deliver integrated services to companies, communities, and individuals. Their key sectors include financial services, health services, and fintech. They are committed to sustainable development and community investment.",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/clop"
+    }
+   ],
+   "id": "2025-02-12-morrisgroup.co-104"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "easycom.com",
+   "dominio": "easycom.com",
+   "sector": "Tecnología",
+   "fecha": "2025-02-04",
+   "detectado": "2025-02-04",
+   "actor": "Akira",
+   "actorId": "akira",
+   "filtracion": {
+    "descripcion": "Extract from Taking stock of 2024 Part 2",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/akira"
+    }
+   ],
+   "id": "2025-02-04-easycom.com-105"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "alfa.com.co",
+   "dominio": "alfa.com.co",
+   "sector": "Tecnología",
+   "fecha": "2025-02-04",
+   "detectado": "2025-02-04",
+   "actor": "Akira",
+   "actorId": "akira",
+   "filtracion": {
+    "descripcion": "Extract from Taking stock of 2024 Part 2",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/akira"
+    }
+   ],
+   "id": "2025-02-04-alfa.com.co-106"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "nhbg.com.co",
+   "dominio": "nhbg.com.co",
+   "sector": "Sin clasificar",
+   "fecha": "2025-01-27",
+   "detectado": "2025-01-27",
+   "actor": "Babuk 2.0",
+   "actorId": "babuk2",
+   "filtracion": {
+    "descripcion": "nhbg",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/babuk2"
+    }
+   ],
+   "id": "2025-01-27-nhbg.com.co-107"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "lamundialdeseguros.com",
+   "dominio": "lamundialdeseguros.com",
+   "sector": "Servicios financieros",
+   "fecha": "2025-01-27",
+   "detectado": "2025-01-27",
+   "actor": "Babuk 2.0",
+   "actorId": "babuk2",
+   "filtracion": {
+    "descripcion": "lamundialdeseguros.com",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/babuk2"
+    }
+   ],
+   "id": "2025-01-27-lamundialdeseguros.com-108"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.industrialdealimentos.com",
+   "dominio": "industrialdealimentos.com",
+   "sector": "Agro y alimentos",
+   "fecha": "2025-01-27",
+   "detectado": "2025-01-27",
+   "actor": "Babuk 2.0",
+   "actorId": "babuk2",
+   "filtracion": {
+    "descripcion": "www.industrialdealimentos.com",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/babuk2"
+    }
+   ],
+   "id": "2025-01-27-industrialdealimentos.com-109"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Université Autonome d'Occident",
+   "dominio": "uao.edu.co",
+   "sector": "Educación",
+   "fecha": "2025-01-27",
+   "detectado": "2025-01-27",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 280,
+    "usuarios": 1627,
+    "terceros": 1186,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 808
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 320
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 273
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 152
+     },
+     {
+      "familia": "StealC",
+      "equipos": 85
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 51
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 21
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 12
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 5
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 5
+     },
+     {
+      "familia": "Acreed",
+      "equipos": 1
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 1
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-06-01",
+    "ultimoUsuario": "2026-06-11"
+   },
+   "noticia": {
+    "titulo": "UAdeO Los Mochis es víctima de un ataque cibernético; sus servidores están suspendidos",
+    "resumen": "Ce matin, l'Université Autonome d'Occident a annoncé avoir été victime d'une cyberattaque. En conséquence, ses serveurs sont hors service et les services informatiques sont suspendus. L'université travaille activement à rétablir les services et s'excuse pour les désagréments causés.",
+    "url": "https://www.debate.com.mx/sinaloa/losmochis/UAdeO-Los-Mochis-es-victima-de-un-ataque-cibernetico-sus-servidores-estan-suspendidos-20250127-0025.html"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.debate.com.mx/sinaloa/losmochis/UAdeO-Los-Mochis-es-victima-de-un-ataque-cibernetico-sus-servidores-estan-suspendidos-20250127-0025.html"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/iddWFvLmVkdS5jb0AyMDI1LTAxLTI3"
+    }
+   ],
+   "id": "2025-01-27-uao.edu.co-110"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "aquamanaesp.gov.co",
+   "dominio": "aquamanaesp.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2025-01-17",
+   "detectado": "2025-01-17",
+   "actor": "FunkSec",
+   "actorId": "funksec",
+   "filtracion": {
+    "descripcion": "[AI generated] \"Aquamanaesp.gov.co\" appears to be a governmental entity involved in the management of water resources. Information about this company is limited, so its precise role or function is unclear. It may relate to supervising water quality, preserving natural water sources, or distributing water services to communities. Please verify from a reliable source since this site could not be found directly in a search.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/funksec"
+    }
+   ],
+   "id": "2025-01-17-aquamanaesp.gov.co-111"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "technotouch.co",
+   "dominio": "technotouch.co",
+   "sector": "Tecnología",
+   "fecha": "2025-01-04",
+   "detectado": "2025-01-04",
+   "actor": "FunkSec",
+   "actorId": "funksec",
+   "filtracion": {
+    "descripcion": "[AI generated] Certainly! Technotouch.co is a technology company specializing in innovative digital solutions and services. It focuses on software development, digital transformation, and IT consulting. The company aims to enhance business efficiency and drive growth by leveraging cutting-edge technologies. With a client-centric approach, Technotouch.co is committed to delivering customized, high-quality solutions tailored to meet diverse industry needs.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/funksec"
+    }
+   ],
+   "id": "2025-01-04-technotouch.co-112"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "proexequialesresurgir.com",
+   "dominio": "proexequialesresurgir.com",
+   "sector": "Sin clasificar",
+   "fecha": "2024-12-26",
+   "detectado": "2025-01-15",
+   "actor": "SafePay",
+   "actorId": "safepay",
+   "filtracion": {
+    "descripcion": "Inicio | Proexequiales Resurgi",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/safepay"
+    }
+   ],
+   "id": "2024-12-26-proexequialesresurgir.com-113"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Clnica CES",
+   "dominio": "clinicaces.edu.co",
+   "sector": "Salud",
+   "fecha": "2024-12-23",
+   "detectado": "2025-01-14",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "All data of this company will be available for download on 20.01.2025. ¡Bienvenido a la Clnica CES! Somos un gran equipo con alta calidad humana, ética y cientfica. Nuestro personal se encuentra al servicio del bienestar integral de los pac ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2024-12-23-clinicaces.edu.co-114"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "lamejor.com.co",
+   "dominio": "lamejor.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2024-12-18",
+   "detectado": "2025-01-13",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Greetings! Today we are posting here the new company, \"PASTEURIZADORA LA MEJOR S.A\". Company Description: By 2025, Pasteurizadora La Mejor SA will be recognized regionally and nationally as an innovative company in its products and the most pre...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2024-12-18-lamejor.com.co-115"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "lamundialdeseguros",
+   "dominio": "",
+   "sector": "Servicios financieros",
+   "fecha": "2024-12-13",
+   "detectado": "2024-12-13",
+   "actor": "FunkSec",
+   "actorId": "funksec",
+   "filtracion": {
+    "descripcion": "[AI generated] La Mundial de Seguros is an insurance company that specializes in providing a wide range of coverage options to individuals and businesses. They offer products such as auto, health, life, and property insurance, focusing on tailored solutions to meet clients' specific needs. Known for their customer service and expertise, they aim to ensure peace of mind and financial security for their policyholders.",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/funksec"
+    }
+   ],
+   "id": "2024-12-13-lamundialdeseguros-116"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "lamundialdeseguros.com",
+   "dominio": "lamundialdeseguros.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-12-13",
+   "detectado": "2024-12-13",
+   "actor": "FunkSec",
+   "actorId": "funksec",
+   "filtracion": {
+    "descripcion": "[AI generated] La Mundial de Seguros is an insurance company that offers a variety of insurance products and services. These typically include auto, home, health, and life insurance policies, catering to both individual and corporate clients. The company focuses on providing comprehensive coverage options and personalized customer service to meet the diverse needs of its clientele.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/funksec"
+    }
+   ],
+   "id": "2024-12-13-lamundialdeseguros.com-117"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "facilcreditos.co",
+   "dominio": "facilcreditos.co",
+   "sector": "Servicios financieros",
+   "fecha": "2024-11-27",
+   "detectado": "2024-11-27",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "[AI generated] Facilcreditos.co is a company that specializes in providing financial solutions, focusing on facilitating access to credit for individuals and businesses. They offer a variety of loan products tailored to meet different financial needs, emphasizing quick and easy application processes. The company aims to improve financial inclusion by helping clients navigate credit options efficiently and securely.",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2024-11-27-facilcreditos.co-118"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Thomas Greg & Sons Ltda",
+   "dominio": "thomasgregandsons.com",
+   "sector": "Manufactura",
+   "fecha": "2024-11-26",
+   "detectado": "2024-11-29",
+   "actor": "Akira",
+   "actorId": "akira",
+   "filtracion": {
+    "descripcion": "Thomas Greg & Sons Ltda is a company that operates in the Plastic , Packaging & Containers industry. We are ready to upload a lot of internal financial documents, emp loyees medical documents and contacts, customer contacts and corr espondences etc.",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios",
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/akira"
+    }
+   ],
+   "id": "2024-11-26-thomasgregandsons.com-119"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ViralPitch",
+   "dominio": "viralpitch.co",
+   "sector": "Tecnología",
+   "fecha": "2024-11-21",
+   "detectado": "2024-11-21",
+   "actor": "KillSec",
+   "actorId": "killsec",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/killsec"
+    }
+   ],
+   "id": "2024-11-21-viralpitch.co-120"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "LiquiTech",
+   "dominio": "liquitech.co",
+   "sector": "Salud",
+   "fecha": "2024-11-20",
+   "detectado": "2024-11-20",
+   "actor": "KillSec",
+   "actorId": "killsec",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/killsec"
+    }
+   ],
+   "id": "2024-11-20-liquitech.co-121"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Arango Billboard",
+   "dominio": "",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-10-21",
+   "detectado": "2024-10-21",
+   "actor": "Meow",
+   "actorId": "meow",
+   "filtracion": {
+    "descripcion": "<p>Dear customers!</p><p>We are offering exclusive access to over 15 GB of confidential data from Arango Billboard &nbsp;Construction Co., LLC, a Miami, Floridabased company specializing in outdoor advertising and general construction services. Founded in August 2015, Arango is well known for its expertise in the installation and maintenance of billboards, including digital and LED conversions. The company handles a variety of projects across Florida, converting traditional billboards to digital formats, installing new signs, and managing construction permits for billboard installations, refle",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/meow"
+    }
+   ],
+   "id": "2024-10-21-arangobillboard-122"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Air-e",
+   "dominio": "aulacaribesol.com",
+   "sector": "Educación",
+   "fecha": "2024-10-18",
+   "detectado": "2024-10-19",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 44,
+    "terceros": 0,
+    "familias": [
+     {
+      "familia": "StealC",
+      "equipos": 9
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 6
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 5
+     },
+     {
+      "familia": "RedLine",
+      "equipos": 3
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 2
+     }
+    ],
+    "ultimoEmpleado": "1970-01-01",
+    "ultimoUsuario": "2026-05-24"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético obliga a Air-e a suspender términos de atención | Diario La Libertad.",
+    "resumen": "L'entreprise de services publics Air-e a suspendu les délais de traitement des réclamations et des pétitions en raison d'une cyberattaque de type \"Ransomware Dia Cero\" qui a affecté ses systèmes critiques en septembre. La suspension, considérée comme une mesure de \"force majeure\", est en vigueur jusqu'au 30 novembre et permet à l'entreprise de ne pas répondre dans les délais habituels. Les utilisateurs peuvent toujours déposer leurs réclamations et pétitions de manière presencielle ou virtuelle, mais le temps de réponse sera affecté par cette situation.",
+    "url": "https://diariolalibertad.com/sitio/2024/10/18/ataque-cibernetico-obliga-a-air-e-a-suspender-terminos-de-atencion/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://diariolalibertad.com/sitio/2024/10/18/ataque-cibernetico-obliga-a-air-e-a-suspender-terminos-de-atencion/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idYXVsYWNhcmliZXNvbC5jb21AMjAyNC0xMC0xOA=="
+    }
+   ],
+   "id": "2024-10-18-aulacaribesol.com-123"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Transtec SAS",
+   "dominio": "transtec.com.co",
+   "sector": "Tecnología",
+   "fecha": "2024-10-04",
+   "detectado": "2024-10-04",
+   "actor": "Orca",
+   "actorId": "orca",
+   "filtracion": {
+    "descripcion": "Transtec SAS is a company that operates in the Commercial Printing industry.Addi...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/orca"
+    }
+   ],
+   "id": "2024-10-04-transtec.com.co-124"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Corantioquia",
+   "dominio": "corantioquia.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2024-10-01",
+   "detectado": "2024-10-01",
+   "actor": "Meow",
+   "actorId": "meow",
+   "filtracion": {
+    "descripcion": "Corantioquia, or Corporación Autónoma Regional del Centro de Antioquia, is a regional environmental authority in Colombia responsible for overseeing and managing natural resources and environmental policies in the central region of Antioquia. It focuses on sustainable development, conservation, and restoration of ecosystems, promoting environmental education, and enforcing regulations to protect the environment.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/meow"
+    }
+   ],
+   "id": "2024-10-01-corantioquia.gov.co-125"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Air-e",
+   "dominio": "air-e.com",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2024-09-05",
+   "detectado": "2024-09-06",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 39,
+    "terceros": 55,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 7
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 6
+     },
+     {
+      "familia": "StealC",
+      "equipos": 5
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 4
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "1970-01-01",
+    "ultimoUsuario": "2026-02-14"
+   },
+   "noticia": {
+    "titulo": "Air-e denuncia que sufrió ataque cibernético que afectó",
+    "resumen": "L'entreprise Air-e a déclaré avoir été victime d'une cyberattaque qui a eu un impact sur ses activités. Les détails de l'incident ne sont pas encore précisés, mais l'entreprise a confirmé que des mesures ont été prises pour contenir et résoudre la situation. L'enquête est en cours pour déterminer l'origine et l'étendue de l'attaque.",
+    "url": "https://www.elheraldo.co/atlantico/air-e-denuncia-que-sufrio-ataque-cibernetico-que-afecto-sus-sistemas-1123903"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.elheraldo.co/atlantico/air-e-denuncia-que-sufrio-ataque-cibernetico-que-afecto-sus-sistemas-1123903"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idYWlyLWUuY29tQDIwMjQtMDktMDU="
+    }
+   ],
+   "id": "2024-09-05-air-e.com-126"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "nhbg.com.co",
+   "dominio": "nhbg.com.co",
+   "sector": "Salud",
+   "fecha": "2024-09-04",
+   "detectado": "2024-09-12",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Greetings! Today we are posting here the new company, \"Nuevo Hospital de Bocagrande\". Company Description: The New Bocagrande Hospital is a high-level comprehensive health care facility created in 2009 by a group of people with the aim of provi...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2024-09-04-nhbg.com.co-127"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Instituto Cardiovascular del Cesar",
+   "dominio": "icvc.co",
+   "sector": "Salud",
+   "fecha": "2024-08-31",
+   "detectado": "2024-08-31",
+   "actor": "Meow",
+   "actorId": "meow",
+   "filtracion": {
+    "descripcion": "Instituto Cardiovascular del Cesar is a medical institution specializing in cardiovascular care located in Cesar, Colombia. It offers a wide range of services including diagnostics, treatments, and surgeries related to heart and vascular conditions. The institute is committed to providing high-quality healthcare through advanced technology and a team of skilled professionals dedicated to patient well-being.",
+    "tipos": [
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/meow"
+    }
+   ],
+   "id": "2024-08-31-icvc.co-128"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "instadriver.co",
+   "dominio": "instadriver.co",
+   "sector": "Transporte",
+   "fecha": "2024-08-22",
+   "detectado": "2024-08-22",
+   "actor": "KillSec",
+   "actorId": "killsec",
+   "filtracion": {
+    "descripcion": "Instadriver is a dedicated platform to find and hire drivers. Employers rely on Instadriver to recruit drivers.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/killsec"
+    }
+   ],
+   "id": "2024-08-22-instadriver.co-129"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Dibulla",
+   "dominio": "dibulla-laguajira.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2024-07-23",
+   "detectado": "2024-07-25",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos personales",
+     "Correos electrónicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 2,
+    "terceros": 5,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 1
+     },
+     {
+      "familia": "StealC",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "1970-01-01",
+    "ultimoUsuario": "2024-09-10"
+   },
+   "noticia": {
+    "titulo": "Alcalde de Dibulla advierte de ataque cibernético a los correos institucionales - Diario del Norte",
+    "resumen": "Le maire de Dibulla, Alberto Montero Molina, a confirmé une série d'attaques cibernétiques contre les courriels institutionnels de l'administration municipale, visant à accéder aux comptes officiels. Les autorités enquêtent sur l'identité des responsables et les méthodes utilisées pour l'attaque. Le maire a également appelé la communauté à être prudente face aux sites web suspects, aux fichiers douteux et aux courriels frauduleux qui pourraient voler des données personnelles ou télécharger des fichiers infectés.",
+    "url": "https://diariodelnorte.net/laguajira/alcalde-de-dibulla-advierte-de-ataque-cibernetico-a-los-correos-institucionales/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://diariodelnorte.net/laguajira/alcalde-de-dibulla-advierte-de-ataque-cibernetico-a-los-correos-institucionales/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idZGlidWxsYS1sYWd1YWppcmEuZ292LmNvQDIwMjQtMDctMjM="
+    }
+   ],
+   "id": "2024-07-23-dibulla-laguajira.gov.co-130"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "E.S.E. Salud Yopal",
+   "dominio": "esesalud-yopal-casanare.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2024-07-03",
+   "detectado": "2024-07-03",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos médicos"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 3,
+    "terceros": 7,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 2
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 1
+     },
+     {
+      "familia": "StealC",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "1970-01-01",
+    "ultimoUsuario": "2024-05-21"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético a la E.S.E. Salud Yopal obligaría a suspender el servicio. - CasanareOnline.co",
+    "resumen": "L'E.S.E. Salud Yopal a été victime d'une cyberattaque qui a infecté ses serveurs avec des fichiers malveillants, entraînant la chute du système, la suspension du service, des retards dans la facturation et la prise en charge des patients. Le service devra être suspendu ou retardé en raison de la gravité de l'atteinte à la plateforme de facturación. L'équipe de systèmes travaille à identifier la cause de l'attaque et le gerente a annoncé qu'il allait porter plainte pénale pour identifier les responsables.",
+    "url": "https://www.casanareonline.co/ataque-cibernetico-a-la-e-s-e-salud-yopal-obligaria-a-suspender-el-servicio/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.casanareonline.co/ataque-cibernetico-a-la-e-s-e-salud-yopal-obligaria-a-suspender-el-servicio/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idZXNlc2FsdWQteW9wYWwtY2FzYW5hcmUuZ292LmNvQDIwMjQtMDctMDM="
+    }
+   ],
+   "id": "2024-07-03-esesalud-yopal-casanare.gov.co-131"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Emcali",
+   "dominio": "emcali.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2024-06-09",
+   "detectado": "2024-06-11",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 101,
+    "usuarios": 2680,
+    "terceros": 149,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 1185
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 423
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 384
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 257
+     },
+     {
+      "familia": "StealC",
+      "equipos": 135
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 67
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 17
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 12
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 11
+     },
+     {
+      "familia": "Acreed",
+      "equipos": 9
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 6
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 4
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 2
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-02-10",
+    "ultimoUsuario": "2026-07-18"
+   },
+   "noticia": {
+    "titulo": "Emcali logró en tiempo récord bloquear gran ataque cibernético: ¿cómo lo hicieron? Detalles de una operación de alto nivel",
+    "resumen": "Emcali, une entreprise publique de Colombie, a réussi à bloquer un important attaque cibernetique qui visait à perturber ses systèmes commerciaux et de facturation. L'attaque, qui a commencé le 9 juin, a été contenue en moins de deux heures grâce à l'intervention rapide de l'équipe de sécurité de l'entreprise. Les enquêtes sont en cours pour déterminer les motivations et les auteurs de l'attaque, qui semblait avoir des objectifs extorsifs ou de sabotage.",
+    "url": "https://www.semana.com/nacion/cali/articulo/emcali-logro-en-tiempo-record-bloquear-gran-ataque-cibernetico-como-lo-hicieron-detalles-de-una-operacion-de-alto-nivel/202442/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.semana.com/nacion/cali/articulo/emcali-logro-en-tiempo-record-bloquear-gran-ataque-cibernetico-como-lo-hicieron-detalles-de-una-operacion-de-alto-nivel/202442/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idZW1jYWxpLmNvbS5jb0AyMDI0LTA2LTA5"
+    }
+   ],
+   "id": "2024-06-09-emcali.com.co-132"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Duque Saldarriaga",
+   "dominio": "duquesaldarriaga.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-06-03",
+   "detectado": "2024-06-04",
+   "actor": "Arcus Media",
+   "actorId": "arcusmedia",
+   "filtracion": {
+    "descripcion": "We are a marketing company, established...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arcusmedia"
+    }
+   ],
+   "id": "2024-06-03-duquesaldarriaga.com-133"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Franja IT Integradores de Tecnología",
+   "dominio": "",
+   "sector": "Tecnología",
+   "fecha": "2024-06-03",
+   "detectado": "2024-06-04",
+   "actor": "Arcus Media",
+   "actorId": "arcusmedia",
+   "filtracion": {
+    "descripcion": "Franja IT is a company that...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arcusmedia"
+    }
+   ],
+   "id": "2024-06-03-franjaitintegradoresdetecnologia-134"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Altipal",
+   "dominio": "altipal.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-05-13",
+   "detectado": "2024-05-13",
+   "actor": "Dragonforce",
+   "actorId": "dragonforce",
+   "filtracion": {
+    "descripcion": "Marketing and distribution of leading brands in the market, accompanied by a team of extraordinary, passionate, committed and enterprising people.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/dragonforce"
+    }
+   ],
+   "id": "2024-05-13-altipal.com.co-135"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "GOLD RH S.A.S",
+   "dominio": "goldrh.com.co",
+   "sector": "Manufactura",
+   "fecha": "2024-05-11",
+   "detectado": "2024-05-15",
+   "actor": "Arcus Media",
+   "actorId": "arcusmedia",
+   "filtracion": {
+    "descripcion": "Goldrh.com.coGold RH is a company with...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arcusmedia"
+    }
+   ],
+   "id": "2024-05-11-goldrh.com.co-136"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "cli*********.com",
+   "dominio": "",
+   "sector": "Sin clasificar",
+   "fecha": "2024-05-04",
+   "detectado": "2024-05-04",
+   "actor": "Cloak",
+   "actorId": "cloak",
+   "filtracion": {
+    "descripcion": "Country: Colombia",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/cloak"
+    }
+   ],
+   "id": "2024-05-04-clicom-137"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "La Superintendencia del Subsidio Familiar",
+   "dominio": "ssf.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2024-04-27",
+   "detectado": "2024-05-01",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 6,
+    "usuarios": 151,
+    "terceros": 33,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 66
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 25
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 16
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 16
+     },
+     {
+      "familia": "StealC",
+      "equipos": 7
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 6
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2025-11-05",
+    "ultimoUsuario": "2026-07-23"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético afecta a la Superintendencia del Subsidio Familiar | RCN Radio",
+    "resumen": "La Superintendencia del Subsidio Familiar en Colombie a signalé des problèmes dans ses systèmes d'information depuis le samedi 27 avril, dus à une cyberattaque. La superintendente (e) Angie Katherine Monroy Bobadilla a confirmé qu'il s'agit d'une violation de la sécurité et de la privacité des données, et des mesures sont prises pour protéger les bases de données et éviter la divulgation d'informations sensibles. Des plaintes ont été déposées auprès des autorités compétentes et des efforts sont en cours en collaboration avec le ColCERT du Ministère TIC pour résoudre la situation et protéger le",
+    "url": "https://www.rcnradio.com/colombia/ataque-cibernetico-afecta-a-la-superintendencia-del-subsidio-familiar"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.rcnradio.com/colombia/ataque-cibernetico-afecta-a-la-superintendencia-del-subsidio-familiar"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idc3NmLmdvdi5jb0AyMDI0LTA0LTI3"
+    }
+   ],
+   "id": "2024-04-27-ssf.gov.co-138"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Thinkadam",
+   "dominio": "thinkadam.co",
+   "sector": "Tecnología",
+   "fecha": "2024-04-26",
+   "detectado": "2024-04-29",
+   "actor": "Space Bears",
+   "actorId": "spacebears",
+   "filtracion": {
+    "descripcion": "Thinkadam provides advanced device locking solutions for the smartphone-on-credit industry.Our technology helps reduce payment defaults and increases contract fulfillment by providing complete control over rented, leased, or loaned smart devices.Our business model and user experience are designed to meet the specific needs of emerging markets. These markets face challenges such as low device prices, limited storage, and costly or inconsistent connectivity. https://www.thinkadam.co/",
+    "tipos": [
+     "Contratos y documentos legales"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/spacebears"
+    }
+   ],
+   "id": "2024-04-26-thinkadam.co-139"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Empresa de energía del Bajo Putumayo",
+   "dominio": "eebpsa.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2024-04-16",
+   "detectado": "2024-04-16",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "Visits: 46 Data Size: 20,2 GB Published: False",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2024-04-16-eebpsa.com.co-140"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "www.eebpsa.com.co",
+   "dominio": "eebpsa.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2024-04-13",
+   "detectado": "2024-06-04",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2024-04-13-eebpsa.com.co-141"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Hozzify",
+   "dominio": "hozzify.co",
+   "sector": "Tecnología",
+   "fecha": "2024-03-08",
+   "detectado": "2024-03-08",
+   "actor": "RansomHub",
+   "actorId": "ransomhub",
+   "filtracion": {
+    "descripcion": "Visits: 47 Data Size: 136GB Published: False",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/ransomhub"
+    }
+   ],
+   "id": "2024-03-08-hozzify.co-142"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "dismogas",
+   "dominio": "dismogas.com",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2024-03-04",
+   "detectado": "2024-03-04",
+   "actor": "Stormous",
+   "actorId": "stormous",
+   "filtracion": {
+    "descripcion": "Colombia",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/stormous"
+    }
+   ],
+   "id": "2024-03-04-dismogas.com-143"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "totto.com",
+   "dominio": "totto.com",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-02-23",
+   "detectado": "2024-05-09",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Nalsani SAS is a company with nationally-focused eCommerce activity.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2024-02-23-totto.com-144"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "FEPCO Zona Franca SAS",
+   "dominio": "",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-02-04",
+   "detectado": "2024-02-04",
+   "actor": "Knight",
+   "actorId": "knight",
+   "filtracion": {
+    "descripcion": "we have +100GB of confidential data, bank contracts, invoices, customer data, company invoices, company receipts.",
+    "tipos": [
+     "Datos de clientes o usuarios",
+     "Datos financieros o tributarios",
+     "Contratos y documentos legales"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/knight"
+    }
+   ],
+   "id": "2024-02-04-fepcozonafranca-145"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "champion.com.co",
+   "dominio": "champion.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2024-02-02",
+   "detectado": "2024-02-15",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "International freight forwarding & logistics providers",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2024-02-02-champion.com.co-146"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "EPS Salud Total",
+   "dominio": "saludtotal.com.co",
+   "sector": "Salud",
+   "fecha": "2024-01-29",
+   "detectado": "2024-01-30",
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 134,
+    "usuarios": 40472,
+    "terceros": 74,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 6209
+     },
+     {
+      "familia": "Redline",
+      "equipos": 1790
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 1585
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 676
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 567
+     },
+     {
+      "familia": "racoon",
+      "equipos": 181
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 175
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 56
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 17
+     },
+     {
+      "familia": "Taurus",
+      "equipos": 6
+     },
+     {
+      "familia": "Predator",
+      "equipos": 2
+     },
+     {
+      "familia": "KPOT",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-03-07",
+    "ultimoUsuario": "2026-07-20"
+   },
+   "noticia": {
+    "titulo": "Ataque cibernético a la EPS Salud Total afecta a 4,6 millones de afiliados, SuperSalud interviene | Red+ Noticias Colombia",
+    "resumen": "La EPS Salud Total en Colombie a été victime d'une cyberattaque qui a affecté sa plateforme technologique et ses 4,6 millions d'adhérents. La Superintendencia Nacional de Salud (SuperSalud) intervient en vérifiant le plan de contingence et de continuité mis en place par la EPS pour faire face à l'attaque et maintenir le service. SuperSalud a également demandé à la EPS de tenir informés ses affiliés des événements et des mesures prises pour résoudre les problèmes découlant de l'attaque.",
+    "url": "https://redmas.com.co/colombia/Ataque-cibernetico-a-EPS-Salud-Total-afecta-a-46-millones-de-afiliados-SuperSalud-interviene-20240129-0064.html"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://redmas.com.co/colombia/Ataque-cibernetico-a-EPS-Salud-Total-afecta-a-46-millones-de-afiliados-SuperSalud-interviene-20240129-0064.html"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idc2FsdWR0b3RhbC5jb20uY29AMjAyNC0wMS0yOQ=="
+    }
+   ],
+   "id": "2024-01-29-saludtotal.com.co-147"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "TALENTUM Temporal SAS",
+   "dominio": "talentum.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2023-11-18",
+   "detectado": "2023-11-24",
+   "actor": "Noescape",
+   "actorId": "noescape",
+   "filtracion": {
+    "descripcion": "TALENTUM is an EMPLOYMENT SERVICE company, with approval from the Ministry of Labor since March 2005. We have a Guarantee policy to ensure the payment of salaries, social ...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/noescape"
+    }
+   ],
+   "id": "2023-11-18-talentum.com.co-148"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Jahesh Innovation",
+   "dominio": "jahesh.co",
+   "sector": "Tecnología",
+   "fecha": "2023-10-14",
+   "detectado": "2023-10-14",
+   "actor": "Arvin Club",
+   "actorId": "arvinclub",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arvinclub"
+    }
+   ],
+   "id": "2023-10-14-jahesh.co-149"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "IFX Networks",
+   "dominio": "ifxnetworks.com.co",
+   "sector": "Tecnología",
+   "fecha": "2023-09-12",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": null,
+   "noticia": {
+    "titulo": "IFX Networks (also Netglobalis in Chile) is responding to an attack by Ransomware",
+    "resumen": "IFX Networks (aussi connu sous le nom de Netglobalis au Chili) fait face à une attaque de ransomware qui a touché plusieurs sites clients au Chili, dont MercadoPublico et Chilecompra, ainsi que des sites gouvernementaux colombiens.",
+    "url": "https://twitter.com/1ZRR4H/status/1701735162378145867"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://twitter.com/1ZRR4H/status/1701735162378145867"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idaWZ4bmV0d29ya3MuY29tLmNvQDIwMjMtMDktMTI="
+    }
+   ],
+   "id": "2023-09-12-ifxnetworks.com.co-150"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "sti company",
+   "dominio": "sticompany.co",
+   "sector": "Otro",
+   "fecha": "2023-08-23",
+   "detectado": "2023-08-23",
+   "actor": "Arvin Club",
+   "actorId": "arvinclub",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arvinclub"
+    }
+   ],
+   "id": "2023-08-23-sticompany.co-151"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Protactics",
+   "dominio": "protactics.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2023-07-08",
+   "detectado": "2023-07-12",
+   "actor": "Noescape",
+   "actorId": "noescape",
+   "filtracion": {
+    "descripcion": "Protactics is a Colombian company that provides security and defense solutions for companies and governments in Latin America. We have data such as passports, ID cards/certificates/agreements/contracts/confidential docum...",
+    "tipos": [
+     "Documentos de identidad",
+     "Contratos y documentos legales"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/noescape"
+    }
+   ],
+   "id": "2023-07-08-protactics.com.co-152"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Operateur Catastral Valle Avanza SAS",
+   "dominio": "valleavanza.com",
+   "sector": "Sin clasificar",
+   "fecha": "2023-06-22",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 0,
+    "usuarios": 49,
+    "terceros": 4,
+    "familias": [],
+    "ultimoEmpleado": null,
+    "ultimoUsuario": null
+   },
+   "noticia": {
+    "titulo": "Atentos: El Operador Catastral Valle sufrió un ataque cibernético; ¿cuáles son los servicios que están suspendidos?",
+    "resumen": "Le service de l'Operateur Catastral Valle Avanza SAS a été victime d'une cyberattaque, ce qui a entraîné la suspension de certains de ses services en ligne dans les 24 municipalités sous sa responsabilité. Les certificats catastraux en ligne et le Geoportal sont notamment concernés. Les autorités judiciaires ont été informées de la situation. Les travaux de construction de la Troncal Oriental du MIO, un important projet d'infrastructure de transport à Cali, sont en cours et devraient être achevés en octobre. Des modifications ont été apportées aux itinéraires des différentes routes et tronçons",
+    "url": "https://www.elpais.com.co/valle/atentos-el-operador-catastral-valle-sufrio-un-ataque-cibernetico-cuales-son-los-servicios-que-estan-suspendidos-2218.html"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.elpais.com.co/valle/atentos-el-operador-catastral-valle-sufrio-un-ataque-cibernetico-cuales-son-los-servicios-que-estan-suspendidos-2218.html"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/iddmFsbGVhdmFuemEuY29tQDIwMjMtMDYtMjI="
+    }
+   ],
+   "id": "2023-06-22-valleavanza.com-153"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Cafam",
+   "dominio": "cafam.com.co",
+   "sector": "Salud",
+   "fecha": "2023-06-16",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 69,
+    "usuarios": 19157,
+    "terceros": 169,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 8899
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 2829
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 2806
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 1561
+     },
+     {
+      "familia": "StealC",
+      "equipos": 933
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 478
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 161
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 92
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 70
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 36
+     },
+     {
+      "familia": "Acreed",
+      "equipos": 21
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 20
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 10
+     },
+     {
+      "familia": "Taurus",
+      "equipos": 3
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 1
+     },
+     {
+      "familia": "KPOT",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-04-24",
+    "ultimoUsuario": "2026-07-22"
+   },
+   "noticia": {
+    "titulo": "Cafam enfrenta ataque cibernético y limitaciones en sus servicios",
+    "resumen": "La caja de compensación familiale Cafam a subi une cyberattaque qui a affecté ses systèmes d'information et a entraîné des limitations dans la prestation de certains de ses services. Des plans de contingence ont été mis en place pour rétablir la situation, mais les services continueront à connaître des limites à court terme. Les services médicaux, les prises de sang et les services d'imagerie ont été suspendus jusqu'à nouvel ordre. Cafam travaille à trouver une solution définitive à cette situation. Les cyberattaques sont de plus en plus fréquentes dans diverses organisations, quel que soit le",
+    "url": "https://www.valoraanalitik.com/2023/06/16/cafam-enfrenta-ataque-cibernetico-y-limitaciones-en-sus-servicios/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.valoraanalitik.com/2023/06/16/cafam-enfrenta-ataque-cibernetico-y-limitaciones-en-sus-servicios/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idY2FmYW0uY29tLmNvQDIwMjMtMDYtMTY="
+    }
+   ],
+   "id": "2023-06-16-cafam.com.co-154"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Transprensa",
+   "dominio": "transprensa.com",
+   "sector": "Transporte",
+   "fecha": "2023-06-11",
+   "detectado": "2023-06-12",
+   "actor": "8Base",
+   "actorId": "8base",
+   "filtracion": {
+    "descripcion": "Transprensa Transport Company has become another interesting job. Engaged in the collection, dispatch and distribution of goods with guaranteed delivery. The VALLE PRESS S.A. S CONVEYOR COMPANY, dedicated to ensuring the safety and happiness of Colombians for more than six decades, remains one of the 700 most successful companies in Valle del Caucahttps://transprensa.com",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/8base"
+    }
+   ],
+   "id": "2023-06-11-transprensa.com-155"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "mariohernandez.com.co",
+   "dominio": "mariohernandez.com.co",
+   "sector": "Manufactura",
+   "fecha": "2023-06-06",
+   "detectado": "2023-06-06",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Mario Hernández is a Colombian fashion house dedicated to the manufacture of luxury leather accessories based in Bogotá D.C. It is named after its founder, Mario Hernandez",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2023-06-06-mariohernandez.com.co-156"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Fiduagraria",
+   "dominio": "fiduagraria.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2023-05-27",
+   "detectado": "2023-05-27",
+   "actor": "Medusa",
+   "actorId": "medusa",
+   "filtracion": {
+    "descripcion": "Fiduagraria is a joint-stock company of a mixed economy, subject to the State regime of an industrial and commercial enterprise, in accordance with the national order, associated with the Ministry of Agriculture and Rural Development, under the control and supervision of the Financial Administration of Colombia and legally registered on the basis of Public Act No. 1199 of February 18, 1992 with the main address in the city of Bogota.",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/medusa"
+    }
+   ],
+   "id": "2023-05-27-fiduagraria.com.co-157"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "fiduagraria.gov.co",
+   "dominio": "fiduagraria.gov.co",
+   "sector": "Servicios financieros",
+   "fecha": "2023-05-26",
+   "detectado": "2023-05-26",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "We are a financial services with more than 30 years of experience, dedicated to designing and structuring fiduciary products and schemes, which adjust to the needs of natural and legal persons, whether in the private or public sector, providing trust...",
+    "tipos": [
+     "Datos financieros o tributarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2023-05-26-fiduagraria.gov.co-158"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "SECOP II",
+   "dominio": "secop.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2023-05-04",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 27449,
+    "usuarios": 11064,
+    "terceros": 8,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 15329
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 6420
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 6160
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 2571
+     },
+     {
+      "familia": "StealC",
+      "equipos": 2045
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 916
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 232
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 158
+     },
+     {
+      "familia": "Azorult",
+      "equipos": 105
+     },
+     {
+      "familia": "Acreed",
+      "equipos": 95
+     },
+     {
+      "familia": "Mystic",
+      "equipos": 75
+     },
+     {
+      "familia": "CRYPTBOT",
+      "equipos": 36
+     },
+     {
+      "familia": "Ficker",
+      "equipos": 10
+     },
+     {
+      "familia": "Atomic",
+      "equipos": 7
+     },
+     {
+      "familia": "KPOT",
+      "equipos": 2
+     },
+     {
+      "familia": "Predator",
+      "equipos": 2
+     },
+     {
+      "familia": "Aura Stealer",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-07-20",
+    "ultimoUsuario": "2026-07-15"
+   },
+   "noticia": {
+    "titulo": "Confirmaron ataque cibernético a la plataforma SECOP II - Infobae",
+    "resumen": "La plateforme SECOP II, utilisée pour les trames de contratación pública en Colombie, a été victime d'une cyberattaque. La plateforme a été hors service pendant 34 heures. Les données des utilisateurs n'ont pas été compromises. Les processus en cours ne seront pas affectés. Les organismes de sécurité de l'État ont été convoqués pour enquêter sur l'incident.",
+    "url": "https://www.infobae.com/colombia/2023/05/03/confirmaron-ataque-cibernetico-a-la-plataforma-secop-ii/"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.infobae.com/colombia/2023/05/03/confirmaron-ataque-cibernetico-a-la-plataforma-secop-ii/"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idc2Vjb3AuZ292LmNvQDIwMjMtMDUtMDQ="
+    }
+   ],
+   "id": "2023-05-04-secop.gov.co-159"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "ambitco - finvestambitco Private Banking",
+   "dominio": "ambit.co",
+   "sector": "Servicios financieros",
+   "fecha": "2023-05-02",
+   "detectado": "2023-07-26",
+   "actor": "ALPHV/BlackCat",
+   "actorId": "alphv",
+   "filtracion": {
+    "descripcion": "We have over 500gb of your data, you work with banks, aubank.in and many others, everyone will be aware of this leak. We have all the data of your clients, those with whom you work, if you do not get in touch, we will put all these files in the public domain.",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/alphv"
+    }
+   ],
+   "id": "2023-05-02-ambit.co-160"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "gruponutresa.com",
+   "dominio": "gruponutresa.com",
+   "sector": "Agro y alimentos",
+   "fecha": "2023-04-24",
+   "detectado": "2023-04-24",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Grupo Nutresa, formerly Grupo Nacional de Chocolates S.A. is a food-processing conglomerate headquartered in Medellín, Colombia. The group's principal activities are producing, distributing, and selling cold cuts, biscuits, chocolates, coffee, ice cr...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2023-04-24-gruponutresa.com-161"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Nutresa",
+   "dominio": "nutresa.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2023-04-21",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": null,
+   "noticia": {
+    "titulo": "Nutresa confirma que está siendo víctima de posible ataque cibernético | Empresas | Negocios | Portafolio",
+    "resumen": "Le groupe Nutresa a confirmé avoir été victime d'une possible attaque de ransomware ou cyberattaque. Jusqu'à présent, l'intégrité des données de l'organisation et des informations de ses clients, fournisseurs et consommateurs n'a pas été compromise. Un protocole a été activé pour atténuer l'impact potentiel de l'incident. Un équipe technique spécialisée a été désignée pour surveiller la situation et mettre en place les mesures nécessaires pour protéger les systèmes et les informations de l'organisation. La situation est en cours de surveillance. Le groupe LockBit 3.0 a revendiqué l'attaque.",
+    "url": "https://www.portafolio.co/negocios/empresas/nutresa-confirma-que-esta-siendo-victima-de-posible-ataque-cibernetico-581757"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.portafolio.co/negocios/empresas/nutresa-confirma-que-esta-siendo-victima-de-posible-ataque-cibernetico-581757"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idbnV0cmVzYS5jb20uY29AMjAyMy0wNC0yMQ=="
+    }
+   ],
+   "id": "2023-04-21-nutresa.com.co-162"
+  },
+  {
+   "tipo": "confirmado",
+   "victima": "Caracol Radio",
+   "dominio": "caracol.com.co",
+   "sector": "Medios",
+   "fecha": "2023-04-14",
+   "detectado": null,
+   "actor": null,
+   "actorId": null,
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": false
+   },
+   "infostealer": {
+    "empleados": 22,
+    "usuarios": 106,
+    "terceros": 45,
+    "familias": [
+     {
+      "familia": "RedLine",
+      "equipos": 37
+     },
+     {
+      "familia": "Lumma",
+      "equipos": 30
+     },
+     {
+      "familia": "Generic Stealer",
+      "equipos": 26
+     },
+     {
+      "familia": "Raccoon",
+      "equipos": 6
+     },
+     {
+      "familia": "StealC",
+      "equipos": 5
+     },
+     {
+      "familia": "Vidar",
+      "equipos": 3
+     },
+     {
+      "familia": "DarkCrystal",
+      "equipos": 2
+     },
+     {
+      "familia": "Desconocida",
+      "equipos": 1
+     }
+    ],
+    "ultimoEmpleado": "2026-02-04",
+    "ultimoUsuario": "2026-05-15"
+   },
+   "noticia": {
+    "titulo": "Emisoras de Caracol Radio sufrieron ataque cibernético",
+    "resumen": "Plusieurs stations de radio appartenant à la chaîne Caracol Radio ont été victimes d'une cyberattaque. Les plateformes touchées sont W Radio, Tropicana, Caracol Radio, Bésame, Radioacktiva, Los 40 Urban et Los 40. Les systèmes d'émission de publicité, de gestion de contenu en radio, de publication digitale et de streaming ont été principalement touchés. Caracol Radio travaille à rétablir les systèmes touchés le plus rapidement possible. Le groupe Keralty, qui regroupe les entreprises de santé Sanitas et Colsanitas, a également été victime d'une cyberattaque.",
+    "url": "https://www.pulzo.com/nacion/emisoras-caracol-radio-sufrieron-ataque-cibernetico-PP2750018"
+   },
+   "fuentes": [
+    {
+     "nombre": "Noticia",
+     "url": "https://www.pulzo.com/nacion/emisoras-caracol-radio-sufrieron-ataque-cibernetico-PP2750018"
+    },
+    {
+     "nombre": "Ficha en ransomware.live",
+     "url": "https://www.ransomware.live/idY2FyYWNvbC5jb20uY29AMjAyMy0wNC0xNA=="
+    }
+   ],
+   "id": "2023-04-14-caracol.com.co-163"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "CHEMILAB.COM.CO",
+   "dominio": "chemilab.com.co",
+   "sector": "Manufactura",
+   "fecha": "2023-03-23",
+   "detectado": "2023-03-23",
+   "actor": "Cl0p",
+   "actorId": "clop",
+   "filtracion": {
+    "descripcion": "Laboratorio Chemilab",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/clop"
+    }
+   ],
+   "id": "2023-03-23-chemilab.com.co-164"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "medellin.gov.co",
+   "dominio": "medellin.gov.co",
+   "sector": "Gobierno y defensa",
+   "fecha": "2023-02-06",
+   "detectado": "2023-02-06",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Medellín has become a benchmark in Colombia and the world. Its commercial, industrial, cultural, religious, social and sports activities have brought development and a friendly and promising lifestyle. Its history dates back to the 17th century, when...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2023-02-06-medellin.gov.co-165"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "takamiya.co",
+   "dominio": "takamiya.co",
+   "sector": "Manufactura",
+   "fecha": "2023-01-07",
+   "detectado": "2023-01-07",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "Takamiya provides total services from development/manufacturing, sales, rental, design/construction, management/distribution of various products including temporary equipment .Takamiya Co., LtdWe create products and services with high added value...",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2023-01-07-takamiya.co-166"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "UNISALLE.EDU.CO",
+   "dominio": "lasalle.edu.co",
+   "sector": "Educación",
+   "fecha": "2023-01-04",
+   "detectado": "2023-01-04",
+   "actor": "Cl0p",
+   "actorId": "clop",
+   "filtracion": {
+    "descripcion": "Universidad de La Salle",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/clop"
+    }
+   ],
+   "id": "2023-01-04-lasalle.edu.co-167"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Empresas Públicas de Medellín",
+   "dominio": "epm.com.co",
+   "sector": "Energía y servicios públicos",
+   "fecha": "2022-12-26",
+   "detectado": "2023-07-26",
+   "actor": "ALPHV/BlackCat",
+   "actorId": "alphv",
+   "filtracion": {
+    "descripcion": "The bylaws in force for EPM E.S.P. are contained in Decision 12 of 1998, as amended by Decision 32 of 2006. It operates in the water (and sewerage), electricity and gas sectors. It is legally empowered to also act in the telecommunications and garbage collection sectors.",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/alphv"
+    }
+   ],
+   "id": "2022-12-26-epm.com.co-168"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Emtelco",
+   "dominio": "emtelco.com.co",
+   "sector": "Servicios profesionales",
+   "fecha": "2022-11-09",
+   "detectado": "2023-05-05",
+   "actor": "Qilin",
+   "actorId": "qilin",
+   "filtracion": {
+    "descripcion": "EMTELCO SA is a company that operates in the Outsourcing/Offshoring industry. It employs 101-250 people and has $25M-$50M of revenue. We also have several hundred gigabytes of data. Data of all large clients (corporate), non-disclosure docume ...",
+    "tipos": [
+     "Datos de clientes o usuarios"
+    ],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/qilin"
+    }
+   ],
+   "id": "2022-11-09-emtelco.com.co-169"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "unipilotoeduco",
+   "dominio": "unipiloto.edu.co",
+   "sector": "Educación",
+   "fecha": "2022-10-24",
+   "detectado": "2023-07-26",
+   "actor": "ALPHV/BlackCat",
+   "actorId": "alphv",
+   "filtracion": {
+    "descripcion": "Over 300 gigabytes of data Data of students, teachers, administrators and much more....",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/alphv"
+    }
+   ],
+   "id": "2022-10-24-unipiloto.edu.co-170"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "independence.com.co",
+   "dominio": "independence.com.co",
+   "sector": "Servicios financieros",
+   "fecha": "2022-09-14",
+   "detectado": "2022-09-14",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2022-09-14-independence.com.co-171"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "quintal.com.co",
+   "dominio": "quintal.com.co",
+   "sector": "Agro y alimentos",
+   "fecha": "2022-09-14",
+   "detectado": "2022-09-14",
+   "actor": "LockBit 3.0",
+   "actorId": "lockbit3",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit3"
+    }
+   ],
+   "id": "2022-09-14-quintal.com.co-172"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "Caracol TV",
+   "dominio": "",
+   "sector": "Tecnología",
+   "fecha": "2022-05-30",
+   "detectado": "2022-05-30",
+   "actor": "Hive",
+   "actorId": "hive",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/hive"
+    }
+   ],
+   "id": "2022-05-30-caracoltv-173"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "anasia.co",
+   "dominio": "anasia.co",
+   "sector": "Sin clasificar",
+   "fecha": "2022-04-09",
+   "detectado": "2022-04-09",
+   "actor": "LockBit 2.0",
+   "actorId": "lockbit2",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit2"
+    }
+   ],
+   "id": "2022-04-09-anasia.co-174"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "aquazzura.co",
+   "dominio": "aquazzura.co",
+   "sector": "Comercio",
+   "fecha": "2022-03-26",
+   "detectado": "2022-03-26",
+   "actor": "LockBit 2.0",
+   "actorId": "lockbit2",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit2"
+    }
+   ],
+   "id": "2022-03-26-aquazzura.co-175"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "cachibi.co",
+   "dominio": "cachibi.co",
+   "sector": "Sin clasificar",
+   "fecha": "2022-03-12",
+   "detectado": "2022-03-12",
+   "actor": "LockBit 2.0",
+   "actorId": "lockbit2",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit2"
+    }
+   ],
+   "id": "2022-03-12-cachibi.co-176"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "verisilicon.co",
+   "dominio": "verisilicon.co",
+   "sector": "Tecnología",
+   "fecha": "2022-02-24",
+   "detectado": "2022-02-24",
+   "actor": "LockBit 2.0",
+   "actorId": "lockbit2",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/lockbit2"
+    }
+   ],
+   "id": "2022-02-24-verisilicon.co-177"
+  },
+  {
+   "tipo": "reclamado",
+   "victima": "afcx.co",
+   "dominio": "afcx.co",
+   "sector": "Sin clasificar",
+   "fecha": "2021-11-28",
+   "detectado": "2021-11-28",
+   "actor": "Arvin Club",
+   "actorId": "arvinclub",
+   "filtracion": {
+    "descripcion": "",
+    "tipos": [],
+    "volumen": null,
+    "rescate": null,
+    "publicada": true
+   },
+   "infostealer": null,
+   "noticia": null,
+   "fuentes": [
+    {
+     "nombre": "Perfil del grupo en ransomware.live",
+     "url": "https://www.ransomware.live/group/arvinclub"
+    }
+   ],
+   "id": "2021-11-28-afcx.co-178"
+  }
+ ]
+}
