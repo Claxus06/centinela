@@ -639,3 +639,137 @@ details.mit .mitbadge{margin-left:auto}
 
 /* Inicio: el acceso al sandbox puede ocupar dos líneas en pantallas estrechas */
 #homeFile{white-space:normal;text-align:left}
+
+/* ==========================================================================
+   Tema "Seed" — botánico-clínico: lienzo blanco nieve, verde bosque, titulares
+   ligeros (300–350), controles en píldora, sin sombras ni degradados.
+   Capa de anulación: va al final para que prevalezca sobre lo anterior.
+   La copia previa a este cambio está en _antes-de-seed/.
+   ========================================================================== */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(./fonts/inter-var.woff2) format('woff2')}
+
+/* Claro (por defecto): Snow White + Forest Depths */
+:root,html[data-theme="light"]{
+  --forest:#1c3a13; --lime:#d3fa99; --sage:#757c5d; --olive:#9f995b; --eucalyptus:#698e79;
+  --snow:#fcfcf7; --stone:#eeeee9; --frost:#c4c7c4; --ash:#b3b3b3; --pewter:#666666;
+  --bg:#fcfcf7; --bg2:#eeeee9; --panel:#fcfcf7; --panel2:#f4f4ef; --panel3:#eeeee9;
+  --line:#e2e2db; --line2:#d3d4cc;
+  --txt:#1c3a13; --muted:#4f5a47; --muted2:#666666;
+  --accent:#1c3a13; --accent-d:#2b5220; --accent-ink:#fcfcf7; --accent-soft:rgba(28,58,19,.07); --accent-line:rgba(28,58,19,.30);
+  /* Estados: la herramienta los necesita para avisar de riesgo; se mantienen pero en tonos terrosos y apagados */
+  --ok:#3f7a3a;   --okbg:#eaf2e1;   --okbd:#c3d8b4;   --oktx:#2c5a24; --okink:#fcfcf7;
+  --warn:#9f7a1f; --warnbg:#f4efdc; --warnbd:#ddd0a0; --wartx:#6e5410; --warnink:#fcfcf7;
+  --fail:#a8442f; --failbg:#f6e8e2; --failbd:#e2bfb3; --failtx:#83301f; --failink:#fcfcf7;
+  --info:#698e79; --infobg:#e8efea; --infobd:#c2d3c8; --inftx:#405e4d; --infoink:#fcfcf7;
+  --sev-crit:#8f2f2a; --sev-critbg:#f6e5e2; --sev-critbd:#e0b8b2;
+  --sev-high:#a8582f; --sev-highbg:#f6ebe2; --sev-highbd:#e3c6b0;
+  --sev-med:#8a7420;  --sev-medbg:#f4efdc;  --sev-medbd:#ddd0a0;
+  --sev-low:#698e79;  --sev-lowbg:#e8efea;  --sev-lowbd:#c2d3c8;
+  --sans:"Inter","IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:var(--sans);
+  --radius:16px; --radius-sm:8px; --radius-lg:32px; --pill:1000px;
+  --shadow:none;
+  color-scheme:light;
+}
+/* Oscuro: la "sección oscura" de Seed — todo sobre verde bosque */
+html[data-theme="dark"]{
+  --bg:#1c3a13; --bg2:#173110; --panel:#21431a; --panel2:#264b1e; --panel3:#2c5323;
+  --line:rgba(252,252,247,.14); --line2:rgba(252,252,247,.24);
+  --txt:#fcfcf7; --muted:#cfd5c4; --muted2:#a9b39c;
+  --accent:#d3fa99; --accent-d:#e2fcb9; --accent-ink:#1c3a13; --accent-soft:rgba(211,250,153,.10); --accent-line:rgba(211,250,153,.38);
+  --ok:#a9d68a;   --okbg:rgba(169,214,138,.12); --okbd:rgba(169,214,138,.34); --oktx:#c9e8b3; --okink:#1c3a13;
+  --warn:#d8c47a; --warnbg:rgba(216,196,122,.12); --warnbd:rgba(216,196,122,.34); --wartx:#ebdca6; --warnink:#1c3a13;
+  --fail:#e3957f; --failbg:rgba(227,149,127,.13); --failbd:rgba(227,149,127,.36); --failtx:#f0bfb0; --failink:#1c3a13;
+  --info:#a8c7b5; --infobg:rgba(168,199,181,.12); --infobd:rgba(168,199,181,.34); --inftx:#cbe0d3; --infoink:#1c3a13;
+  --sev-crit:#eb8f86; --sev-critbg:rgba(235,143,134,.13); --sev-critbd:rgba(235,143,134,.36);
+  --sev-high:#e3a77f; --sev-highbg:rgba(227,167,127,.13); --sev-highbd:rgba(227,167,127,.36);
+  --sev-med:#d8c47a;  --sev-medbg:rgba(216,196,122,.13);  --sev-medbd:rgba(216,196,122,.36);
+  --sev-low:#a8c7b5;  --sev-lowbg:rgba(168,199,181,.13);  --sev-lowbd:rgba(168,199,181,.36);
+  --shadow:none;
+  color-scheme:dark;
+}
+
+/* Base */
+body{font-family:var(--sans);font-feature-settings:"ss05" on,"cv11" on;font-weight:400;line-height:1.5}
+body::before{display:none}
+a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.wrap{max-width:1200px;padding:24px 24px 96px}
+code,kbd,.tag,.chip,.src,.srcchip,.sbxchip,.vcvss,.phurl,.vdom,.reptext{letter-spacing:.015em}
+
+/* Sin sombras ni degradados en ningún sitio */
+.glass,.logo,.legaldlg,.cmdkdlg,.segtab.active,.msheet,input:focus,select:focus,textarea:focus{box-shadow:none!important}
+.bar::after{display:none}
+.spinner{background:radial-gradient(circle,var(--accent) 0 2px,transparent 2.5px)}
+
+/* Cabecera: barra sobria, marca a la izquierda con punto lima */
+header.top{border-bottom:1px solid var(--line);padding:8px 0 24px;margin-bottom:32px;gap:16px}
+.logo{border-radius:var(--pill);background:transparent;border:1.5px solid var(--accent);width:44px;height:44px}
+.htext h1{font-weight:350;font-size:28px;letter-spacing:-.56px;line-height:1.1}
+.htext h1 .grad{color:var(--txt)}
+.htext h1::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lime);margin-left:6px;vertical-align:.32em;outline:1.5px solid var(--forest);outline-offset:-1.5px}
+html[data-theme="dark"] .htext h1::after{outline:none}
+.htext p{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted2);margin-top:6px}
+.themebtn{border-radius:var(--pill);background:transparent;border:1.5px solid var(--line2);width:40px;height:40px}
+.themebtn:hover{border-color:var(--accent);color:var(--accent)}
+.cmdkbtn{width:auto;padding:0 16px;gap:8px}
+
+/* Titulares susurrados: pesos 300–350 con tracking negativo */
+.gauge .num b,.ring .num b{font-weight:300;letter-spacing:-.04em}
+.phverdict,.verdict,.geohead .gh b{font-weight:350;font-size:24px;letter-spacing:-.48px;line-height:1.2}
+.kpi b{font-weight:300;font-size:32px;letter-spacing:-.02em}
+.legalhead h2,.rpttoc h2{font-weight:350;letter-spacing:-.4px}
+.legalbody h3,.rptsec h3{font-weight:400;letter-spacing:-.18px}
+.rptcoverpage h1{font-weight:300;letter-spacing:-.72px}
+.ring .num .grade,.apnum,.vgbadge,.vcvss,.findings .ic,.sbxrm,.mh-t-chg,.mh-t-bl{font-weight:500}
+.subh{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted2)}
+label{font-weight:500}
+.lkstat b{font-weight:350}
+
+/* Navegación lateral */
+aside.nav{background:transparent;border:0;border-right:1px solid var(--line);border-radius:0;padding:0 16px 0 0}
+.nav-group .lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+.modebtn{border-radius:var(--pill);padding:9px 14px;font-weight:400;color:var(--muted)}
+.modebtn:hover{background:var(--accent-soft);color:var(--txt)}
+.modebtn.active,html[data-theme="light"] .modebtn.active{background:var(--accent);color:var(--accent-ink);box-shadow:none;font-weight:500}
+@media(max-width:900px){aside.nav{border-right:0;border-bottom:1px solid var(--line);padding:0 0 12px}}
+
+/* Superficies: tarjetas planas de 16px, separadas por color y aire */
+.glass{border-radius:var(--radius);border:1px solid var(--line);background:var(--panel)}
+.search{padding:32px}
+.homebox{padding:24px}
+.section{border-radius:var(--radius)}
+.kpi,.geotile,.repcard,.apitem,.reptext,.homecard{border-radius:var(--radius);border-color:var(--line);background:var(--bg2)}
+html[data-theme="light"] .kpi,html[data-theme="light"] .geotile,html[data-theme="light"] .homecard{border-color:transparent}
+.homecard{padding:16px;transition:background-color .15s,border-color .15s}
+.homecard:hover,.homecard:focus-visible{transform:none;background:var(--panel3);border-color:var(--accent)}
+.homecard b{font-weight:500;font-size:14px}
+.homecard .grp{font-size:10px;font-weight:500;letter-spacing:.08em;font-family:var(--mono)}
+
+/* Botones en píldora */
+.btn{border-radius:var(--pill);font-weight:400;font-size:16px;padding:14px 24px;border-width:1.5px}
+.btn:active{transform:none}
+.btn.ghost{background:transparent;border:1.5px solid var(--accent);color:var(--accent);font-weight:400;font-size:14px;padding:9px 18px}
+.btn.ghost:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* Entradas: radio 8px, borde 1.5px, sin halo */
+input[type=text],input[type=password],select,textarea{border-radius:8px;border:1.5px solid var(--line2);background:var(--panel);padding:14px 20px;font-size:15px}
+.inputwrap input{padding-left:42px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);background:var(--panel)}
+input::placeholder,textarea::placeholder{color:var(--muted2)}
+
+/* Píldoras: chips, pestañas, etiquetas y contadores — etiqueta de espécimen */
+.chip,.tab,.segtab,.tag,.badge,.src,.srcchip,.sbxchip,.sbxt,.vsrc,.vsev,.vcvss,.tab .cnt,.raw .copy,.vfind .vrem,.skiplink,.apnum{border-radius:var(--pill)}
+.chip{background:transparent;border:1.5px solid var(--line2);padding:6px 14px}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.tab{background:transparent;border:1.5px solid var(--line2);font-weight:500;font-size:12px;padding:8px 16px}
+.tab.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tab.active .cnt{background:var(--lime);color:var(--forest)}
+.tag{background:transparent;border:1.5px solid var(--line2);padding:2px 10px}
+
+/* Barra de progreso plana */
+.barwrap{height:3px;border-radius:var(--pill);background:var(--line)}
+.bar{border-radius:var(--pill)}
+
+/* Diálogos */
+.legaldlg,.cmdkdlg{border-radius:var(--radius-lg);border:1px solid var(--line2)}
+.legaldlg::backdrop,.cmdkdlg::backdrop{background:rgba(28,58,19,.28);backdrop-filter:blur(12px)}
