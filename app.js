@@ -1103,7 +1103,7 @@ function ipPivots(ip){
 let RECON_DATA=null;
 async function runRecon(){
   let d=$('#reconInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'').replace(/\.$/,'');
-  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido, p. ej. mineducacion.gov.co');return;}
+  if(!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)){alert('Ingresa un dominio válido, p. ej. tudominio.gov.co');return;}
   const reg=registrable(d);const sld=reg.split('.')[0];const depth=$('#reconDepth').value;
   $('#goRecon').disabled=true;$('#reconOut').innerHTML='';
   const st=$('#reconStatus');st.style.display='flex';$('#reconBarwrap').style.display='block';
