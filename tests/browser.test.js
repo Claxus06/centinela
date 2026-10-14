@@ -106,7 +106,13 @@ let AXE = null; try { AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js
     await b.ev(`document.querySelector('.co-inc [data-act="case"]').click();1`); await b.sleep(200);
     ok(await b.ev(`document.querySelector('#caseDlg').open&&/Ecopetrol/.test(document.querySelector('#caseDlgWhat').textContent)`), '"Añadir a un caso" abre el diálogo con el incidente');
     await b.ev(`document.querySelector('#caseDlgCancel').click();document.querySelector('[data-act="clear"]').click();document.querySelector('.co-bar[data-f="actor"]').click();1`); await b.sleep(300);
-    ok(await b.ev(`(()=>{const a=document.querySelector('#coActor').value;return !!a&&[...document.querySelectorAll('.co-inc')].every(x=>x.querySelector('.co-meta .co-actor').textContent===a);})()`), 'pulsar una barra de actor filtra sus incidentes');
+    ok(await b.ev(`(()=>{const a=document.querySelector('#coActor').value;return !!a&&[...document.querySelectorAll('.co-inc')].every(x=>[...x.querySelectorAll('.co-actor')].some(p=>p.textContent===a));})()`), 'pulsar una barra de actor filtra sus incidentes (también los que comparte con otros grupos)');
+    const uniq = await b.ev(`fetch('./data/colombia.json').then(r=>r.json()).then(j=>{const I=j.incidentes;const ids=new Set(I.map(i=>i.id));
+      const ca=I.filter(i=>i.dominio==='casaandina.com.co');const ee=I.filter(i=>i.dominio==='eebpsa.com.co');const ae=I.filter(i=>/^air-?e$/i.test(i.victima));
+      return {ids:ids.size===I.length,ca:ca.length===1&&ca[0].actores.length===2,ee:ee.length===1&&ee[0].publicaciones.length===2,ae:ae.length===1&&ae[0].noticias.length===2};})`);
+    ok(uniq.ids && uniq.ca && uniq.ee && uniq.ae, 'incidentes únicos: reposteos y varios grupos se unen en uno (Casa Andina, EEBP) y las noticias del mismo caso también (Air-e) ' + JSON.stringify(uniq));
+    await b.ev(`document.querySelector('[data-act="clear"]').click();{const qq=document.querySelector('#coQ');qq.focus();qq.value='casa andina';qq.dispatchEvent(new Event('input',{bubbles:true}));}1`); await b.sleep(400);
+    ok(await b.ev(`(()=>{const d=document.querySelector('.co-inc');if(!d)return false;d.open=true;return document.querySelectorAll('.co-inc').length===1&&d.querySelectorAll('.co-timeline li').length===2;})()`), 'el detalle muestra la cronología de publicaciones de cada grupo');
     if (AXE) {
       await b.send('Runtime.evaluate', { expression: AXE });
       const cv = [];
@@ -119,6 +125,8 @@ let AXE = null; try { AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js
     section('Asistente de IA');
     await b.ev(`localStorage.removeItem('ctn-backend');window.CENTINELA_BACKEND='';setMode('home');document.querySelector('#asstBtn').click();1`); await b.sleep(300);
     ok(await b.ev(`!document.querySelector('#asstPanel').hidden&&document.activeElement===document.querySelector('#asstQ')`), 'el botón "Preguntar" abre el panel y enfoca la pregunta');
+    ok(await b.ev(`(()=>{const p=document.querySelector('#asstPanel').getBoundingClientRect();return Math.round(p.right)===document.documentElement.clientWidth&&parseFloat(getComputedStyle(document.body).paddingRight)===p.width&&document.querySelector('.asst-scrim').hidden;})()`), 'en pantalla ancha el panel queda acoplado a la derecha y la página se desplaza (no la tapa)');
+    ok(await b.ev(`/Inicio/.test(document.querySelector('#asstCtxMod').textContent)`), 'muestra el módulo que está viendo el usuario');
     ok(await b.ev(`document.querySelectorAll('#asstLog .asst-chip').length>=2`), 'muestra preguntas sugeridas según el módulo');
     ok(await b.ev(`/backend/.test(document.querySelector('#asstLog').textContent)`), 'sin backend explica cómo configurarlo');
     // Backend simulado: /ai/status y /ai/chat en streaming, con un intento de inyección de HTML en la respuesta

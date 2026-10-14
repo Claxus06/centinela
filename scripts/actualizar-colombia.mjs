@@ -85,6 +85,38 @@ const normNombre = s => String(s || '').toLowerCase().normalize('NFD').replace(/
 const fecha = s => { const d = String(s || '').slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null; };
 const httpsSeguro = u => typeof u === 'string' && /^https:\/\//i.test(u) && !/\.onion\b/i.test(u) ? u : null;
 
+// ---- Unificación de incidentes ----
+// Publicaciones de la misma víctima separadas por menos de VENTANA días son el mismo incidente
+// (reposteos del mismo grupo, otro grupo que se adjudica o republica el ataque, o varias noticias del caso).
+// Más separadas, se consideran ataques distintos (p. ej., EPM en 2022 y en 2026).
+const VENTANA = 180;
+// Grupos que republican víctimas antiguas de otros grupos: su publicación se une al incidente original hasta 2 años después
+const REPUBLICADORES = new Set(['babuk2']);
+const VENTANA_REPUBLICACION = 730;
+function agrupar(lista, clave, dias = VENTANA) {
+  const limite = typeof dias === 'function' ? dias : () => dias;
+  const porClave = new Map();
+  for (const x of lista) { const k = clave(x) || ('sin-clave-' + porClave.size); (porClave.get(k) || porClave.set(k, []).get(k)).push(x); }
+  const out = [];
+  for (const g of porClave.values()) {
+    g.sort((a, b) => String(a.fecha || '').localeCompare(String(b.fecha || '')));
+    let actual = [g[0]];
+    for (let i = 1; i < g.length; i++) {
+      const prev = actual[actual.length - 1].fecha, cur = g[i].fecha;
+      if (prev && cur && (new Date(cur) - new Date(prev)) / 864e5 > limite(g[i])) { out.push(actual); actual = [g[i]]; } else actual.push(g[i]);
+    }
+    out.push(actual);
+  }
+  return out;
+}
+// El nombre más legible: el que no es un dominio y tiene más palabras
+const esDominio = s => /^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(String(s).trim());
+const mejorNombre = nombres => [...nombres].sort((a, b) => (esDominio(a) - esDominio(b)) || (b.split(/\s+/).length - a.split(/\s+/).length) || a.length - b.length)[0]
+  .replace(/^[a-z0-9.-]+\.[a-z]{2,}\s+-\s+/i, '');   // "icvc.co - Instituto…" → "Instituto…"
+// Volumen escrito dentro de la descripción del actor ("Data Size: 20,2 GB", "[Size: 2.7 GB")
+const volumenEn = s => { const m = String(s || '').match(/(?:data\s*size|size|tama[ñn]o)\s*[:=]?\s*([\d.,]+\s*[KMGT]i?B)\b/i); return m ? m[1].replace(/\s+/, ' ') : null; };
+const unicas = fuentes => { const vistos = new Set(); return fuentes.filter(f => f && f.url && !vistos.has(f.url) && vistos.add(f.url)); };
+
 function infostealer(d) {
   if (!d || typeof d !== 'object') return null;
   const fam = Object.entries(d.infostealer_stats || {}).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]).map(([k, n]) => ({ familia: k === 'UNKNOWN' ? 'Desconocida' : k, equipos: n }));
@@ -99,52 +131,98 @@ async function main() {
   const victimas = await getJson('/countryvictims/CO');
   if (!Array.isArray(ataques) || !Array.isArray(victimas)) throw new Error('Formato inesperado de la API');
 
-  const items = [];
-  // 1) Reclamaciones de grupos de ransomware
-  for (const v of victimas) {
+  const perfil = id => ({ nombre: 'Perfil de ' + nombreGrupo(id) + ' en ransomware.live', url: 'https://www.ransomware.live/group/' + encodeURIComponent(id) });
+
+  // 1) Reclamaciones de grupos de ransomware (una por publicación)
+  const reclamos = victimas.map(v => {
     const desc = v.description && v.description !== 'N/A' ? limpiar(v.description) : '';
-    items.push({
-      tipo: 'reclamado',
+    const gid = v.group_name ? String(v.group_name).toLowerCase() : null;
+    return {
       victima: String(v.post_title || '').trim().slice(0, 120) || 'Sin nombre',
       dominio: dominio(v.website),
       sector: SECTORES[v.activity] || v.activity || 'Sin clasificar',
       fecha: fecha(v.published) || fecha(v.discovered),
       detectado: fecha(v.discovered),
-      actor: v.group_name ? nombreGrupo(v.group_name) : null,
-      actorId: v.group_name ? String(v.group_name).toLowerCase() : null,
-      filtracion: { descripcion: desc, tipos: tiposDatos(desc), volumen: v.data_size || null, rescate: v.ransom || null, publicada: true },
+      actorId: gid,
+      descripcion: desc,
+      volumen: v.data_size || volumenEn(desc),
+      rescate: v.ransom || null,
+    };
+  });
+
+  // 2) Unificar: la misma víctima publicada varias veces (por el mismo grupo o por otro que la republica,
+  //    p. ej. Babuk 2.0) en menos de VENTANA días es UN incidente con varios actores.
+  const items = [];
+  for (const grupo of agrupar(reclamos, r => r.dominio || normNombre(r.victima), r => (REPUBLICADORES.has(r.actorId) ? VENTANA_REPUBLICACION : VENTANA))) {
+    const pub = grupo.sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+    const actores = [...new Set(pub.map(p => p.actorId).filter(Boolean))];
+    const desc = pub.map(p => p.descripcion).sort((a, b) => b.length - a.length)[0] || '';
+    items.push({
+      tipo: 'reclamado',
+      victima: mejorNombre(pub.map(p => p.victima)),
+      dominio: pub[0].dominio,
+      sector: (pub.find(p => p.sector !== 'Sin clasificar') || pub[0]).sector,
+      fecha: pub[0].fecha,
+      detectado: pub[0].detectado,
+      actor: actores[0] ? nombreGrupo(actores[0]) : null,
+      actorId: actores[0] || null,
+      actores: actores.map(nombreGrupo),
+      publicaciones: pub.map((p, i) => ({ actor: p.actorId ? nombreGrupo(p.actorId) : null, fecha: p.fecha, republicacion: i > 0 && REPUBLICADORES.has(p.actorId) })),
+      filtracion: { descripcion: desc, tipos: tiposDatos(pub.map(p => p.descripcion).join(' ')),
+        volumen: (pub.find(p => p.volumen) || {}).volumen || null, rescate: (pub.find(p => p.rescate) || {}).rescate || null, publicada: true },
       infostealer: null,
       noticia: null,
-      fuentes: [v.group_name ? { nombre: 'Perfil del grupo en ransomware.live', url: 'https://www.ransomware.live/group/' + encodeURIComponent(String(v.group_name).toLowerCase()) } : null].filter(Boolean),
+      noticias: [],
+      fuentes: actores.map(perfil),
     });
   }
-  // 2) Ataques confirmados: se unen a su reclamación si coinciden dominio o nombre (±150 días)
-  for (const a of ataques) {
-    const dom = dominio(a.domain), nom = normNombre(a.victim), fa = fecha(a.date) || fecha(a.added);
-    const actorClaim = a.claim_gang && a.claim_gang !== true ? String(a.claim_gang) : null;
-    const near = it => !fa || !it.fecha || Math.abs(new Date(fa) - new Date(it.fecha)) <= 150 * 864e5;
-    let m = items.find(it => it.tipo === 'reclamado' && near(it) && ((dom && it.dominio && (it.dominio === dom || it.dominio.endsWith('.' + dom) || dom.endsWith('.' + it.dominio))) || (nom && normNombre(it.victima) === nom)));
-    const noticia = { titulo: limpiar(a.title).slice(0, 200), resumen: limpiar(a.summary || a.description), url: httpsSeguro(a.url) };
-    const fuentes = [noticia.url ? { nombre: 'Noticia', url: noticia.url } : null, httpsSeguro(a.link) ? { nombre: 'Ficha en ransomware.live', url: a.link } : null,
-      httpsSeguro(a.claim_url) ? { nombre: 'Reclamación en ransomware.live', url: a.claim_url } : null].filter(Boolean);
+
+  // 3) Ataques confirmados (prensa o víctima). Varias noticias del mismo caso → un solo incidente.
+  const confirmados = agrupar(ataques.map(a => ({ a, fecha: fecha(a.date) || fecha(a.added) })),
+    x => normNombre(x.a.victim) || dominio(x.a.domain)).map(g => g.sort((x, y) => String(x.fecha).localeCompare(String(y.fecha))));
+
+  for (const g of confirmados) {
+    const a = g[0].a, fa = g[0].fecha, doms = [...new Set(g.map(x => dominio(x.a.domain)).filter(Boolean))], nom = normNombre(a.victim);
+    const claims = [...new Set(g.map(x => x.a.claim_gang).filter(c => c && c !== true).map(c => String(c).toLowerCase()))];
+    const noticias = g.map(x => ({ titulo: limpiar(x.a.title).slice(0, 200), resumen: limpiar(x.a.summary || x.a.description), url: httpsSeguro(x.a.url), fecha: x.fecha }));
+    const fuentes = g.flatMap(x => [httpsSeguro(x.a.link) ? { nombre: 'Ficha en ransomware.live', url: x.a.link } : null,
+      httpsSeguro(x.a.claim_url) ? { nombre: 'Reclamación en ransomware.live', url: x.a.claim_url } : null]).filter(Boolean);
+    const stealer = infostealer((g.find(x => x.a.has_infostealer_info) || g[0]).a.infostealer_data);
+    const near = it => !fa || !it.fecha || Math.abs(new Date(fa) - new Date(it.fecha)) <= VENTANA * 864e5;
+    const sameDom = d => doms.some(x => d && (d === x || d.endsWith('.' + x) || x.endsWith('.' + d)));
+    const m = items.find(it => it.tipo === 'reclamado' && near(it) && (sameDom(it.dominio) || (nom && normNombre(it.victima) === nom)));
+    const textoNoticias = noticias.map(n => n.titulo + ' ' + n.resumen).join(' ');
     if (m) {
-      m.tipo = 'ambos'; m.noticia = noticia; m.infostealer = infostealer(a.infostealer_data);
-      m.filtracion.tipos = tiposDatos(m.filtracion.descripcion + ' ' + noticia.titulo + ' ' + noticia.resumen);
-      m.fecha = fa && m.fecha && fa < m.fecha ? fa : (m.fecha || fa);
-      m.fuentes = [...fuentes, ...m.fuentes];
+      m.tipo = 'ambos'; m.noticia = noticias[0]; m.noticias = noticias; m.infostealer = stealer;
+      m.filtracion.tipos = tiposDatos(m.filtracion.descripcion + ' ' + textoNoticias);
+      if (fa && (!m.fecha || fa < m.fecha)) m.fecha = fa;
+      claims.filter(c => !m.actores.includes(nombreGrupo(c))).forEach(c => { m.actores.push(nombreGrupo(c)); m.fuentes.push(perfil(c)); });
+      m.fuentes = unicas([...noticias.filter(n => n.url).map(n => ({ nombre: 'Noticia', url: n.url })), ...fuentes, ...m.fuentes]);
       continue;
     }
     items.push({
-      tipo: actorClaim ? 'ambos' : 'confirmado',
-      victima: String(a.victim || dom || 'Sin nombre').trim().slice(0, 120),
-      dominio: dom, sector: sectorDe(dom, a.victim || ''), fecha: fa, detectado: fecha(a.added),
-      actor: actorClaim ? nombreGrupo(actorClaim) : null, actorId: actorClaim ? actorClaim.toLowerCase() : null,
-      filtracion: { descripcion: '', tipos: tiposDatos(noticia.resumen + ' ' + noticia.titulo), volumen: null, rescate: null, publicada: !!actorClaim },
-      infostealer: infostealer(a.infostealer_data), noticia, fuentes,
+      tipo: claims.length ? 'ambos' : 'confirmado',
+      victima: String(a.victim || doms[0] || 'Sin nombre').trim().slice(0, 120),
+      dominio: doms[0] || '', sector: sectorDe(doms[0] || '', a.victim || ''), fecha: fa, detectado: fecha(a.added),
+      actor: claims[0] ? nombreGrupo(claims[0]) : null, actorId: claims[0] || null,
+      actores: claims.map(nombreGrupo), publicaciones: [],
+      filtracion: { descripcion: '', tipos: tiposDatos(textoNoticias), volumen: null, rescate: null, publicada: claims.length > 0 },
+      infostealer: stealer, noticia: noticias[0], noticias,
+      fuentes: unicas([...noticias.filter(n => n.url).map(n => ({ nombre: 'Noticia', url: n.url })), ...fuentes, ...claims.map(perfil)]),
     });
   }
-  items.sort((x, y) => String(y.fecha || '').localeCompare(String(x.fecha || '')));
-  items.forEach((it, i) => { it.id = (it.fecha || 's-f') + '-' + (it.dominio || normNombre(it.victima)).replace(/[^a-z0-9.-]/g, '').slice(0, 40) + '-' + i; });
+
+  // 4) Identificador estable (no cambia al llegar incidentes nuevos): fecha + dominio o nombre
+  items.sort((x, y) => String(y.fecha || '').localeCompare(String(x.fecha || '')) || x.victima.localeCompare(y.victima));
+  const usados = new Map();
+  items.forEach(it => {
+    const base = (it.fecha || 'sin-fecha') + '-' + ((it.dominio || normNombre(it.victima)).replace(/[^a-z0-9.-]/g, '').slice(0, 40) || 'victima');
+    const n = (usados.get(base) || 0) + 1; usados.set(base, n);
+    it.id = n > 1 ? base + '-' + n : base;
+  });
+  // Comprobación final: ninguna víctima puede quedar repetida dentro de la ventana de unificación
+  const dup = agrupar(items, it => it.dominio || normNombre(it.victima)).filter(g => g.length > 1 && !g.every(x => x.tipo !== 'confirmado'));
+  if (dup.length) console.warn('Aviso: posibles duplicados tras unificar: ' + dup.map(g => g.map(x => x.id).join(' = ')).join('; '));
 
   const out = {
     generado: new Date().toISOString(),
