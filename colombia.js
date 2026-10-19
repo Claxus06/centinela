@@ -259,6 +259,16 @@
   }
 
   window.renderColombia = function () { bind(); if (!S.data) load(); else render(); };
+  // Actualización en vivo: el panel de inicio relee data/colombia.json cada N minutos y entrega aquí los datos nuevos.
+  // Se conservan filtros y paginación; si el usuario está escribiendo en el módulo, se repinta cuando deje el campo.
+  window.colombiaRefresh = function (j) {
+    if (!j || !Array.isArray(j.incidentes) || (S.data && S.data.generado === j.generado)) return;
+    S.data = j; S.err = false;
+    const o = out(); if (!o || !o._bound || !o.offsetParent) return;   // el módulo no está a la vista: se pinta al abrirlo
+    const a = document.activeElement;
+    if (a && o.contains(a) && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)) a.addEventListener('blur', () => render(), { once: true });
+    else render();
+  };
   const btn = $('#mbColombia'); if (btn && typeof setMode === 'function') btn.addEventListener('click', () => setMode('colombia'));
   new MutationObserver(() => { const o = out(); if (o && o._bound) render(); })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });

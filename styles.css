@@ -1387,7 +1387,7 @@ h2,h3,[id]{scroll-margin-top:16px}
 
 /* El fondo animado solo luce en el inicio; en los módulos queda muy tenue para no recargar */
 #bgfx{transition:opacity .4s ease}
-body[data-mode]:not([data-mode="home"]) #bgfx{opacity:.22}
+body[data-mode]:not([data-mode="home"]) #bgfx{opacity:.4}
 
 /* Encabezado de cada módulo, fuera de la tarjeta */
 .modhead{display:flex;gap:14px;align-items:flex-start;margin:0 0 var(--s5)}
@@ -1568,3 +1568,39 @@ html[data-theme="dark"]{--chart-1:#2E9CBA}          /* validado sobre la superfi
 .hd-row:not(.hd-crow) .hd-rs{grid-row:1;grid-column:2;min-width:0}
 .hd-cap::first-letter{text-transform:uppercase}
 .hd-kl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* ============================================================ Panel: datos en vivo e inteligencia de amenazas */
+.hd-live{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+.hd-lv{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;min-width:0;flex:1;font-size:13px;color:var(--muted)}
+.hd-lv b{font-weight:600;color:var(--txt)}
+.hd-live .hd-link{margin:0}
+.hd-live .hd-link .i{width:14px;height:14px}
+/* Punto "en vivo": late despacio (indicador de estado, no decoración); gris si está desactivada */
+.hd-pulse{position:relative;flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--muted2)}
+.hd-pulse.on{background:var(--ok)}
+.hd-pulse.on::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ok);animation:hdPing 2.4s var(--ease-out) infinite}
+.hd-pulse.busy{background:var(--chart-1)}.hd-pulse.busy::after{background:var(--chart-1);animation-duration:.9s}
+@keyframes hdPing{0%{transform:scale(1);opacity:.55}70%,100%{transform:scale(2.6);opacity:0}}
+a.hd-link{text-decoration:none}
+.hd-sub{margin:var(--s3) 0 0;font-size:15px;font-weight:600;color:var(--txt)}
+.hd-grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1180px){.hd-grid3{grid-template-columns:1fr}}
+
+/* Mini estadísticas de cada fuente */
+.hd-ms{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);margin-bottom:var(--s4)}
+.hd-ms>div{display:flex;flex-direction:column;gap:1px}
+.hd-ms b{font-size:22px;font-weight:600;line-height:1.15;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--txt)}
+.hd-ms span{font-size:12px;color:var(--muted)}
+.hd-types{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 var(--s2);font-size:12.5px;color:var(--muted)}
+.hd-types b{font-weight:600;color:var(--txt);font-variant-numeric:tabular-nums}
+.hd-fam{margin:0 0 var(--s3);font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-fam .co-data{color:var(--txt)}
+.hd-mono{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:0}
+.hd-rt{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:0 0 auto;text-align:right}
+.hd-rt small{font-size:12px;color:var(--muted);white-space:nowrap}
+.hd-cvss{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--txt)}
+
+/* Fila que acaba de llegar con la última actualización: un destello breve del fondo */
+@keyframes hdNew{from{background-color:var(--accent-soft)}}
+.hd-row.hd-new{animation:hdNew 2.4s var(--ease-out) both}
+@media(prefers-reduced-motion:reduce){.hd-pulse.on::after{animation:none}.hd-row.hd-new{animation-duration:.01ms}}

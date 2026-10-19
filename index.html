@@ -128,6 +128,10 @@
         <select id="setFx" name="setFx"><option value="on">Activada</option><option value="off">Desactivada</option></select>
       </div>
       <div class="field" data-s="flex:0 0 auto">
+        <label for="setLive">Actualización automática</label>
+        <select id="setLive" name="setLive"><option value="0">Desactivada</option><option value="5">Cada 5 minutos</option><option value="15">Cada 15 minutos (recomendado)</option><option value="30">Cada 30 minutos</option><option value="60">Cada hora</option></select>
+      </div>
+      <div class="field" data-s="flex:0 0 auto">
         <label for="setRet">Conservar historial</label>
         <select id="setRet" name="setRet"><option value="1">1 hora</option><option value="24">24 horas (recomendado)</option><option value="168">7 días</option></select>
       </div>
@@ -200,6 +204,7 @@
     </div>
     <section class="hd" id="hdBox" aria-labelledby="hdKpiT">
       <h2 class="vh" id="hdKpiT">Indicadores</h2>
+      <div class="hd-live" id="hdLive" role="status" aria-live="polite"></div>
       <div class="hd-kpis" id="hdKpis"></div>
       <div class="hd-grid">
         <article class="glass hd-card hd-wide">
@@ -209,6 +214,21 @@
         <article class="glass hd-card">
           <header class="hd-ch"><h3>Tus dominios</h3><button type="button" class="hd-link" data-go="domain">Validar<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></button></header>
           <div id="hdDom"></div>
+        </article>
+      </div>
+      <h3 class="hd-sub">Inteligencia de amenazas</h3>
+      <div class="hd-grid hd-grid3">
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>Explotadas (CISA KEV)</h3><a class="hd-link" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">Catálogo<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></header>
+          <div id="hdKev"></div>
+        </article>
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>CVE críticos (NVD)</h3><a class="hd-link" href="https://nvd.nist.gov/vuln/search" target="_blank" rel="noopener noreferrer">NVD<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></header>
+          <div id="hdCve"></div>
+        </article>
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>IOCs recientes (abuse.ch)</h3><button type="button" class="hd-link" data-go="ioc">Consultar<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></button></header>
+          <div id="hdIoc"></div>
         </article>
       </div>
       <div class="hd-grid hd-grid2">

@@ -1,0 +1,565 @@
+{
+ "generado": "2026-10-19T20:35:48.957Z",
+ "fuentes": {
+  "kev": "CISA KEV",
+  "nvd": "NVD (NIST)",
+  "epss": "FIRST EPSS",
+  "threatfox": "ThreatFox (abuse.ch)",
+  "urlhaus": "URLhaus (abuse.ch)"
+ },
+ "kev": {
+  "total": 1748,
+  "version": "2026.10.16",
+  "added7": 9,
+  "added30": 32,
+  "ransomware30": 0,
+  "items": [
+   {
+    "cve": "CVE-2026-102764",
+    "vendor": "BeyondTrust",
+    "product": "Remote Support",
+    "name": "BeyondTrust Remote Support Authentication Bypass by Spoofing Vulnerability",
+    "added": "2026-10-16",
+    "due": "2026-10-19",
+    "ransomware": false,
+    "epss": 0.0118,
+    "epssPct": 0.6721
+   },
+   {
+    "cve": "CVE-2025-61624",
+    "vendor": "Fortinet",
+    "product": "Multiple Products",
+    "name": "Fortinet Multiple Products Path Traversal Vulnerability",
+    "added": "2026-10-16",
+    "due": "2026-10-19",
+    "ransomware": false,
+    "epss": 0.01081,
+    "epssPct": 0.64604
+   },
+   {
+    "cve": "CVE-2026-21589",
+    "vendor": "Atlassian",
+    "product": "Multiple Products",
+    "name": "Atlassian Multiple Products Files or Directories Accessible to External Parties Vulnerability",
+    "added": "2026-10-15",
+    "due": "2026-10-18",
+    "ransomware": false
+   },
+   {
+    "cve": "CVE-2026-76519",
+    "vendor": "Cisco",
+    "product": "Secure Email Gateway",
+    "name": "Cisco Secure Email Gateway Relative Path Traversal Vulnerability",
+    "added": "2026-10-14",
+    "due": "2026-10-17",
+    "ransomware": false,
+    "epss": 0.01573,
+    "epssPct": 0.75044
+   },
+   {
+    "cve": "CVE-2026-105134",
+    "vendor": "Ahsay",
+    "product": "AhsayCBS",
+    "name": "Ahsay AhsayCBS Command Injection Vulnerability",
+    "added": "2026-10-14",
+    "due": "2026-10-17",
+    "ransomware": false,
+    "epss": 0.04782,
+    "epssPct": 0.91829
+   },
+   {
+    "cve": "CVE-2026-105133",
+    "vendor": "Ahsay",
+    "product": "AhsayCBS",
+    "name": "Ahsay AhsayCBS Improper Authentication Vulnerability",
+    "added": "2026-10-14",
+    "due": "2026-10-17",
+    "ransomware": false,
+    "epss": 0.00854,
+    "epssPct": 0.57628
+   },
+   {
+    "cve": "CVE-2026-0322",
+    "vendor": "Palo Alto Networks",
+    "product": "PAN-OS",
+    "name": "Palo Alto Networks PAN-OS Code Injection Vulnerability",
+    "added": "2026-10-14",
+    "due": "2026-10-17",
+    "ransomware": false,
+    "epss": 0.01215,
+    "epssPct": 0.68127
+   },
+   {
+    "cve": "CVE-2026-96951",
+    "vendor": "Microsoft",
+    "product": "Windows",
+    "name": "Microsoft Windows Command Injection Vulnerability",
+    "added": "2026-10-13",
+    "due": "2026-10-16",
+    "ransomware": false,
+    "epss": 0.01512,
+    "epssPct": 0.74088
+   },
+   {
+    "cve": "CVE-2026-104935",
+    "vendor": "Ivanti",
+    "product": "Connect Secure",
+    "name": "Ivanti Connect Secure Authentication Bypass by Spoofing Vulnerability",
+    "added": "2026-10-13",
+    "due": "2026-10-16",
+    "ransomware": false,
+    "epss": 0.25982,
+    "epssPct": 0.9797
+   },
+   {
+    "cve": "CVE-2023-22894",
+    "vendor": "Strapi",
+    "product": "Strapi",
+    "name": "Strapi Cleartext Storage of Sensitive Information Vulnerability",
+    "added": "2026-10-08",
+    "due": "2026-10-11",
+    "ransomware": false,
+    "epss": 0.03609,
+    "epssPct": 0.89348
+   },
+   {
+    "cve": "CVE-2021-3199",
+    "vendor": "ONLYOFFICE",
+    "product": "Docs",
+    "name": "ONLYOFFICE Docs Server Path Traversal Vulnerability",
+    "added": "2026-10-08",
+    "due": "2026-10-11",
+    "ransomware": false,
+    "epss": 0.20136,
+    "epssPct": 0.97433
+   },
+   {
+    "cve": "CVE-2016-3081",
+    "vendor": "Apache",
+    "product": "Struts",
+    "name": "Apache Struts Command Injection Vulnerability",
+    "added": "2026-10-08",
+    "due": "2026-10-11",
+    "ransomware": false,
+    "epss": 0.96052,
+    "epssPct": 0.99878
+   },
+   {
+    "cve": "CVE-2015-5477",
+    "vendor": "ISC",
+    "product": "BIND",
+    "name": "ISC BIND Data Processing Errors Vulnerability",
+    "added": "2026-10-08",
+    "due": "2026-10-11",
+    "ransomware": false,
+    "epss": 0.99409,
+    "epssPct": 0.99942
+   },
+   {
+    "cve": "CVE-2015-3306",
+    "vendor": "ProFTPD",
+    "product": "ProFTPD",
+    "name": "ProFTPD Improper Access Control Vulnerability",
+    "added": "2026-10-08",
+    "due": "2026-10-11",
+    "ransomware": false,
+    "epss": 0.99497,
+    "epssPct": 0.99946
+   },
+   {
+    "cve": "CVE-2026-88779",
+    "vendor": "Citrix",
+    "product": "NetScaler",
+    "name": "Citrix NetScaler Improper Restriction of Operations within the Bounds of a Memory Buffer Vulnerability",
+    "added": "2026-10-04",
+    "due": "2026-10-07",
+    "ransomware": false,
+    "epss": 0.00592,
+    "epssPct": 0.47262
+   }
+  ]
+ },
+ "nvd": {
+  "critical7": 21,
+  "high7": 100,
+  "items": [
+   {
+    "cve": "CVE-2026-112779",
+    "published": "2026-10-19T20:17:55.323",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "getgrav",
+    "product": "grav-plugin-api",
+    "desc": "Grav API plugin (grav-plugin-api) 1.0.40 before 1.0.42 caches a full translation dictionary for every well-formed language code sent to the unauthenticated GET /api/v1/translation…"
+   },
+   {
+    "cve": "CVE-2026-112776",
+    "published": "2026-10-19T20:17:54.900",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "craftcms",
+    "product": "cms",
+    "desc": "Craft CMS from 5.0.0 before 5.11.0 contains an authorization bypass vulnerability that allows site-scoped GraphQL tokens to mutate other sites' content because requireAllowedSite(…"
+   },
+   {
+    "cve": "CVE-2026-109437",
+    "published": "2026-10-19T19:17:19.807",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "CognicellAI",
+    "product": "Cognition",
+    "desc": "Cognition before 0.13.0 contains an unauthenticated remote code execution vulnerability due to defaulting its agent sandbox backend to local execution and shipping no authenticati…"
+   },
+   {
+    "cve": "CVE-2026-111862",
+    "published": "2026-10-19T17:17:04.507",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "RankMath",
+    "product": "Rank Math SEO PRO",
+    "desc": "Rank Math SEO PRO for WordPress is affected by a supply-chain compromise in a subset of version 3.0.123 packages downloaded or updated between October 15, 2026 at 20:02 UTC and Oc…"
+   },
+   {
+    "cve": "CVE-2026-111704",
+    "published": "2026-10-16T18:17:54.370",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "LangChat",
+    "product": "langchat",
+    "desc": "LangChat through commit 2a6285a contains a missing authentication vulnerability that allows unauthenticated remote attackers to access REST controllers because no Sa-Token interce…",
+    "epss": 0.00508,
+    "epssPct": 0.42179
+   },
+   {
+    "cve": "CVE-2026-111693",
+    "published": "2026-10-16T18:17:52.773",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "databufflabs",
+    "product": "databuff",
+    "desc": "DataBuff ai-apm-web through 0.1.10 contains a hard-coded default credentials vulnerability that allows unauthenticated attackers to gain administrator access using the built-in ad…",
+    "epss": 0.00378,
+    "epssPct": 0.30252
+   },
+   {
+    "cve": "CVE-2026-111643",
+    "published": "2026-10-16T18:17:45.013",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "l429609201",
+    "product": "misaka_danmu_server",
+    "desc": "Misaka Danmu Server through 2.8.9 contains an authentication bypass vulnerability that allows unauthenticated attackers to write arbitrary configuration keys via the unprotected P…",
+    "epss": 0.00445,
+    "epssPct": 0.37348
+   },
+   {
+    "cve": "CVE-2026-111281",
+    "published": "2026-10-15T22:19:29.457",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "Jooan",
+    "product": "JA-A12",
+    "desc": "Jooan JA-A12 IP cameras with firmware 009_20171107 and 05.02.31.105 contain a remote code execution vulnerability that allows unauthenticated attackers to run root commands via ha…",
+    "epss": 0.00561,
+    "epssPct": 0.45524
+   },
+   {
+    "cve": "CVE-2026-102764",
+    "published": "2026-10-15T21:17:00.117",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "BeyondTrust",
+    "product": "Remote Support",
+    "desc": "The vulnerability exists within internal components of BeyondTrust’s Remote Support product. The components did not adequately validate the origin of the messages it received. Und…",
+    "epss": 0.0118,
+    "epssPct": 0.6721
+   },
+   {
+    "cve": "CVE-2026-111094",
+    "published": "2026-10-15T16:17:48.993",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "JetBrains",
+    "product": "TeamCity",
+    "desc": "In JetBrains TeamCity before 2026.2, 2026.1.4, 2025.11.8 remote code execution via a whitelist bypass in the build messages protocol was possible",
+    "epss": 0.00383,
+    "epssPct": 0.30905
+   },
+   {
+    "cve": "CVE-2026-110957",
+    "published": "2026-10-15T15:17:30.640",
+    "cvss": 10,
+    "cvssVersion": "3.1",
+    "vendor": "Wavlink",
+    "product": "WL-WN530BE2-A",
+    "desc": "A vulnerability has been found in Wavlink WL-WN530BE2-A up to M30BE2_V250604. The affected element is the function sub_12580 of the file api.cgi of the component Login Processing.…",
+    "epss": 0.03456,
+    "epssPct": 0.88882
+   },
+   {
+    "cve": "CVE-2026-89073",
+    "published": "2026-10-14T16:17:55.630",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "Progress",
+    "product": "MOVEit Transfer",
+    "desc": "Insufficient Session Expiration vulnerability in Progress MOVEit Transfer. This issue affects MOVEit Transfer: before 2025.1.6 and from 2026.0.0 before 2026.0.4.",
+    "epss": 0.00312,
+    "epssPct": 0.22693
+   },
+   {
+    "cve": "CVE-2026-89068",
+    "published": "2026-10-14T16:17:55.017",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "Progress",
+    "product": "MOVEit Transfer",
+    "desc": "Missing critical step in authentication vulnerability in Progress MOVEit Transfer (LDAP module). This issue affects MOVEit Transfer: before 2025.1.6 and from 2026.0.0 before 2026.…",
+    "epss": 0.00456,
+    "epssPct": 0.38193
+   },
+   {
+    "cve": "CVE-2026-110640",
+    "published": "2026-10-14T15:17:17.277",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "ariym",
+    "product": "whisper-node",
+    "desc": "Whisper-node through 1.1.1 contains an OS command injection vulnerability that allows attackers to execute commands by supplying crafted filePath or whisperOptions.language values…",
+    "epss": 0.02727,
+    "epssPct": 0.8586
+   },
+   {
+    "cve": "CVE-2026-110636",
+    "published": "2026-10-14T15:17:16.710",
+    "cvss": 9.8,
+    "cvssVersion": "3.1",
+    "vendor": "revolunet",
+    "product": "pypdftk",
+    "desc": "pypdftk through 0.5 contains an OS command injection vulnerability in fill_form(), dump_data_fields(), and pdftk_cmd_util() that builds shell commands from caller-supplied paths.…",
+    "epss": 0.02348,
+    "epssPct": 0.83426
+   }
+  ]
+ },
+ "threatfox": {
+  "total48": 6837,
+  "total24": 1048,
+  "types": {
+   "ip": 180,
+   "domain": 144,
+   "url": 357,
+   "hash": 367,
+   "otro": 0
+  },
+  "families": [
+   [
+    "Vidar",
+    320
+   ],
+   [
+    "AMOS",
+    108
+   ],
+   [
+    "Mirai",
+    48
+   ],
+   [
+    "Unknown Loader",
+    43
+   ],
+   [
+    "php.shin_webshell",
+    35
+   ],
+   [
+    "ClearFake",
+    34
+   ]
+  ],
+  "items": [
+   {
+    "ioc": "dosur98665[.]workers[.]dev",
+    "type": "domain",
+    "malware": "php.shin_webshell",
+    "threat": "payload_delivery",
+    "confidence": 50,
+    "seen": "2026-10-19 20:29:20"
+   },
+   {
+    "ioc": "lanternglow[.]cc",
+    "type": "domain",
+    "malware": "ClearFake",
+    "threat": "payload_delivery",
+    "confidence": 100,
+    "seen": "2026-10-19 20:29:18"
+   },
+   {
+    "ioc": "honeytrail[.]cc",
+    "type": "domain",
+    "malware": "ClearFake",
+    "threat": "payload_delivery",
+    "confidence": 100,
+    "seen": "2026-10-19 20:27:24"
+   },
+   {
+    "ioc": "hxxps://kw[.]abalbet[.]com/q8/",
+    "type": "url",
+    "malware": "Vidar",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:25:48"
+   },
+   {
+    "ioc": "hxxps://kw[.]abalbet[.]com/sm7/",
+    "type": "url",
+    "malware": "Vidar",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:20:48"
+   },
+   {
+    "ioc": "hxxps://kw[.]abalbet[.]com/x8/",
+    "type": "url",
+    "malware": "Vidar",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:15:48"
+   },
+   {
+    "ioc": "4a8a816b4a098236f12eb1b1f1f259143509bd79e907762ebf6a99352f34e9f7",
+    "type": "hash",
+    "malware": "AMOS",
+    "threat": "payload",
+    "confidence": 100,
+    "seen": "2026-10-19 20:12:31"
+   },
+   {
+    "ioc": "hxxps://kw[.]abalbet[.]com/gk/",
+    "type": "url",
+    "malware": "Vidar",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:10:48"
+   },
+   {
+    "ioc": "hxxps://kw[.]abalbet[.]com/ws/",
+    "type": "url",
+    "malware": "Vidar",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:05:48"
+   },
+   {
+    "ioc": "36e8a6ec8e4a8bd397e51e55b9fc970d9a3b768fdd66e6b89913492ccbc6023e",
+    "type": "hash",
+    "malware": "AMOS",
+    "threat": "payload",
+    "confidence": 100,
+    "seen": "2026-10-19 20:05:23"
+   },
+   {
+    "ioc": "102[.]205[.]170[.]11:48949",
+    "type": "ip",
+    "malware": "Quasar RAT",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:05:07"
+   },
+   {
+    "ioc": "102[.]205[.]170[.]11:51227",
+    "type": "ip",
+    "malware": "Quasar RAT",
+    "threat": "botnet_cc",
+    "confidence": 100,
+    "seen": "2026-10-19 20:05:07"
+   }
+  ]
+ },
+ "urlhaus": {
+  "total": 33679,
+  "online": 16365,
+  "threats": [
+   [
+    "github",
+    13767
+   ],
+   [
+    "Mozi",
+    3628
+   ],
+   [
+    "mirai",
+    3190
+   ],
+   [
+    "32-bit",
+    2053
+   ],
+   [
+    "CheatSheet",
+    1395
+   ]
+  ],
+  "items": [
+   {
+    "url": "hxxp://210[.]208[.]111[.]74:54693/i",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "32-bit,arm,elf,Mozi",
+    "added": "2026-10-19 20:33:13"
+   },
+   {
+    "url": "hxxp://103[.]243[.]4[.]165:52384/i",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "",
+    "added": "2026-10-19 20:32:06"
+   },
+   {
+    "url": "hxxp://117[.]223[.]143[.]74:53358/i",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "Mozi",
+    "added": "2026-10-19 20:17:11"
+   },
+   {
+    "url": "hxxp://119[.]102[.]77[.]73:43236/i",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "mirai",
+    "added": "2026-10-19 20:17:07"
+   },
+   {
+    "url": "hxxp://116[.]140[.]187[.]230:49376/bin[.]sh",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "",
+    "added": "2026-10-19 20:17:06"
+   },
+   {
+    "url": "hxxp://103[.]243[.]4[.]165:52384/bin[.]sh",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "Mozi",
+    "added": "2026-10-19 20:17:06"
+   },
+   {
+    "url": "hxxp://123[.]10[.]70[.]112:36801/bin[.]sh",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "32-bit,arm,elf,mirai,Mozi",
+    "added": "2026-10-19 20:12:11"
+   },
+   {
+    "url": "hxxp://125[.]45[.]54[.]47:59020/bin[.]sh",
+    "status": "online",
+    "threat": "malware_download",
+    "tags": "32-bit,elf,mips,Mozi",
+    "added": "2026-10-19 20:05:17"
+   }
+  ]
+ },
+ "errores": []
+}

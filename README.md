@@ -9,7 +9,7 @@ Centinela es una aplicación web gratuita de ciberseguridad para validar la post
 | Grupo | Módulo | Qué hace |
 |---|---|---|
 | General | **Paleta de comandos** (Ctrl+K, ⌘K o `/`) | Salta a cualquier módulo o lanza el análisis adecuado escribiendo un dominio, IP, URL, hash o CVE. |
-| | **Inicio** | Búsqueda rápida (detecta si es dominio, IP, URL, correo, hash o CVE y abre el módulo adecuado) y accesos directos a todos los módulos. |
+| | **Inicio** | Panel de seguridad con datos **en vivo** (se releen cada 5–60 min): postura de tus dominios, casos, monitoreo, ataques en Colombia y **inteligencia de amenazas** (CISA KEV, CVE críticos de NVD con EPSS e IOCs recientes de ThreatFox y URLhaus). Búsqueda rápida (detecta si es dominio, IP, URL, correo, hash o CVE y abre el módulo adecuado) y accesos directos a todos los módulos. |
 | Dominio & correo | **Dominio & correo** | SPF, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, DNSSEC, DANE, CAA, listas negras, RDAP, certificados, puntaje y plan de acción. |
 | | **Comparar dominios** | Postura de dos dominios lado a lado. |
 | | **Generador DNS** | Registros SPF/DMARC/MTA-STS/TLS-RPT/CAA listos para publicar. |
@@ -39,6 +39,7 @@ Centinela es una aplicación web gratuita de ciberseguridad para validar la post
    | `index.html` | Sí | La interfaz. |
    | `app.js`, `boot.js`, `styles.css` | Sí | La lógica de la aplicación (separada del HTML para una CSP estricta). |
    | `colombia.js`, `data/colombia.json` | Sí | Módulo "Ataques en Colombia" y sus datos (los renueva la acción *Actualizar ataques en Colombia*). |
+   | `data/amenazas.json` | Sí | Inteligencia de amenazas del panel de inicio (la renueva cada hora la acción *Actualizar inteligencia de amenazas*). |
    | `asistente.js`, `config.js` | Sí | Panel del asistente de IA y configuración del sitio (URL del backend para todos los visitantes). |
    | `sandbox-worker.js` | Sí | Motor del sandbox de archivos. Sin él, el módulo muestra un error indicando que falta. |
    | `sw.js` | Sí | Service worker (funcionamiento sin conexión y actualizaciones). |
@@ -53,7 +54,17 @@ Centinela es una aplicación web gratuita de ciberseguridad para validar la post
 
 Tras cada actualización, el service worker descarga la versión nueva automáticamente (el HTML y el JavaScript siempre se piden primero a la red). Si cambias archivos estáticos, incrementa la constante `CACHE` en `sw.js` (p.ej. `centinela-v9`) para renovar la caché.
 
-**Abrir en local:** puedes abrir `index.html` con doble clic; todo funciona, aunque la instalación como app y el service worker requieren servirla por `http(s)://` (p.ej. `python -m http.server`).
+**Abrir en local:** con doble clic sobre `index.html` funcionan casi todos los módulos, pero el navegador bloquea la lectura de `data/*.json` (gráficos del panel, Ataques en Colombia e inteligencia de amenazas), la instalación como app y el service worker. Para verlo todo, sírvelo por `http://` (p. ej. `python -m http.server` o `npx serve`).
+
+## Datos en vivo: inteligencia de amenazas
+
+El panel de inicio muestra CVE, vulnerabilidades explotadas e IOCs recientes sin backend ni claves:
+
+- **Fuentes:** [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) (vulnerabilidades explotadas activamente), [NVD](https://nvd.nist.gov/) (CVE críticos publicados en los últimos 7 días), [FIRST EPSS](https://www.first.org/epss/) (probabilidad de explotación) y abuse.ch: [ThreatFox](https://threatfox.abuse.ch/) (IOCs de las últimas 48 h) y [URLhaus](https://urlhaus.abuse.ch/) (URLs de malware).
+- **Cómo se actualiza:** la acción **Actualizar inteligencia de amenazas** (`.github/workflows/amenazas.yml`) ejecuta `scripts/actualizar-amenazas.mjs` cada hora y publica `data/amenazas.json` (unos 12 KB) solo si hay novedades. El navegador relee ese archivo y `data/colombia.json` cada 15 minutos (configurable en *Ajustes → Actualización automática*: desactivada, 5, 15, 30 o 60 min), con la pestaña visible; al volver a una pestaña con datos vencidos se actualiza en el acto. Las filas nuevas se resaltan un momento.
+- **Privacidad y seguridad:** el navegador solo pide archivos del propio sitio (la IP del visitante no llega a las fuentes). Los IOCs se publican desactivados (`hxxp://`, `[.]`) y se muestran como texto, nunca como enlace. Si una fuente falla, se conserva su sección anterior.
+- **Primera vez:** tras subir el proyecto, lánzala a mano desde *Actions → Actualizar inteligencia de amenazas → Run workflow*. Requiere los mismos permisos de escritura que la acción de Colombia (ver abajo).
+- **Actualizar en local:** `node scripts/actualizar-amenazas.mjs`.
 
 ## Datos de ataques en Colombia
 

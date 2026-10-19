@@ -3903,19 +3903,24 @@ $('#installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredP
   document.addEventListener('keydown',e=>{if(e.key==='Escape')sheet.hidden=true;});
 })();
 /* ============================================================ Fondo animado de ciberseguridad
-   Retícula hexagonal, red de nodos con paquetes de datos, barrido de radar que "detecta" nodos
-   y amenazas que pasan de roja a mitigada. Se dibuja en canvas a la resolución real de la pantalla
-   (hasta 3840×2160, nítido en monitores 4K), a 30 fps, en pausa si la pestaña no está visible,
-   y como imagen fija si el sistema pide reducir el movimiento. */
+   Retícula hexagonal con ondas y línea de escaneo, red de nodos en dos planos de profundidad (con paralaje
+   al desplazar), paquetes de datos, barrido de radar que "detecta" nodos, halos de luz, intrusiones que llegan
+   desde el borde y un escudo bloquea (de roja a mitigada) y, con ratón, una retícula de objetivo que aparta la red.
+   Se dibuja en canvas a la resolución real de la pantalla (hasta 3840×2160), a 30 fps, en pausa si la pestaña
+   no está visible, y como imagen fija si el sistema pide reducir el movimiento. */
 const BGFX=(function(){
   const cv=$('#bgfx');if(!cv||!cv.getContext)return null;
   const ctx=cv.getContext('2d');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-  const MAXPX=3840*2160, LINK=150, FPS=30;
-  let W=0,H=0,S=1,nodes=[],packets=[],threats=[],grid=null,sweep=null,col=null,raf=0,last=0,lastSpawn=0,lastThreat=0,on=true;
+  const fine=matchMedia('(hover: hover) and (pointer: fine)');   // la interacción con el cursor solo con ratón (no en táctil)
+  const MAXPX=3840*2160, LINK=150, FPS=30, HR=28, MR=170;
+  let W=0,H=0,S=1,nodes=[],packets=[],threats=[],cells=[],lit=[],orbs=[],grid=null,sweep=null,col=null,raf=0,last=0,lastSpawn=0,lastThreat=0,lastRipple=0,lastScan=0,scan=null,on=true;
+  // Cursor: posición real y posición suavizada (interpolación tipo muelle: sigue al ratón con inercia, sin saltos)
+  const M={tx:-1e4,ty:-1e4,x:-1e4,y:-1e4,a:0,in:false,lastCell:-1};
   try{on=localStorage.getItem('ctn-bgfx')!=='off';}catch(e){}   // activada por defecto: fondo de ciberseguridad (red, radar, amenazas); se puede apagar en Ajustes
   const hex=h=>{h=String(h).trim().replace('#','');if(h.length===3)h=[...h].map(c=>c+c).join('');const n=parseInt(h,16);return isNaN(n)?[86,194,224]:[n>>16&255,n>>8&255,n&255];};
   const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+Math.max(0,Math.min(1,a)).toFixed(3)+')';
+  const ease=x=>1-Math.pow(1-Math.max(0,Math.min(1,x)),3);   // ease-out cúbica para entradas
   function colors(){const cs=getComputedStyle(document.documentElement);const dark=document.documentElement.dataset.theme!=='light';
     col={acc:hex(cs.getPropertyValue('--accent')),fail:hex(cs.getPropertyValue('--fail')),ok:hex(cs.getPropertyValue('--ok')),k:dark?1:1.35};grid=null;}
   function resize(){
@@ -3923,33 +3928,58 @@ const BGFX=(function(){
     // Resolución real de la pantalla, limitada a 4K para no gastar memoria en pantallas mayores
     S=Math.max(.5,Math.min(window.devicePixelRatio||1,Math.sqrt(MAXPX/(W*H))));
     cv.width=Math.round(W*S);cv.height=Math.round(H*S);
-    const n=Math.round(Math.min(160,Math.max(26,W*H/14000)));
-    nodes=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.16,vy:(Math.random()-.5)*.16,r:Math.random()*1.3+1.1,hit:0}));
-    packets=[];threats=[];grid=null;
+    const n=Math.round(Math.min(170,Math.max(28,W*H/13000)));
+    // Dos planos de profundidad: los lejanos (z bajo) son más pequeños, tenues y lentos
+    nodes=Array.from({length:n},()=>{const z=Math.random()<.35?.55+Math.random()*.15:.85+Math.random()*.15;
+      return {x:Math.random()*W,y:Math.random()*H,z,vx:(Math.random()-.5)*.18*z,vy:(Math.random()-.5)*.18*z,r:(Math.random()*1.3+1.1)*z,hit:0,ox:0,oy:0,px:0,py:0};});
+    orbs=[0,1,2].map(i=>({sx:.1+i*.37,sy:.2+i*.29,ph:i*2.1,sp:.045+i*.012,r:Math.max(W,H)*(.32+i*.08)}));
+    packets=[];threats=[];lit=[];grid=null;
   }
+  function hexPath(g,x,y,r){for(let k=0;k<=6;k++){const a=Math.PI/3*k+Math.PI/6,px=x+r*Math.cos(a),py=y+r*Math.sin(a);k?g.lineTo(px,py):g.moveTo(px,py);}}
   function buildGrid(){
     grid=document.createElement('canvas');grid.width=cv.width;grid.height=cv.height;
     const g=grid.getContext('2d');g.setTransform(S,0,0,S,0,0);
-    const R=28,dx=R*Math.sqrt(3),dy=R*1.5;
+    const dx=HR*Math.sqrt(3),dy=HR*1.5;cells=[];
     g.strokeStyle=rgba(col.acc,.045*col.k);g.lineWidth=1;g.beginPath();
-    for(let row=0,y=-R;y<H+R;row++,y+=dy)for(let x=row%2?dx/2:0;x<W+dx;x+=dx)
-      for(let k=0;k<=6;k++){const a=Math.PI/3*k+Math.PI/6,px=x+R*Math.cos(a),py=y+R*Math.sin(a);k?g.lineTo(px,py):g.moveTo(px,py);}
+    for(let row=0,y=-HR;y<H+HR;row++,y+=dy)for(let x=row%2?dx/2:0;x<W+dx;x+=dx){hexPath(g,x,y,HR);cells.push({x,y});}
     g.stroke();
     // Viñeta: la retícula se desvanece hacia el centro, donde está el contenido
     g.globalCompositeOperation='destination-out';
     const v=g.createRadialGradient(W*.5,H*.55,0,W*.5,H*.55,Math.max(W,H)*.62);v.addColorStop(0,'rgba(0,0,0,.85)');v.addColorStop(1,'rgba(0,0,0,0)');
     g.fillStyle=v;g.fillRect(0,0,W,H);
   }
+  const cellAt=(x,y)=>{let best=-1,bd=HR*HR*1.2;for(let i=0;i<cells.length;i++){const c=cells[i],d=(c.x-x)**2+(c.y-y)**2;if(d<bd){bd=d;best=i;}}return best;};
+  function light(i,now,delay,str,c){if(i<0||lit.length>240)return;lit.push({i,t0:now+delay,str,c});}
+  // Onda en la retícula: la celda central y sus anillos de vecinas se encienden con un pequeño retardo
+  function ripple(i,now,c,str){const o=cells[i];if(!o)return;light(i,now,0,str,c);
+    for(let j=0;j<cells.length;j++){if(j===i)continue;const d=Math.hypot(cells[j].x-o.x,cells[j].y-o.y)/(HR*1.75);if(d<2.6)light(j,now,d*110,str*(1-d/3.2),c);}}
   function frame(now){
     if(!cv.width||!cv.height)return;   // ventana de 0 px (p. ej., pestaña oculta al cargar): drawImage fallaría
     if(!grid)buildGrid();
-    const t=now/1000;
-    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(grid,0,0);
+    const t=now/1000,still=reduce.matches;
+    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);
     ctx.setTransform(S,0,0,S,0,0);
+    // Halos de luz que derivan muy despacio: dan profundidad sin distraer
+    for(const o of orbs){const x=W*(o.sx+.12*Math.sin(t*o.sp+o.ph)),y=H*(o.sy+.1*Math.cos(t*o.sp*1.3+o.ph));
+      const gr=ctx.createRadialGradient(x,y,0,x,y,o.r);gr.addColorStop(0,rgba(col.acc,.05*col.k));gr.addColorStop(1,rgba(col.acc,0));ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);}
+    ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(grid,0,0);ctx.setTransform(S,0,0,S,0,0);
+    // Celdas encendidas (ondas, escaneo, rastro del cursor e intrusiones)
+    for(let i=lit.length-1;i>=0;i--){const L=lit[i],age=(now-L.t0)/1000;if(age<0)continue;if(age>1.8){lit.splice(i,1);continue;}
+      const c=cells[L.i];if(!c)continue;const a=(age<.15?age/.15:1-(age-.15)/1.65)*L.str;
+      ctx.fillStyle=rgba(L.c,.07*a*col.k);ctx.strokeStyle=rgba(L.c,.22*a*col.k);ctx.beginPath();hexPath(ctx,c.x,c.y,HR-1.5);ctx.fill();ctx.stroke();}
+    if(!still&&now-lastRipple>2300&&cells.length){lastRipple=now;ripple(Math.random()*cells.length|0,now,col.acc,.9);}
+    // Línea de escaneo: cada ~14 s recorre la pantalla de arriba abajo e ilumina las celdas por las que pasa
+    if(!still&&!scan&&now-lastScan>14000){lastScan=now;scan={t0:now,row:-1};}
+    if(scan){const p=(now-scan.t0)/3200;if(p>1)scan=null;else{const y=ease(p)*(H+80)-40;
+      const sg=ctx.createLinearGradient(0,y-60,0,y+2);sg.addColorStop(0,rgba(col.acc,0));sg.addColorStop(1,rgba(col.acc,.07*col.k));ctx.fillStyle=sg;ctx.fillRect(0,y-60,W,62);
+      ctx.strokeStyle=rgba(col.acc,.22*col.k);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+      const row=Math.floor((y+HR)/(HR*1.5));if(row!==scan.row){scan.row=row;for(let j=0;j<cells.length;j++)if(Math.abs(cells[j].y-y)<HR*.8&&Math.random()<.18)light(j,now,0,.6,col.acc);}}}
     // Radar: anillos y barrido, anclado arriba a la derecha
     const cx=W*.84,cy=H*.14,RR=Math.hypot(W,H)*.62,ang=(t*.34)%(Math.PI*2);
     ctx.lineWidth=1;
     for(let i=1;i<=5;i++){ctx.strokeStyle=rgba(col.acc,(.06-i*.008)*col.k);ctx.beginPath();ctx.arc(cx,cy,RR*i/5,0,Math.PI*2);ctx.stroke();}
+    // Marcas del radar que giran despacio en sentido contrario
+    ctx.strokeStyle=rgba(col.acc,.12*col.k);for(let k=0;k<48;k++){const a=k/48*Math.PI*2-t*.05,r1=RR*.2,r2=r1+(k%4?4:10);ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);ctx.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);ctx.stroke();}
     if(ctx.createConicGradient){
       // El barrido se pinta en una capa aparte para difuminarlo con la distancia al centro
       if(!sweep||sweep.width!==cv.width||sweep.height!==cv.height){sweep=document.createElement('canvas');sweep.width=cv.width;sweep.height=cv.height;}
@@ -3965,44 +3995,73 @@ const BGFX=(function(){
       sg.fillStyle=fade;sg.fillRect(0,0,W,H);
       ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(sweep,0,0);ctx.setTransform(S,0,0,S,0,0);
     }
-    // Mover nodos y detectar los que cruza el barrido
+    // Cursor suavizado (muelle) y paralaje al desplazar la página: el plano cercano se mueve más que el lejano
+    M.x+=(M.tx-M.x)*.14;M.y+=(M.ty-M.y)*.14;M.a+=((M.in?1:0)-M.a)*.08;
+    const sy=window.scrollY||0,mouse=M.a>.02&&fine.matches&&!still;
     for(const n of nodes){
       n.x+=n.vx;n.y+=n.vy;
       if(n.x<-20)n.x=W+20;else if(n.x>W+20)n.x=-20;if(n.y<-20)n.y=H+20;else if(n.y>H+20)n.y=-20;
-      const d=Math.hypot(n.x-cx,n.y-cy);if(d<RR){let a=Math.atan2(n.y-cy,n.x-cx);if(a<0)a+=Math.PI*2;let diff=ang-a;if(diff<0)diff+=Math.PI*2;if(diff<.06)n.hit=1;}
+      let px=n.x,py=((n.y-sy*.06*n.z)%(H+40)+H+40)%(H+40)-20;
+      // El cursor aparta la red con suavidad; al alejarse, cada nodo vuelve a su sitio con inercia
+      let tx=0,ty=0;if(mouse){const dx=px-M.x,dy=py-M.y,d=Math.hypot(dx,dy);if(d<MR&&d>.1){const f=(1-d/MR)**2*22*n.z*M.a;tx=dx/d*f;ty=dy/d*f;n.hit=Math.max(n.hit,(1-d/MR)*.5*M.a);}}
+      n.ox+=(tx-n.ox)*.12;n.oy+=(ty-n.oy)*.12;n.px=px+n.ox;n.py=py+n.oy;
+      const d=Math.hypot(n.px-cx,n.py-cy);if(d<RR){let a=Math.atan2(n.py-cy,n.px-cx);if(a<0)a+=Math.PI*2;let diff=ang-a;if(diff<0)diff+=Math.PI*2;if(diff<.06)n.hit=1;}
       n.hit*=.965;
     }
-    // Conexiones (agrupadas por intensidad para dibujar pocas rutas)
+    // Conexiones (agrupadas por intensidad para dibujar pocas rutas; solo entre nodos del mismo plano)
     const buckets=[[],[],[],[]];
-    for(let i=0;i<nodes.length;i++){const a=nodes[i];for(let j=i+1;j<nodes.length;j++){const b=nodes[j],dx=a.x-b.x,dy=a.y-b.y;if(Math.abs(dx)>LINK||Math.abs(dy)>LINK)continue;const d=Math.hypot(dx,dy);if(d<LINK)buckets[Math.min(3,Math.floor((1-d/LINK)*4))].push(a,b);}}
-    buckets.forEach((l,k)=>{if(!l.length)return;ctx.strokeStyle=rgba(col.acc,(.035+k*.035)*col.k);ctx.beginPath();for(let i=0;i<l.length;i+=2){ctx.moveTo(l[i].x,l[i].y);ctx.lineTo(l[i+1].x,l[i+1].y);}ctx.stroke();});
-    // Nodos
-    for(const n of nodes){
-      ctx.fillStyle=rgba(col.acc,(.28+n.hit*.6)*col.k);ctx.beginPath();ctx.arc(n.x,n.y,n.r+n.hit*1.2,0,Math.PI*2);ctx.fill();
-      if(n.hit>.08){ctx.strokeStyle=rgba(col.acc,n.hit*.35*col.k);ctx.beginPath();ctx.arc(n.x,n.y,n.r+4+(1-n.hit)*10,0,Math.PI*2);ctx.stroke();}
+    for(let i=0;i<nodes.length;i++){const a=nodes[i];for(let j=i+1;j<nodes.length;j++){const b=nodes[j];if(Math.abs(a.z-b.z)>.2)continue;const dx=a.px-b.px,dy=a.py-b.py;if(Math.abs(dx)>LINK||Math.abs(dy)>LINK)continue;const d=Math.hypot(dx,dy);if(d<LINK)buckets[Math.min(3,Math.floor((1-d/LINK)*4))].push(a,b);}}
+    buckets.forEach((l,k)=>{if(!l.length)return;ctx.strokeStyle=rgba(col.acc,(.035+k*.035)*col.k);ctx.beginPath();for(let i=0;i<l.length;i+=2){ctx.moveTo(l[i].px,l[i].py);ctx.lineTo(l[i+1].px,l[i+1].py);}ctx.stroke();});
+    // Cursor: enlaces a los nodos cercanos, retícula de objetivo que gira y rastro de celdas encendidas
+    if(mouse){
+      ctx.beginPath();for(const n of nodes){const d=Math.hypot(n.px-M.x,n.py-M.y);if(d<MR*1.1){ctx.moveTo(M.x,M.y);ctx.lineTo(n.px,n.py);}}
+      ctx.strokeStyle=rgba(col.acc,.13*M.a*col.k);ctx.stroke();
+      const g=ctx.createRadialGradient(M.x,M.y,0,M.x,M.y,MR);g.addColorStop(0,rgba(col.acc,.07*M.a*col.k));g.addColorStop(1,rgba(col.acc,0));ctx.fillStyle=g;ctx.fillRect(M.x-MR,M.y-MR,MR*2,MR*2);
+      ctx.strokeStyle=rgba(col.acc,.35*M.a*col.k);ctx.lineWidth=1.2;const rr=14+Math.sin(t*3)*1.5;
+      for(let k=0;k<4;k++){const a0=t*.9+k*Math.PI/2;ctx.beginPath();ctx.arc(M.x,M.y,rr,a0,a0+Math.PI/4);ctx.stroke();}
+      ctx.lineWidth=1;ctx.fillStyle=rgba(col.acc,.6*M.a*col.k);ctx.beginPath();ctx.arc(M.x,M.y,1.6,0,Math.PI*2);ctx.fill();
+      const ci=cellAt(M.tx,M.ty);if(ci>=0&&ci!==M.lastCell){M.lastCell=ci;light(ci,now,0,.8,col.acc);}
     }
-    // Paquetes de datos que viajan entre nodos vecinos
-    if(now-lastSpawn>260&&packets.length<40){lastSpawn=now;const a=nodes[Math.random()*nodes.length|0];let b=null,bd=LINK;
-      for(const m of nodes){if(m===a)continue;const d=Math.hypot(m.x-a.x,m.y-a.y);if(d<bd&&Math.random()<.6){bd=d;b=m;}}
-      if(b)packets.push({a,b,p:0,sp:.012+Math.random()*.018});}
-    for(let i=packets.length-1;i>=0;i--){const k=packets[i];k.p+=k.sp;if(k.p>=1){k.b.hit=Math.max(k.b.hit,.55);packets.splice(i,1);continue;}
-      const x=k.a.x+(k.b.x-k.a.x)*k.p,y=k.a.y+(k.b.y-k.a.y)*k.p,tx=k.a.x+(k.b.x-k.a.x)*Math.max(0,k.p-.18),ty=k.a.y+(k.b.y-k.a.y)*Math.max(0,k.p-.18);
-      const lg=ctx.createLinearGradient(tx,ty,x,y);lg.addColorStop(0,rgba(col.acc,0));lg.addColorStop(1,rgba(col.acc,.75*col.k));
-      ctx.strokeStyle=lg;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();ctx.lineWidth=1;
-      ctx.fillStyle=rgba(col.acc,.95);ctx.beginPath();ctx.arc(x,y,1.6,0,Math.PI*2);ctx.fill();}
-    // Amenazas: pulso rojo que luego pasa a "mitigada" (verde) y se desvanece
-    if(now-lastThreat>5200){lastThreat=now;threats.push({n:nodes[Math.random()*nodes.length|0],t0:now});}
-    for(let i=threats.length-1;i>=0;i--){const th=threats[i],age=(now-th.t0)/1000;if(age>5){threats.splice(i,1);continue;}
-      const mitig=age>2.8,c=mitig?col.ok:col.fail,fade=mitig?1-(age-2.8)/2.2:Math.min(1,age*2);
-      for(let r=0;r<2;r++){const ph=((age*1.3+r*.5)%1);ctx.strokeStyle=rgba(c,(1-ph)*.5*fade*col.k);ctx.beginPath();ctx.arc(th.n.x,th.n.y,4+ph*22,0,Math.PI*2);ctx.stroke();}
-      ctx.fillStyle=rgba(c,.8*fade);ctx.beginPath();ctx.arc(th.n.x,th.n.y,2.6,0,Math.PI*2);ctx.fill();
-      if(mitig){ctx.strokeStyle=rgba(c,.8*fade);ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(th.n.x-4,th.n.y-9);ctx.lineTo(th.n.x-1.5,th.n.y-6.5);ctx.lineTo(th.n.x+3.5,th.n.y-11.5);ctx.stroke();ctx.lineWidth=1;}}
+    // Nodos (el plano lejano más tenue)
+    for(const n of nodes){const za=n.z<.75?.55:1;
+      ctx.fillStyle=rgba(col.acc,(.28*za+n.hit*.6)*col.k);ctx.beginPath();ctx.arc(n.px,n.py,n.r+n.hit*1.2,0,Math.PI*2);ctx.fill();
+      if(n.hit>.08){ctx.strokeStyle=rgba(col.acc,n.hit*.35*col.k);ctx.beginPath();ctx.arc(n.px,n.py,n.r+4+(1-n.hit)*10,0,Math.PI*2);ctx.stroke();}
+    }
+    // Paquetes de datos que viajan entre nodos vecinos (algunos más rápidos y brillantes: tráfico prioritario)
+    if(now-lastSpawn>180&&packets.length<56){lastSpawn=now;const a=nodes[Math.random()*nodes.length|0];let b=null,bd=LINK;
+      for(const m of nodes){if(m===a||Math.abs(m.z-a.z)>.2)continue;const d=Math.hypot(m.px-a.px,m.py-a.py);if(d<bd&&Math.random()<.6){bd=d;b=m;}}
+      if(b){const fast=Math.random()<.2;packets.push({a,b,p:0,sp:fast?.04+Math.random()*.02:.012+Math.random()*.018,fast});}}
+    for(let i=packets.length-1;i>=0;i--){const k=packets[i];k.p+=k.sp;if(k.p>=1){k.b.hit=Math.max(k.b.hit,k.fast?.8:.55);packets.splice(i,1);continue;}
+      const x=k.a.px+(k.b.px-k.a.px)*k.p,y=k.a.py+(k.b.py-k.a.py)*k.p,q=Math.max(0,k.p-(k.fast?.35:.18)),tx=k.a.px+(k.b.px-k.a.px)*q,ty=k.a.py+(k.b.py-k.a.py)*q;
+      const lg=ctx.createLinearGradient(tx,ty,x,y);lg.addColorStop(0,rgba(col.acc,0));lg.addColorStop(1,rgba(col.acc,(k.fast?.95:.75)*col.k));
+      ctx.strokeStyle=lg;ctx.lineWidth=k.fast?2:1.6;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();ctx.lineWidth=1;
+      ctx.fillStyle=rgba(col.acc,.95);ctx.beginPath();ctx.arc(x,y,k.fast?2:1.6,0,Math.PI*2);ctx.fill();}
+    // Intrusión completa: el ataque llega desde un borde (0–1,2 s), impacta en rojo (1,2–2,8 s),
+    // un escudo hexagonal lo bloquea y la celda queda "mitigada" en verde (2,8–5,6 s)
+    if(!still&&now-lastThreat>4600){lastThreat=now;const n=nodes[Math.random()*nodes.length|0],e=Math.random()*4|0;
+      const sx=e===0?-30:e===1?W+30:Math.random()*W,sy0=e===2?-30:e===3?H+30:Math.random()*H;threats.push({n,sx,sy:sy0,t0:now,done:false});}
+    for(let i=threats.length-1;i>=0;i--){const th=threats[i],age=(now-th.t0)/1000,n=th.n;if(age>5.6){threats.splice(i,1);continue;}
+      if(age<1.2){const p=ease(age/1.2),x=th.sx+(n.px-th.sx)*p,y=th.sy+(n.py-th.sy)*p,q=Math.max(0,p-.25),qx=th.sx+(n.px-th.sx)*q,qy=th.sy+(n.py-th.sy)*q;
+        const lg=ctx.createLinearGradient(qx,qy,x,y);lg.addColorStop(0,rgba(col.fail,0));lg.addColorStop(1,rgba(col.fail,.85));
+        ctx.strokeStyle=lg;ctx.lineWidth=1.8;ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(qx,qy);ctx.lineTo(x,y);ctx.stroke();ctx.setLineDash([]);ctx.lineWidth=1;
+        ctx.fillStyle=rgba(col.fail,.95);ctx.beginPath();ctx.arc(x,y,2.4,0,Math.PI*2);ctx.fill();continue;}
+      const a2=age-1.2,mitig=a2>1.6,c=mitig?col.ok:col.fail,fade=mitig?1-(a2-1.6)/2.8:Math.min(1,a2*3);
+      if(!th.done){th.done=true;ripple(cellAt(n.px,n.py),now,col.fail,1);}
+      if(mitig&&!th.ok){th.ok=true;ripple(cellAt(n.px,n.py),now,col.ok,.8);}
+      for(let r=0;r<2;r++){const ph=((a2*1.3+r*.5)%1);ctx.strokeStyle=rgba(c,(1-ph)*.5*fade*col.k);ctx.beginPath();ctx.arc(n.px,n.py,4+ph*24,0,Math.PI*2);ctx.stroke();}
+      ctx.fillStyle=rgba(c,.85*fade);ctx.beginPath();ctx.arc(n.px,n.py,2.8,0,Math.PI*2);ctx.fill();
+      if(a2>1.1){const s=ease((a2-1.1)/.5),rot=(1-s)*.6;   // escudo hexagonal que se cierra sobre el nodo
+        ctx.save();ctx.translate(n.px,n.py);ctx.rotate(rot);ctx.strokeStyle=rgba(c,.75*fade*s);ctx.lineWidth=1.6;ctx.beginPath();hexPath(ctx,0,0,10+8*s);ctx.stroke();ctx.restore();ctx.lineWidth=1;}
+      if(mitig){ctx.strokeStyle=rgba(c,.85*fade);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(n.px-4,n.py-24);ctx.lineTo(n.px-1.5,n.py-21.5);ctx.lineTo(n.px+3.5,n.py-26.5);ctx.stroke();ctx.lineWidth=1;}}
   }
   function loop(now){raf=requestAnimationFrame(loop);if(now-last<1000/FPS)return;last=now;frame(now);}
-  function start(){cancelAnimationFrame(raf);if(!on){cv.style.display='none';return;}cv.style.display='block';
+  function start(){cancelAnimationFrame(raf);raf=0;if(!on){cv.style.display='none';return;}cv.style.display='block';
     if(reduce.matches||document.hidden){frame(performance.now());return;}raf=requestAnimationFrame(loop);}
   colors();resize();start();
   let rt=0;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{resize();start();},150);});
+  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;M.tx=e.clientX;M.ty=e.clientY;if(!M.in){M.in=true;if(M.x<-1e3){M.x=M.tx;M.y=M.ty;}}},{passive:true});
+  document.addEventListener('pointerleave',()=>{M.in=false;},{passive:true});
+  document.documentElement.addEventListener('mouseleave',()=>{M.in=false;},{passive:true});
   document.addEventListener('visibilitychange',start);
   reduce.addEventListener&&reduce.addEventListener('change',start);
   new MutationObserver(()=>{colors();if(!raf||reduce.matches)start();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
@@ -4624,7 +4683,11 @@ const MOD_EMPTY={
     'Panel de seguridad':'Security dashboard','Lo que has analizado en este navegador y el panorama de ciberataques en Colombia, de un vistazo.':'What you have analyzed in this browser and the cyberattack landscape in Colombia, at a glance.',
     'Indicadores':'Indicators','Ataques en Colombia · últimos 12 meses':'Attacks in Colombia · last 12 months','Ver detalle':'View details','Tus dominios':'Your domains','Validar':'Validate',
     'Casos recientes':'Recent cases','Gestionar':'Manage','Se comprueban solo cuando lo pides; el resultado se guarda 10 minutos.':'Checked only when you ask; the result is kept for 10 minutes.',
-    'Módulos':'Modules','sin comprobar':'not checked'};
+    'Módulos':'Modules','sin comprobar':'not checked',
+    'Inteligencia de amenazas':'Threat intelligence','Explotadas (CISA KEV)':'Exploited (CISA KEV)','Catálogo':'Catalog',
+    'CVE críticos (NVD)':'Critical CVEs (NVD)','IOCs recientes (abuse.ch)':'Recent IOCs (abuse.ch)','Consultar':'Look up',
+    'Actualización automática':'Auto-update','Cada 5 minutos':'Every 5 minutes','Cada 15 minutos (recomendado)':'Every 15 minutes (recommended)',
+    'Cada 30 minutos':'Every 30 minutes','Cada hora':'Every hour'};
   Object.entries(add).forEach(([k,v])=>{if(!I18N_EN[k])I18N_EN[k]=v;I18N_MAP.set(i18nKey(k),I18N_EN[k]);});
   const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
   const isHow=d=>d.matches('details.help')&&/^¿Cómo funciona/.test(d.querySelector('summary').textContent.trim());
@@ -4654,11 +4717,26 @@ const MOD_EMPTY={
    Solo datos reales: historial de dominios, casos y monitoreo de este navegador, y data/colombia.json.
    Movimiento: entrada escalonada solo la primera vez que se pinta (el inicio se visita a menudo). */
 var HD_CO=null,HD_CO_ST='idle',HD_FIRST=true;
-function hdLoadCo(){
-  if(HD_CO_ST!=='idle')return;HD_CO_ST='loading';
-  fetch('./data/colombia.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-    .then(j=>{if(!j||!Array.isArray(j.incidentes))throw new Error('formato');HD_CO=j;HD_CO_ST='ok';})
-    .catch(()=>{HD_CO_ST='err';}).then(()=>renderDash(true));
+// Datos en vivo: data/amenazas.json (lo renueva cada hora la acción de GitHub) y data/colombia.json, releídos cada N minutos
+var LIVE_TH=null,LIVE_ST='idle',LIVE_AT=0,LIVE_TIMER=0,LIVE_BUSY=false,LIVE_SEEN=null;
+function hdLoadCo(){liveRefresh(false);}
+// Minutos entre actualizaciones (Ajustes → Actualización automática); 0 = desactivada
+function liveMin(){try{const v=localStorage.getItem('ctn-live');return v==null?15:Math.max(0,+v||0);}catch(e){return 15;}}
+function liveSchedule(){clearTimeout(LIVE_TIMER);LIVE_TIMER=0;const m=liveMin();if(m)LIVE_TIMER=setTimeout(()=>{if(!document.hidden)liveRefresh(false);},m*60000);}
+async function liveRefresh(manual){
+  if(LIVE_BUSY)return;LIVE_BUSY=true;clearTimeout(LIVE_TIMER);
+  const first=!HD_CO&&!LIVE_TH;
+  if(HD_CO_ST==='idle')HD_CO_ST='loading';if(LIVE_ST==='idle')LIVE_ST='loading';
+  renderDash();   // muestra "Actualizando…"
+  // cache:'no-cache' revalida con el servidor (respuesta 304 si no cambió): barato aunque se repita a menudo
+  const get=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+  const [co,th]=await Promise.allSettled([get('./data/colombia.json'),get('./data/amenazas.json')]);
+  let coNew=false;
+  if(co.status==='fulfilled'&&co.value&&Array.isArray(co.value.incidentes)){coNew=!!HD_CO&&co.value.generado!==HD_CO.generado;HD_CO=co.value;HD_CO_ST='ok';}else if(!HD_CO)HD_CO_ST='err';
+  if(th.status==='fulfilled'&&th.value&&th.value.generado){LIVE_TH=th.value;LIVE_ST='ok';}else if(!LIVE_TH)LIVE_ST='err';
+  LIVE_AT=Date.now();LIVE_BUSY=false;
+  if(coNew&&typeof window.colombiaRefresh==='function')window.colombiaRefresh(HD_CO);   // el módulo de Colombia también se actualiza
+  renderDash(first);liveSchedule();
 }
 function renderDash(grow){
   const box=$('#hdBox');if(!box||HD_CO_ST===undefined)return;   // aún no inicializado (renderHome se llama antes de este bloque)
@@ -4720,13 +4798,45 @@ function renderDash(grow){
   $('#hdCases').innerHTML=rc.length?`<ul class="hd-list">${rc.map(c=>{const sv=SEV[c.sev]||SEV.med;
       return `<li><button type="button" class="hd-row hd-crow" data-case="${esc(c.id)}"><span class="hd-rn">${esc(c.title)}<small>${esc(STT[c.status]||'')} · ${esc((c.items||[]).length+' '+(en?((c.items||[]).length===1?'item':'items'):((c.items||[]).length===1?'elemento':'elementos')))}</small></span>${dot(sv[1],sv[0])}</button></li>`;}).join('')}</ul>`
     :`<div class="hd-empty"><p>${esc(en?'No cases yet. Group findings from any module with “Add to a case”.':'Aún no hay casos. Agrupa hallazgos de cualquier módulo con «Añadir a un caso».')}</p><button type="button" class="btn ghost" data-go="cases">${esc(en?'Create a case':'Crear un caso')}</button></div>`;
+  // ---- En vivo: estado de la actualización automática
+  const lm=liveMin(),tf=d=>{const x=new Date(d);return x.toLocaleString(loc,new Date().toDateString()===x.toDateString()?{hour:'2-digit',minute:'2-digit'}:{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});};
+  const lparts=[];if(LIVE_TH&&LIVE_TH.generado)lparts.push((en?'Sources updated ':'Fuentes actualizadas ')+tf(LIVE_TH.generado));
+  if(LIVE_AT)lparts.push((en?'checked ':'comprobado ')+tf(LIVE_AT));
+  lparts.push(lm?(en?`every ${lm} min`:`cada ${lm} min`):(en?'turn it on in Settings':'actívala en Ajustes'));
+  $('#hdLive').innerHTML=`<span class="hd-pulse${lm?' on':''}${LIVE_BUSY?' busy':''}" aria-hidden="true"></span><span class="hd-lv"><b>${esc(lm?(en?'Live':'En vivo'):(en?'Auto-update off':'Actualización automática desactivada'))}</b><span>${esc(LIVE_BUSY?(en?'Updating…':'Actualizando…'):lparts.join(' · '))}</span></span>`+
+    `<button type="button" class="hd-link" id="hdLiveBtn"${LIVE_BUSY?' disabled':''}><svg class="i" aria-hidden="true"><use href="#i-refresh"/></svg>${esc(en?'Update now':'Actualizar ahora')}</button>`;
+  // ---- Inteligencia de amenazas (datos de terceros: marcados para no traducirse)
+  const TH=LIVE_TH,seen=new Set(),isNew=k=>{seen.add(k);return LIVE_SEEN&&!LIVE_SEEN.has(k)?' hd-new':'';};
+  const dd=d=>{d=String(d||'');const x=new Date(/^\d{4}-\d\d-\d\d$/.test(d)?d+'T12:00:00Z':/[zZ]$|[+-]\d\d:?\d\d$/.test(d)?d:d.replace(' ','T')+'Z');return isNaN(x)?'':x.toLocaleDateString(loc,{day:'numeric',month:'short'});};
+  const ms=arr=>`<div class="hd-ms">${arr.map(([v,l])=>`<div><b>${esc(String(v))}</b><span>${esc(l)}</span></div>`).join('')}</div>`;
+  const noData=`<p class="hd-muted">${esc(LIVE_ST==='err'?(en?'No data yet: run the “Actualizar inteligencia de amenazas” action on GitHub (it then runs every hour).':'Aún no hay datos: ejecuta la acción «Actualizar inteligencia de amenazas» en GitHub (después se ejecuta sola cada hora).'):(en?'Loading…':'Cargando…'))}</p>`;
+  const pct=x=>x==null?'':(x*100<1?(x*100).toFixed(2):(x*100).toFixed(1))+'%';
+  $('#hdKev').innerHTML=TH&&TH.kev?ms([[nf(TH.kev.added30),en?'added in 30 days':'añadidas en 30 días'],[nf(TH.kev.ransomware30),en?'used by ransomware':'usadas en ransomware'],[nf(TH.kev.total),en?'in the catalog':'en el catálogo']])+
+    `<ul class="hd-list">${TH.kev.items.slice(0,5).map(x=>`<li><button type="button" class="hd-row hd-crow${isNew('k'+x.cve)}" data-q="${esc(x.cve)}" aria-label="${esc((en?'Look up ':'Consultar ')+x.cve)}"><span class="hd-rn"><span class="hd-mono">${esc(x.cve)}</span><small class="co-data" data-noi18n>${esc(x.vendor+' · '+x.product)}</small></span>
+      <span class="hd-rt">${x.ransomware?dot('fail','Ransomware'):''}<small>${esc(dd(x.added))}</small></span></button></li>`).join('')}</ul>`:noData;
+  $('#hdCve').innerHTML=TH&&TH.nvd?ms([[nf(TH.nvd.critical7),en?'critical in 7 days':'críticas en 7 días'],[nf(TH.nvd.high7),en?'high in 7 days':'altas en 7 días']])+
+    `<ul class="hd-list">${TH.nvd.items.slice(0,5).map(x=>`<li><button type="button" class="hd-row hd-crow${isNew('n'+x.cve)}" data-q="${esc(x.cve)}" aria-label="${esc((en?'Look up ':'Consultar ')+x.cve)}"><span class="hd-rn"><span class="hd-mono">${esc(x.cve)}</span><small class="co-data" data-noi18n>${esc(x.vendor?x.vendor+' · '+x.product:x.desc)}</small></span>
+      <span class="hd-rt">${x.cvss!=null?`<b class="hd-cvss">${esc(String(x.cvss))}</b>`:''}<small>${x.epss!=null?esc('EPSS '+pct(x.epss)):esc(dd(x.published))}</small></span></button></li>`).join('')}</ul>`:noData;
+  const TY={ip:'IP',domain:en?'Domains':'Dominios',url:'URLs',hash:'Hashes'};
+  $('#hdIoc').innerHTML=TH&&TH.threatfox?ms([[nf(TH.threatfox.total24),en?'IOCs in 24 h':'IOCs en 24 h'],[TH.urlhaus?nf(TH.urlhaus.online):'—',en?'malicious URLs online':'URLs maliciosas activas']])+
+    `<p class="hd-types">${Object.entries(TY).map(([k,l])=>`<span><b>${nf(TH.threatfox.types[k]||0)}</b> ${esc(l)}</span>`).join('')}</p>`+
+    (TH.threatfox.families.length?`<p class="hd-fam">${esc(en?'Most active: ':'Más activas: ')}<span class="co-data" data-noi18n>${esc(TH.threatfox.families.slice(0,4).map(f=>f[0]).join(' · '))}</span></p>`:'')+
+    `<ul class="hd-list">${TH.threatfox.items.slice(0,4).map(x=>`<li><button type="button" class="hd-row hd-crow${isNew('i'+x.ioc)}" data-ioc="${esc(x.ioc)}" data-t="${esc(x.type)}" aria-label="${esc((en?'Look up indicator ':'Consultar indicador ')+x.ioc)}"><span class="hd-rn"><span class="hd-mono co-data" data-noi18n>${esc(x.ioc)}</span><small class="co-data" data-noi18n>${esc(x.malware)}</small></span>
+      <span class="hd-rt"><small>${esc(({ip:'IP',domain:en?'Domain':'Dominio',url:'URL',hash:'Hash'})[x.type]||x.type)}</small></span></button></li>`).join('')}</ul>`:noData;
+  if(TH){if(!LIVE_SEEN)LIVE_SEEN=seen;else seen.forEach(k=>LIVE_SEEN.add(k));}
   if(HD_FIRST){HD_FIRST=false;box.classList.add('hd-in');setTimeout(()=>box.classList.remove('hd-in'),700);}
-  if(HD_CO_ST==='idle'&&$('#modeHomeWrap').style.display!=='none')hdLoadCo();   // solo se descarga al ver el inicio
+  // Con la actualización automática activa los datos se cargan al abrir la app; si no, solo al ver el inicio
+  if(HD_CO_ST==='idle'&&(liveMin()||$('#modeHomeWrap').style.display!=='none'))hdLoadCo();
 }
 (function(){
   const box=$('#hdBox');if(!box)return;
-  if(I18N_LANG==='en')['.hd-head','#hdBox','.hd-sec'].forEach(s=>{const e=$(s);if(e)i18nTree(e);});
+  if(I18N_LANG==='en')['.hd-head','#hdBox','.hd-sec','#settings'].forEach(s=>{const e=$(s);if(e)i18nTree(e);});
   box.addEventListener('click',e=>{
+    if(e.target.closest('#hdLiveBtn')){liveRefresh(true);return;}
+    const q=e.target.closest('[data-q]'),io=e.target.closest('[data-ioc]');
+    // CVE y hashes: se consultan en el análisis rápido (CIRCL, EPSS, CISA KEV); el resto de IOCs en su módulo (admite hxxp y [.])
+    if(q||(io&&io.dataset.t==='hash')){$('#homeQ').value=q?q.dataset.q:io.dataset.ioc;homeHint();homeGo();$('#homeQ').scrollIntoView({behavior:'smooth',block:'center'});return;}
+    if(io){setMode('ioc');$('#iocInput').value=io.dataset.ioc;window.scrollTo({top:0});runIoc();return;}
     const h=e.target.closest('[data-h]'),c=e.target.closest('[data-case]'),g=e.target.closest('[data-go]');
     if(h){setMode('domain');$('#domain').value=h.dataset.h;window.scrollTo({top:0});run();return;}
     if(c){CASES.sel=c.dataset.case;setMode('cases');window.scrollTo({top:0});return;}
@@ -4743,6 +4853,12 @@ function renderDash(grow){
   box.addEventListener('focusin',e=>{const c=e.target.closest('.hd-col');if(c)show(c);else hide();});
   box.addEventListener('focusout',e=>{if(e.target.closest('.hd-col'))hide();});
   renderDash();
+  // Ajustes → Actualización automática
+  const sl=$('#setLive');if(sl){sl.value=String(liveMin());sl.addEventListener('change',()=>{try{localStorage.setItem('ctn-live',sl.value);}catch(e){}if(+sl.value&&HD_CO_ST==='idle')hdLoadCo();liveSchedule();renderDash();});}
+  // Al volver a la pestaña, si los datos están vencidos se actualizan en el acto (con la pestaña oculta no se consulta nada)
+  document.addEventListener('visibilitychange',()=>{const m=liveMin();if(!document.hidden&&m&&LIVE_AT&&Date.now()-LIVE_AT>=m*60000)liveRefresh(false);});
+  // Cambios hechos en otra pestaña (dominios validados, casos, monitoreo): el panel se repinta al instante
+  addEventListener('storage',e=>{if(/^ctn-(hist|cases|watch|mon-)/.test(e.key||''))renderDash();});
 })();
 
 /* ============================================================ Paleta de comandos (Ctrl+K, ⌘K o "/")
