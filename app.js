@@ -3431,7 +3431,7 @@ $('#goLeakEntity').addEventListener('click',runLeakEntity);
 $('#leakEmails').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))runLeakEmail();});
 $('#mbLeak').addEventListener('click',()=>setMode('leak'));
 
-function setMode(m,fromUrl){document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();if(m==='colombia'&&typeof renderColombia==='function')renderColombia();if(!fromUrl){const h='#/'+m;if(location.hash!==h)history.pushState(null,'',h);}}
+function setMode(m,fromUrl){document.body.dataset.mode=m;document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();if(m==='colombia'&&typeof renderColombia==='function')renderColombia();if(!fromUrl){const h='#/'+m;if(location.hash!==h)history.pushState(null,'',h);}}
 $('#mbTools').addEventListener('click',()=>setMode('tools'));
 $('#mbHeaders').addEventListener('click',()=>setMode('headers'));
 $('#mbGen').addEventListener('click',()=>{setMode('gen');});
@@ -3832,7 +3832,7 @@ function applyLang(l){
     I18N_OBS.observe(document.body,{childList:true,subtree:true});
   }
   if(typeof retInfo==='function')retInfo();
-  if(window.HOME_READY){homeHint();homeCheckSources(false);renderHomeActivity();const ho=$('#homeOut');if(ho&&ho.childElementCount){const c=homeClassify($('#homeQ').value);if(c&&c.t==='hash')homeGo();}}
+  if(window.HOME_READY){homeHint();homeCheckSources(false);renderHomeActivity();if(typeof renderDash==='function')renderDash();const ho=$('#homeOut');if(ho&&ho.childElementCount){const c=homeClassify($('#homeQ').value);if(c&&c.t==='hash')homeGo();}}
   $('#langBtn').textContent=l.toUpperCase();
   try{localStorage.setItem('ctn-lang',l);}catch(e){}
 }
@@ -4506,7 +4506,9 @@ async function homeGo(){
 }
 function renderHomeGrid(){
   const g=$('#homeGrid');if(!g||g.childElementCount)return;
-  document.querySelectorAll('aside.nav .nav-group').forEach(grp=>{const gl=grp.querySelector('.lbl').textContent;grp.querySelectorAll('.modebtn').forEach(b=>{const m=b.dataset.mode;if(m==='home')return;
+  document.querySelectorAll('aside.nav .nav-group').forEach(grp=>{const gl=grp.querySelector('.lbl').textContent;
+    if(grp.querySelector('.modebtn:not([data-mode="home"])')){const h=document.createElement('h3');h.className='homegrp';h.textContent=gl;g.appendChild(h);}
+    grp.querySelectorAll('.modebtn').forEach(b=>{const m=b.dataset.mode;if(m==='home')return;
     const c=document.createElement('button');c.type='button';c.className='homecard';c.dataset.go=m;
     c.appendChild(b.querySelector('svg').cloneNode(true));
     const d=document.createElement('div');d.innerHTML=`<p class="grp">${esc(gl)}</p><b>${esc(b.querySelector('span').textContent)}</b><span>${esc(HOME_DESC[m]||'')}</span>`;
@@ -4529,6 +4531,8 @@ async function homeCheckSources(force){
   const chip=(n,st,tip)=>`<span class="srcchip ${st}" title="${esc(tip||'')}"><i></i>${esc(n)}</span>`;
   const backendChip=()=>b?chip('Backend',BACK_OK===true?'ok':BACK_OK===false?'fail':'',BACK_WHY||b):chip('Backend: '+(en?'not configured':'no configurado'),'warn',en?'Settings → Backend URL':'Ajustes → URL del backend');
   if(!force&&cached&&Date.now()-cached.t<600000){box.innerHTML=cached.r.map(x=>chip(x[0],x[1]?'ok':'fail',x[1]?(en?'responding':'responde'):(en?'not responding':'no responde'))).join('')+backendChip();return;}
+  // Sin resultado reciente no se consulta nada por iniciativa propia: solo al pulsar "Comprobar ahora"
+  if(!force){box.innerHTML=HOME_SRC.map(x=>chip(x[0],'',en?'not checked':'sin comprobar')).join('')+backendChip();return;}
   box.innerHTML=HOME_SRC.map(x=>chip(x[0],'',en?'checking…':'comprobando…')).join('')+backendChip();
   const res=await Promise.all(HOME_SRC.map(async ([n,f])=>{try{const c=new AbortController();const to=setTimeout(()=>c.abort(),12000);const r=await Promise.race([f(),new Promise((_,rej)=>c.signal.addEventListener('abort',()=>rej(new Error('timeout'))))]);clearTimeout(to);return [n,r.ok];}catch(e){return [n,false];}}));
   if(b){try{const r=await fetch(b+'/sbx/ping',{cache:'no-store'});BACK_OK=r.status<500&&r.status!==403;BACK_WHY=r.status===403?(en?'This page’s origin is not in ALLOWED_ORIGINS':'El origen de esta página no está en ALLOWED_ORIGINS del Worker'):'';}catch(e){BACK_OK=false;BACK_WHY=en?'Not reachable (or origin not allowed by CORS)':'No responde (o el origen no está permitido por CORS)';}}
@@ -4546,7 +4550,7 @@ function renderHomeActivity(){
   el.innerHTML=(h.length?`<div class="hint">${en?'Validated domains':'Dominios validados'} (${h.length})</div><div class="sbxlist">${h.slice(0,12).map(x=>`<span class="chip histchip" data-h="${esc(x.domain)}"><b data-s="color:${col(x.score)};margin-right:5px">${x.score}</b>${esc(x.domain)}</span>`).join('')}</div>`:'')+
     (files.length?`<div class="hint" data-s="margin-top:8px">${en?'Files analyzed':'Archivos analizados'} (${files.length})</div><div class="sbxlist">${files.slice(0,12).map(x=>`<span class="chip" data-gosbx="1" data-s="cursor:pointer"><b data-s="color:${x.r.verdict.col};margin-right:5px">${x.r.score}</b>${esc(x.r.name)}</span>`).join('')}</div>`:'');
 }
-function renderHome(){renderHomeGrid();renderHomeActivity();homeCheckSources(false);}
+function renderHome(){renderHomeGrid();renderHomeActivity();homeCheckSources(false);if(typeof renderDash==='function')renderDash();}
 (function(){
   $('#mbHome').addEventListener('click',()=>setMode('home'));
   $('#homeGo').addEventListener('click',homeGo);
@@ -4555,6 +4559,178 @@ function renderHome(){renderHomeGrid();renderHomeActivity();homeCheckSources(fal
   $('#homeFile').addEventListener('click',()=>setMode('sbx'));
   $('#homeGrid').addEventListener('click',e=>{const c=e.target.closest('[data-go]');if(c){setMode(c.dataset.go);window.scrollTo({top:0,behavior:'smooth'});}});
   renderHome();window.HOME_READY=true;
+})();
+
+/* ============================================================ Distribución de los módulos
+   Encabezado propio por módulo, pie de tarjeta (fuentes y ayuda) y estado vacío con lo que revisa cada módulo */
+const MOD_TITLE={vuln:'Análisis de vulnerabilidades'};
+const MOD_EMPTY={
+  domain:[['SPF, DKIM y DMARC','Quién puede enviar correo en nombre del dominio.'],['MX, MTA-STS, TLS-RPT y BIMI','Entrega y cifrado del correo entrante.'],['DNSSEC, DANE y CAA','Integridad del DNS y emisión de certificados.'],['Listas negras','Si las IPs del dominio aparecen en listas de spam.'],['RDAP y certificados','Datos de registro y certificados emitidos.'],['Puntaje y plan de acción','Calificación de 0 a 100 y pasos para mejorarla.']],
+  phish:[['URL o dominio sospechoso','Señales de riesgo del enlace y del dominio.'],['Marca suplantada','Parecido con el dominio real que indiques.'],['Verificación de reputación','Google Safe Browsing y VirusTotal (con clave o backend).'],['Denuncia preparada','Texto listo para reportar el sitio.']],
+  eml:[['Autenticación','Resultados de SPF, DKIM y DMARC.'],['Origen','Servidores por los que pasó el correo.'],['Riesgo de suplantación','Señales de que el remitente no es quien dice ser.']],
+  sbx:[['Formatos','Ejecutables, Office con macros, PDF, scripts, LNK, ISO, ZIP/APK.'],['MITRE ATT&CK','Técnicas detectadas en el archivo.'],['CVE y dependencias','CVSS, EPSS, CISA KEV y OSV.'],['Exportación','TXT, JSON, CSV, ATT&CK Navigator y STIX 2.1.']],
+  leak:[['Correos comprometidos','Si aparecen en filtraciones conocidas.'],['Filtraciones de una entidad','Incidentes y credenciales robadas por infostealers.'],['Mitigación y retirada','Qué hacer y cómo pedir que se retire el contenido.']],
+  recon:[['Typosquatting','Variantes del dominio con errores, homóglifos y otros TLD.'],['Certificate Transparency','Certificados emitidos para nombres parecidos.'],['DNS en vivo','Cuáles de esas variantes están activas.']],
+  vuln:[['Puertos y servicios','Lo que está expuesto a Internet (Shodan InternetDB).'],['CVE expuestos','Con CVSS, EPSS y si están en CISA KEV.'],['Superficie de ataque','Subdominios y riesgo de subdomain takeover.']],
+  ioc:[['Tipos admitidos','IP, dominio, URL, hash y CVE, hasta 100 a la vez.'],['Clasificación','Malicioso, sospechoso, sin reportes o sin datos.'],['Exportación','CSV, JSON y STIX 2.1.']],
+  geo:[['Ubicación','País y ciudad aproximados de la IP.'],['ASN y proveedor','Red y empresa a la que pertenece la IP.'],['Dominios','Se resuelven primero a su IP.']],
+  tls:[['Versiones TLS y cifrado','Qué versiones y cifrados acepta el servidor.'],['Certificado','Emisor, validez, nombres, clave y firma.'],['HSTS y calificación','Calificación de A+ a F.'],['Requiere backend','Configura la URL del backend en Ajustes.']],
+  headers:[['Cabeceras de seguridad','Cuáles están presentes y cuáles faltan.'],['Requiere backend','Configura la URL del backend en Ajustes.']]
+};
+(function(){
+  const add={'Qué revisa este módulo':'What this module checks','Los resultados aparecerán aquí.':'Results will appear here.',
+    'SPF, DKIM y DMARC':'SPF, DKIM and DMARC','Quién puede enviar correo en nombre del dominio.':'Who may send email on behalf of the domain.',
+    'MX, MTA-STS, TLS-RPT y BIMI':'MX, MTA-STS, TLS-RPT and BIMI','Entrega y cifrado del correo entrante.':'Delivery and encryption of inbound mail.',
+    'DNSSEC, DANE y CAA':'DNSSEC, DANE and CAA','Integridad del DNS y emisión de certificados.':'DNS integrity and certificate issuance.',
+    'Listas negras':'Blacklists','Si las IPs del dominio aparecen en listas de spam.':'Whether the domain’s IPs appear on spam lists.',
+    'RDAP y certificados':'RDAP and certificates','Datos de registro y certificados emitidos.':'Registration data and issued certificates.',
+    'Puntaje y plan de acción':'Score and action plan','Calificación de 0 a 100 y pasos para mejorarla.':'A 0–100 rating and steps to improve it.',
+    'URL o dominio sospechoso':'Suspicious URL or domain','Señales de riesgo del enlace y del dominio.':'Risk signals in the link and the domain.',
+    'Marca suplantada':'Impersonated brand','Parecido con el dominio real que indiques.':'Resemblance to the real domain you enter.',
+    'Verificación de reputación':'Reputation check','Google Safe Browsing y VirusTotal (con clave o backend).':'Google Safe Browsing and VirusTotal (with a key or the backend).',
+    'Denuncia preparada':'Ready-made report','Texto listo para reportar el sitio.':'Text ready to report the site.',
+    'Autenticación':'Authentication','Resultados de SPF, DKIM y DMARC.':'SPF, DKIM and DMARC results.','Origen':'Origin','Servidores por los que pasó el correo.':'Servers the message passed through.',
+    'Riesgo de suplantación':'Spoofing risk','Señales de que el remitente no es quien dice ser.':'Signs the sender is not who they claim to be.',
+    'Formatos':'Formats','Ejecutables, Office con macros, PDF, scripts, LNK, ISO, ZIP/APK.':'Executables, Office with macros, PDF, scripts, LNK, ISO, ZIP/APK.',
+    'Técnicas detectadas en el archivo.':'Techniques found in the file.','CVE y dependencias':'CVEs and dependencies','CVSS, EPSS, CISA KEV y OSV.':'CVSS, EPSS, CISA KEV and OSV.',
+    'Exportación':'Export','TXT, JSON, CSV, ATT&CK Navigator y STIX 2.1.':'TXT, JSON, CSV, ATT&CK Navigator and STIX 2.1.',
+    'Correos comprometidos':'Compromised emails','Si aparecen en filtraciones conocidas.':'Whether they appear in known breaches.',
+    'Filtraciones de una entidad':'Organization data leaks','Incidentes y credenciales robadas por infostealers.':'Incidents and credentials stolen by infostealers.',
+    'Mitigación y retirada':'Mitigation and takedown','Qué hacer y cómo pedir que se retire el contenido.':'What to do and how to request content removal.',
+    'Variantes del dominio con errores, homóglifos y otros TLD.':'Domain variants with typos, homoglyphs and other TLDs.','Certificados emitidos para nombres parecidos.':'Certificates issued for look-alike names.',
+    'Cuáles de esas variantes están activas.':'Which of those variants are active.',
+    'Puertos y servicios':'Ports and services','Lo que está expuesto a Internet (Shodan InternetDB).':'What is exposed to the Internet (Shodan InternetDB).',
+    'CVE expuestos':'Exposed CVEs','Con CVSS, EPSS y si están en CISA KEV.':'With CVSS, EPSS and whether they are in CISA KEV.',
+    'Superficie de ataque':'Attack surface','Subdominios y riesgo de subdomain takeover.':'Subdomains and subdomain takeover risk.',
+    'Tipos admitidos':'Supported types','IP, dominio, URL, hash y CVE, hasta 100 a la vez.':'IP, domain, URL, hash and CVE, up to 100 at once.',
+    'Clasificación':'Classification','Malicioso, sospechoso, sin reportes o sin datos.':'Malicious, suspicious, no reports or no data.','CSV, JSON y STIX 2.1.':'CSV, JSON and STIX 2.1.',
+    'Ubicación':'Location','País y ciudad aproximados de la IP.':'Approximate country and city of the IP.','ASN y proveedor':'ASN and provider',
+    'Red y empresa a la que pertenece la IP.':'Network and company the IP belongs to.','Dominios':'Domains','Se resuelven primero a su IP.':'They are resolved to their IP first.',
+    'Versiones TLS y cifrado':'TLS versions and ciphers','Qué versiones y cifrados acepta el servidor.':'Which versions and ciphers the server accepts.',
+    'Certificado':'Certificate','Emisor, validez, nombres, clave y firma.':'Issuer, validity, names, key and signature.','HSTS y calificación':'HSTS and grade','Calificación de A+ a F.':'A grade from A+ to F.',
+    'Requiere backend':'Requires the backend','Configura la URL del backend en Ajustes.':'Set the backend URL in Settings.',
+    'Cabeceras de seguridad':'Security headers','Cuáles están presentes y cuáles faltan.':'Which ones are present and which are missing.',
+    'Enriquecer CVE':'Enrich CVEs','Dependencias vulnerables':'Vulnerable dependencies','CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend':'CIRCL hashlookup; VirusTotal, MalwareBazaar and Hybrid Analysis via backend',
+    'Codificar':'Encode','Decodificar':'Decode',
+    'Panel de seguridad':'Security dashboard','Lo que has analizado en este navegador y el panorama de ciberataques en Colombia, de un vistazo.':'What you have analyzed in this browser and the cyberattack landscape in Colombia, at a glance.',
+    'Indicadores':'Indicators','Ataques en Colombia · últimos 12 meses':'Attacks in Colombia · last 12 months','Ver detalle':'View details','Tus dominios':'Your domains','Validar':'Validate',
+    'Casos recientes':'Recent cases','Gestionar':'Manage','Se comprueban solo cuando lo pides; el resultado se guarda 10 minutos.':'Checked only when you ask; the result is kept for 10 minutes.',
+    'Módulos':'Modules','sin comprobar':'not checked'};
+  Object.entries(add).forEach(([k,v])=>{if(!I18N_EN[k])I18N_EN[k]=v;I18N_MAP.set(i18nKey(k),I18N_EN[k]);});
+  const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+  const isHow=d=>d.matches('details.help')&&/^¿Cómo funciona/.test(d.querySelector('summary').textContent.trim());
+  document.querySelectorAll('aside.nav .modebtn').forEach(b=>{
+    const m=b.dataset.mode;if(m==='home'||m==='colombia')return;   // Ataques en Colombia ya trae su propio encabezado
+    const w=$('#mode'+m.charAt(0).toUpperCase()+m.slice(1)+'Wrap');if(!w)return;
+    // Encabezado del módulo: icono, nombre y descripción corta (los mismos textos del inicio, ya traducidos)
+    const h=el('header','modhead'),ic=el('span','mhic');ic.setAttribute('aria-hidden','true');ic.appendChild(b.querySelector('svg').cloneNode(true));
+    const tx=el('div');tx.appendChild(el('h2',null,MOD_TITLE[m]||b.querySelector('span').textContent));if(HOME_DESC[m])tx.appendChild(el('p',null,HOME_DESC[m]));
+    h.append(ic,tx);w.prepend(h);
+    const cards=[...w.children].filter(c=>c.classList.contains('glass'));
+    // Con una sola tarjeta, su título repetiría el del módulo
+    if(cards.length===1){const s=cards[0].firstElementChild;if(s&&s.matches('h2.subh'))s.classList.add('subh-dup');}
+    // Fuentes y "¿Cómo funciona?" pasan a un pie de tarjeta para no competir con la acción principal
+    cards.forEach(c=>{const parts=[...c.children].filter(x=>x.matches('.srcs')||isHow(x));if(!parts.length)return;const f=el('div','cardfoot');parts.forEach(x=>f.appendChild(x));c.appendChild(f);});
+    // Estado vacío: qué revisa el módulo (se oculta por CSS en cuanto hay resultados o un análisis en curso)
+    const it=MOD_EMPTY[m];if(!it||!cards.length)return;
+    const e=el('section','modempty');e.appendChild(el('h3',null,'Qué revisa este módulo'));
+    const ul=el('ul');ul.dataset.n=it.length;it.forEach(([t,d])=>{const li=el('li');li.append(el('b',null,t),el('span',null,d));ul.appendChild(li);});
+    e.append(ul,el('p','mefoot','Los resultados aparecerán aquí.'));cards[0].after(e);
+  });
+  if(!document.body.dataset.mode)document.body.dataset.mode='home';
+  if(I18N_LANG==='en')document.querySelectorAll('.modhead,.modempty,.sbxopts,.btngroups').forEach(i18nTree);
+})();
+
+/* ============================================================ Panel de seguridad (inicio)
+   Solo datos reales: historial de dominios, casos y monitoreo de este navegador, y data/colombia.json.
+   Movimiento: entrada escalonada solo la primera vez que se pinta (el inicio se visita a menudo). */
+var HD_CO=null,HD_CO_ST='idle',HD_FIRST=true;
+function hdLoadCo(){
+  if(HD_CO_ST!=='idle')return;HD_CO_ST='loading';
+  fetch('./data/colombia.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(j=>{if(!j||!Array.isArray(j.incidentes))throw new Error('formato');HD_CO=j;HD_CO_ST='ok';})
+    .catch(()=>{HD_CO_ST='err';}).then(()=>renderDash(true));
+}
+function renderDash(grow){
+  const box=$('#hdBox');if(!box||HD_CO_ST===undefined)return;   // aún no inicializado (renderHome se llama antes de este bloque)
+  const en=I18N_LANG==='en',loc=en?'en-US':'es-CO';
+  const nf=n=>Number(n).toLocaleString(loc);
+  const st=s=>s>=85?['ok',en?'Strong':'Sólida']:s>=60?['warn',en?'Needs work':'Mejorable']:['fail',en?'Weak':'Débil'];
+  const dot=(k,t)=>`<span class="hd-st"><i class="hd-dot ${k}" aria-hidden="true"></i>${esc(t)}</span>`;
+  let hist=[];try{hist=JSON.parse(localStorage.getItem('ctn-hist')||'[]').filter(x=>x&&x.domain&&isFinite(x.score));}catch(e){}
+  const cases=caseAll(),open=cases.filter(c=>c.status!=='closed'),hi=open.filter(c=>c.sev==='crit'||c.sev==='high').length;
+  const watch=monList().map(w=>typeof w==='string'?w:(w&&w.domain)).filter(Boolean);
+  const listed=watch.filter(d=>{try{return (JSON.parse(localStorage.getItem('ctn-mon-'+d)||'null')||{}).listed;}catch(e){return false;}}).length;
+  // Ataques en Colombia: últimos 30 días frente a los 30 anteriores y serie de 12 meses
+  const DAY=864e5,now=Date.now(),inc=HD_CO?HD_CO.incidentes:[],age=it=>(now-Date.parse((it.fecha||'')+'T12:00:00Z'))/DAY;
+  const c30=inc.filter(it=>age(it)>=0&&age(it)<30).length,p30=inc.filter(it=>age(it)>=30&&age(it)<60).length,diff=c30-p30;
+  const kpi=(go,label,val,unit,sub)=>`<button type="button" class="hd-kpi" data-go="${go}"><span class="hd-kl">${esc(label)}</span><span class="hd-kv">${val}${unit?`<small>${esc(unit)}</small>`:''}</span><span class="hd-ks">${sub}</span></button>`;
+  const avg=hist.length?Math.round(hist.reduce((a,x)=>a+ +x.score,0)/hist.length):null;
+  const coSub=HD_CO_ST==='ok'?esc(diff>0?(en?`↑ ${diff} more than the previous 30 days`:`↑ ${diff} más que los 30 días previos`):diff<0?(en?`↓ ${-diff} fewer than the previous 30 days`:`↓ ${-diff} menos que los 30 días previos`):(en?'Same as the previous 30 days':'Igual que los 30 días previos'))
+    :esc(HD_CO_ST==='err'?(en?'Data not available':'Datos no disponibles'):(en?'Loading…':'Cargando…'));
+  $('#hdKpis').innerHTML=
+    kpi('domain',en?'Your domains’ posture':'Postura de tus dominios',avg==null?'—':avg,avg==null?'':'/100',
+      avg==null?esc(en?'Validate your first domain':'Valida tu primer dominio'):dot(st(avg)[0],st(avg)[1])+`<span>· ${esc(en?`${hist.length} domain${hist.length===1?'':'s'}`:`${hist.length} dominio${hist.length===1?'':'s'}`)}</span>`)+
+    kpi('cases',en?'Open cases':'Casos abiertos',open.length,'',
+      open.length?(hi?dot('fail',en?`${hi} high or critical`:`${hi} de prioridad alta o crítica`):dot('ok',en?'None high or critical':'Ninguno alto ni crítico')):esc(en?'No open cases':'Sin casos abiertos'))+
+    kpi('mon',en?'Watched domains':'Dominios vigilados',watch.length,'',
+      watch.length?(listed?dot('fail',en?`${listed} blacklisted`:`${listed} en lista negra`):dot('ok',en?'No blacklist alerts':'Sin alertas de lista negra')):esc(en?'Add domains to watch them':'Añade dominios para vigilarlos'))+
+    kpi('colombia',en?'Colombia · last 30 days':'Colombia · últimos 30 días',HD_CO_ST==='ok'?nf(c30):'—','',coSub);
+  // Gráfico mensual: una serie, sin leyenda (el título la nombra); etiqueta directa solo en el pico y el último mes
+  const co=$('#hdCo');
+  if(HD_CO_ST!=='ok'){co.innerHTML=`<p class="hd-muted">${esc(HD_CO_ST==='err'?(en?'Could not load data/colombia.json.':'No se pudieron cargar los datos (data/colombia.json).'):(en?'Loading incidents…':'Cargando incidentes…'))}</p>`;}
+  else{
+    const d0=new Date(),months=[];for(let i=11;i>=0;i--)months.push(new Date(Date.UTC(d0.getUTCFullYear(),d0.getUTCMonth()-i,1)).toISOString().slice(0,7));
+    const cnt=new Map(months.map(m=>[m,{n:0,c:0}]));inc.forEach(it=>{const m=cnt.get((it.fecha||'').slice(0,7));if(m){m.n++;if(it.tipo!=='reclamado')m.c++;}});
+    const vals=months.map(m=>cnt.get(m)),max=Math.max(1,...vals.map(v=>v.n)),tot=vals.reduce((a,v)=>a+v.n,0),conf=vals.reduce((a,v)=>a+v.c,0);
+    const pk=vals.reduce((b,v,i)=>v.n>vals[b].n?i:b,0);
+    const fm=(m,o)=>new Date(m+'-15T12:00:00Z').toLocaleDateString(loc,o);
+    const lbl=(m,v)=>`${fm(m,{month:'long',year:'numeric'})}: ${en?`${v.n} incident${v.n===1?'':'s'} (${v.c} confirmed)`:`${v.n} incidente${v.n===1?'':'s'} (${v.c} confirmado${v.c===1?'':'s'})`}`;
+    co.innerHTML=`<div class="hd-costats">
+        <div><span class="hd-big">${nf(tot)}</span><span class="hd-muted">${esc(en?'incidents in 12 months':'incidentes en 12 meses')}</span></div>
+        <div><span class="hd-mid">${nf(conf)}</span><span class="hd-muted">${esc(en?'confirmed':'confirmados')}</span></div>
+        <div><span class="hd-mid hd-cap">${esc(fm(months[pk],{month:'long'}))}</span><span class="hd-muted">${esc(en?`peak month · ${vals[pk].n}`:`mes pico · ${vals[pk].n}`)}</span></div></div>
+      <div class="hd-chart${grow?' hd-grow':''}"><div class="hd-cols" role="list">${months.map((m,i)=>{const v=vals[i],L=lbl(m,v);
+        return `<div class="hd-col" role="listitem" tabindex="0" aria-label="${esc(L)}" data-tip="${esc(L)}" data-s="--h:${(v.n/max*100).toFixed(1)}%;--i:${i}">${i===pk||i===11?`<span class="hd-vl" aria-hidden="true">${v.n}</span>`:''}<span class="hd-bar"></span></div>`;}).join('')}</div>
+        <div class="hd-axis" aria-hidden="true">${months.map(m=>`<span>${esc(fm(m,{month:'short'}).replace('.',''))}</span>`).join('')}</div>
+        <div class="hd-tip" role="tooltip" hidden></div></div>
+      <table class="vh"><caption>${esc(en?'Incidents per month':'Incidentes por mes')}</caption><tr><th>${esc(en?'Month':'Mes')}</th><th>${esc(en?'Incidents':'Incidentes')}</th><th>${esc(en?'Confirmed':'Confirmados')}</th></tr>${months.map((m,i)=>`<tr><td>${esc(fm(m,{month:'long',year:'numeric'}))}</td><td>${vals[i].n}</td><td>${vals[i].c}</td></tr>`).join('')}</table>`;
+  }
+  // Tus dominios: último puntaje de cada dominio validado (barra = puntaje; el estado lleva punto y texto)
+  $('#hdDom').innerHTML=hist.length?`<ul class="hd-list">${hist.slice(0,5).map(x=>{const s=st(+x.score);
+      return `<li><button type="button" class="hd-row" data-h="${esc(x.domain)}" aria-label="${esc((en?'Validate ':'Validar ')+x.domain)}"><span class="hd-rn">${esc(x.domain)}<small>${esc(new Date(+x.date).toLocaleDateString(loc,{day:'numeric',month:'short'}))}</small></span>
+        <span class="hd-meter" aria-hidden="true"><span class="${s[0]}" data-s="--w:${Math.max(2,Math.min(100,+x.score))}%"></span></span><span class="hd-rs"><b>${+x.score}</b>${dot(s[0],s[1])}</span></button></li>`;}).join('')}</ul>`
+    :`<div class="hd-empty"><p>${esc(en?'You haven’t validated any domain in this browser yet.':'Aún no has validado ningún dominio en este navegador.')}</p><button type="button" class="btn ghost" data-go="domain">${esc(en?'Validate a domain':'Validar un dominio')}</button></div>`;
+  // Casos recientes: abiertos primero, luego por fecha de actualización
+  const SEV={crit:[en?'Critical':'Crítica','fail'],high:[en?'High':'Alta','fail'],med:[en?'Medium':'Media','warn'],low:[en?'Low':'Baja','ok']};
+  const STT={open:en?'Open':'Abierto',inv:en?'Investigating':'En investigación',cont:en?'Contained':'Contenido',closed:en?'Closed':'Cerrado'};
+  const rc=cases.slice().sort((a,b)=>(a.status==='closed')-(b.status==='closed')||String(b.updated).localeCompare(String(a.updated))).slice(0,4);
+  $('#hdCases').innerHTML=rc.length?`<ul class="hd-list">${rc.map(c=>{const sv=SEV[c.sev]||SEV.med;
+      return `<li><button type="button" class="hd-row hd-crow" data-case="${esc(c.id)}"><span class="hd-rn">${esc(c.title)}<small>${esc(STT[c.status]||'')} · ${esc((c.items||[]).length+' '+(en?((c.items||[]).length===1?'item':'items'):((c.items||[]).length===1?'elemento':'elementos')))}</small></span>${dot(sv[1],sv[0])}</button></li>`;}).join('')}</ul>`
+    :`<div class="hd-empty"><p>${esc(en?'No cases yet. Group findings from any module with “Add to a case”.':'Aún no hay casos. Agrupa hallazgos de cualquier módulo con «Añadir a un caso».')}</p><button type="button" class="btn ghost" data-go="cases">${esc(en?'Create a case':'Crear un caso')}</button></div>`;
+  if(HD_FIRST){HD_FIRST=false;box.classList.add('hd-in');setTimeout(()=>box.classList.remove('hd-in'),700);}
+  if(HD_CO_ST==='idle'&&$('#modeHomeWrap').style.display!=='none')hdLoadCo();   // solo se descarga al ver el inicio
+}
+(function(){
+  const box=$('#hdBox');if(!box)return;
+  if(I18N_LANG==='en')['.hd-head','#hdBox','.hd-sec'].forEach(s=>{const e=$(s);if(e)i18nTree(e);});
+  box.addEventListener('click',e=>{
+    const h=e.target.closest('[data-h]'),c=e.target.closest('[data-case]'),g=e.target.closest('[data-go]');
+    if(h){setMode('domain');$('#domain').value=h.dataset.h;window.scrollTo({top:0});run();return;}
+    if(c){CASES.sel=c.dataset.case;setMode('cases');window.scrollTo({top:0});return;}
+    if(g){setMode(g.dataset.go);window.scrollTo({top:0});}
+  });
+  $('#homeSrcBtn').addEventListener('click',async e=>{const b=e.currentTarget;b.disabled=true;try{await homeCheckSources(true);}finally{b.disabled=false;}});
+  // Tooltip del gráfico: al pasar el ratón o al enfocar cada mes (el área sensible es toda la columna)
+  const show=col=>{const tip=col.closest('.hd-chart').querySelector('.hd-tip');tip.textContent=col.dataset.tip;tip.hidden=false;
+    const cr=col.getBoundingClientRect(),pr=col.closest('.hd-chart').getBoundingClientRect();
+    const x=Math.min(Math.max(cr.left-pr.left+cr.width/2,tip.offsetWidth/2),pr.width-tip.offsetWidth/2);tip.style.transform=`translate(calc(${x}px - 50%),0)`;};
+  const hide=()=>{const t=box.querySelector('.hd-tip');if(t)t.hidden=true;};
+  box.addEventListener('mouseover',e=>{const c=e.target.closest('.hd-col');if(c)show(c);});
+  box.addEventListener('mouseout',e=>{if(e.target.closest('.hd-col')&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.hd-col')))hide();});
+  box.addEventListener('focusin',e=>{const c=e.target.closest('.hd-col');if(c)show(c);else hide();});
+  box.addEventListener('focusout',e=>{if(e.target.closest('.hd-col'))hide();});
+  renderDash();
 })();
 
 /* ============================================================ Paleta de comandos (Ctrl+K, ⌘K o "/")

@@ -23,6 +23,7 @@
 <canvas id="bgfx" aria-hidden="true"></canvas>
 <!-- Juego de iconos de línea (uso: <svg class="i"><use href="#i-nombre"/></svg>) -->
 <svg width="0" height="0" data-s="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6 20 20"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
   <symbol id="i-hook" viewBox="0 0 24 24"><path d="M16 4v9a5 5 0 1 1-5-5"/><path d="M16 4h3"/><path d="M8 14l-2.2 2.2"/></symbol>
@@ -161,7 +162,7 @@
       <span class="lbl">Ciberinteligencia</span>
       <button class="modebtn" id="mbColombia" data-mode="colombia"><svg class="ni" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h13l-2 3.5 2 3.5H5"/><path d="M5 7.5h12.4"/></svg><span>Ataques en Colombia</span></button>
       <button class="modebtn" id="mbRecon" data-mode="recon"><svg class="ni" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.6 15.6L20 20"/><path d="M11 7.5v7M7.5 11h7"/></svg><span>Reconocimiento OSINT</span></button>
-      <button class="modebtn" id="mbVuln" data-mode="vuln"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M12 8.3v4.2M12 15.4v.01"/></svg><span>Análisis de vulnerabilidades</span></button>
+      <button class="modebtn" id="mbVuln" data-mode="vuln"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 8.9C7.9 18.6 5 15.2 5 11V6z"/><path d="M12 8.3v4.2M12 15.4v.01"/></svg><span>Vulnerabilidades</span></button>
       <button class="modebtn" id="mbIoc" data-mode="ioc"><svg class="ni" viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/><path d="M8.5 9h7M8.5 12h7M8.5 15h4"/><circle cx="17.5" cy="17.5" r="3.2"/><path d="M19.8 19.8 22 22"/></svg><span>Consulta de IOCs</span></button>
       <button class="modebtn" id="mbCases" data-mode="cases"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7.5h16v11.5H4z"/><path d="M9 7.5V5h6v2.5"/><path d="M4 12h16"/></svg><span>Casos</span></button>
       <button class="modebtn" id="mbReport" data-mode="report"><svg class="ni" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5"/></svg><span>Informe ejecutivo</span></button>
@@ -180,6 +181,10 @@
   <main class="main" id="contenido" tabindex="-1">
 
   <div id="modeHomeWrap">
+    <header class="modhead hd-head">
+      <span class="mhic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/></svg></span>
+      <div><h2>Panel de seguridad</h2><p>Lo que has analizado en este navegador y el panorama de ciberataques en Colombia, de un vistazo.</p></div>
+    </header>
     <div class="glass search">
       <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-radar"/></svg>Análisis rápido</h2>
       <div class="controls">
@@ -191,8 +196,34 @@
       </div>
       <div id="homeHint" class="hint" data-s="margin-top:8px"></div>
       <div id="homeOut"></div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn ghost" id="homeFile"><svg class="i"><use href="#i-bug"/></svg><span class="t">¿Tienes un archivo sospechoso? Abrir el sandbox</span></button></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px"><button class="btn ghost" id="homeFile"><svg class="i"><use href="#i-bug"/></svg><span class="t">¿Tienes un archivo sospechoso? Abrir el sandbox</span></button></div>
     </div>
+    <section class="hd" id="hdBox" aria-labelledby="hdKpiT">
+      <h2 class="vh" id="hdKpiT">Indicadores</h2>
+      <div class="hd-kpis" id="hdKpis"></div>
+      <div class="hd-grid">
+        <article class="glass hd-card hd-wide">
+          <header class="hd-ch"><h3>Ataques en Colombia · últimos 12 meses</h3><button type="button" class="hd-link" data-go="colombia">Ver detalle<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></button></header>
+          <div id="hdCo" class="hd-co"></div>
+        </article>
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>Tus dominios</h3><button type="button" class="hd-link" data-go="domain">Validar<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></button></header>
+          <div id="hdDom"></div>
+        </article>
+      </div>
+      <div class="hd-grid hd-grid2">
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>Casos recientes</h3><button type="button" class="hd-link" data-go="cases">Gestionar<svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></button></header>
+          <div id="hdCases"></div>
+        </article>
+        <article class="glass hd-card">
+          <header class="hd-ch"><h3>Estado de las fuentes de datos</h3><button type="button" class="hd-link" id="homeSrcBtn">Comprobar ahora</button></header>
+          <div id="homeSrc" class="hd-src"></div>
+          <p class="hd-note">Se comprueban solo cuando lo pides; el resultado se guarda 10 minutos.</p>
+        </article>
+      </div>
+    </section>
+    <h2 class="hd-sec">Módulos</h2>
     <div class="homegrid" id="homeGrid"></div>
   </div>
 
@@ -401,7 +432,7 @@
         <label for="iocInput">Indicadores a consultar <span class="opt">(hasta 100; uno por línea o separados por comas: IP, dominio, URL, hash MD5/SHA-1/SHA-256 o CVE; admite hxxp:// y [.])</span></label>
         <textarea id="iocInput" class="code" rows="6" placeholder="185.220.101.4&#10;malicioso[.]xyz&#10;hxxps://login-falso[.]top/verify&#10;44d88612fea8a8f36de82e1278abb02f&#10;CVE-2023-4966" autocomplete="off" spellcheck="false" name="iocInput"></textarea>
       </div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goIoc"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar indicadores</span></button><button class="btn ghost" id="iocClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px"><button class="btn" id="goIoc"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar indicadores</span></button><button class="btn ghost" id="iocClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
       <div class="srcs">Fuentes: <span class="src">Shodan InternetDB</span><span class="src">Spamhaus ZEN / DBL</span><span class="src">RDAP</span><span class="src">CIRCL CVE</span><span class="src">FIRST EPSS</span><span class="src">CISA KEV</span><span class="src">Google Safe Browsing (clave)</span><span class="src">URLhaus · ThreatFox · VirusTotal · MalwareBazaar · Hybrid Analysis (backend)</span></div>
       <details class="help"><summary>¿Cómo funciona?</summary>
       <p class="hint">Detecta el tipo de cada indicador y lo consulta en las fuentes que le corresponden. Clasifica cada uno como <b>malicioso</b>, <b>sospechoso</b>, <b>sin reportes</b> o <b>sin datos</b>, con el motivo y enlaces para investigarlo. Las fuentes de abuse.ch (URLhaus, ThreatFox) y las de reputación de hashes requieren el backend con sus claves; sin él, esos indicadores muestran enlaces de búsqueda. Exporta en CSV, JSON y STIX 2.1, con la opción de "desactivar" (defang) los indicadores para compartirlos sin riesgo de clic. Los indicadores se envían a los servicios consultados: no incluyas datos personales.</p></details>
@@ -463,7 +494,7 @@
         <label for="emlInput">Pega el correo completo (con encabezados / código fuente)</label>
         <textarea id="emlInput" class="code" rows="9" placeholder="Pega aquí el correo. En Gmail: ⋮ → 'Mostrar original'. En Outlook: Archivo → Propiedades → Encabezados de Internet." name="emlInput"></textarea>
       </div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goEml"><svg class="i"><use href="#i-mail"/></svg><span class="t">Analizar correo</span></button></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px"><button class="btn" id="goEml"><svg class="i"><use href="#i-mail"/></svg><span class="t">Analizar correo</span></button></div>
     </div>
     <div id="emlOut" class="stg"></div>
   </div>
@@ -475,7 +506,7 @@
         <button type="button" class="segtab active" role="tab" aria-selected="true" id="sbxTabFile" data-sbxtab="file"><svg class="i"><use href="#i-file"/></svg>Archivos</button>
         <button type="button" class="segtab" role="tab" aria-selected="false" id="sbxTabUrl" data-sbxtab="url"><svg class="i"><use href="#i-link"/></svg>Enlace (URL)</button>
       </div>
-      <div id="sbxUrlPane" hidden data-s="margin-top:14px">
+      <div id="sbxUrlPane" hidden data-s="margin-top:20px">
         <div class="controls">
           <div class="field grow">
             <label for="sbxUrl">Enlace sospechoso a analizar sin visitarlo</label>
@@ -485,7 +516,7 @@
         </div>
         <p class="hint" data-s="margin-top:8px">El backend descarga la página o el archivo de forma aislada (tu navegador nunca visita el sitio), sigue las redirecciones y el contenido pasa por el mismo motor del sandbox: formularios de credenciales, HTML smuggling, scripts ofuscados, descargas maliciosas, MITRE ATT&amp;CK e IOCs. También consulta URLhaus. Requiere configurar el backend en Ajustes.</p>
       </div>
-      <div id="sbxFilePane" data-s="margin-top:14px">
+      <div id="sbxFilePane" data-s="margin-top:20px">
       <label class="sbxdrop" id="sbxDrop" for="sbxFile" tabindex="0">
         <svg class="i" data-s="width:30px;height:30px"><use href="#i-download"/></svg>
         <b>Arrastra aquí los archivos o haz clic para elegirlos</b>
@@ -493,12 +524,12 @@
         <input type="file" id="sbxFile" multiple hidden name="sbxFile">
       </label>
       <div id="sbxList" class="sbxlist"></div>
-      <details class="help" id="sbxYaraBox" data-s="margin-top:12px"><summary>Reglas YARA propias <span class="opt">(opcional)</span></summary>
+      <details class="help" id="sbxYaraBox" data-s="margin-top:20px"><summary>Reglas YARA propias <span class="opt">(opcional)</span></summary>
         <div class="field" data-s="margin-top:8px">
           <label for="sbxYara">Reglas que se aplicarán a cada archivo analizado <span class="opt">(se guardan solo en este navegador)</span></label>
           <textarea id="sbxYara" class="code" rows="8" spellcheck="false" autocomplete="off" placeholder="rule ejemplo_upx : empaquetador {&#10;  meta:&#10;    description = &quot;Ejecutable empaquetado con UPX&quot;&#10;    severity = &quot;medium&quot;&#10;    attack = &quot;T1027.002&quot;&#10;  strings:&#10;    $a = &quot;UPX0&quot;&#10;    $b = &quot;UPX1&quot;&#10;  condition:&#10;    uint16(0) == 0x5A4D and all of them&#10;}" name="sbxYara"></textarea>
         </div>
-        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px">
+        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:16px">
           <button type="button" class="btn ghost" id="sbxYaraCheck"><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg><span class="t">Validar reglas</span></button>
           <label class="btn ghost" for="sbxYaraFile" tabindex="0" role="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span class="t">Cargar archivo .yar</span></label>
           <input type="file" id="sbxYaraFile" accept=".yar,.yara,.txt" hidden name="sbxYaraFile">
@@ -508,13 +539,13 @@
         <p class="hint" id="sbxYaraMsg" role="status" aria-live="polite" data-s="margin-top:8px"></p>
         <p class="hint">Subconjunto de YARA: cadenas de texto (nocase, wide, ascii, fullword), hexadecimales (??, nibbles, saltos [n-m], alternativas), expresiones regulares y condiciones con of / them / #, at, in, filesize y uint8/16/32. En <b>meta</b>, <code>severity</code> (critical, high, medium, low, info) fija la severidad y <code>attack</code> las técnicas MITRE ATT&amp;CK. No se admiten módulos (pe, math…) ni referencias entre reglas.</p>
       </details>
-      <div class="controls" data-s="margin-top:10px">
-        <label class="sbxopt"><input type="checkbox" id="sbxOptCve" checked name="sbxOptCve"> Enriquecer CVE (CIRCL · CISA KEV · EPSS)</label>
-        <label class="sbxopt"><input type="checkbox" id="sbxOptOsv" checked name="sbxOptOsv"> Dependencias vulnerables (OSV.dev)</label>
-        <label class="sbxopt"><input type="checkbox" id="sbxOptRep" checked name="sbxOptRep"> Reputación del hash (CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend)</label>
+      <div class="sbxopts">
+        <label class="sbxopt"><input type="checkbox" id="sbxOptCve" checked name="sbxOptCve"><span class="ot"><b>Enriquecer CVE</b><small>CIRCL · CISA KEV · EPSS</small></span></label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptOsv" checked name="sbxOptOsv"><span class="ot"><b>Dependencias vulnerables</b><small>OSV.dev</small></span></label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptRep" checked name="sbxOptRep"><span class="ot"><b>Reputación del hash</b><small>CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend</small></span></label>
       </div>
       </div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px" id="sbxFileBtns"><button class="btn" id="goSbx"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar en sandbox</span></button><button class="btn ghost" id="sbxClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px" id="sbxFileBtns"><button class="btn" id="goSbx"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar en sandbox</span></button><button class="btn ghost" id="sbxClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
       <div class="srcs">Fuentes: <span class="src">Motor local (Web Worker aislado)</span><span class="src">MITRE ATT&amp;CK</span><span class="src">CIRCL CVE</span><span class="src">NVD</span><span class="src">CISA KEV</span><span class="src">FIRST EPSS</span><span class="src">OSV.dev</span><span class="src">CIRCL hashlookup</span><span class="src">VirusTotal · MalwareBazaar · Hybrid Analysis (backend)</span></div>
       <details class="help"><summary>¿Cómo funciona?</summary>
       <p class="hint">Cada archivo se abre en un <b>Web Worker aislado</b>, sin acceso a la página, a tus datos ni a la red, y <b>nunca se ejecuta</b>. Solo se leen sus bytes. El motor identifica el tipo real por su firma y lo compara con la extensión. Examina la estructura del formato: ejecutables PE/ELF/Mach-O, Office con extracción de macros VBA, PDF, RTF, LNK, OneNote, ISO y ZIP/JAR/APK. Además extrae indicadores (URLs, dominios, IP, rutas, registro), mide la entropía y aplica reglas de comportamiento asociadas a <b>técnicas MITRE ATT&amp;CK</b> y a <b>CVE</b> conocidos. Los CVE se enriquecen con CVSS (CIRCL/NVD), explotación activa (CISA KEV) y probabilidad de explotación (EPSS). Los manifiestos de dependencias se contrastan con OSV.dev. A servicios externos solo se envían <b>hashes</b> e identificadores. El sandbox dinámico de VirusTotal es opcional y solo se usa si pulsas el botón correspondiente: el archivo se sube a VirusTotal y queda disponible para su comunidad, así que no envíes documentos confidenciales. Este análisis es orientativo y no sustituye a un antivirus/EDR ni a un análisis forense.</p></details>
@@ -532,14 +563,14 @@
         <button type="button" class="segtab" role="tab" aria-selected="false" id="leakTabEntity" data-leak="entity"><svg class="i"><use href="#i-building"/></svg>Filtraciones de una entidad</button>
         <button type="button" class="segtab" role="tab" aria-selected="false" id="leakTabTakedown" data-leak="takedown"><svg class="i"><use href="#i-ban"/></svg>Retirar contenido publicado</button>
       </div>
-      <div id="leakEmailPane" data-s="margin-top:14px">
+      <div id="leakEmailPane" data-s="margin-top:20px">
         <div class="field">
           <label for="leakEmails">Correos a verificar <span class="opt">(uno por línea, hasta 25)</span></label>
           <textarea id="leakEmails" class="code" rows="3" placeholder="funcionario@tuentidad.gov.co&#10;contacto@tuentidad.gov.co" autocomplete="off" spellcheck="false" name="leakEmails"></textarea>
         </div>
-        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goLeakEmail"><svg class="i"><use href="#i-search"/></svg><span class="t">Buscar en filtraciones</span></button></div>
+        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px"><button class="btn" id="goLeakEmail"><svg class="i"><use href="#i-search"/></svg><span class="t">Buscar en filtraciones</span></button></div>
       </div>
-      <div id="leakEntityPane" data-s="margin-top:14px" hidden>
+      <div id="leakEntityPane" data-s="margin-top:20px" hidden>
         <div class="controls">
           <div class="field grow">
             <label for="leakEntity">Dominio de la entidad</label>
@@ -552,7 +583,7 @@
           <div class="field"><label>&nbsp;</label><button class="btn" id="goLeakEntity"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar filtraciones</span></button></div>
         </div>
       </div>
-      <div id="leakTakedownPane" data-s="margin-top:14px" hidden>
+      <div id="leakTakedownPane" data-s="margin-top:20px" hidden>
         <div class="controls">
           <div class="field grow">
             <label for="tdUrl">Página donde están publicados los datos</label>
@@ -616,40 +647,47 @@
     </div>
 
     <!-- Generador de contraseñas -->
-    <div class="glass phishcard" data-s="margin-top:14px">
+    <div class="glass phishcard">
       <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-dice"/></svg>Generador de contraseñas y frases</h2>
-      <div class="controls" data-s="align-items:center">
-        <div class="field" data-s="flex:1 1 260px"><label>Longitud: <span id="genLenVal">20</span></label><input type="range" id="genLen" aria-label="Longitud de la contraseña" min="8" max="64" value="20" data-s="width:100%" name="genLen"></div>
-        <label class="check"><input type="checkbox" id="genUpper" checked name="genUpper"> Mayúsculas</label>
-        <label class="check"><input type="checkbox" id="genNum" checked name="genNum"> Números</label>
-        <label class="check"><input type="checkbox" id="genSym" checked name="genSym"> Símbolos</label>
-        <div class="field"><label>&nbsp;</label><button class="btn" id="genBtn">Generar</button></div>
-        <div class="field"><label>&nbsp;</label><button class="btn ghost" id="genPhrase">Frase (passphrase)</button></div>
+      <div class="controls genrow">
+        <div class="field" data-s="flex:1 1 260px;max-width:420px"><label>Longitud: <span id="genLenVal">20</span></label><input type="range" id="genLen" aria-label="Longitud de la contraseña" min="8" max="64" value="20" data-s="width:100%" name="genLen"></div>
+        <div class="genchecks">
+          <label class="check"><input type="checkbox" id="genUpper" checked name="genUpper"> Mayúsculas</label>
+          <label class="check"><input type="checkbox" id="genNum" checked name="genNum"> Números</label>
+          <label class="check"><input type="checkbox" id="genSym" checked name="genSym"> Símbolos</label>
+        </div>
       </div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:20px"><button class="btn" id="genBtn">Generar</button><button class="btn ghost" id="genPhrase">Frase (passphrase)</button></div>
       <div id="genOut" data-s="margin-top:8px"></div>
     </div>
 
     <!-- Hash & codificación -->
-    <div class="glass phishcard" data-s="margin-top:14px">
+    <div class="glass phishcard">
       <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-hash"/></svg>Hash y codificación</h2>
       <div class="field"><textarea id="hashIn" class="code" rows="3" placeholder="Texto de entrada…" aria-label="Texto de entrada" name="hashIn"></textarea></div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px;flex-wrap:wrap">
-        <button class="btn ghost" data-hash="SHA-1">SHA-1</button>
-        <button class="btn ghost" data-hash="SHA-256">SHA-256</button>
-        <button class="btn ghost" data-hash="SHA-512">SHA-512</button>
-        <button class="btn ghost" data-enc="b64e">Base64 ▶</button>
-        <button class="btn ghost" data-enc="b64d">◀ Base64</button>
-        <button class="btn ghost" data-enc="urle">URL ▶</button>
-        <button class="btn ghost" data-enc="urld">◀ URL</button>
+      <div class="btngroups">
+        <div class="btngroup" role="group" aria-labelledby="bgHash"><span class="bglbl" id="bgHash">Hash</span><div class="bgrow">
+          <button class="btn ghost" data-hash="SHA-1">SHA-1</button>
+          <button class="btn ghost" data-hash="SHA-256">SHA-256</button>
+          <button class="btn ghost" data-hash="SHA-512">SHA-512</button>
+        </div></div>
+        <div class="btngroup" role="group" aria-labelledby="bgEnc"><span class="bglbl" id="bgEnc">Codificar</span><div class="bgrow">
+          <button class="btn ghost" data-enc="b64e">Base64</button>
+          <button class="btn ghost" data-enc="urle">URL</button>
+        </div></div>
+        <div class="btngroup" role="group" aria-labelledby="bgDec"><span class="bglbl" id="bgDec">Decodificar</span><div class="bgrow">
+          <button class="btn ghost" data-enc="b64d">Base64</button>
+          <button class="btn ghost" data-enc="urld">URL</button>
+        </div></div>
       </div>
       <div id="hashOut" data-s="margin-top:8px"></div>
     </div>
 
     <!-- JWT decoder -->
-    <div class="glass phishcard" data-s="margin-top:14px">
+    <div class="glass phishcard">
       <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-code"/></svg>Decodificador JWT</h2>
       <div class="field"><textarea id="jwtIn" class="code" rows="3" placeholder="Pega un token JWT (eyJ…) — no se verifica la firma, solo se decodifica" aria-label="Token JWT" name="jwtIn"></textarea></div>
-      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px"><button class="btn" id="jwtBtn">Decodificar</button></div>
+      <div class="dashbtns" data-s="justify-content:flex-start;margin-top:16px"><button class="btn" id="jwtBtn">Decodificar</button></div>
       <div id="jwtOut" data-s="margin-top:8px"></div>
     </div>
   </div>
