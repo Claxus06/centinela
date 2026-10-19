@@ -3848,7 +3848,13 @@ try{const s=localStorage.getItem('dnsg-theme');if(s)setTheme(s);}catch(e){}
 // El manifiesto estático (manifest.webmanifest) es el principal; este manifiesto en memoria es solo un respaldo si falta.
 if(!document.querySelector('link[rel="manifest"]'))try{const mani={name:'Centinela — Ciberseguridad',short_name:'Centinela',start_url:'.',display:'standalone',background_color:'#fcfcf7',theme_color:'#fcfcf7',description:'Suite de ciberseguridad de dominios y correo',icons:[{src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#10161F"/><path d="M32 8 49 15 49 31 C49 42 42 49 32 52.5 C22 49 15 42 15 31 L15 15 Z" fill="rgba(86,194,224,.08)" stroke="#56C2E0" stroke-width="2"/><circle cx="32" cy="30.5" r="13" fill="none" stroke="#56C2E0" stroke-opacity=".3" stroke-width="1.3"/><circle cx="32" cy="30.5" r="2.6" fill="#56C2E0"/><path d="M32 15v2.6M32 43.4V46M16.4 30.5H19M45 30.5h2.6" stroke="#56C2E0" stroke-width="1.5"/></svg>'),sizes:'any',type:'image/svg+xml',purpose:'any'}]};const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(new Blob([JSON.stringify(mani)],{type:'application/manifest+json'}));document.head.appendChild(link);}catch(e){}
 // Service worker: funcionamiento sin conexión y actualizaciones (solo por http/https; no existe en file://)
-if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+  // Si un service worker nuevo toma el control (actualización), recarga una vez: la carga actual la sirvió el anterior
+  // y podría mezclar archivos de dos versiones. Solo si ya había uno antes (no en la primera visita).
+  const hadSW=!!navigator.serviceWorker.controller;let reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(hadSW&&!reloaded){reloaded=true;location.reload();}});
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});
+}
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const ib=$('#installBtn');if(ib)ib.style.display='grid';});
 $('#installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();try{await deferredPrompt.userChoice;}catch(e){}deferredPrompt=null;$('#installBtn').style.display='none';}});
@@ -4678,7 +4684,10 @@ function renderDash(grow){
     kpi('colombia',en?'Colombia · last 30 days':'Colombia · últimos 30 días',HD_CO_ST==='ok'?nf(c30):'—','',coSub);
   // Gráfico mensual: una serie, sin leyenda (el título la nombra); etiqueta directa solo en el pico y el último mes
   const co=$('#hdCo');
-  if(HD_CO_ST!=='ok'){co.innerHTML=`<p class="hd-muted">${esc(HD_CO_ST==='err'?(en?'Could not load data/colombia.json.':'No se pudieron cargar los datos (data/colombia.json).'):(en?'Loading incidents…':'Cargando incidentes…'))}</p>`;}
+  if(HD_CO_ST!=='ok'){const fileUrl=location.protocol==='file:';   // con doble clic sobre index.html el navegador bloquea la lectura de data/colombia.json
+    co.innerHTML=`<p class="hd-muted">${esc(HD_CO_ST!=='err'?(en?'Loading incidents…':'Cargando incidentes…'):fileUrl
+      ?(en?'The chart needs Centinela to be opened from a web server (GitHub Pages, or "npx serve" in the project folder), not by double-clicking index.html.':'El gráfico necesita abrir Centinela desde un servidor web (GitHub Pages, o «npx serve» en la carpeta del proyecto), no con doble clic sobre index.html.')
+      :(en?'Could not load data/colombia.json.':'No se pudieron cargar los datos (data/colombia.json).'))}</p>`;}
   else{
     const d0=new Date(),months=[];for(let i=11;i>=0;i--)months.push(new Date(Date.UTC(d0.getUTCFullYear(),d0.getUTCMonth()-i,1)).toISOString().slice(0,7));
     const cnt=new Map(months.map(m=>[m,{n:0,c:0}]));inc.forEach(it=>{const m=cnt.get((it.fecha||'').slice(0,7));if(m){m.n++;if(it.tipo!=='reclamado')m.c++;}});

@@ -3,7 +3,7 @@
    - La página (HTML) y el código propio (.js) usan "network-first": siempre la última versión, y juntos.
    - Los estáticos usan "stale-while-revalidate": rápidos, pero se actualizan en segundo plano.
    - El nombre de caché lleva versión: al cambiarla se borran las anteriores. */
-const CACHE = 'centinela-v26';
+const CACHE = 'centinela-v27';
 const SHELL = ['./', './index.html', './styles.css', './boot.js', './config.js', './app.js', './colombia.js', './asistente.js', './sandbox-worker.js', './manifest.webmanifest', './icon.svg', './yara/centinela-base.yar',
   './fonts/inter-var.woff2', './fonts/manrope-var.woff2', './fonts/ibm-plex-sans-var.woff2', './fonts/ibm-plex-mono-400.woff2', './fonts/ibm-plex-mono-500.woff2'];
 
@@ -27,8 +27,9 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (url.origin !== location.origin || req.method !== 'GET') return; // no tocar APIs externas
   const isHTML = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
-  // El HTML y el JS propio deben ir siempre en la misma versión: ambos "network-first"
-  const isCode = isHTML || /\.js$/.test(url.pathname);
+  // El HTML, el JS y el CSS propios deben ir siempre en la misma versión: los tres "network-first"
+  // (con el CSS en stale-while-revalidate, tras una actualización se pintaba la página nueva con estilos viejos)
+  const isCode = isHTML || /\.(js|css)$/.test(url.pathname);
 
   if (isCode) {
     // network-first: la última versión gana; si no hay red, usa caché
