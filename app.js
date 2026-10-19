@@ -1,6 +1,9 @@
 /* Centinela — lógica de la aplicación.
    Se carga al final de index.html (tras el marcado) y funciona con una CSP sin 'unsafe-inline'. */
 "use strict";
+/* URL del backend (Cloudflare Worker): la de Ajustes de este navegador o, si está vacía, la del sitio en config.js
+   (CENTINELA_BACKEND), igual que el asistente. Así basta con configurarla una vez al publicar. */
+function backendUrl(){let b='';try{b=localStorage.getItem('ctn-backend')||'';}catch(e){}if(!b&&typeof window.CENTINELA_BACKEND==='string')b=window.CENTINELA_BACKEND;return b.trim().replace(/\/+$/,'');}
 /* Iconos: referencia al sprite SVG del inicio del <body> */
 const ico=(n,cls='i')=>`<svg class="${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const SECTION_ICON={'SPF':'mail','DKIM':'key','DMARC':'shield-check','MX':'inbox','Listas negras':'ban','WHOIS / RDAP':'book','CAA':'file','MTA-STS':'lock','TLS-RPT':'chart','BIMI':'image','DNSSEC':'shield','DNS inverso (PTR)':'undo','Registros TXT':'note','Certificados TLS (CT)':'file','Geolocalización & ASN':'globe','DANE / TLSA':'link','Riesgo de suplantación':'user-x','DNS base':'server'};
@@ -695,7 +698,7 @@ async function analyzePhish(){
     catch(e){}
     if(ip){try{const rev=ip.split('.').reverse().join('.')+'.in-addr.arpa';const q=await query(rev,'PTR');ptr=q.answers.map(x=>x.data)[0]||null;}catch(e){}}
     // Verificación automática: backend (Worker) si existe, o Google Safe Browsing con clave local
-    const backend=(function(){try{return localStorage.getItem('ctn-backend')||'';}catch(e){return'';}})();
+    const backend=backendUrl();
     const gsbKey=(function(){try{return localStorage.getItem('ctn-gsb')||'';}catch(e){return'';}})();
     if(backend){setPhishStatus('Verificando con el backend (VirusTotal / Safe Browsing)…');
       try{const rr=await fetch(backend+'/verify?url='+encodeURIComponent(url.href));if(rr.ok){const v=await rr.json();
@@ -2673,7 +2676,7 @@ function jwtDecode(t) {
 
 /* ============================================================ Escaneo de cabeceras HTTP */
 async function runHeaders(){
-  const backend=(function(){try{return (localStorage.getItem('ctn-backend')||'').replace(/\/$/,'');}catch(e){return'';}})();
+  const backend=backendUrl();
   const raw=$('#hdrUrl').value.trim();
   if(!raw){alert('Ingresa una URL o dominio');return;}
   if(!backend){$('#hdrOut').innerHTML='<div class="glass phishcard"><div class="phverdict" data-s="color:var(--warn)"><svg class="i"><use href="#i-alert"/></svg> Necesitas configurar el backend</div><p class="hint">Ve a Ajustes → URL del backend y pega la URL de tu Cloudflare Worker (carpeta <b>centinela-backend</b>). El navegador no puede leer estas cabeceras por CORS, por eso el escaneo se hace a través del Worker (endpoint /headers).</p></div>';$('#hdrOut').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
@@ -2774,7 +2777,7 @@ function runGen(){
 /* ============================================================ Filtraciones: correos comprometidos y entidades */
 const LEAK={last:null};
 const leakSleep=ms=>new Promise(r=>setTimeout(r,ms));
-function leakBackend(){try{return (localStorage.getItem('ctn-backend')||'').replace(/\/$/,'');}catch(e){return'';}}
+function leakBackend(){return backendUrl();}
 async function leakGet(url,ms=20000){
   const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);
   try{const r=await fetch(url,{signal:c.signal,cache:'no-store',headers:{Accept:'application/json'}});const tx=await r.text();let j=null;try{j=tx?JSON.parse(tx):null;}catch(e){}return {ok:r.ok,status:r.status,j};}

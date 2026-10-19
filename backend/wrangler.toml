@@ -11,7 +11,8 @@ compatibility_date = "2025-09-01"
 [vars]
 # OBLIGATORIO en producción: URL(s) de tu Centinela publicado, separadas por comas.
 # Sin esta lista, cualquier sitio web podría usar tu Worker, tus claves y tus cuotas.
-ALLOWED_ORIGINS = "https://TU_USUARIO.github.io"
+# El navegador envía el origen en minúsculas y sin ruta (la web vive en https://claxus06.github.io/centinela/).
+ALLOWED_ORIGINS = "https://claxus06.github.io"
 
 # Opcional: límite de peticiones por IP. Requiere la función Rate Limiting de Workers;
 # revisa la sintaxis vigente en la documentación de Cloudflare antes de activarlo.
