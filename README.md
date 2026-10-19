@@ -9,7 +9,7 @@ Centinela es una aplicación web gratuita de ciberseguridad para validar la post
 | Grupo | Módulo | Qué hace |
 |---|---|---|
 | General | **Paleta de comandos** (Ctrl+K, ⌘K o `/`) | Salta a cualquier módulo o lanza el análisis adecuado escribiendo un dominio, IP, URL, hash o CVE. |
-| | **Inicio** | Búsqueda rápida (detecta si es dominio, IP, URL, correo, hash o CVE y abre el módulo adecuado), accesos a todos los módulos, estado de las fuentes de datos y actividad de la sesión. |
+| | **Inicio** | Búsqueda rápida (detecta si es dominio, IP, URL, correo, hash o CVE y abre el módulo adecuado) y accesos directos a todos los módulos. |
 | Dominio & correo | **Dominio & correo** | SPF, DKIM, DMARC, MX, MTA-STS, TLS-RPT, BIMI, DNSSEC, DANE, CAA, listas negras, RDAP, certificados, puntaje y plan de acción. |
 | | **Comparar dominios** | Postura de dos dominios lado a lado. |
 | | **Generador DNS** | Registros SPF/DMARC/MTA-STS/TLS-RPT/CAA listos para publicar. |
@@ -107,7 +107,7 @@ Requisitos: una cuenta gratuita de Cloudflare y Node.js 22 o superior.
    npx wrangler secret put GSB_KEY
    npx wrangler secret put GROQ_KEY      # opcional: respaldo del asistente de IA
    ```
-4. **Conecta la app:** en Centinela → Ajustes → *URL del backend*, pega la URL del Worker y guarda. En **Inicio → Estado de las fuentes de datos**, el indicador *Backend* debe aparecer en verde.
+4. **Conecta la app:** en Centinela → Ajustes → *URL del backend*, pega la URL del Worker y guarda. A partir de ese momento los módulos que requieren backend (VirusTotal, TLS, cabeceras HTTP, filtraciones) quedan operativos.
 
 **Despliegue desde GitHub (opcional):** crea en el repositorio los secretos `CLOUDFLARE_API_TOKEN` (plantilla *Edit Cloudflare Workers*) y `CLOUDFLARE_ACCOUNT_ID`, y ejecuta manualmente la acción **Desplegar backend**. La acción ejecuta las pruebas del backend antes de publicar.
 

@@ -132,7 +132,10 @@
       <p class="asst-keys"></p>
       <p class="asst-foot"></p>
     </form>`;
-  document.body.appendChild(fab); document.body.appendChild(scrim); document.body.appendChild(panel);
+  // "Preguntar" va en la cabecera junto a la búsqueda (no flota sobre el contenido); en el teléfono el CSS lo fija sobre la barra inferior
+  const anchor = document.querySelector('header.top #cmdkBtn');
+  if (anchor) anchor.parentNode.insertBefore(fab, anchor); else document.body.appendChild(fab);
+  document.body.appendChild(scrim); document.body.appendChild(panel);
   const log = $('#asstLog'), q = $('#asstQ'), form = $('#asstForm'), sendBtn = $('#asstSend'), stEl = $('#asstStatus');
 
   let history = [];       // [{role, content}]

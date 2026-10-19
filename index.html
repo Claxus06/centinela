@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#FAFAFA">
+<meta name="theme-color" content="#F2F4F7">
 <meta name="description" content="Centinela — suite gratuita de ciberseguridad: valida SPF/DKIM/DMARC, detecta phishing y typosquatting, geolocaliza IPs y genera planes de acción.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Centinela">
@@ -92,18 +92,18 @@
       </svg>
     </div>
     <div class="htext">
-      <h1><span class="grad">Centinela</span></h1>
+      <h1 translate="no"><span class="grad">Centinela</span></h1>
       <p>Plataforma de ciberseguridad de dominios, correo e infraestructura</p>
     </div>
-    <button class="themebtn cmdkbtn" id="cmdkBtn" title="Buscar módulo o analizar (Ctrl+K)" aria-label="Buscar módulo o analizar (Ctrl+K)" aria-keyshortcuts="Control+K"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><kbd>Ctrl K</kbd></button>
+    <button class="themebtn cmdkbtn" id="cmdkBtn" title="Buscar módulo o analizar (Ctrl+K)" aria-label="Buscar módulo o analizar (Ctrl+K)" aria-keyshortcuts="Control+K"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><kbd>Ctrl&nbsp;K</kbd></button>
     <button class="themebtn" id="setBtn" title="Ajustes" aria-label="Ajustes">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
     </button>
     <button class="themebtn" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
       <svg class="i"><use href="#i-sun"/></svg>
     </button>
-    <button class="themebtn" id="langBtn" title="Idioma / Language" data-s="font-size:12.5px;font-weight:800">ES</button>
-    <button class="themebtn" id="installBtn" title="Instalar app" data-s="display:none">
+    <button class="themebtn" id="langBtn" title="Idioma / Language" aria-label="Idioma / Language" data-s="font-size:12.5px;font-weight:800">ES</button>
+    <button class="themebtn" id="installBtn" title="Instalar app" aria-label="Instalar app" data-s="display:none">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
     </button>
   </header>
@@ -112,23 +112,23 @@
     <div class="controls">
       <div class="field grow">
         <label for="setOrg">Membrete / entidad (aparece en la denuncia e impresión)</label>
-        <input type="text" id="setOrg" placeholder="p.ej. Nombre de tu entidad o empresa — Equipo de Ciberseguridad" autocomplete="off">
+        <input type="text" id="setOrg" placeholder="p.ej. Nombre de tu entidad o empresa — Equipo de Ciberseguridad" autocomplete="off" name="setOrg">
       </div>
       <div class="field grow">
         <label for="setGsb">Clave API Google Safe Browsing <span class="opt">(opcional, para verificación automática)</span></label>
-        <input type="text" id="setGsb" placeholder="AIza… (se guarda solo en tu navegador)" autocomplete="off" spellcheck="false">
+        <input type="text" id="setGsb" placeholder="AIza… (se guarda solo en tu navegador)" autocomplete="off" spellcheck="false" name="setGsb">
       </div>
       <div class="field grow">
         <label for="setBackend">URL del backend (Cloudflare Worker) <span class="opt">(opcional)</span></label>
-        <input type="text" id="setBackend" placeholder="https://centinela.tucuenta.workers.dev" autocomplete="off" spellcheck="false">
+        <input type="text" id="setBackend" inputmode="url" placeholder="https://centinela.tucuenta.workers.dev" autocomplete="off" spellcheck="false" name="setBackend">
       </div>
       <div class="field" data-s="flex:0 0 auto">
         <label for="setFx">Animación de fondo</label>
-        <select id="setFx"><option value="on">Activada</option><option value="off">Desactivada</option></select>
+        <select id="setFx" name="setFx"><option value="on">Activada</option><option value="off">Desactivada</option></select>
       </div>
       <div class="field" data-s="flex:0 0 auto">
         <label for="setRet">Conservar historial</label>
-        <select id="setRet"><option value="1">1 hora</option><option value="24">24 horas (recomendado)</option><option value="168">7 días</option></select>
+        <select id="setRet" name="setRet"><option value="1">1 hora</option><option value="24">24 horas (recomendado)</option><option value="168">7 días</option></select>
       </div>
       <div class="field" data-s="flex:0 0 auto"><label>&nbsp;</label><button class="btn ghost" id="setSave"><svg class="i"><use href="#i-save"/></svg><span class="t">Guardar</span></button></div>
       <div class="field" data-s="flex:0 0 auto"><label>&nbsp;</label><button class="btn ghost" id="retNow"><svg class="i"><use href="#i-ban"/></svg><span class="t">Borrar historial ahora</span></button></div>
@@ -181,11 +181,11 @@
 
   <div id="modeHomeWrap">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-radar"/></svg>Análisis rápido</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-radar"/></svg>Análisis rápido</h2>
       <div class="controls">
         <div class="field grow">
           <label for="homeQ">Escribe un dominio, IP, URL, correo, hash o CVE y Centinela abrirá el módulo adecuado</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-search"/></svg></span><input type="text" id="homeQ" placeholder="ejemplo.com · 8.8.8.8 · https://… · usuario@dominio.com · SHA-256 · CVE-2021-44228" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-search"/></svg></span><input type="text" id="homeQ" placeholder="ejemplo.com · 8.8.8.8 · https://… · usuario@dominio.com · SHA-256 · CVE-2021-44228" autocomplete="off" spellcheck="false" name="homeQ"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="homeGo"><svg class="i"><use href="#i-search"/></svg><span class="t">Analizar</span></button></div>
       </div>
@@ -194,11 +194,6 @@
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn ghost" id="homeFile"><svg class="i"><use href="#i-bug"/></svg><span class="t">¿Tienes un archivo sospechoso? Abrir el sandbox</span></button></div>
     </div>
     <div class="homegrid" id="homeGrid"></div>
-    <div class="homecols">
-      <div class="glass homebox"><div class="subh" data-s="margin-top:0"><svg class="i"><use href="#i-pulse"/></svg>Estado de las fuentes de datos</div><div id="homeSrc" class="sbxlist"></div>
-        <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn ghost" id="homeSrcBtn"><svg class="i"><use href="#i-refresh"/></svg><span class="t">Comprobar ahora</span></button></div></div>
-      <div class="glass homebox"><div class="subh" data-s="margin-top:0"><svg class="i"><use href="#i-clock"/></svg>Actividad de esta sesión</div><div id="homeAct"></div></div>
-    </div>
   </div>
 
   <div id="modeDomainWrap" data-s="display:none">
@@ -207,12 +202,12 @@
       <div class="field grow">
         <label for="domain">Dominio</label>
         <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span>
-          <input type="text" id="domain" placeholder="ejemplo.com" autocomplete="off" spellcheck="false">
+          <input type="text" id="domain" placeholder="ejemplo.com" autocomplete="off" spellcheck="false" name="domain">
         </div>
       </div>
       <div class="field res">
         <label for="resolver">Resolutor DNS</label>
-        <select id="resolver">
+        <select id="resolver" name="resolver">
           <option value="auto">Automático (respaldo múltiple)</option>
           <option value="google">Google · 8.8.8.8</option>
           <option value="cloudflare">Cloudflare · 1.1.1.1</option>
@@ -228,11 +223,11 @@
     <div class="adv" id="adv">
       <div class="field grow">
         <label for="selectors">Selectores DKIM adicionales (coma)</label>
-        <input type="text" id="selectors" placeholder="p.ej. mailchimp, sendgrid, s1024" autocomplete="off" spellcheck="false">
+        <input type="text" id="selectors" placeholder="p.ej. mailchimp, sendgrid, s1024" autocomplete="off" spellcheck="false" name="selectors">
       </div>
       <div class="field res">
         <label for="rbltoggle">Chequeo de listas negras</label>
-        <select id="rbltoggle"><option value="1">Activado</option><option value="0">Desactivado</option></select>
+        <select id="rbltoggle" name="rbltoggle"><option value="1">Activado</option><option value="0">Desactivado</option></select>
       </div>
     </div>
     <div class="examples">
@@ -284,13 +279,13 @@
         <div class="field grow">
           <label for="phishUrl">URL o dominio sospechoso</label>
           <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-hook"/></svg></span>
-            <input type="text" id="phishUrl" placeholder="https://portal-seguro-banco.co/login" autocomplete="off" spellcheck="false">
+            <input type="text" id="phishUrl" inputmode="url" placeholder="https://portal-seguro-banco.co/login" autocomplete="off" spellcheck="false" name="phishUrl">
           </div>
         </div>
         <div class="field res">
           <label for="phishBrand">Marca / dominio real suplantado <span class="opt">(opcional)</span></label>
           <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span>
-            <input type="text" id="phishBrand" placeholder="p.ej. tudominio.gov.co" autocomplete="off" spellcheck="false">
+            <input type="text" id="phishBrand" placeholder="p.ej. tudominio.gov.co" autocomplete="off" spellcheck="false" name="phishBrand">
           </div>
         </div>
         <div class="field">
@@ -315,7 +310,7 @@
         <div class="field grow">
           <label for="geoInput">IP o dominio a geolocalizar</label>
           <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span>
-            <input type="text" id="geoInput" placeholder="8.8.8.8  ó  ejemplo.com" autocomplete="off" spellcheck="false">
+            <input type="text" id="geoInput" inputmode="url" placeholder="8.8.8.8  ó  ejemplo.com" autocomplete="off" spellcheck="false" name="geoInput">
           </div>
         </div>
         <div class="field">
@@ -340,11 +335,11 @@
       <div class="controls">
         <div class="field grow">
           <label for="cmpA">Dominio A</label>
-          <div class="inputwrap"><span class="ic">A</span><input type="text" id="cmpA" placeholder="dominio-uno.com" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic">A</span><input type="text" id="cmpA" placeholder="dominio-uno.com" autocomplete="off" spellcheck="false" name="cmpA"></div>
         </div>
         <div class="field grow">
           <label for="cmpB">Dominio B</label>
-          <div class="inputwrap"><span class="ic">B</span><input type="text" id="cmpB" placeholder="dominio-dos.com" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic">B</span><input type="text" id="cmpB" placeholder="dominio-dos.com" autocomplete="off" spellcheck="false" name="cmpB"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goCmp"><svg class="i"><use href="#i-compare"/></svg><span class="t">Comparar</span></button></div>
       </div>
@@ -355,15 +350,15 @@
 
   <div id="modeReconWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-radar"/></svg>Reconocimiento de ciberinteligencia — superficie, deep y dark web</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-radar"/></svg>Reconocimiento de ciberinteligencia — superficie, deep y dark web</h2>
       <div class="controls">
         <div class="field grow">
           <label for="reconInput">Dominio objetivo a proteger / investigar</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reconInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reconInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false" name="reconInput"></div>
         </div>
         <div class="field res">
           <label for="reconDepth">Profundidad</label>
-          <select id="reconDepth"><option value="fast">Rápida (typosquatting)</option><option value="deep" selected>Profunda (recomendada)</option><option value="max">Exhaustiva</option></select>
+          <select id="reconDepth" name="reconDepth"><option value="fast">Rápida (typosquatting)</option><option value="deep" selected>Profunda (recomendada)</option><option value="max">Exhaustiva</option></select>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goRecon"><svg class="i"><use href="#i-radar"/></svg><span class="t">Iniciar reconocimiento</span></button></div>
       </div>
@@ -378,15 +373,15 @@
 
   <div id="modeVulnWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-shield-alert"/></svg>Análisis de vulnerabilidades multi-fuente</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-shield-alert"/></svg>Análisis de vulnerabilidades multi-fuente</h2>
       <div class="controls">
         <div class="field grow">
           <label for="vulnInput">Dominio o IP a auditar</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="vulnInput" placeholder="tudominio.gov.co  ·  o  203.0.113.10" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="vulnInput" placeholder="tudominio.gov.co  ·  o  203.0.113.10" autocomplete="off" spellcheck="false" name="vulnInput"></div>
         </div>
         <div class="field res">
           <label for="vulnDepth">Alcance</label>
-          <select id="vulnDepth"><option value="std" selected>Estándar</option><option value="deep">Profundo (más CVEs)</option></select>
+          <select id="vulnDepth" name="vulnDepth"><option value="std" selected>Estándar</option><option value="deep">Profundo (más CVEs)</option></select>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goVuln"><svg class="i"><use href="#i-shield-alert"/></svg><span class="t">Analizar vulnerabilidades</span></button></div>
       </div>
@@ -401,10 +396,10 @@
 
   <div id="modeIocWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-search"/></svg>Consulta de indicadores de compromiso (IOCs)</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg>Consulta de indicadores de compromiso (IOCs)</h2>
       <div class="field">
         <label for="iocInput">Indicadores a consultar <span class="opt">(hasta 100; uno por línea o separados por comas: IP, dominio, URL, hash MD5/SHA-1/SHA-256 o CVE; admite hxxp:// y [.])</span></label>
-        <textarea id="iocInput" class="code" rows="6" placeholder="185.220.101.4&#10;malicioso[.]xyz&#10;hxxps://login-falso[.]top/verify&#10;44d88612fea8a8f36de82e1278abb02f&#10;CVE-2023-4966" autocomplete="off" spellcheck="false"></textarea>
+        <textarea id="iocInput" class="code" rows="6" placeholder="185.220.101.4&#10;malicioso[.]xyz&#10;hxxps://login-falso[.]top/verify&#10;44d88612fea8a8f36de82e1278abb02f&#10;CVE-2023-4966" autocomplete="off" spellcheck="false" name="iocInput"></textarea>
       </div>
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goIoc"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar indicadores</span></button><button class="btn ghost" id="iocClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
       <div class="srcs">Fuentes: <span class="src">Shodan InternetDB</span><span class="src">Spamhaus ZEN / DBL</span><span class="src">RDAP</span><span class="src">CIRCL CVE</span><span class="src">FIRST EPSS</span><span class="src">CISA KEV</span><span class="src">Google Safe Browsing (clave)</span><span class="src">URLhaus · ThreatFox · VirusTotal · MalwareBazaar · Hybrid Analysis (backend)</span></div>
@@ -418,10 +413,10 @@
 
   <div id="modeCasesWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i" aria-hidden="true"><use href="#i-note"/></svg>Gestor de casos</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-note"/></svg>Gestor de casos</h2>
       <div class="controls">
-        <div class="field grow"><label for="caseTitle">Nuevo caso</label><input type="text" id="caseTitle" placeholder="p.ej. Campaña de phishing con facturas falsas" autocomplete="off" maxlength="120"></div>
-        <div class="field res"><label for="caseSev">Severidad</label><select id="caseSev"><option value="crit">Crítica</option><option value="high" selected>Alta</option><option value="med">Media</option><option value="low">Baja</option></select></div>
+        <div class="field grow"><label for="caseTitle">Nuevo caso</label><input type="text" id="caseTitle" placeholder="p.ej. Campaña de phishing con facturas falsas" autocomplete="off" maxlength="120" name="caseTitle"></div>
+        <div class="field res"><label for="caseSev">Severidad</label><select id="caseSev" name="caseSev"><option value="crit">Crítica</option><option value="high" selected>Alta</option><option value="med">Media</option><option value="low">Baja</option></select></div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="caseNew"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><span class="t">Crear caso</span></button></div>
       </div>
       <p class="hint" data-s="margin-top:8px">Agrupa en un caso lo que encuentres en los demás módulos con el botón <b>Añadir a un caso</b> (sandbox, consulta de IOCs, informe ejecutivo), y documenta el avance con notas. Los casos se guardan solo en este navegador; un caso <b>sin cambios durante 30 días se borra automáticamente</b> (nunca durante la sesión activa): exporta el caso para conservarlo.</p>
@@ -429,30 +424,30 @@
     <div class="casegrid"><div id="caseList" class="glass casebox" aria-label="Casos"></div><div id="caseDetail" class="glass casebox"></div></div>
   </div>
   <dialog id="caseDlg" class="cmdkdlg" aria-labelledby="caseDlgT">
-    <div data-s="padding:16px"><div class="subh" id="caseDlgT" data-s="margin-top:0">Añadir a un caso</div>
+    <div data-s="padding:16px"><h2 class="subh" id="caseDlgT" data-s="margin-top:0">Añadir a un caso</h2>
       <p class="hint" id="caseDlgWhat"></p>
-      <div class="field" data-s="margin-top:8px"><label for="caseDlgSel">Caso</label><select id="caseDlgSel"></select></div>
-      <div class="field" id="caseDlgNewWrap" data-s="margin-top:8px"><label for="caseDlgNew">Título del nuevo caso</label><input type="text" id="caseDlgNew" maxlength="120" autocomplete="off"></div>
+      <div class="field" data-s="margin-top:8px"><label for="caseDlgSel">Caso</label><select id="caseDlgSel" name="caseDlgSel"></select></div>
+      <div class="field" id="caseDlgNewWrap" data-s="margin-top:8px"><label for="caseDlgNew">Título del nuevo caso</label><input type="text" id="caseDlgNew" maxlength="120" autocomplete="off" name="caseDlgNew"></div>
       <div class="dashbtns" data-s="justify-content:flex-end;margin-top:14px"><button class="btn ghost" id="caseDlgCancel" type="button">Cancelar</button><button class="btn" id="caseDlgOk" type="button">Añadir</button></div>
     </div>
   </dialog>
 
   <div id="modeReportWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-file"/></svg>Informe ejecutivo unificado</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Informe ejecutivo unificado</h2>
       <div class="controls">
         <div class="field grow">
           <label for="reportInput">Dominio a evaluar</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reportInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><input type="text" id="reportInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false" name="reportInput"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goReport"><svg class="i"><use href="#i-file"/></svg><span class="t">Generar informe</span></button></div>
       </div>
       <div class="checks" data-s="margin-top:12px">
-        <label><input type="checkbox" id="rptDomain" checked> Dominio &amp; correo</label>
-        <label><input type="checkbox" id="rptVuln" checked> Vulnerabilidades</label>
-        <label><input type="checkbox" id="rptRecon" checked> Suplantación (OSINT)</label>
-        <label><input type="checkbox" id="rptLeak" checked> Filtraciones de la entidad</label>
-        <label><input type="checkbox" id="rptSbx" checked> Archivos analizados en el sandbox (sesión)</label>
+        <label><input type="checkbox" id="rptDomain" checked name="rptDomain"> Dominio &amp; correo</label>
+        <label><input type="checkbox" id="rptVuln" checked name="rptVuln"> Vulnerabilidades</label>
+        <label><input type="checkbox" id="rptRecon" checked name="rptRecon"> Suplantación (OSINT)</label>
+        <label><input type="checkbox" id="rptLeak" checked name="rptLeak"> Filtraciones de la entidad</label>
+        <label><input type="checkbox" id="rptSbx" checked name="rptSbx"> Archivos analizados en el sandbox (sesión)</label>
       </div>
       <details class="help"><summary>¿Cómo funciona?</summary>
       <p class="hint">Ejecuta los módulos seleccionados sobre un mismo dominio y consolida todo en un <b>informe ejecutivo</b> con portada, prioridades de actuación, calificación de seguridad, vulnerabilidades por criticidad (incl. CISA KEV), postura de correo/DNS, dominios suplantadores, filtraciones de datos, archivos analizados en el sandbox y estado de monitoreo. Luego pulsa <b>Guardar como PDF</b> (usa la impresión del navegador → destino «Guardar como PDF»). Sugerencia: pon el nombre de tu organización en Ajustes (icono de engranaje, arriba) para que aparezca en la portada.</p></details>
@@ -466,7 +461,7 @@
     <div class="glass search">
       <div class="field">
         <label for="emlInput">Pega el correo completo (con encabezados / código fuente)</label>
-        <textarea id="emlInput" class="code" rows="9" placeholder="Pega aquí el correo. En Gmail: ⋮ → 'Mostrar original'. En Outlook: Archivo → Propiedades → Encabezados de Internet."></textarea>
+        <textarea id="emlInput" class="code" rows="9" placeholder="Pega aquí el correo. En Gmail: ⋮ → 'Mostrar original'. En Outlook: Archivo → Propiedades → Encabezados de Internet." name="emlInput"></textarea>
       </div>
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goEml"><svg class="i"><use href="#i-mail"/></svg><span class="t">Analizar correo</span></button></div>
     </div>
@@ -475,7 +470,7 @@
 
   <div id="modeSbxWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-bug"/></svg>Sandbox de archivos · análisis estático aislado</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-bug"/></svg>Sandbox de archivos · análisis estático aislado</h2>
       <div class="segtabs" role="tablist" aria-label="Qué analizar">
         <button type="button" class="segtab active" role="tab" aria-selected="true" id="sbxTabFile" data-sbxtab="file"><svg class="i"><use href="#i-file"/></svg>Archivos</button>
         <button type="button" class="segtab" role="tab" aria-selected="false" id="sbxTabUrl" data-sbxtab="url"><svg class="i"><use href="#i-link"/></svg>Enlace (URL)</button>
@@ -484,7 +479,7 @@
         <div class="controls">
           <div class="field grow">
             <label for="sbxUrl">Enlace sospechoso a analizar sin visitarlo</label>
-            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="sbxUrl" placeholder="https://sitio-sospechoso.xyz/factura  ·  admite hxxp:// y [.]" autocomplete="off" spellcheck="false"></div>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="sbxUrl" inputmode="url" placeholder="https://sitio-sospechoso.xyz/factura  ·  admite hxxp:// y [.]" autocomplete="off" spellcheck="false" name="sbxUrl"></div>
           </div>
           <div class="field"><label>&nbsp;</label><button class="btn" id="goSbxUrl"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar enlace</span></button></div>
         </div>
@@ -495,18 +490,18 @@
         <svg class="i" data-s="width:30px;height:30px"><use href="#i-download"/></svg>
         <b>Arrastra aquí los archivos o haz clic para elegirlos</b>
         <span class="hint">Hasta 20 archivos de 128 MB. Ejecutables, documentos Office, PDF, scripts, accesos directos, comprimidos, imágenes y manifiestos de dependencias.</span>
-        <input type="file" id="sbxFile" multiple hidden>
+        <input type="file" id="sbxFile" multiple hidden name="sbxFile">
       </label>
       <div id="sbxList" class="sbxlist"></div>
       <details class="help" id="sbxYaraBox" data-s="margin-top:12px"><summary>Reglas YARA propias <span class="opt">(opcional)</span></summary>
         <div class="field" data-s="margin-top:8px">
           <label for="sbxYara">Reglas que se aplicarán a cada archivo analizado <span class="opt">(se guardan solo en este navegador)</span></label>
-          <textarea id="sbxYara" class="code" rows="8" spellcheck="false" autocomplete="off" placeholder="rule ejemplo_upx : empaquetador {&#10;  meta:&#10;    description = &quot;Ejecutable empaquetado con UPX&quot;&#10;    severity = &quot;medium&quot;&#10;    attack = &quot;T1027.002&quot;&#10;  strings:&#10;    $a = &quot;UPX0&quot;&#10;    $b = &quot;UPX1&quot;&#10;  condition:&#10;    uint16(0) == 0x5A4D and all of them&#10;}"></textarea>
+          <textarea id="sbxYara" class="code" rows="8" spellcheck="false" autocomplete="off" placeholder="rule ejemplo_upx : empaquetador {&#10;  meta:&#10;    description = &quot;Ejecutable empaquetado con UPX&quot;&#10;    severity = &quot;medium&quot;&#10;    attack = &quot;T1027.002&quot;&#10;  strings:&#10;    $a = &quot;UPX0&quot;&#10;    $b = &quot;UPX1&quot;&#10;  condition:&#10;    uint16(0) == 0x5A4D and all of them&#10;}" name="sbxYara"></textarea>
         </div>
         <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px">
           <button type="button" class="btn ghost" id="sbxYaraCheck"><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg><span class="t">Validar reglas</span></button>
           <label class="btn ghost" for="sbxYaraFile" tabindex="0" role="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span class="t">Cargar archivo .yar</span></label>
-          <input type="file" id="sbxYaraFile" accept=".yar,.yara,.txt" hidden>
+          <input type="file" id="sbxYaraFile" accept=".yar,.yara,.txt" hidden name="sbxYaraFile">
           <button type="button" class="btn ghost" id="sbxYaraBase"><svg class="i" aria-hidden="true"><use href="#i-shield-check"/></svg><span class="t">Cargar reglas base</span></button>
           <button type="button" class="btn ghost" id="sbxYaraClear"><svg class="i" aria-hidden="true"><use href="#i-undo"/></svg><span class="t">Vaciar</span></button>
         </div>
@@ -514,9 +509,9 @@
         <p class="hint">Subconjunto de YARA: cadenas de texto (nocase, wide, ascii, fullword), hexadecimales (??, nibbles, saltos [n-m], alternativas), expresiones regulares y condiciones con of / them / #, at, in, filesize y uint8/16/32. En <b>meta</b>, <code>severity</code> (critical, high, medium, low, info) fija la severidad y <code>attack</code> las técnicas MITRE ATT&amp;CK. No se admiten módulos (pe, math…) ni referencias entre reglas.</p>
       </details>
       <div class="controls" data-s="margin-top:10px">
-        <label class="sbxopt"><input type="checkbox" id="sbxOptCve" checked> Enriquecer CVE (CIRCL · CISA KEV · EPSS)</label>
-        <label class="sbxopt"><input type="checkbox" id="sbxOptOsv" checked> Dependencias vulnerables (OSV.dev)</label>
-        <label class="sbxopt"><input type="checkbox" id="sbxOptRep" checked> Reputación del hash (CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend)</label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptCve" checked name="sbxOptCve"> Enriquecer CVE (CIRCL · CISA KEV · EPSS)</label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptOsv" checked name="sbxOptOsv"> Dependencias vulnerables (OSV.dev)</label>
+        <label class="sbxopt"><input type="checkbox" id="sbxOptRep" checked name="sbxOptRep"> Reputación del hash (CIRCL hashlookup; VirusTotal, MalwareBazaar e Hybrid Analysis vía backend)</label>
       </div>
       </div>
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px" id="sbxFileBtns"><button class="btn" id="goSbx"><svg class="i"><use href="#i-bug"/></svg><span class="t">Analizar en sandbox</span></button><button class="btn ghost" id="sbxClear"><svg class="i"><use href="#i-undo"/></svg><span class="t">Limpiar</span></button></div>
@@ -531,7 +526,7 @@
 
   <div id="modeLeakWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i"><use href="#i-database"/></svg>Búsqueda de filtraciones de datos</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-database"/></svg>Búsqueda de filtraciones de datos</h2>
       <div class="segtabs" role="tablist" aria-label="Tipo de búsqueda">
         <button type="button" class="segtab active" role="tab" aria-selected="true" id="leakTabEmail" data-leak="email"><svg class="i"><use href="#i-mail"/></svg>Correos comprometidos</button>
         <button type="button" class="segtab" role="tab" aria-selected="false" id="leakTabEntity" data-leak="entity"><svg class="i"><use href="#i-building"/></svg>Filtraciones de una entidad</button>
@@ -540,7 +535,7 @@
       <div id="leakEmailPane" data-s="margin-top:14px">
         <div class="field">
           <label for="leakEmails">Correos a verificar <span class="opt">(uno por línea, hasta 25)</span></label>
-          <textarea id="leakEmails" class="code" rows="3" placeholder="funcionario@tuentidad.gov.co&#10;contacto@tuentidad.gov.co" autocomplete="off" spellcheck="false"></textarea>
+          <textarea id="leakEmails" class="code" rows="3" placeholder="funcionario@tuentidad.gov.co&#10;contacto@tuentidad.gov.co" autocomplete="off" spellcheck="false" name="leakEmails"></textarea>
         </div>
         <div class="dashbtns" data-s="justify-content:flex-start;margin-top:10px"><button class="btn" id="goLeakEmail"><svg class="i"><use href="#i-search"/></svg><span class="t">Buscar en filtraciones</span></button></div>
       </div>
@@ -548,11 +543,11 @@
         <div class="controls">
           <div class="field grow">
             <label for="leakEntity">Dominio de la entidad</label>
-            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><input type="text" id="leakEntity" placeholder="tuentidad.gov.co" autocomplete="off" spellcheck="false"></div>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><input type="text" id="leakEntity" placeholder="tuentidad.gov.co" autocomplete="off" spellcheck="false" name="leakEntity"></div>
           </div>
           <div class="field grow">
             <label for="leakName" title="Mejora la búsqueda en sitios de ransomware">Nombre de la entidad <span class="opt">(opcional)</span></label>
-            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><input type="text" id="leakName" placeholder="p.ej. Ministerio de Educación" autocomplete="off"></div>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><input type="text" id="leakName" placeholder="p.ej. Ministerio de Educación" autocomplete="off" name="leakName"></div>
           </div>
           <div class="field"><label>&nbsp;</label><button class="btn" id="goLeakEntity"><svg class="i"><use href="#i-search"/></svg><span class="t">Consultar filtraciones</span></button></div>
         </div>
@@ -561,11 +556,11 @@
         <div class="controls">
           <div class="field grow">
             <label for="tdUrl">Página donde están publicados los datos</label>
-            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="tdUrl" placeholder="https://pastebin.com/abc123" autocomplete="off" spellcheck="false"></div>
+            <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-link"/></svg></span><input type="text" id="tdUrl" inputmode="url" placeholder="https://pastebin.com/abc123" autocomplete="off" spellcheck="false" name="tdUrl"></div>
           </div>
           <div class="field res">
             <label for="tdKind">Qué se publicó</label>
-            <select id="tdKind"><option value="cred">Usuarios y contraseñas</option><option value="pii">Datos personales de ciudadanos o clientes</option><option value="docs">Documentos internos de la entidad</option><option value="db">Base de datos completa</option></select>
+            <select id="tdKind" name="tdKind"><option value="cred">Usuarios y contraseñas</option><option value="pii">Datos personales de ciudadanos o clientes</option><option value="docs">Documentos internos de la entidad</option><option value="db">Base de datos completa</option></select>
           </div>
           <div class="field"><label>&nbsp;</label><button class="btn" id="goTakedown"><svg class="i"><use href="#i-ban"/></svg><span class="t">Preparar la retirada</span></button></div>
         </div>
@@ -585,7 +580,7 @@
       <div class="controls">
         <div class="field grow">
           <label for="monInput">Agregar dominio a monitorear</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-pulse"/></svg></span><input type="text" id="monInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-pulse"/></svg></span><input type="text" id="monInput" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false" name="monInput"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monAdd"><svg class="i"><use href="#i-plus"/></svg><span class="t">Agregar</span></button></div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="monRun"><svg class="i"><use href="#i-refresh"/></svg><span class="t">Revisar ahora</span></button></div>
@@ -593,7 +588,7 @@
       <div class="controls" data-s="margin-top:10px;align-items:center">
         <div class="field res">
           <label for="monEvery">Auto-revisión</label>
-          <select id="monEvery"><option value="0">Desactivada</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
+          <select id="monEvery" name="monEvery"><option value="0">Desactivada</option><option value="15">Cada 15 min</option><option value="30">Cada 30 min</option><option value="60">Cada hora</option></select>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn ghost" id="monNotif"><svg class="i"><use href="#i-bell"/></svg><span class="t">Activar notificaciones</span></button></div>
       </div>
@@ -606,11 +601,11 @@
   <div id="modeToolsWrap" data-s="display:none">
     <!-- Contraseñas filtradas + fortaleza -->
     <div class="glass phishcard">
-      <div class="subh"><svg class="i"><use href="#i-lock"/></svg>Verificador de contraseñas filtradas + fortaleza</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Verificador de contraseñas filtradas + fortaleza</h2>
       <div class="controls">
         <div class="field grow">
           <label for="pwdInput">Contraseña a evaluar</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-key"/></svg></span><input type="password" id="pwdInput" placeholder="escribe una contraseña…" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-key"/></svg></span><input type="password" id="pwdInput" placeholder="escribe una contraseña…" autocomplete="off" spellcheck="false" name="pwdInput"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn ghost" id="pwdShow"><svg class="i"><use href="#i-eye"/></svg><span class="t">Ver</span></button></div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="pwdCheck"><svg class="i"><use href="#i-search"/></svg><span class="t">Verificar filtración</span></button></div>
@@ -622,12 +617,12 @@
 
     <!-- Generador de contraseñas -->
     <div class="glass phishcard" data-s="margin-top:14px">
-      <div class="subh"><svg class="i"><use href="#i-dice"/></svg>Generador de contraseñas y frases</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-dice"/></svg>Generador de contraseñas y frases</h2>
       <div class="controls" data-s="align-items:center">
-        <div class="field" data-s="flex:1 1 260px"><label>Longitud: <span id="genLenVal">20</span></label><input type="range" id="genLen" aria-label="Longitud de la contraseña" min="8" max="64" value="20" data-s="width:100%"></div>
-        <label class="check"><input type="checkbox" id="genUpper" checked> Mayúsculas</label>
-        <label class="check"><input type="checkbox" id="genNum" checked> Números</label>
-        <label class="check"><input type="checkbox" id="genSym" checked> Símbolos</label>
+        <div class="field" data-s="flex:1 1 260px"><label>Longitud: <span id="genLenVal">20</span></label><input type="range" id="genLen" aria-label="Longitud de la contraseña" min="8" max="64" value="20" data-s="width:100%" name="genLen"></div>
+        <label class="check"><input type="checkbox" id="genUpper" checked name="genUpper"> Mayúsculas</label>
+        <label class="check"><input type="checkbox" id="genNum" checked name="genNum"> Números</label>
+        <label class="check"><input type="checkbox" id="genSym" checked name="genSym"> Símbolos</label>
         <div class="field"><label>&nbsp;</label><button class="btn" id="genBtn">Generar</button></div>
         <div class="field"><label>&nbsp;</label><button class="btn ghost" id="genPhrase">Frase (passphrase)</button></div>
       </div>
@@ -636,8 +631,8 @@
 
     <!-- Hash & codificación -->
     <div class="glass phishcard" data-s="margin-top:14px">
-      <div class="subh"><svg class="i"><use href="#i-hash"/></svg>Hash y codificación</div>
-      <div class="field"><textarea id="hashIn" class="code" rows="3" placeholder="Texto de entrada…" aria-label="Texto de entrada"></textarea></div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-hash"/></svg>Hash y codificación</h2>
+      <div class="field"><textarea id="hashIn" class="code" rows="3" placeholder="Texto de entrada…" aria-label="Texto de entrada" name="hashIn"></textarea></div>
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px;flex-wrap:wrap">
         <button class="btn ghost" data-hash="SHA-1">SHA-1</button>
         <button class="btn ghost" data-hash="SHA-256">SHA-256</button>
@@ -652,8 +647,8 @@
 
     <!-- JWT decoder -->
     <div class="glass phishcard" data-s="margin-top:14px">
-      <div class="subh"><svg class="i"><use href="#i-code"/></svg>Decodificador JWT</div>
-      <div class="field"><textarea id="jwtIn" class="code" rows="3" placeholder="Pega un token JWT (eyJ...) — no se verifica la firma, solo se decodifica" aria-label="Token JWT"></textarea></div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-code"/></svg>Decodificador JWT</h2>
+      <div class="field"><textarea id="jwtIn" class="code" rows="3" placeholder="Pega un token JWT (eyJ…) — no se verifica la firma, solo se decodifica" aria-label="Token JWT" name="jwtIn"></textarea></div>
       <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px"><button class="btn" id="jwtBtn">Decodificar</button></div>
       <div id="jwtOut" data-s="margin-top:8px"></div>
     </div>
@@ -661,15 +656,15 @@
 
   <div id="modeTlsWrap" data-s="display:none">
     <div class="glass search">
-      <div class="subh"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Análisis TLS y certificados</div>
+      <h2 class="subh"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Análisis TLS y certificados</h2>
       <div class="controls">
         <div class="field grow">
           <label for="tlsHost">Dominio o servidor</label>
-          <div class="inputwrap"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-globe"/></svg></span><input type="text" id="tlsHost" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-globe"/></svg></span><input type="text" id="tlsHost" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false" name="tlsHost"></div>
         </div>
         <div class="field res">
           <label for="tlsPort">Servicio</label>
-          <select id="tlsPort"><option value="443">HTTPS · 443</option><option value="8443">HTTPS alterno · 8443</option><option value="465">SMTPS · 465</option><option value="993">IMAPS · 993</option><option value="995">POP3S · 995</option></select>
+          <select id="tlsPort" name="tlsPort"><option value="443">HTTPS · 443</option><option value="8443">HTTPS alterno · 8443</option><option value="465">SMTPS · 465</option><option value="993">IMAPS · 993</option><option value="995">POP3S · 995</option></select>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goTls"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span class="t">Analizar TLS</span></button></div>
       </div>
@@ -690,7 +685,7 @@
       <div class="controls">
         <div class="field grow">
           <label for="hdrUrl">URL o dominio a escanear</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-layers"/></svg></span><input type="text" id="hdrUrl" placeholder="https://tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-layers"/></svg></span><input type="text" id="hdrUrl" inputmode="url" placeholder="https://tudominio.gov.co" autocomplete="off" spellcheck="false" name="hdrUrl"></div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goHdr"><svg class="i"><use href="#i-layers"/></svg><span class="t">Escanear cabeceras</span></button></div>
       </div>
@@ -705,11 +700,11 @@
       <div class="controls">
         <div class="field grow">
           <label for="genDom">Dominio</label>
-          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-server"/></svg></span><input type="text" id="genDom" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+          <div class="inputwrap"><span class="ic"><svg class="i"><use href="#i-server"/></svg></span><input type="text" id="genDom" placeholder="tudominio.gov.co" autocomplete="off" spellcheck="false" name="genDom"></div>
         </div>
         <div class="field res">
           <label for="genDmarc">Política DMARC objetivo</label>
-          <select id="genDmarc"><option value="reject">reject (máxima)</option><option value="quarantine">quarantine</option><option value="none">none (monitoreo)</option></select>
+          <select id="genDmarc" name="genDmarc"><option value="reject">reject (máxima)</option><option value="quarantine">quarantine</option><option value="none">none (monitoreo)</option></select>
         </div>
       </div>
       <div class="field" data-s="margin-top:10px">
@@ -717,12 +712,12 @@
         <div id="genProviders" data-s="display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:4px"></div>
       </div>
       <div class="controls" data-s="margin-top:10px">
-        <div class="field grow"><label for="genRua">Correo para reportes (rua/ruf)</label><input type="text" id="genRua" placeholder="dmarc@tudominio.gov.co" autocomplete="off" spellcheck="false"></div>
+        <div class="field grow"><label for="genRua">Correo para reportes (rua/ruf)</label><input type="text" id="genRua" inputmode="email" placeholder="dmarc@tudominio.gov.co" autocomplete="off" spellcheck="false" name="genRua"></div>
         <div class="field"><label for="genExtras">Incluir extras</label>
           <div data-s="display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)">
-            <label class="check"><input type="checkbox" id="genMtasts" checked> MTA-STS</label>
-            <label class="check"><input type="checkbox" id="genTlsrpt" checked> TLS-RPT</label>
-            <label class="check"><input type="checkbox" id="genCaa" checked> CAA</label>
+            <label class="check"><input type="checkbox" id="genMtasts" checked name="genMtasts"> MTA-STS</label>
+            <label class="check"><input type="checkbox" id="genTlsrpt" checked name="genTlsrpt"> TLS-RPT</label>
+            <label class="check"><input type="checkbox" id="genCaa" checked name="genCaa"> CAA</label>
           </div>
         </div>
         <div class="field"><label>&nbsp;</label><button class="btn" id="goGen"><svg class="i"><use href="#i-server"/></svg><span class="t">Generar registros</span></button></div>
@@ -735,8 +730,7 @@
   </div><!-- /app -->
 
   <footer>
-    <p id="footNote"><b>Centinela</b> — suite gratuita de ciberseguridad · Consultas vía DNS-over-HTTPS (Google, Cloudflare, DNS.SB), RDAP y geo-IP, ejecutadas desde tu navegador. Ningún dato se envía a servidores propios.<br>
-    Los resultados de listas negras consultadas a través de resolutores públicos pueden ser limitados por los operadores de RBL; úsalos como orientación.</p>
+    <p id="footNote"><b>Centinela</b> — Suite de ciberseguridad para dominios, correo e infraestructura. Todo el análisis se ejecuta en tu navegador; ningún dato se envía a servidores propios.</p>
     <nav class="footlegal" aria-label="Información legal">
       <a href="#privacidad" data-legal="privacidad">Política de tratamiento de datos</a>
       <a href="#terminos" data-legal="terminos">Términos y condiciones</a>
@@ -746,7 +740,7 @@
   </footer>
   <dialog id="cmdkDlg" class="cmdkdlg" aria-label="Buscar módulo o analizar">
     <div class="cmdkhead"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
-      <input type="text" id="cmdkQ" role="combobox" aria-expanded="true" aria-controls="cmdkList" aria-autocomplete="list" aria-label="Buscar módulo o escribir un indicador" placeholder="Busca un módulo o escribe un dominio, IP, URL, hash o CVE…" autocomplete="off" spellcheck="false">
+      <input type="text" id="cmdkQ" role="combobox" aria-expanded="true" aria-controls="cmdkList" aria-autocomplete="list" aria-label="Buscar módulo o escribir un indicador" placeholder="Busca un módulo o escribe un dominio, IP, URL, hash o CVE…" autocomplete="off" spellcheck="false" name="cmdkQ">
       <kbd>Esc</kbd></div>
     <ul id="cmdkList" role="listbox" aria-label="Resultados"></ul>
     <div class="cmdkfoot hint"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></div>

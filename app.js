@@ -512,7 +512,7 @@ function renderAll(d,secs){
   $('#verdict').textContent=score>=90?'Excelente — configuración robusta':score>=75?'Buena — con mejoras recomendadas':score>=55?'Regular — hay riesgos importantes':score>=30?'Deficiente — expuesto a suplantación':'Crítico — sin protección efectiva';
   $('#vdom').textContent=d;
   $('#kpis').innerHTML=`<div class="kpi ok"><b>${c.ok}</b><span>Correctos</span></div><div class="kpi warn"><b>${c.warn}</b><span>Atención</span></div><div class="kpi fail"><b>${c.fail}</b><span>Críticos</span></div><div class="kpi neut"><b>${c.neut}</b><span>N/D</span></div>`;
-  $('#meta').innerHTML=`<span><b>Analizado:</b> ${new Date().toLocaleString('es-CO')}</span><span><b>Resolutor:</b> ${[...USED_RESOLVERS].join(', ')||RESOLVER}</span><span><b>Tiempo:</b> ${secs.toFixed(1)}s</span><span><b>Pruebas:</b> ${ITEMS.length}</span>`;
+  $('#meta').innerHTML=`<span><b>Analizado:</b> ${new Date().toLocaleString(LOCALE())}</span><span><b>Resolutor:</b> ${[...USED_RESOLVERS].join(', ')||RESOLVER}</span><span><b>Tiempo:</b> ${secs.toFixed(1)}s</span><span><b>Pruebas:</b> ${ITEMS.length}</span>`;
   // Blacklist alert banner
   const ba=$('#blAlert');
   if(BL_LISTED.length){
@@ -557,7 +557,7 @@ function buildActionPlan(d){
   const rank={fail:0,warn:1,info:2};A.sort((a,b)=>rank[a.sev]-rank[b.sev]);
   return A;
 }
-function planText(d,A){return 'PLAN DE ACCIÓN DE SEGURIDAD — '+d+'\n'+new Date().toLocaleString('es-CO')+'\n'+'═'.repeat(50)+'\n\n'+A.map((a,i)=>`${i+1}. [${a.sev.toUpperCase()}] ${a.title}\n   Motivo: ${a.why}\n   Impacto: ${a.impact} · Esfuerzo: ${a.effort}${a.host?'\n   Publicar en: '+a.host:''}${a.record?'\n   Registro: '+a.record.replace(/\n/g,' | '):''}${a.note?'\n   Nota: '+a.note:''}`).join('\n\n')+'\n\nGenerado con Centinela.';}
+function planText(d,A){return 'PLAN DE ACCIÓN DE SEGURIDAD — '+d+'\n'+new Date().toLocaleString(LOCALE())+'\n'+'═'.repeat(50)+'\n\n'+A.map((a,i)=>`${i+1}. [${a.sev.toUpperCase()}] ${a.title}\n   Motivo: ${a.why}\n   Impacto: ${a.impact} · Esfuerzo: ${a.effort}${a.host?'\n   Publicar en: '+a.host:''}${a.record?'\n   Registro: '+a.record.replace(/\n/g,' | '):''}${a.note?'\n   Nota: '+a.note:''}`).join('\n\n')+'\n\nGenerado con Centinela.';}
 function renderActionPlan(d){
   const w=$('#actionPlan');if(!w)return;const A=buildActionPlan(d);
   if(!A.length){w.innerHTML='<div class="glass phishcard"><div class="phverdict" data-s="color:var(--ok);margin:0"><svg class="i"><use href="#i-check-circle"/></svg> Sin acciones pendientes — la configuración es sólida</div></div>';return;}
@@ -573,7 +573,7 @@ function renderSection(it,open){
   const sec=E('div','section glass'+(open?' open':''));sec.dataset.cat=it.cat;sec.dataset.status=it.status;
   const fh=it.findings.map(f=>{const ic={ok:'✓',warn:'!',fail:'✕',info:'i'}[f.sev]||'•';return `<li class="f-${f.sev}"><span class="ic">${ic}</span><div><b>${esc(f.title)}</b>${f.why?`<span class="why">${f.why}</span>`:''}</div></li>`;}).join('');
   const kvh=it.kv&&Object.keys(it.kv).length?'<div class="subh">Detalle técnico</div><table class="kv">'+Object.entries(it.kv).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')+'</table>':'';
-  sec.innerHTML=`<div class="shead"><div class="sicon">${it.icon}</div><div class="stitle"><b>${esc(it.name)}</b><small>${esc(it.subtitle)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin"><ul class="findings">${fh}</ul>${kvh}</div></div>`;
+  sec.innerHTML=`<div class="shead" role="button" tabindex="0" aria-expanded="false"><div class="sicon">${it.icon}</div><div class="stitle"><b>${esc(it.name)}</b><small>${esc(it.subtitle)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin"><ul class="findings">${fh}</ul>${kvh}</div></div>`;
   sec.querySelector('.shead').addEventListener('click',()=>sec.classList.toggle('open'));
   return sec;
 }
@@ -595,7 +595,7 @@ function filterCat(cat,btn){
 
 /* Export */
 function summaryText(){
-  let o=`DNS GUARDIAN — ${$('#vdom').textContent}\nPuntaje: ${$('#scoreNum').textContent}/100 (${$('#scoreGrade').textContent}) — ${$('#verdict').textContent}\nFecha: ${new Date().toLocaleString('es-CO')}\n\n`;
+  let o=`DNS GUARDIAN — ${$('#vdom').textContent}\nPuntaje: ${$('#scoreNum').textContent}/100 (${$('#scoreGrade').textContent}) — ${$('#verdict').textContent}\nFecha: ${new Date().toLocaleString(LOCALE())}\n\n`;
   ITEMS.sort((a,b)=>ORDER.indexOf(a.name)-ORDER.indexOf(b.name)).forEach(it=>{
     o+=`■ ${it.name}: ${(BADGE[it.status]||BADGE.neutral)[1]}\n`;
     it.findings.forEach(f=>o+=`   ${({ok:'✓',warn:'!',fail:'✕',info:'·'}[f.sev]||'·')} ${f.title}\n`);
@@ -728,7 +728,7 @@ function buildReportText(r){
   L.push('  REPORTE TÉCNICO DE SITIO MALICIOSO / SUPLANTACIÓN (PHISHING)');
   L.push('═══════════════════════════════════════════════════════════');
   L.push('Referencia: '+refId);
-  L.push('Fecha y hora: '+now.toLocaleString('es-CO')+' (America/Bogota)');
+  L.push('Fecha y hora: '+now.toLocaleString(LOCALE())+' (America/Bogota)');
   if(org) L.push('Entidad que reporta: '+org);
   L.push('Clasificación del incidente: Suplantación de identidad / Phishing');
   L.push('Nivel de riesgo (evaluación heurística): '+r.score+'/100 — '+lvl);
@@ -1283,7 +1283,7 @@ function reconExport(){
   L.push('EXPEDIENTE DE CIBERINTELIGENCIA — CENTINELA');
   L.push('='.repeat(60));
   L.push('Objetivo protegido : '+D.reg);
-  L.push('Fecha              : '+D.when.toLocaleString('es-CO'));
+  L.push('Fecha              : '+D.when.toLocaleString(LOCALE()));
   L.push('Profundidad        : '+D.depth);
   L.push('Candidatos analizados: '+D.scanned+' ('+D.gen+' algorítmicos + '+D.ctCount+' vía Certificate Transparency)');
   L.push('Dominios registrados : '+D.registered.length);
@@ -1551,7 +1551,7 @@ function vulnExportTxt(){
   L.push('='.repeat(62));
   L.push('Objetivo   : '+D.target+(D.ips.length?'  ('+D.ips.join(', ')+')':''));
   if(D.geo&&(D.geo.asn||D.geo.org))L.push('Hosting/ASN: '+[D.geo.asn,D.geo.org||D.geo.isp].filter(Boolean).join(' · '));
-  L.push('Fecha      : '+D.when.toLocaleString('es-CO'));
+  L.push('Fecha      : '+D.when.toLocaleString(LOCALE()));
   L.push('Calificación: '+D.grade+'   Puntaje: '+D.score+'/100');
   L.push('Hallazgos  : '+D.counts.crit+' críticas · '+D.counts.high+' altas · '+D.counts.med+' medias · '+D.counts.low+' bajas');
   if(D.kevCount)L.push('CISA KEV   : '+D.kevCount+' vulnerabilidad(es) EXPLOTADAS ACTIVAMENTE — prioridad máxima');
@@ -1676,7 +1676,7 @@ function renderReportDoc(D){
       ${D.vuln?`<div class="vgbadge" data-s="color:${gcol}">${grade}</div>`:''}
       <div data-s="flex:1 1 240px">
         <div data-s="font-family:var(--display);font-size:22px;font-weight:700">Informe ejecutivo de ciberseguridad</div>
-        <div class="phurl" data-s="margin-top:2px">${org?esc(org)+' · ':''}Objetivo: <b>${esc(D.target)}</b> · ${esc(D.when.toLocaleString('es-CO'))}</div>
+        <div class="phurl" data-s="margin-top:2px">${org?esc(org)+' · ':''}Objetivo: <b>${esc(D.target)}</b> · ${esc(D.when.toLocaleString(LOCALE()))}</div>
         <div data-s="margin-top:6px;font-weight:700;color:${vcol}">${verdict}</div>
       </div>
     </div>
@@ -1797,7 +1797,7 @@ function renderReportDoc(D){
   const toc=[...html.matchAll(/<h3>(?:\d+ · )?([^<]+)<\/h3>/g)].map(m=>m[1]);
   const cover=`<div class="rptprint rptcoverpage"><div class="cl">Uso interno · Confidencial</div>
     <h1>Informe ejecutivo de ciberseguridad</h1>
-    <div class="cvmeta">${org?'<b>'+esc(org)+'</b><br>':''}Objetivo evaluado: <b>${esc(D.target)}</b><br>Fecha: ${esc(D.when.toLocaleString('es-CO'))}${D.vuln?'<br>Calificación de seguridad: <b>'+esc(grade)+'</b> ('+D.vuln.score+'/100)':''}</div>
+    <div class="cvmeta">${org?'<b>'+esc(org)+'</b><br>':''}Objetivo evaluado: <b>${esc(D.target)}</b><br>Fecha: ${esc(D.when.toLocaleString(LOCALE()))}${D.vuln?'<br>Calificación de seguridad: <b>'+esc(grade)+'</b> ('+D.vuln.score+'/100)':''}</div>
     <div class="verd" data-s="color:${vcol}">${esc(verdict)}</div>
     <div class="foot">Generado con Centinela mediante evaluación pasiva de fuentes públicas. Contiene información sensible sobre la postura de seguridad de la entidad: distribúyalo solo a personas autorizadas.</div></div>
     <div class="rptprint rpttoc"><h2>Contenido</h2><ol>${toc.map(t=>'<li>'+esc(t)+'</li>').join('')}</ol></div>`;
@@ -2337,7 +2337,7 @@ function sbxCard(r,idx){
     <div class="subh">Identificación</div>
     <table class="kv">${[['MD5',H.md5],['SHA-1',H.sha1],['SHA-256',H.sha256],['SHA-512',H.sha512]].concat(r.imphash?[['imphash',r.imphash]]:[]).map(([k,x])=>`<tr><td>${k}</td><td><span class="m" data-s="font-family:var(--mono);word-break:break-all">${esc(x)}</span> <span class="copy" data-copy="${esc(x)}" data-s="cursor:pointer;font-size:11px;color:var(--muted)">copiar</span></td></tr>`).join('')}
     <tr><td>Tipo real</td><td>${esc(r.type.label)}${r.type.mime?' · '+esc(r.type.mime):''}</td></tr><tr><td>Extensión</td><td>${r.ext?'.'+esc(r.ext)+' ('+esc(r.extClass)+')':'—'}</td></tr>
-    <tr><td>Análisis</td><td>${esc(r.analyzedAt.toLocaleString('es-CO'))} · ${r.elapsedMs} ms en ${esc(SBX_MODE_LABEL[r.engineMode]||'entorno aislado')}</td></tr></table>
+    <tr><td>Análisis</td><td>${esc(r.analyzedAt.toLocaleString(LOCALE()))} · ${r.elapsedMs} ms en ${esc(SBX_MODE_LABEL[r.engineMode]||'entorno aislado')}</td></tr></table>
     <div data-s="margin-top:8px">${piv.map(p=>`<a class="tag" data-s="text-decoration:none" target="_blank" rel="noopener noreferrer" href="${esc(p[1])}">${esc(p[0])} ↗</a>`).join(' ')}</div>
     ${sbxRepHtml(r)}
     <div class="subh">Recomendaciones</div><ul class="findings">${r.recs.map(x=>`<li class="f-${v.c==='ok'?'ok':v.c==='med'?'warn':'fail'}"><span class="ic">${ico('wrench')}</span><div>${esc(x)}</div></li>`).join('')}</ul>
@@ -2427,7 +2427,7 @@ function sbxTxt(r){
   const L=[],line=c=>L.push((c||'=').repeat(72)),H=r.hashes;
   L.push('INFORME DE ANÁLISIS DE ARCHIVO — CENTINELA SANDBOX');line();
   const org=(()=>{try{return localStorage.getItem('ctn-org')||'';}catch(e){return '';}})();if(org)L.push('Entidad    : '+org);
-  L.push('Fecha      : '+r.analyzedAt.toLocaleString('es-CO'));
+  L.push('Fecha      : '+r.analyzedAt.toLocaleString(LOCALE()));
   L.push('Archivo    : '+r.name);L.push('Tamaño     : '+fmtBytes(r.size)+' ('+r.size+' bytes)');
   L.push('Tipo real  : '+r.type.label+(r.mismatch?'  [LA EXTENSIÓN NO COINCIDE]':''));
   L.push('VEREDICTO  : '+r.verdict.t.toUpperCase()+'  —  puntaje de riesgo '+r.score+'/100');
@@ -2588,7 +2588,7 @@ function monHist(d){try{const h=JSON.parse(localStorage.getItem('ctn-monh-'+d)||
 function monHistAdd(d,e){const h=monHist(d);h.push(Object.assign({t:Date.now()},e));try{localStorage.setItem('ctn-monh-'+d,JSON.stringify(h.slice(-MONH_MAX)));}catch(x){}}
 function monStrip(d){
   const h=monHist(d);if(!h.length)return '<span class="hint">sin historial todavía</span>';
-  const last=h.slice(-60);const fmt=t=>new Date(t).toLocaleString('es-CO');
+  const last=h.slice(-60);const fmt=t=>new Date(t).toLocaleString(LOCALE());
   const cnt={ok:0,chg:0,bl:0,err:0};h.forEach(x=>cnt[x.s]=(cnt[x.s]||0)+1);
   const days=Math.max(1,Math.round((h[h.length-1].t-h[0].t)/864e5));
   const okPct=Math.round(cnt.ok/h.length*100);
@@ -2598,7 +2598,7 @@ function monStrip(d){
 }
 function monEvents(d){
   const ev=monHist(d).filter((x,i,arr)=>x.s!=='ok'||i===0||i===arr.length-1).slice(-50).reverse();
-  return ev.length?`<table class="mini"><tr><th>Fecha</th><th>Estado</th><th>Detalle</th></tr>${ev.map(x=>`<tr><td>${esc(new Date(x.t).toLocaleString('es-CO'))}</td><td>${ico(MONH_ST[x.s][2])} ${esc(MONH_ST[x.s][0])}</td><td>${esc((x.c||[]).join(', ')||x.e||(x.ip?'IP '+x.ip:'—'))}</td></tr>`).join('')}</table>`:'';
+  return ev.length?`<table class="mini"><tr><th>Fecha</th><th>Estado</th><th>Detalle</th></tr>${ev.map(x=>`<tr><td>${esc(new Date(x.t).toLocaleString(LOCALE()))}</td><td>${ico(MONH_ST[x.s][2])} ${esc(MONH_ST[x.s][0])}</td><td>${esc((x.c||[]).join(', ')||x.e||(x.ip?'IP '+x.ip:'—'))}</td></tr>`).join('')}</table>`:'';
 }
 function renderMon(){
   const l=monList();const R=window.__monResults||{};
@@ -2608,7 +2608,7 @@ function renderMon(){
     else if(r&&r.listed)status='<span class="mh-t-bl">'+ico('alert')+' EN LISTA NEGRA</span>';
     else if(r&&r.changes&&r.changes.length)status='<span class="mh-t-chg">'+ico('alert')+' '+esc(r.changes.join(', '))+'</span>';
     else if(r)status='<span class="mh-t-ok">✓ sin cambios</span>';
-    else if(lastH)status=`<span class="mh-t-${lastH.s}">${esc(MONH_ST[lastH.s][0])}</span> <span class="hint">· última revisión ${esc(new Date(lastH.t).toLocaleString('es-CO'))}</span>`;
+    else if(lastH)status=`<span class="mh-t-${lastH.s}">${esc(MONH_ST[lastH.s][0])}</span> <span class="hint">· última revisión ${esc(new Date(lastH.t).toLocaleString(LOCALE()))}</span>`;
     const ip=r&&r.ip?r.ip:(lastH&&lastH.ip)||'';
     return `<tr><td class="mh-dom">${esc(d)}</td><td>${status}</td><td>${ip?esc(ip):'—'}</td><td><button class="btn ghost monDel" data-d="${esc(d)}">quitar</button></td></tr>
       <tr class="mh-row"><td colspan="4">${monStrip(d)}${h.length?`<details><summary>Ver eventos de ${esc(d)}</summary>${monEvents(d)}</details>`:''}</td></tr>`;}).join('');
@@ -2788,7 +2788,7 @@ async function leakGetCors(direct,viaPath){
 const leakErr=e=>e&&e.name==='AbortError'?'tiempo de espera agotado':(e&&e.message)||'error de red o CORS';
 /* Texto plano desde HTML externo sin ejecutar nada (DOMParser no carga imágenes ni scripts) */
 const leakText=h=>{try{return new DOMParser().parseFromString(String(h||''),'text/html').body.textContent.trim();}catch(e){return '';}};
-const leakNum=n=>(+n||0).toLocaleString('es-CO');
+const leakNum=n=>(+n||0).toLocaleString(LOCALE());
 const LEAK_PW=/password|contraseña|credential|pin/i;
 const hibpMap=b=>({name:b.Title||b.Name,domain:b.Domain||'',date:b.BreachDate||'',records:+b.PwnCount||0,data:b.DataClasses||[],logo:b.LogoPath||'',desc:leakText(b.Description),src:['Have I Been Pwned']});
 
@@ -2867,7 +2867,7 @@ function leakSrcChips(sources){
 }
 function leakBreachRows(list,ctx){
   return list.map(b=>{
-    const logo=/^https:\/\//.test(b.logo)?`<img src="${esc(b.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-rm-on-error>`:ico('database');
+    const logo=/^https:\/\//.test(b.logo)?`<img src="${esc(b.logo)}" alt="" width="40" height="40" loading="lazy" referrerpolicy="no-referrer" data-rm-on-error>`:ico('database');
     const tags=b.data.map(d=>`<span class="tag${LEAK_PW.test(d)?' r':''}">${esc(d)}</span>`).join('');
     const meta=[b.domain,b.date,b.src.join(' + ')].filter(Boolean).map(esc).join(' · ');
     return `<div class="lkbreach"><div class="lklogo">${logo}</div><div data-s="min-width:0"><b>${esc(b.name)}</b><div class="meta2">${meta}</div>${tags?`<div class="tags">${tags}</div>`:''}${b.desc?`<div class="hint" data-s="margin-top:6px">${esc(b.desc.length>320?b.desc.slice(0,320)+'…':b.desc)}</div>`:''}${ctx?mitBreach(b,ctx):''}</div><div class="num">${b.records?leakNum(b.records)+' registros':''}</div></div>`;
@@ -2893,7 +2893,7 @@ function renderLeakEmail(out){
   const col=inf||pw?'var(--fail)':comp?'var(--warn)':'var(--ok)';
   const verdict=inf?'Hay cuentas con credenciales robadas por malware':pw?'Hay cuentas con contraseñas filtradas':comp?'Hay cuentas expuestas en filtraciones':'Ningún correo aparece en las fuentes consultadas';
   const table=out.length>1?`<div class="lktablewrap"><table class="lktable"><thead><tr><th>Correo</th><th>Estado</th><th>Filtraciones</th><th>Infostealer</th><th>Contraseña expuesta</th></tr></thead><tbody>${out.map(r=>{const[bc,bt]=BADGE[r.status]||BADGE.neutral;return `<tr><td class="lkemail">${esc(r.email)}</td><td><span class="badge ${bc}"><span class="dot"></span>${bt}</span></td><td>${r.breaches.length}</td><td>${r.infections.length?'<b data-s="color:var(--fail)">Sí ('+r.infections.length+')</b>':'No'}</td><td>${r.passwordExposed?'<b data-s="color:var(--fail)">Sí</b>':'No'}</td></tr>`;}).join('')}</tbody></table></div>`:'';
-  const head=`<div class="glass phishcard"><div class="phverdict" data-s="color:${col}">${esc(verdict)}</div><div class="phurl">${out.length} correo(s) verificado(s) · ${new Date().toLocaleString('es-CO')}</div>
+  const head=`<div class="glass phishcard"><div class="phverdict" data-s="color:${col}">${esc(verdict)}</div><div class="phurl">${out.length} correo(s) verificado(s) · ${new Date().toLocaleString(LOCALE())}</div>
     <div class="lkstats"><div class="lkstat ${comp?'warn':'ok'}"><b>${comp}</b><span>Correos expuestos</span></div><div class="lkstat ${inf?'fail':'ok'}"><b>${inf}</b><span>Con infostealer</span></div><div class="lkstat ${pw?'fail':'ok'}"><b>${pw}</b><span>Contraseña filtrada</span></div><div class="lkstat"><b>${uniq}</b><span>Filtraciones distintas</span></div></div>
     ${table}
     <div class="mitsum" id="leakMitSum" hidden></div>
@@ -2906,7 +2906,7 @@ function renderLeakEmail(out){
     const brH=r.breaches.length?`<div class="subh">Filtraciones donde aparece (${r.breaches.length}) · abre "Mitigar" en cada una para ver qué hacer</div>${leakBreachRows(r.breaches.slice(0,30),ctx)}${more}`:'';
     const pasteH=r.pastes?`<p class="hint" data-s="margin-top:8px">También aparece en ${r.pastes} publicación(es) tipo <i>paste</i> según XposedOrNot.</p>`:'';
     const sub=r.breaches.length?r.breaches.length+' filtración(es)':r.infections.length?'Infostealer':'Sin hallazgos';
-    return `<div class="section glass${out.length===1||r.status==='fail'?' open':''}" data-status="${r.status==='neutral'?'':r.status}" data-s="margin-top:11px"><div class="shead"><div class="sicon">${ico(r.infections.length?'bug':'mail')}</div><div class="stitle"><b class="lkemail">${esc(r.email)}</b><small>${esc(sub)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin">${leakSrcChips(r.sources)}${infH}${brH}${pasteH}<div class="subh">Qué hacer</div>${leakFindings(leakEmailActions(r))}</div></div></div>`;
+    return `<div class="section glass${out.length===1||r.status==='fail'?' open':''}" data-status="${r.status==='neutral'?'':r.status}" data-s="margin-top:11px"><div class="shead" role="button" tabindex="0" aria-expanded="false"><div class="sicon">${ico(r.infections.length?'bug':'mail')}</div><div class="stitle"><b class="lkemail">${esc(r.email)}</b><small>${esc(sub)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin">${leakSrcChips(r.sources)}${infH}${brH}${pasteH}<div class="subh">Qué hacer</div>${leakFindings(leakEmailActions(r))}</div></div></div>`;
   }).join('');
   $('#leakOut').innerHTML=head+cards;
   $('#leakOut').querySelectorAll('.shead').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
@@ -2985,7 +2985,7 @@ function renderLeakEntity(r){
   const status=vic||emp?'fail':br||usr||hr.thirdParties?'warn':'ok';
   const col=status==='fail'?'var(--fail)':status==='warn'?'var(--warn)':'var(--ok)';
   const verdict=vic?'La entidad aparece en sitios de filtración de ransomware':emp?'Hay credenciales de empleados robadas por malware':br?'El dominio figura en filtraciones conocidas':usr?'Hay credenciales de usuarios del dominio robadas por malware':'Sin hallazgos en las fuentes consultadas';
-  const sec=(icon,st,title,sub,body,open)=>{const[bc,bt]=BADGE[st]||BADGE.neutral;return `<div class="section glass${open?' open':''}" data-status="${st==='neutral'?'':st}" data-s="margin-top:11px"><div class="shead"><div class="sicon">${ico(icon)}</div><div class="stitle"><b>${esc(title)}</b><small>${esc(sub)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin">${body}</div></div></div>`;};
+  const sec=(icon,st,title,sub,body,open)=>{const[bc,bt]=BADGE[st]||BADGE.neutral;return `<div class="section glass${open?' open':''}" data-status="${st==='neutral'?'':st}" data-s="margin-top:11px"><div class="shead" role="button" tabindex="0" aria-expanded="false"><div class="sicon">${ico(icon)}</div><div class="stitle"><b>${esc(title)}</b><small>${esc(sub)}</small></div><div class="sledge"><span class="badge ${bc}"><span class="dot"></span>${bt}</span><span class="chev">▼</span></div></div><div class="sbody"><div class="sbodyin">${body}</div></div></div>`;};
   const stOf=s=>s.state==='found'?null:s.state==='error'?'neutral':s.state==='skip'?'neutral':'ok';
   // Ransomware
   const rwBody=rw.state==='skip'?'<p class="hint">Para buscar en sitios de ransomware escribe el nombre de la entidad (el dominio es demasiado corto para buscar por palabra clave).</p>':rw.state==='error'?`<p class="hint">No se pudo consultar ransomware.live: ${esc(rw.err)}.</p>`:vic?`<table class="mini"><tr><th>Víctima publicada</th><th>Grupo</th><th>Fecha</th><th>País</th></tr>${rw.victims.map(v=>`<tr><td>${/^https:\/\//.test(v.url)?`<a href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">${esc(v.name)}</a>`:esc(v.name)}${v.website?`<div class="hint">${esc(v.website)}</div>`:''}</td><td>${esc(v.group)}</td><td>${esc(v.date||'—')}</td><td>${esc(v.country||'—')}</td></tr><tr><td colspan="4" data-s="border-bottom:1px solid var(--line2)">${mitRansom(v,r)}</td></tr>`).join('')}</table><p class="hint" data-s="margin-top:8px">Coincidencias por palabra clave (${esc(r.keywords.join(', '))}); confirma que cada una corresponde realmente a tu entidad.</p>`:`<p class="hint">No hay publicaciones que coincidan con: ${esc(r.keywords.join(', '))}.</p>`;
@@ -3019,7 +3019,7 @@ function renderLeakEntity(r){
   ];
   const pivH=`<div class="pivgrid">${piv.map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${ico('link')}${esc(t)}</a>`).join('')}</div>
     <div class="mitsum" data-s="margin-top:12px">${ico('ban')}<span>¿Encontraste datos de la entidad publicados en alguna página?</span><button type="button" class="btn ghost" data-gotakedown data-s="margin-left:auto">${ico('ban')}<span class="t">Pedir la retirada del contenido</span></button></div>`;
-  $('#leakOut').innerHTML=`<div class="glass phishcard"><div class="phverdict" data-s="color:${col}">${esc(verdict)}</div><div class="phurl">${esc(r.domain)}${r.name?' · '+esc(r.name):''} · ${new Date().toLocaleString('es-CO')}</div>
+  $('#leakOut').innerHTML=`<div class="glass phishcard"><div class="phverdict" data-s="color:${col}">${esc(verdict)}</div><div class="phurl">${esc(r.domain)}${r.name?' · '+esc(r.name):''} · ${new Date().toLocaleString(LOCALE())}</div>
       <div class="lkstats"><div class="lkstat ${vic?'fail':'ok'}"><b>${vic}</b><span>Publicaciones ransomware</span></div><div class="lkstat ${emp?'fail':'ok'}"><b>${leakNum(emp)}</b><span>Empleados con infostealer</span></div><div class="lkstat ${usr?'warn':'ok'}"><b>${leakNum(usr)}</b><span>Usuarios con infostealer</span></div><div class="lkstat ${br?'warn':'ok'}"><b>${br}</b><span>Filtraciones del sitio</span></div></div>
       ${leakSrcChips(r.sources)}
       <div class="mitsum" id="leakMitSum" hidden></div>
@@ -3405,9 +3405,9 @@ function leakSummary(){
 }
 function leakSummaryBase(){
   const L=LEAK.last;if(!L)return '';
-  if(L.type==='takedown'){const t=L.results;return `Centinela — Retirada de contenido (${new Date(L.date).toLocaleString('es-CO')})\n• URL: ${t.url}\n• Plataforma: ${t.platform||t.host}\n• Contactos de abuso: ${t.contacts.join(', ')||'no encontrados'}`;}
-  if(L.type==='email')return 'Centinela — Correos comprometidos ('+new Date(L.date).toLocaleString('es-CO')+')\n'+L.results.map(r=>`• ${r.email}: ${(BADGE[r.status]||BADGE.neutral)[1]} · ${r.breaches.length} filtración(es)${r.breaches.length?' ('+r.breaches.map(b=>b.name).join(', ')+')':''}${r.infections.length?' · INFOSTEALER ('+r.infections.length+')':''}${r.passwordExposed?' · contraseña expuesta':''}`).join('\n');
-  const r=L.results;return `Centinela — Filtraciones de ${r.domain}${r.name?' ('+r.name+')':''} (${new Date(L.date).toLocaleString('es-CO')})\n• Publicaciones en sitios de ransomware: ${(r.ransomware.victims||[]).length}${(r.ransomware.victims||[]).length?' ('+r.ransomware.victims.map(v=>v.group+' '+v.date).join(', ')+')':''}\n• Empleados con credenciales robadas (infostealer): ${r.infostealer.employees||0}\n• Usuarios con credenciales robadas (infostealer): ${r.infostealer.users||0}\n• Filtraciones del sitio: ${r.breaches.length}${r.breaches.length?' ('+r.breaches.map(b=>b.name+' '+b.date).join(', ')+')':''}`;
+  if(L.type==='takedown'){const t=L.results;return `Centinela — Retirada de contenido (${new Date(L.date).toLocaleString(LOCALE())})\n• URL: ${t.url}\n• Plataforma: ${t.platform||t.host}\n• Contactos de abuso: ${t.contacts.join(', ')||'no encontrados'}`;}
+  if(L.type==='email')return 'Centinela — Correos comprometidos ('+new Date(L.date).toLocaleString(LOCALE())+')\n'+L.results.map(r=>`• ${r.email}: ${(BADGE[r.status]||BADGE.neutral)[1]} · ${r.breaches.length} filtración(es)${r.breaches.length?' ('+r.breaches.map(b=>b.name).join(', ')+')':''}${r.infections.length?' · INFOSTEALER ('+r.infections.length+')':''}${r.passwordExposed?' · contraseña expuesta':''}`).join('\n');
+  const r=L.results;return `Centinela — Filtraciones de ${r.domain}${r.name?' ('+r.name+')':''} (${new Date(L.date).toLocaleString(LOCALE())})\n• Publicaciones en sitios de ransomware: ${(r.ransomware.victims||[]).length}${(r.ransomware.victims||[]).length?' ('+r.ransomware.victims.map(v=>v.group+' '+v.date).join(', ')+')':''}\n• Empleados con credenciales robadas (infostealer): ${r.infostealer.employees||0}\n• Usuarios con credenciales robadas (infostealer): ${r.infostealer.users||0}\n• Filtraciones del sitio: ${r.breaches.length}${r.breaches.length?' ('+r.breaches.map(b=>b.name+' '+b.date).join(', ')+')':''}`;
 }
 function leakBindExports(){
   const L=LEAK.last;const tag=L.type==='email'?'correos':L.results.domain;
@@ -3431,7 +3431,7 @@ $('#goLeakEntity').addEventListener('click',runLeakEntity);
 $('#leakEmails').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))runLeakEmail();});
 $('#mbLeak').addEventListener('click',()=>setMode('leak'));
 
-function setMode(m){document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();if(m==='colombia'&&typeof renderColombia==='function')renderColombia();}
+function setMode(m,fromUrl){document.querySelectorAll('.modebtn').forEach(b=>{const on=b.dataset.mode===m;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'].forEach(x=>{const w=$('#mode'+x.charAt(0).toUpperCase()+x.slice(1)+'Wrap');if(w)w.style.display=m===x?'':'none';});if(m==='mon')renderMon();if(m==='gen')initGenProviders();if(m==='home'&&typeof renderHome==='function')renderHome();if(m==='cases'&&typeof renderCases==='function')renderCases();if(m==='colombia'&&typeof renderColombia==='function')renderColombia();if(!fromUrl){const h='#/'+m;if(location.hash!==h)history.pushState(null,'',h);}}
 $('#mbTools').addEventListener('click',()=>setMode('tools'));
 $('#mbHeaders').addEventListener('click',()=>setMode('headers'));
 $('#mbGen').addEventListener('click',()=>{setMode('gen');});
@@ -3445,7 +3445,7 @@ $('#pwdCheck').addEventListener('click',async()=>{
   $('#pwdOut').innerHTML='<span class="hint">Consultando…</span>';
   try{const n=await hibp(p);
     $('#pwdOut').innerHTML=n>0
-      ?`<div class="findings"><li class="f-fail"><span class="ic">✕</span><div><b>Filtrada: aparece ${n.toLocaleString('es-CO')} vez/veces en brechas conocidas</b><span class="why">No la uses. Cámbiala en cualquier sitio donde la tengas.</span></div></li></div>`
+      ?`<div class="findings"><li class="f-fail"><span class="ic">✕</span><div><b>Filtrada: aparece ${n.toLocaleString(LOCALE())} vez/veces en brechas conocidas</b><span class="why">No la uses. Cámbiala en cualquier sitio donde la tengas.</span></div></li></div>`
       :`<div class="findings"><li class="f-ok"><span class="ic">✓</span><div><b>No aparece en las brechas de Have I Been Pwned</b><span class="why">No garantiza que sea fuerte; revisa el medidor de arriba.</span></div></li></div>`;
   }catch(e){$('#pwdOut').innerHTML='<span class="hint">No se pudo consultar (revisa tu conexión).</span>';}
 });
@@ -3469,7 +3469,7 @@ document.querySelectorAll('[data-enc]').forEach(b=>b.addEventListener('click',()
 $('#jwtBtn').addEventListener('click',()=>{
   try{const d=jwtDecode($('#jwtIn').value);
     const exp=d.payload.exp?new Date(d.payload.exp*1000):null;
-    const expTxt=exp?(exp<new Date()?'<span data-s="color:var(--fail)">EXPIRADO ('+exp.toLocaleString('es-CO')+')</span>':'<span data-s="color:var(--ok)">válido hasta '+exp.toLocaleString('es-CO')+'</span>'):'sin exp';
+    const expTxt=exp?(exp<new Date()?'<span data-s="color:var(--fail)">EXPIRADO ('+exp.toLocaleString(LOCALE())+')</span>':'<span data-s="color:var(--ok)">válido hasta '+exp.toLocaleString(LOCALE())+'</span>'):'sin exp';
     $('#jwtOut').innerHTML=`<div class="subh">Header</div>${raw(JSON.stringify(d.header,null,2))}<div class="subh">Payload</div>${raw(JSON.stringify(d.payload,null,2))}<div class="hint" data-s="margin-top:6px">Algoritmo: <b>${esc(d.header.alg||'?')}</b> · Expiración: ${expTxt}${d.header.alg==='none'?' · <span data-s="color:var(--fail)">alg=none es inseguro</span>':''}</div>`;
   }catch(e){$('#jwtOut').innerHTML='<span class="hint">'+esc(e.message)+'</span>';}
 });
@@ -3511,7 +3511,7 @@ function renderHistory(){
   const w=$('#histWrap');if(!w)return;let h=[];try{h=JSON.parse(localStorage.getItem('ctn-hist')||'[]');}catch(e){}
   if(!h.length){w.innerHTML='';return;}
   const col=s=>s>=85?'var(--ok)':s>=60?'var(--warn)':'var(--fail)';
-  w.innerHTML=`<div class="glass" data-s="padding:14px 16px;margin-top:14px"><div data-s="display:flex;align-items:center;gap:10px;margin-bottom:9px"><b data-s="font-size:14px;display:inline-flex;align-items:center;gap:7px"><svg class="i"><use href="#i-clock"/></svg>Historial reciente</b><span class="hint">se borra automáticamente tras ${esc(RET.opts[retHours()])}</span><button class="btn ghost" id="histClear" data-s="margin-left:auto;padding:5px 12px;font-size:12px">Limpiar</button></div><div data-s="display:flex;flex-wrap:wrap;gap:8px">${h.map(x=>`<span class="chip histchip" data-h="${esc(x.domain)}" title="${new Date(x.date).toLocaleString('es-CO')}"><b data-s="color:${col(x.score)};margin-right:5px">${x.score}</b>${esc(x.domain)}</span>`).join('')}</div></div>`;
+  w.innerHTML=`<div class="glass" data-s="padding:14px 16px;margin-top:14px"><div data-s="display:flex;align-items:center;gap:10px;margin-bottom:9px"><b data-s="font-size:14px;display:inline-flex;align-items:center;gap:7px"><svg class="i"><use href="#i-clock"/></svg>Historial reciente</b><span class="hint">se borra automáticamente tras ${esc(RET.opts[retHours()])}</span><button class="btn ghost" id="histClear" data-s="margin-left:auto;padding:5px 12px;font-size:12px">Limpiar</button></div><div data-s="display:flex;flex-wrap:wrap;gap:8px">${h.map(x=>`<span class="chip histchip" data-h="${esc(x.domain)}" title="${new Date(x.date).toLocaleString(LOCALE())}"><b data-s="color:${col(x.score)};margin-right:5px">${x.score}</b>${esc(x.domain)}</span>`).join('')}</div></div>`;
   w.querySelectorAll('.histchip').forEach(c=>c.addEventListener('click',()=>{$('#domain').value=c.dataset.h;run();}));
   const cl=$('#histClear');if(cl)cl.addEventListener('click',()=>{try{localStorage.removeItem('ctn-hist');}catch(e){}renderHistory();});
 }
@@ -3562,7 +3562,7 @@ function retInfo(){
   const el=$('#retInfo');if(!el)return;let lp=0;try{lp=+localStorage.getItem('ctn-last-purge')||0;}catch(e){}
   const lpTxt=lp?new Date(lp).toLocaleString(document.documentElement.lang==='en'?'en-US':'es-CO'):'';
   if(document.documentElement.lang==='en'){el.innerHTML=`Privacy: search history is deleted automatically after <b>${esc(({1:'1 hour',24:'24 hours',168:'7 days'})[retHours()])}</b> mitigation tracking <b>${RET.mitDays} days</b> after its last change and cases and monitoring history after <b>30 days</b>. Nothing done in the active session is ever deleted. After ${RET.idleH} h of inactivity the session ends and on-screen results are cleared. Settings are kept.${lp?' Last cleanup: '+esc(lpTxt)+'.':''}`;return;}
-  el.innerHTML=`Privacidad: el historial de búsquedas se borra automáticamente pasadas <b>${esc(RET.opts[retHours()])}</b> el seguimiento de mitigaciones a los <b>${RET.mitDays} días</b> de su último cambio y los casos y el historial de monitoreo a los <b>30 días</b>. Nunca se borra lo hecho en la sesión activa. Tras ${RET.idleH} h sin actividad la sesión termina y se limpian los resultados en pantalla. La configuración se conserva.${lp?' Última limpieza: '+esc(new Date(lp).toLocaleString('es-CO'))+'.':''}`;
+  el.innerHTML=`Privacidad: el historial de búsquedas se borra automáticamente pasadas <b>${esc(RET.opts[retHours()])}</b> el seguimiento de mitigaciones a los <b>${RET.mitDays} días</b> de su último cambio y los casos y el historial de monitoreo a los <b>30 días</b>. Nunca se borra lo hecho en la sesión activa. Tras ${RET.idleH} h sin actividad la sesión termina y se limpian los resultados en pantalla. La configuración se conserva.${lp?' Última limpieza: '+esc(new Date(lp).toLocaleString(LOCALE()))+'.':''}`;
 }
 /* ¿Hay trabajo en curso que no debe interrumpirse? */
 function retBusy(){return !!(SBX.busy||MON_TIMER||document.querySelector('.main button.btn:disabled')||(document.querySelector('dialog[open]')));}
@@ -3603,7 +3603,7 @@ window.addEventListener('beforeprint',()=>{PRINT_THEME=document.documentElement.
   if($('#modeReportWrap').style.display!=='none'&&$('#reportOut').childElementCount)document.body.classList.add('printing-report');});
 window.addEventListener('afterprint',()=>{if(PRINT_THEME)document.documentElement.dataset.theme=PRINT_THEME;PRINT_THEME=null;document.body.classList.remove('printing-report');});
 /* ---- Membrete en impresión ---- */
-window.addEventListener('beforeprint',()=>{try{const org=localStorage.getItem('ctn-org')||'';const ph=$('#printHead');if(ph){ph.innerHTML=(org?'<b>'+esc(org)+'</b><br>':'<b>Centinela — Informe de seguridad</b><br>')+'<span>Generado: '+new Date().toLocaleString('es-CO')+'</span>';}}catch(e){}});
+window.addEventListener('beforeprint',()=>{try{const org=localStorage.getItem('ctn-org')||'';const ph=$('#printHead');if(ph){ph.innerHTML=(org?'<b>'+esc(org)+'</b><br>':'<b>Centinela — Informe de seguridad</b><br>')+'<span>Generado: '+new Date().toLocaleString(LOCALE())+'</span>';}}catch(e){}});
 
 /* ---- Google Safe Browsing (opcional) ---- */
 async function safeBrowsingCheck(u,key){
@@ -3733,7 +3733,7 @@ const I18N_EN={
  'Privacidad garantizada (k-anonymity): solo se envían los primeros 5 caracteres del hash SHA-1 a la base':'Privacy guaranteed (k-anonymity): only the first 5 characters of the SHA-1 hash are sent to the',
  '; tu contraseña nunca sale del navegador.':' database; your password never leaves the browser.','Generador de contraseñas y frases':'Password and passphrase generator','Longitud:':'Length:',
  'Mayúsculas':'Uppercase','Números':'Numbers','Símbolos':'Symbols','Generar':'Generate','Frase (passphrase)':'Passphrase','Hash y codificación':'Hashing and encoding','Texto de entrada…':'Input text…','Texto de entrada':'Input text',
- 'Decodificador JWT':'JWT decoder','Pega un token JWT (eyJ...) — no se verifica la firma, solo se decodifica':'Paste a JWT (eyJ...) — the signature is not verified, only decoded','Token JWT':'JWT token','Decodificar':'Decode',
+ 'Decodificador JWT':'JWT decoder','Pega un token JWT (eyJ…) — no se verifica la firma, solo se decodifica':'Paste a JWT (eyJ…) — the signature is not verified, only decoded','Token JWT':'JWT token','Decodificar':'Decode',
  // Cabeceras / generador
  'URL o dominio a escanear':'URL or domain to scan','https://tudominio.gov.co':'https://yourdomain.gov.co','Escanear cabeceras':'Scan headers',
  'Analiza HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, COOP y fugas de versión.':'Analyzes HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, COOP and version leaks.',
@@ -3823,8 +3823,8 @@ function applyLang(l){
   i18nRestore();
   const f=$('#footNote');
   if(f)f.innerHTML=l==='en'
-    ?'<b>Centinela</b> — free cybersecurity suite · Queries via DNS-over-HTTPS (Google, Cloudflare, DNS.SB), RDAP and geo-IP, run from your browser. No data is sent to our servers.<br>Blacklist results queried through public resolvers may be limited by RBL operators; use them as guidance. Detailed finding descriptions and legal texts are shown in Spanish.'
-    :'<b>Centinela</b> — suite gratuita de ciberseguridad · Consultas vía DNS-over-HTTPS (Google, Cloudflare, DNS.SB), RDAP y geo-IP, ejecutadas desde tu navegador. Ningún dato se envía a servidores propios.<br>Los resultados de listas negras consultadas a través de resolutores públicos pueden ser limitados por los operadores de RBL; úsalos como orientación.';
+    ?'<b>Centinela</b> — Cybersecurity suite for domains, email and infrastructure. All analysis runs in your browser; no data is sent to our servers.'
+    :'<b>Centinela</b> — Suite de ciberseguridad para dominios, correo e infraestructura. Todo el análisis se ejecuta en tu navegador; ningún dato se envía a servidores propios.';
   if(l==='en'){
     i18nTree(document.body);
     // Traduce también lo que se genere después (resultados, hojas del menú móvil, estados)
@@ -3841,7 +3841,7 @@ try{const sl=localStorage.getItem('ctn-lang');if(sl){document.documentElement.da
 
 // theme
 const themeBtn=$('#themeBtn');
-function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.innerHTML=ico(t==='dark'?'moon':'sun');const mc=document.querySelector('meta[name="theme-color"]');if(mc)mc.content=t==='dark'?'#0A0A0C':'#FAFAFA';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
+function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.innerHTML=ico(t==='dark'?'moon':'sun');const mc=document.querySelector('meta[name="theme-color"]');if(mc)mc.content=t==='dark'?'#0B0B0B':'#F2F4F7';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
 themeBtn.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 try{const s=localStorage.getItem('dnsg-theme');if(s)setTheme(s);}catch(e){}
 // PWA (instalable al publicar en un hosting).
@@ -3861,7 +3861,7 @@ $('#installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredP
     const txt=el.textContent.trim();if(!/^\d{1,3}(\.\d{3})+$|^\d+$/.test(txt))return;
     const target=+txt.replace(/\./g,'');if(!target)return;
     const t0=performance.now(),dur=Math.min(900,380+target*45);
-    const tick=now=>{const p=Math.max(0,Math.min(1,(now-t0)/dur)),e=1-Math.pow(1-p,3);el.textContent=p<1?Math.round(target*e).toLocaleString('es-CO'):txt;if(p<1)requestAnimationFrame(tick);};
+    const tick=now=>{const p=Math.max(0,Math.min(1,(now-t0)/dur)),e=1-Math.pow(1-p,3);el.textContent=p<1?Math.round(target*e).toLocaleString(LOCALE()):txt;if(p<1)requestAnimationFrame(tick);};
     requestAnimationFrame(tick);
   };
   new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches(SEL))count(n);n.querySelectorAll(SEL).forEach(count);})))
@@ -3904,7 +3904,7 @@ const BGFX=(function(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   const MAXPX=3840*2160, LINK=150, FPS=30;
   let W=0,H=0,S=1,nodes=[],packets=[],threats=[],grid=null,sweep=null,col=null,raf=0,last=0,lastSpawn=0,lastThreat=0,on=true;
-  try{on=localStorage.getItem('ctn-bgfx')!=='off';}catch(e){}
+  try{on=localStorage.getItem('ctn-bgfx')!=='off';}catch(e){}   // activada por defecto: fondo de ciberseguridad (red, radar, amenazas); se puede apagar en Ajustes
   const hex=h=>{h=String(h).trim().replace('#','');if(h.length===3)h=[...h].map(c=>c+c).join('');const n=parseInt(h,16);return isNaN(n)?[86,194,224]:[n>>16&255,n>>8&255,n&255];};
   const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+Math.max(0,Math.min(1,a)).toFixed(3)+')';
   function colors(){const cs=getComputedStyle(document.documentElement);const dark=document.documentElement.dataset.theme!=='light';
@@ -3932,6 +3932,7 @@ const BGFX=(function(){
     g.fillStyle=v;g.fillRect(0,0,W,H);
   }
   function frame(now){
+    if(!cv.width||!cv.height)return;   // ventana de 0 px (p. ej., pestaña oculta al cargar): drawImage fallaría
     if(!grid)buildGrid();
     const t=now/1000;
     ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(grid,0,0);
@@ -4376,7 +4377,7 @@ function caseAddConfirm(){
 function renderCases(){
   const list=caseAll();const L=$('#caseList');
   if(CASES.sel&&!list.some(c=>c.id===CASES.sel))CASES.sel=null;if(!CASES.sel&&list[0])CASES.sel=list[0].id;
-  L.innerHTML=`<div class="subh" data-s="margin-top:0">Casos (${list.length})</div>`+(list.length?list.map(c=>`<button type="button" class="caseitem" data-case="${esc(c.id)}" aria-current="${c.id===CASES.sel}"><b>${esc(c.title)}</b><span>${vSevChip(c.sev)} ${esc(CASE_ST[c.status])} · ${c.items.length} elemento(s) · ${esc(new Date(c.updated).toLocaleDateString('es-CO'))}</span></button>`).join(''):'<p class="hint">Aún no hay casos. Crea uno arriba o usa "Añadir a un caso" en otros módulos.</p>');
+  L.innerHTML=`<div class="subh" data-s="margin-top:0">Casos (${list.length})</div>`+(list.length?list.map(c=>`<button type="button" class="caseitem" data-case="${esc(c.id)}" aria-current="${c.id===CASES.sel}"><b>${esc(c.title)}</b><span>${vSevChip(c.sev)} ${esc(CASE_ST[c.status])} · ${c.items.length} elemento(s) · ${esc(new Date(c.updated).toLocaleDateString(LOCALE()))}</span></button>`).join(''):'<p class="hint">Aún no hay casos. Crea uno arriba o usa "Añadir a un caso" en otros módulos.</p>');
   const c=list.find(x=>x.id===CASES.sel);const D=$('#caseDetail');
   if(!c){D.innerHTML='<p class="hint">Selecciona o crea un caso.</p>';return;}
   const left=CASE_DAYS-Math.floor((Date.now()-Date.parse(c.updated))/864e5);
@@ -4385,24 +4386,24 @@ function renderCases(){
       <div class="field res"><label for="caseEdSt">Estado</label><select id="caseEdSt">${Object.entries(CASE_ST).map(([k,v])=>`<option value="${k}"${c.status===k?' selected':''}>${v}</option>`).join('')}</select></div>
       <div class="field res"><label for="caseEdSev">Severidad</label><select id="caseEdSev">${['crit','high','med','low'].map(k=>`<option value="${k}"${c.sev===k?' selected':''}>${VULN_SEV[k].label}</option>`).join('')}</select></div></div>
     <div class="field" data-s="margin-top:8px"><label for="caseEdDesc">Descripción</label><textarea id="caseEdDesc" rows="2" maxlength="2000">${esc(c.desc||'')}</textarea></div>
-    <p class="hint">Creado ${esc(new Date(c.created).toLocaleString('es-CO'))} · se borrará automáticamente en ${left} día(s) si no tiene cambios.</p>
+    <p class="hint">Creado ${esc(new Date(c.created).toLocaleString(LOCALE()))} · se borrará automáticamente en ${left} día(s) si no tiene cambios.</p>
     <div class="subh">Elementos (${c.items.length})</div>
-    ${c.items.length?`<div class="sbxscroll"><table class="sbxtbl"><tr><th>Tipo</th><th>Elemento</th><th>Resumen</th><th>Añadido</th><th></th></tr>${c.items.map(it=>`<tr><td>${esc(kindL[it.kind]||it.kind)}</td><td class="m">${esc(it.kind==='url'?defang(it.title):it.title)}</td><td>${esc(it.summary||'')}${it.data&&it.data.attack&&it.data.attack.length?`<div>${it.data.attack.slice(0,8).map(t=>`<a class="sbxchip" target="_blank" rel="noopener noreferrer" href="${esc(attUrl(t))}">${esc(t)}</a>`).join('')}</div>`:''}</td><td>${esc(new Date(it.ts).toLocaleString('es-CO'))}</td><td><button type="button" class="sbxrm" data-caserm="${esc(it.id)}" aria-label="Quitar ${esc(it.title)}">✕</button></td></tr>`).join('')}</table></div>`:'<p class="hint">Sin elementos todavía.</p>'}
+    ${c.items.length?`<div class="sbxscroll"><table class="sbxtbl"><tr><th>Tipo</th><th>Elemento</th><th>Resumen</th><th>Añadido</th><th></th></tr>${c.items.map(it=>`<tr><td>${esc(kindL[it.kind]||it.kind)}</td><td class="m">${esc(it.kind==='url'?defang(it.title):it.title)}</td><td>${esc(it.summary||'')}${it.data&&it.data.attack&&it.data.attack.length?`<div>${it.data.attack.slice(0,8).map(t=>`<a class="sbxchip" target="_blank" rel="noopener noreferrer" href="${esc(attUrl(t))}">${esc(t)}</a>`).join('')}</div>`:''}</td><td>${esc(new Date(it.ts).toLocaleString(LOCALE()))}</td><td><button type="button" class="sbxrm" data-caserm="${esc(it.id)}" aria-label="Quitar ${esc(it.title)}">✕</button></td></tr>`).join('')}</table></div>`:'<p class="hint">Sin elementos todavía.</p>'}
     <div class="field" data-s="margin-top:12px"><label for="caseNote">Añadir nota</label><textarea id="caseNote" rows="2" maxlength="4000" placeholder="Acciones realizadas, decisiones, contactos…"></textarea></div>
     <div class="dashbtns" data-s="justify-content:flex-start;margin-top:8px"><button class="btn ghost" id="caseNoteAdd" type="button">${ico('plus')}Añadir nota</button></div>
-    <div class="subh">Línea de tiempo</div><ul class="caselog">${(c.log||[]).map(l=>`<li><time datetime="${esc(l.ts)}">${esc(new Date(l.ts).toLocaleString('es-CO'))}</time><span>${esc(l.text)}</span></li>`).join('')}</ul>
+    <div class="subh">Línea de tiempo</div><ul class="caselog">${(c.log||[]).map(l=>`<li><time datetime="${esc(l.ts)}">${esc(new Date(l.ts).toLocaleString(LOCALE()))}</time><span>${esc(l.text)}</span></li>`).join('')}</ul>
     <div class="rtoolbar"><button class="btn" id="caseTxt" type="button">${ico('download')}Informe del caso (.txt)</button><button class="btn ghost" id="caseJson" type="button">${ico('download')}Datos (.json)</button><button class="btn ghost" id="caseDel" type="button">${ico('ban')}Eliminar caso</button></div>`;
 }
 function caseTxt(c){
   const L=[];const line=ch=>L.push((ch||'=').repeat(72));const kindL={file:'Archivo',url:'Enlace',ioc:'Indicadores',report:'Informe',note:'Nota',incident:'Incidente'};
   L.push('INFORME DE CASO — CENTINELA');line();L.push('Caso      : '+c.title);L.push('Estado    : '+CASE_ST[c.status]);L.push('Severidad : '+VULN_SEV[c.sev].label);
-  L.push('Creado    : '+new Date(c.created).toLocaleString('es-CO'));L.push('Actualizado: '+new Date(c.updated).toLocaleString('es-CO'));if(c.desc){L.push('');L.push(c.desc);}
+  L.push('Creado    : '+new Date(c.created).toLocaleString(LOCALE()));L.push('Actualizado: '+new Date(c.updated).toLocaleString(LOCALE()));if(c.desc){L.push('');L.push(c.desc);}
   L.push('');L.push('ELEMENTOS ('+c.items.length+')');line('-');
   c.items.forEach(it=>{L.push('['+(kindL[it.kind]||it.kind)+'] '+it.title);if(it.summary)L.push('   '+it.summary);const d=it.data||{};
     if(d.sha256)L.push('   SHA-256: '+d.sha256);if(d.attack&&d.attack.length)L.push('   ATT&CK : '+d.attack.join(', '));if(d.cves&&d.cves.length)L.push('   CVE    : '+d.cves.join(', '));
     if(d.indicators)d.indicators.forEach(x=>L.push('   '+x.verdict.padEnd(4)+' '+x.type.padEnd(7)+' '+defang(x.value)));if(d.iocs&&d.iocs.length)L.push('   IOCs   : '+d.iocs.map(defang).join(', '));
     if(it.text)L.push('   '+it.text);L.push('');});
-  L.push('LÍNEA DE TIEMPO');line('-');(c.log||[]).slice().reverse().forEach(l=>L.push(new Date(l.ts).toLocaleString('es-CO')+'  '+l.text));
+  L.push('LÍNEA DE TIEMPO');line('-');(c.log||[]).slice().reverse().forEach(l=>L.push(new Date(l.ts).toLocaleString(LOCALE())+'  '+l.text));
   L.push('');L.push('Indicadores desactivados ([.] y hxxp) para evitar clics accidentales. Generado por Centinela.');return L.join('\n');
 }
 (function(){
@@ -4552,9 +4553,7 @@ function renderHome(){renderHomeGrid();renderHomeActivity();homeCheckSources(fal
   $('#homeQ').addEventListener('keydown',e=>{if(e.key==='Enter')homeGo();});
   $('#homeQ').addEventListener('input',homeHint);
   $('#homeFile').addEventListener('click',()=>setMode('sbx'));
-  $('#homeSrcBtn').addEventListener('click',()=>homeCheckSources(true));
   $('#homeGrid').addEventListener('click',e=>{const c=e.target.closest('[data-go]');if(c){setMode(c.dataset.go);window.scrollTo({top:0,behavior:'smooth'});}});
-  $('#homeAct').addEventListener('click',e=>{const c=e.target.closest('.histchip');if(c){setMode('domain');$('#domain').value=c.dataset.h;run();return;}if(e.target.closest('[data-gosbx]'))setMode('sbx');});
   renderHome();window.HOME_READY=true;
 })();
 
@@ -4626,3 +4625,17 @@ else if(pm.get('d')){setMode('domain');$('#domain').value=pm.get('d');setTimeout
 /* Imágenes externas opcionales (logos de filtraciones): se quitan si no cargan. Sustituye al antiguo onerror en línea,
    que la CSP sin 'unsafe-inline' bloquearía. */
 document.addEventListener('error',e=>{const t=e.target;if(t&&t.tagName==='IMG'&&t.hasAttribute('data-rm-on-error'))t.remove();},true);
+
+/* Accesibilidad e interacción (Web Interface Guidelines) */
+function LOCALE(){try{return I18N_LANG==='en'?'en-US':'es-CO';}catch(e){return 'es-CO';}}   // antes de cargar el idioma (I18N_LANG aún sin inicializar): español
+// Encabezados plegables: Enter/Espacio los abren como un botón y aria-expanded refleja el estado
+document.addEventListener('keydown',e=>{const h=e.target.closest&&e.target.closest('.shead[role="button"]');if(h&&(e.key==='Enter'||e.key===' ')&&e.target===h){e.preventDefault();h.click();}});
+document.addEventListener('click',e=>{const h=e.target.closest&&e.target.closest('.shead[role="button"]');if(h)h.setAttribute('aria-expanded',h.parentElement.classList.contains('open')?'true':'false');});
+new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1)continue;
+  const hs=n.matches&&n.matches('.shead[role="button"]')?[n]:n.querySelectorAll?n.querySelectorAll('.shead[role="button"]'):[];
+  hs.forEach(h=>h.setAttribute('aria-expanded',h.parentElement&&h.parentElement.classList.contains('open')?'true':'false'));}}).observe(document.body,{childList:true,subtree:true});
+// Módulo en la URL: un enlace o una recarga abren el módulo; Atrás/Adelante navegan entre módulos
+(function(){const MODES=['home','domain','phish','geo','cmp','recon','vuln','ioc','cases','report','eml','sbx','leak','mon','tools','tls','headers','gen','colombia'];
+  const fromHash=()=>{const m=location.hash.startsWith('#/')?location.hash.slice(2):'';if(MODES.includes(m))setMode(m,true);else if(!location.hash)setMode('home',true);};
+  addEventListener('popstate',fromHash);
+  const m=location.hash.startsWith('#/')?location.hash.slice(2):'';if(MODES.includes(m)&&m!=='home')setMode(m,true);})();
