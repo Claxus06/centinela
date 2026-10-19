@@ -3841,7 +3841,7 @@ try{const sl=localStorage.getItem('ctn-lang');if(sl){document.documentElement.da
 
 // theme
 const themeBtn=$('#themeBtn');
-function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.innerHTML=ico(t==='dark'?'moon':'sun');const mc=document.querySelector('meta[name="theme-color"]');if(mc)mc.content=t==='dark'?'#1c3a13':'#fcfcf7';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
+function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.innerHTML=ico(t==='dark'?'moon':'sun');const mc=document.querySelector('meta[name="theme-color"]');if(mc)mc.content=t==='dark'?'#0A0A0C':'#FAFAFA';try{localStorage.setItem('dnsg-theme',t);}catch(e){}}
 themeBtn.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 try{const s=localStorage.getItem('dnsg-theme');if(s)setTheme(s);}catch(e){}
 // PWA (instalable al publicar en un hosting).

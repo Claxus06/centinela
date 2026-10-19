@@ -3,7 +3,7 @@
    - La página (HTML) y el código propio (.js) usan "network-first": siempre la última versión, y juntos.
    - Los estáticos usan "stale-while-revalidate": rápidos, pero se actualizan en segundo plano.
    - El nombre de caché lleva versión: al cambiarla se borran las anteriores. */
-const CACHE = 'centinela-v19';
+const CACHE = 'centinela-v20';
 const SHELL = ['./', './index.html', './styles.css', './boot.js', './config.js', './app.js', './colombia.js', './asistente.js', './sandbox-worker.js', './manifest.webmanifest', './icon.svg', './yara/centinela-base.yar',
   './fonts/inter-var.woff2', './fonts/manrope-var.woff2', './fonts/ibm-plex-sans-var.woff2', './fonts/ibm-plex-mono-400.woff2', './fonts/ibm-plex-mono-500.woff2'];
 
